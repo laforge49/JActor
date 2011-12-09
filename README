@@ -1,0 +1,5 @@
+JActor is a Java version of the scala project, AsyncFP. This is a high-performance actor
+implementation where messages are typically sent in about 100 nanoseconds.
+
+See https://github.com/laforge49/Asynchronous-Functional-Programming/wiki for more
+information on AsyncFP.
