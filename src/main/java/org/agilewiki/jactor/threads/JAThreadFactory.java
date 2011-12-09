@@ -23,24 +23,17 @@
  */
 package org.agilewiki.jactor.threads;
 
+import java.util.concurrent.ThreadFactory;
+
 /**
- * A ThreadManager is used to process a collection of Runnable tasks.
+ * JAThreadFactory is used to create threads.
  */
-public interface ThreadManager {
+public class JAThreadFactory implements ThreadFactory {
     /**
-     * Create and start the threads.
-     * @param threadCount The number of threads to be used.
+     * The newThread method returns a newly created Thread.
+     * @param runnable The run method is called when the thread is started.
      */
-    public void start(int threadCount);
-
-    /**
-     * Begin running a task.
-     * @param runnable The run method is to be called by another thread.
-     */
-    public void process(Runnable runnable);
-
-    /**
-     * Stop all the threads as they complete their tasks.
-     */
-    public void close();
+    public Thread newThread(Runnable runnable) {
+        return new Thread(runnable);
+    }
 }

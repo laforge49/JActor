@@ -23,6 +23,13 @@
  */
 package org.agilewiki.jactor;
 
-public interface Result {
+/**
+ * Accepts the response.
+ */
+public interface Response {
+    /**
+     * Returns the result to the requestor.
+     * @param result The results of a request.
+     */
     public void processResult(Object result);
 }
