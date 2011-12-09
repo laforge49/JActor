@@ -33,6 +33,7 @@ public class JAThreadFactory implements ThreadFactory {
      * The newThread method returns a newly created Thread.
      * @param runnable The run method is called when the thread is started.
      */
+    @Override
     public Thread newThread(Runnable runnable) {
         return new Thread(runnable);
     }

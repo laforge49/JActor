@@ -7,6 +7,11 @@
     <groupId>JActor</groupId>
     <artifactId>JActor</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>JActor</name>
 
-    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
 </project>
