@@ -1,0 +1,17 @@
+.svn
+.manager
+.idea
+*.log
+*.aw5db
+target
+.settings
+.metadata
+*.docs
+AgileWiki5/_pasted_code_/*
+.scala_dependencies
+*.iml
+*.ipr
+*.iws
+*~
+*.jnl
+*.db
