@@ -23,11 +23,12 @@
  */
 package org.agilewiki.jactor.threads;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 
-public class JAThreadManager implements ThreadManager {
+final public class JAThreadManager implements ThreadManager {
     /**
      * The taskRequest semaphore is used to wake up a thread
      * when there is a task to process.
@@ -48,6 +49,8 @@ public class JAThreadManager implements ThreadManager {
      * The threadCount is the number of threads used.
      */
     int threadCount;
+    
+    ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**
      * Create and start the threads.
@@ -78,6 +81,7 @@ public class JAThreadManager implements ThreadManager {
         while (c < threadCount) {
             c += 1;
             Thread t = threadFactory.newThread(runnable);
+            threads.add(t);
             t.start();
         }
     }
@@ -104,6 +108,17 @@ public class JAThreadManager implements ThreadManager {
         while (c < threadCount) {
             c += 1;
             taskRequest.release();
+        }
+        c = 0;
+        Thread ct = Thread.currentThread();
+        while (c < threadCount) {
+            Thread t = threads.get(c);
+            if (ct != t) {
+                try {
+                    t.join();
+                } catch (InterruptedException e) {}
+            }
+            c += 1;
         }
     }
 }
