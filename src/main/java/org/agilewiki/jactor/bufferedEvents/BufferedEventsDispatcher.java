@@ -23,19 +23,24 @@
  */
 package org.agilewiki.jactor.bufferedEvents;
 
+import org.agilewiki.jactor.events.EventDispatcher;
+import org.agilewiki.jactor.events.EventProcessor;
+
 import java.util.ArrayList;
 
 /**
- * A BufferedEventsDestination receives lists of events from objects operating
- * on a different thread.
+ * A BufferedEventsDispatcher receives buffered events, queues them,
+ * and then processes them on another thread.
  *
  * @param <E> The type of event.
  */
-public interface BufferedEventsDestination<E> {
+public interface BufferedEventsDispatcher<E>
+        extends BufferedEventsDestination<E>, EventDispatcher<E>, EventProcessor<ArrayList<E>> {
     /**
-     * The putBufferedEvents method adds events to be processed.
+     * Buffer the event and then send it when the dispatcher is idle.
      *
-     * @param bufferedEvents The events to be processed.
+     * @param destination Buffered events receiver.
+     * @param event       The event to be sent.
      */
-    public void putBufferedEvents(ArrayList<E> bufferedEvents);
+    public void send(BufferedEventsDestination<E> destination, E event);
 }

@@ -56,6 +56,8 @@ final public class ConcurrentLinkedBlockingQueue<E> extends ConcurrentLinkedQueu
     /**
      * Inserts the element at the tail of the queue.
      * As the queue is unbounded, this method will never return {@code false}.
+     *
+     * @param e The element to be added
      */
     @Override
     public boolean offer(E e) {

@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.events;
 
 /**
- * A EventDispatcher receives messages, queues them,
+ * An EventDispatcher receives events, queues them,
  * and then processes them on another thread.
  *
  * @param <E> The type of event.

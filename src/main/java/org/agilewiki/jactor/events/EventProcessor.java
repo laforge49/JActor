@@ -32,6 +32,8 @@ package org.agilewiki.jactor.events;
 public interface EventProcessor<E> {
     /**
      * The processMessage method is called when there is an incoming message to process.
+     *
+     * @param event The event to be processed.
      */
     public void processEvent(E event);
 
