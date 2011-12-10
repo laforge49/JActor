@@ -24,23 +24,17 @@
 
 /**
  * <p>
- * The concurrent package contains a number of classes that are helpful
- * in delivering high-performance.
+ * The events package supports the dispatching of one-way messages (events).
  * </p>
  * <p>
- * ConcurrentLinkedBlockingQueue builds on ConcurrentLinkedQueue, but adds a
- * take method which blocks on an semaphore when the queue is empty. It delivers
- * good performance, but only one thread can call take at a time.
+ * EventProcessor is an interface for objects which process events.
  * </p>
  * <p>
- * JAThreadFactory is a light-weight implementation of ThreadFactory.
+ * EventDispatcher is an interface for objects which receives,
+ * enqueues and subsequently dispatches events for processing.
  * </p>
  * <p>
- * ThreadManager is an interface for a thread pool, but with a simplified API.
- * The assumption is that there are a fixed number of threads in the pool.
- * </p>
- * <p>
- * JAThreadManager is a high-performance implementation of ThreadManager.
+ * JAEventDispatcher is an implementation of EventDispatcher.
  * </p>
  */
-package org.agilewiki.jactor.concurrent;
+package org.agilewiki.jactor.events;
