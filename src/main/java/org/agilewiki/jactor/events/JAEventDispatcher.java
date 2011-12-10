@@ -90,6 +90,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
      * Specifies the object which will process the dispatched events.
      * @param eventProcessor Processes the dispatched events.
      */
+    @Override
     public void setEventProcessor(EventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
