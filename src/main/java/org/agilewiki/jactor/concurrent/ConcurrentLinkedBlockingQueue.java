@@ -65,7 +65,7 @@ final public class ConcurrentLinkedBlockingQueue<E> extends ConcurrentLinkedQueu
      * Returns the element at head of the queue when an element is available.
      * This method is similar to poll, except that it does not return null.
      */
-    E take() {
+    public E take() {
         while (true) {
             E rv = poll();
             if (rv != null) return rv;
