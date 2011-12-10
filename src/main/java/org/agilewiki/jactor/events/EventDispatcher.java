@@ -29,6 +29,12 @@ package org.agilewiki.jactor.events;
  */
 public interface EventDispatcher<E> {
     /**
+     * Specifies the object which will process the dispatched events.
+     * @param eventProcessor Processes the dispatched events.
+     */
+    public void setEventProcessor(EventProcessor<E> eventProcessor);
+
+    /**
      * The isEmpty method returns true when there are no pending events,
      * though the results may not always be correct due to concurrency issues.
      */

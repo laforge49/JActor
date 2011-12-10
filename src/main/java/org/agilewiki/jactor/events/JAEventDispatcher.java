@@ -76,14 +76,21 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
             }
         }
     };
-    
+
     /**
      * Creates a JAEventDispatcher.
+     *
      * @param threadManager Provides a thread for processing dispatched events.
+     */
+    public JAEventDispatcher(ThreadManager threadManager) {
+        this.threadManager = threadManager;
+    }
+
+    /**
+     * Specifies the object which will process the dispatched events.
      * @param eventProcessor Processes the dispatched events.
      */
-    public JAEventDispatcher(ThreadManager threadManager, EventProcessor<E> eventProcessor) {
-      this.threadManager = threadManager;  
+    public void setEventProcessor(EventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
 
@@ -98,6 +105,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
 
     /**
      * The put method adds an events to the queue of events to be processed.
+     *
      * @param event The events to be processed.
      */
     @Override
