@@ -23,102 +23,26 @@
  */
 package org.agilewiki.jactor.events;
 
-import org.agilewiki.jactor.concurrent.ConcurrentLinkedBlockingQueue;
-import org.agilewiki.jactor.concurrent.ThreadManager;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /**
- * An EventDispatcher receives messages, queues them, 
+ * A EventDispatcher receives messages, queues them,
  * and then processes them on another thread.
  */
-final public class EventDispatcher<E> {
-    /**
-     * Provides a thread for processing dispatched events.
-     */
-    private ThreadManager threadManager;
-
-    /**
-     * Process the dispatched events.
-     */
-    private EventProcessor<E> eventProcessor;
-
-    /**
-     * A queue of pending events.
-     */
-    private ConcurrentLinkedBlockingQueue<E> queue = new ConcurrentLinkedBlockingQueue<E>();
-
-    /**
-     * Set to true when busy.
-     */
-    private AtomicBoolean running = new AtomicBoolean();
-
-    /**
-     * The events being dispatched.
-     */
-    private E event;
-
-    /**
-     * The task is used to process the events in the queue.
-     * Each events is in turn processed using the EventDispatcher.
-     */
-    private Runnable task = new Runnable() {
-        @Override
-        public void run() {
-            while (true) {
-                event = queue.poll();
-                if (event == null) {
-                    running.set(false);
-                    if (queue.peek() == null || !running.compareAndSet(false, true))
-                        return;
-                }
-                eventProcessor.haveEvents();
-            }
-        }
-    };
-    
-    /**
-     * Creates an EventDispatcher.
-     * @param threadManager Provides a thread for processing dispatched events.
-     * @param eventProcessor Processes the dispatched events.
-     */
-    public EventDispatcher(ThreadManager threadManager, EventProcessor<E> eventProcessor) {
-      this.threadManager = threadManager;  
-        this.eventProcessor = eventProcessor;
-    }
-
+public interface EventDispatcher<E> {
     /**
      * The isEmpty method returns true when there are no pending events,
      * though the results may not always be correct due to concurrency issues.
      */
-    public boolean isEmpty() {
-        return queue.peek() == null;
-    }
+    public boolean isEmpty();
 
     /**
      * The put method adds an events to the queue of events to be processed.
      * @param event The events to be processed.
      */
-    public void put(E event) {
-        queue.put(event);
-        if (running.compareAndSet(false, true)) {
-            threadManager.process(task);
-        }
-    }
+    public void put(E event);
 
     /**
      * The dispatchEvents method processes any events in the queue.
      * True is returned if any events were actually processed.
      */
-    public boolean dispatchEvents() {
-        if (event == null) event = queue.poll();
-        if (event == null) return false;
-        while (event != null) {
-            E e = event;
-            event = null;
-            eventProcessor.processEvent(e);
-            event = queue.poll();
-        }
-        return true;
-    }
+    public boolean dispatchEvents();
 }
