@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.event;
+package org.agilewiki.jactor.events;
 
 import org.agilewiki.jactor.concurrent.ConcurrentLinkedBlockingQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
@@ -54,13 +54,13 @@ final public class EventDispatcher<E> {
     private AtomicBoolean running = new AtomicBoolean();
 
     /**
-     * The event being dispatched.
+     * The events being dispatched.
      */
     private E event;
 
     /**
      * The task is used to process the events in the queue.
-     * Each event is in turn processed using the EventDispatcher.
+     * Each events is in turn processed using the EventDispatcher.
      */
     private Runnable task = new Runnable() {
         @Override
@@ -96,8 +96,8 @@ final public class EventDispatcher<E> {
     }
 
     /**
-     * The put method adds an event to the queue of events to be processed.
-     * @param event The event to be processed.
+     * The put method adds an events to the queue of events to be processed.
+     * @param event The events to be processed.
      */
     public void put(E event) {
         queue.put(event);

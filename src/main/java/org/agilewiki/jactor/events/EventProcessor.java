@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.event;
+package org.agilewiki.jactor.events;
 
 /**
  * An EventProcessor processes events and
@@ -35,7 +35,7 @@ public interface EventProcessor<E> {
 
     /**
      * The haveEvents method is called when
-     * there may be one or more pending event.
+     * there may be one or more pending events.
      */
     void haveEvents();
 }
