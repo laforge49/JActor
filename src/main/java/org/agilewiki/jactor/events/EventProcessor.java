@@ -31,11 +31,11 @@ public interface EventProcessor<E> {
     /**
      * The processMessage method is called when there is an incoming message to process.
      */
-    void processEvent(E event);
+    public void processEvent(E event);
 
     /**
      * The haveEvents method is called when
      * there may be one or more pending events.
      */
-    void haveEvents();
+    public void haveEvents();
 }
