@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.threads;
+package org.agilewiki.jactor.concurrent;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -41,21 +41,21 @@ final public class JAThreadManager implements ThreadManager {
     ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<Runnable>();
 
     /**
-     * When closing is true, threads exit as they finish their assigned tasks.
+     * When closing is true, concurrent exit as they finish their assigned tasks.
      */
     Boolean closing = false;
 
     /**
-     * The threadCount is the number of threads used.
+     * The threadCount is the number of concurrent used.
      */
     int threadCount;
     
     ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**
-     * Create and start the threads.
-     * @param threadCount The number of threads to be used.
-     * @param threadFactory Used to create the threads.
+     * Create and start the concurrent.
+     * @param threadCount The number of concurrent to be used.
+     * @param threadFactory Used to create the concurrent.
      */
     @Override
     public void start(int threadCount, ThreadFactory threadFactory) {
@@ -97,9 +97,9 @@ final public class JAThreadManager implements ThreadManager {
     }
 
     /**
-     * The close method is used to stop all the threads as they become idle.
-     * This method sets a flag to indicate that the threads should stop
-     * and then wakes up all the threads.
+     * The close method is used to stop all the concurrent as they become idle.
+     * This method sets a flag to indicate that the concurrent should stop
+     * and then wakes up all the concurrent.
      */
     @Override
     public void close() {

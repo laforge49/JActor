@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.threads;
+package org.agilewiki.jactor.concurrent;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -30,9 +30,9 @@ import java.util.concurrent.ThreadFactory;
  */
 public interface ThreadManager {
     /**
-     * Create and start the threads.
-     * @param threadCount The number of threads to be used.
-     * @param threadFactory Used to create the threads.
+     * Create and start the concurrent.
+     * @param threadCount The number of concurrent to be used.
+     * @param threadFactory Used to create the concurrent.
      */
     public void start(int threadCount, ThreadFactory threadFactory);
 
@@ -43,7 +43,7 @@ public interface ThreadManager {
     public void process(Runnable runnable);
 
     /**
-     * Stop all the threads as they complete their tasks.
+     * Stop all the concurrent as they complete their tasks.
      */
     public void close();
 }
