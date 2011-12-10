@@ -80,7 +80,7 @@ final public class EventDispatcher<E> {
     /**
      * Creates an EventDispatcher.
      * @param threadManager Provides a thread for processing dispatched events.
-     * @param eventProcessor Process the dispatched events.                   
+     * @param eventProcessor Processes the dispatched events.
      */
     public EventDispatcher(ThreadManager threadManager, EventProcessor<E> eventProcessor) {
       this.threadManager = threadManager;  
