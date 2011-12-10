@@ -31,6 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * An JAEventDispatcher receives messages, queues them,
  * and then processes them on another thread.
+ *
+ * @param <E> The type of event.
  */
 final public class JAEventDispatcher<E> implements EventDispatcher<E> {
     /**
@@ -88,6 +90,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
 
     /**
      * Specifies the object which will process the dispatched events.
+     *
      * @param eventProcessor Processes the dispatched events.
      */
     @Override
@@ -105,12 +108,12 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
     }
 
     /**
-     * The put method adds an events to the queue of events to be processed.
+     * The putEvent method adds an events to the queue of events to be processed.
      *
      * @param event The events to be processed.
      */
     @Override
-    public void put(E event) {
+    public void putEvent(E event) {
         queue.put(event);
         if (running.compareAndSet(false, true)) {
             threadManager.process(task);

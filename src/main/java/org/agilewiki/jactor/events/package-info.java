@@ -30,6 +30,9 @@
  * EventProcessor is an interface for objects which process events.
  * </p>
  * <p>
+ * EventDestination is an interface for objects which receive events.
+ * </p>
+ * <p>
  * EventDispatcher is an interface for objects which receives,
  * enqueues and subsequently dispatches events for processing.
  * </p>

@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * A ConcurrentLinkedQueue with a take method that doesn't block when the queue isn't empty.
  * Note that this code only supports a singe reader thread.
+ *
+ * @param <E> The type of element.
  */
 final public class ConcurrentLinkedBlockingQueue<E> extends ConcurrentLinkedQueue<E> {
     /**
@@ -44,6 +46,7 @@ final public class ConcurrentLinkedBlockingQueue<E> extends ConcurrentLinkedQueu
 
     /**
      * Inserts the element at the tail of the queue.
+     *
      * @param e The element to be added
      */
     public void put(E e) {
@@ -80,7 +83,8 @@ final public class ConcurrentLinkedBlockingQueue<E> extends ConcurrentLinkedQueu
             }
             try {
                 wakeup.acquire(); //wait for a permit
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
     }
 }

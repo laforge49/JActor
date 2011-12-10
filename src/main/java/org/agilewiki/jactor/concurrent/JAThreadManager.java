@@ -57,7 +57,8 @@ final public class JAThreadManager implements ThreadManager {
 
     /**
      * Create and start the concurrent.
-     * @param threadCount The number of concurrent to be used.
+     *
+     * @param threadCount   The number of concurrent to be used.
      * @param threadFactory Used to create the concurrent.
      */
     @Override
@@ -69,7 +70,8 @@ final public class JAThreadManager implements ThreadManager {
                 while (true) {
                     try {
                         taskRequest.acquire();
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                     if (closing) return;
                     Runnable task = tasks.poll();
                     try {
@@ -91,6 +93,7 @@ final public class JAThreadManager implements ThreadManager {
 
     /**
      * Begin running a task.
+     *
      * @param task A task to be processed on another thread.
      */
     @Override
@@ -120,7 +123,8 @@ final public class JAThreadManager implements ThreadManager {
             if (ct != t) {
                 try {
                     t.join();
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
             c += 1;
         }

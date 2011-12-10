@@ -31,6 +31,7 @@ import java.util.concurrent.ThreadFactory;
 final public class JAThreadFactory implements ThreadFactory {
     /**
      * The newThread method returns a newly created Thread.
+     *
      * @param runnable The run method is called when the thread is started.
      */
     @Override

@@ -1,13 +1,14 @@
 package org.agilewiki.jactor.events.echoTiming;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
+import org.agilewiki.jactor.events.EventDestination;
 import org.agilewiki.jactor.events.EventDispatcher;
 import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.JAEventDispatcher;
 
 import java.util.concurrent.Semaphore;
 
-public class Sender implements EventProcessor<Object> {
+public class Sender implements EventProcessor<Object>, EventDestination<Object> {
 
     private ThreadManager threadManager;
     private EventDispatcher<Object> eventDispatcher;
@@ -22,15 +23,17 @@ public class Sender implements EventProcessor<Object> {
         eventDispatcher = new JAEventDispatcher<Object>(threadManager);
         eventDispatcher.setEventProcessor(this);
     }
-    
+
     public void finished() {
         try {
             done.acquire();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
     }
 
-    public void put(Object event) {
-        eventDispatcher.put(event);
+    @Override
+    public void putEvent(Object event) {
+        eventDispatcher.putEvent(event);
     }
 
     @Override
@@ -40,10 +43,10 @@ public class Sender implements EventProcessor<Object> {
             count = c;
             i = c;
             t0 = System.currentTimeMillis();
-            echo.put(this);
+            echo.putEvent(this);
         } else if (i > 0) {
             i -= 1;
-            echo.put(this);
+            echo.putEvent(this);
         } else {
             long t1 = System.currentTimeMillis();
             if (t1 != t0)

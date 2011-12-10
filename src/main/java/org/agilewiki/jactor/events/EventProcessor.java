@@ -26,6 +26,8 @@ package org.agilewiki.jactor.events;
 /**
  * An EventProcessor processes events and
  * receives notifications that there are events to be processed.
+ *
+ * @param <E> The type of event.
  */
 public interface EventProcessor<E> {
     /**

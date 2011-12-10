@@ -26,10 +26,13 @@ package org.agilewiki.jactor.events;
 /**
  * A EventDispatcher receives messages, queues them,
  * and then processes them on another thread.
+ *
+ * @param <E> The type of event.
  */
-public interface EventDispatcher<E> {
+public interface EventDispatcher<E> extends EventDestination<E> {
     /**
      * Specifies the object which will process the dispatched events.
+     *
      * @param eventProcessor Processes the dispatched events.
      */
     public void setEventProcessor(EventProcessor<E> eventProcessor);
@@ -39,12 +42,6 @@ public interface EventDispatcher<E> {
      * though the results may not always be correct due to concurrency issues.
      */
     public boolean isEmpty();
-
-    /**
-     * The put method adds an events to the queue of events to be processed.
-     * @param event The events to be processed.
-     */
-    public void put(E event);
 
     /**
      * The dispatchEvents method processes any events in the queue.

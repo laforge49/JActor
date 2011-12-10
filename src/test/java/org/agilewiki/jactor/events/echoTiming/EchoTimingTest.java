@@ -16,7 +16,7 @@ public class EchoTimingTest {
         Sender sender = new Sender(threadManager);
         int c = 10;
         //int c = 10000000; //c should be at least 10 million
-        sender.put(c);
+        sender.putEvent(c);
         sender.finished();
     }
 }

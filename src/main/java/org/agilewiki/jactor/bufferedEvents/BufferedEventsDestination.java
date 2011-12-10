@@ -21,33 +21,19 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.concurrent;
+package org.agilewiki.jactor.bufferedEvents;
 
-import java.util.concurrent.ThreadFactory;
+import java.util.ArrayList;
 
 /**
- * A ThreadManager is used to process a collection of Runnable tasks.
- * ThreadManager is a thread pool, but with a simplified API and
- * assumes that the thread pool has a fixed number of threads.
+ * A BufferedEventsDestination receives lists of events from objects operating
+ * on a different thread.
+ *
+ * @param <E> The type of event.
  */
-public interface ThreadManager {
+public interface BufferedEventsDestination<E> {
     /**
-     * Create and start the concurrent.
-     *
-     * @param threadCount   The number of concurrent to be used.
-     * @param threadFactory Used to create the concurrent.
+     * The putBufferedEvents method adds events to be processed.
      */
-    public void start(int threadCount, ThreadFactory threadFactory);
-
-    /**
-     * Begin running a task.
-     *
-     * @param runnable The run method is to be called by another thread.
-     */
-    public void process(Runnable runnable);
-
-    /**
-     * Stop all the concurrent as they complete their tasks.
-     */
-    public void close();
+    void putBufferedEvents(ArrayList<E> bufferedEvents);
 }
