@@ -28,29 +28,32 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 
+/**
+ * A high performance implementation of ThreadManager.
+ */
 final public class JAThreadManager implements ThreadManager {
     /**
      * The taskRequest semaphore is used to wake up a thread
      * when there is a task to process.
      */
-    Semaphore taskRequest = new Semaphore(0);
+    private Semaphore taskRequest = new Semaphore(0);
 
     /**
      * The tasks queue holds the tasks waiting to be processed.
      */
-    ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<Runnable>();
+    private ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<Runnable>();
 
     /**
      * When closing is true, concurrent exit as they finish their assigned tasks.
      */
-    Boolean closing = false;
+    private Boolean closing = false;
 
     /**
      * The threadCount is the number of concurrent used.
      */
-    int threadCount;
-    
-    ArrayList<Thread> threads = new ArrayList<Thread>();
+    private int threadCount;
+
+    private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**
      * Create and start the concurrent.
@@ -100,6 +103,7 @@ final public class JAThreadManager implements ThreadManager {
      * The close method is used to stop all the concurrent as they become idle.
      * This method sets a flag to indicate that the concurrent should stop
      * and then wakes up all the concurrent.
+     * This method only returns after all the threads have died.
      */
     @Override
     public void close() {

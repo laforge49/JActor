@@ -27,6 +27,8 @@ import java.util.concurrent.ThreadFactory;
 
 /**
  * A ThreadManager is used to process a collection of Runnable tasks.
+ * ThreadManager is a thread pool, but with a simplified API and
+ * assumes that the thread pool has a fixed number of threads.
  */
 public interface ThreadManager {
     /**
