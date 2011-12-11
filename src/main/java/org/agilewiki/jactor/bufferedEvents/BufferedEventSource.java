@@ -21,39 +21,19 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
+package org.agilewiki.jactor.bufferedEvents;
 
 /**
- * <p>
- * The events package supports the dispatching of one-way messages (events).
- * </p>
- * <p>
- * EventProcessor is an interface for objects which process events.
- * </p>
- * <p>
- * ActiveEventProcessor is an interface for objects which process events
- * and receives notifications of new events.
- * </p>
- * <p>
- * EventDestination is an interface for objects which receive events.
- * </p>
- * <p>
- * EventDispatcher is an interface for objects which
- * process events on another thread.
- * </p>
- * <p>
- * EventQueue is an interface for objects which receives,
- * enqueues and subsequently dispatches events for processing.
- * </p>
- * <p>
- * JAEventQueue is an implementation of EventQueue.
- * </p>
- * <p>
- * JAEventActor is an actor which passes one-way message (events).
- * </p>
- * <p>
- * Used mostly for testing, JAEventFuture is used to send
- * events to an EventDestination, like JAActor, and then wait
- * for a return event.
- * </p>
+ * A BufferedEventSource sends events.
+ *
+ * @param <E>
  */
-package org.agilewiki.jactor.events;
+public interface BufferedEventSource<E> {
+    /**
+     * Buffer the event for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param event       The event to be sent.
+     */
+    public void send(BufferedEventsDestination<E> destination, E event);
+}

@@ -21,39 +21,45 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
+package org.agilewiki.jactor.events;
+
+import java.util.concurrent.Semaphore;
 
 /**
- * <p>
- * The events package supports the dispatching of one-way messages (events).
- * </p>
- * <p>
- * EventProcessor is an interface for objects which process events.
- * </p>
- * <p>
- * ActiveEventProcessor is an interface for objects which process events
- * and receives notifications of new events.
- * </p>
- * <p>
- * EventDestination is an interface for objects which receive events.
- * </p>
- * <p>
- * EventDispatcher is an interface for objects which
- * process events on another thread.
- * </p>
- * <p>
- * EventQueue is an interface for objects which receives,
- * enqueues and subsequently dispatches events for processing.
- * </p>
- * <p>
- * JAEventQueue is an implementation of EventQueue.
- * </p>
- * <p>
- * JAEventActor is an actor which passes one-way message (events).
- * </p>
- * <p>
  * Used mostly for testing, JAEventFuture is used to send
  * events to an EventDestination, like JAActor, and then wait
  * for a return event.
- * </p>
+ *
+ * @param <E> The type of event.
  */
-package org.agilewiki.jactor.events;
+public class JAEventFuture<E> implements EventDestination<E> {
+    private Semaphore done;
+    private transient E result;
+    
+    /**
+     * Send an event and then wait for the response, which is returned.
+     *
+     * @param destination Where the event is to be sent.
+     * @param event The event to be sent.
+     */
+    public E send(EventDestination<E> destination, E event) {
+        done = new Semaphore(0);
+        destination.putEvent(event);
+        try {
+            done.acquire();
+        } catch (InterruptedException e) {}
+        done = null;
+        return result;
+    }
+
+    /**
+     * The putEvent method receives the response.
+     *
+     * @param event The events to be processed.
+     */
+    @Override
+    public void putEvent(E event) {
+        result = event;
+        done.release();
+    }
+}
