@@ -29,12 +29,12 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * An JAEventDispatcher receives messages, queues them,
+ * An JAEventQueue receives messages, queues them,
  * and then processes them on another thread.
  *
  * @param <E> The type of event.
  */
-final public class JAEventDispatcher<E> implements EventDispatcher<E> {
+final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * Provides a thread for processing dispatched events.
      */
@@ -43,7 +43,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
     /**
      * Process the dispatched events.
      */
-    private EventProcessor<E> eventProcessor;
+    private ActiveEventProcessor<E> eventProcessor;
 
     /**
      * A queue of pending events.
@@ -62,7 +62,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
 
     /**
      * The task is used to process the events in the queue.
-     * Each events is in turn processed using the JAEventDispatcher.
+     * Each events is in turn processed using the JAEventQueue.
      */
     private Runnable task = new Runnable() {
         @Override
@@ -80,11 +80,11 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
     };
 
     /**
-     * Creates a JAEventDispatcher.
+     * Creates a JAEventQueue.
      *
      * @param threadManager Provides a thread for processing dispatched events.
      */
-    public JAEventDispatcher(ThreadManager threadManager) {
+    public JAEventQueue(ThreadManager threadManager) {
         this.threadManager = threadManager;
     }
 
@@ -94,7 +94,7 @@ final public class JAEventDispatcher<E> implements EventDispatcher<E> {
      * @param eventProcessor Processes the dispatched events.
      */
     @Override
-    public void setEventProcessor(EventProcessor<E> eventProcessor) {
+    public void setEventProcessor(ActiveEventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
 

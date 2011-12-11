@@ -30,14 +30,22 @@
  * EventProcessor is an interface for objects which process events.
  * </p>
  * <p>
+ * ActiveEventProcessor is an interface for objects which process events
+ * and receives notifications of new events.
+ * </p>
+ * <p>
  * EventDestination is an interface for objects which receive events.
  * </p>
  * <p>
- * EventDispatcher is an interface for objects which receives,
+ * EventDispatcher is an interface for objects which
+ * process events on another thread.
+ * </p>
+ * <p>
+ * EventQueue is an interface for objects which receives,
  * enqueues and subsequently dispatches events for processing.
  * </p>
  * <p>
- * JAEventDispatcher is an implementation of EventDispatcher.
+ * JAEventQueue is an implementation of EventQueue.
  * </p>
  */
 package org.agilewiki.jactor.events;

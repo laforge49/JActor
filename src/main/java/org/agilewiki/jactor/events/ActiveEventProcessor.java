@@ -21,26 +21,18 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bufferedEvents;
-
-import org.agilewiki.jactor.events.EventDispatcher;
-import org.agilewiki.jactor.events.EventProcessor;
-
-import java.util.ArrayList;
+package org.agilewiki.jactor.events;
 
 /**
- * A BufferedEventsDispatcher receives buffered events, queues them,
- * and then processes them on another thread.
+ * An ActiveEventProcessor processes events and
+ * receives notifications that there are events to be processed.
  *
  * @param <E> The type of event.
  */
-public interface BufferedEventsDispatcher<E>
-        extends BufferedEventsDestination<E>, EventDispatcher<E>, EventProcessor<ArrayList<E>> {
+public interface ActiveEventProcessor<E> extends EventProcessor<E> {
     /**
-     * Buffer the event and then send it when the dispatcher is idle.
-     *
-     * @param destination Buffered events receiver.
-     * @param event       The event to be sent.
+     * The haveEvents method is called when
+     * there may be one or more pending events.
      */
-    public void send(BufferedEventsDestination<E> destination, E event);
+    public void haveEvents();
 }

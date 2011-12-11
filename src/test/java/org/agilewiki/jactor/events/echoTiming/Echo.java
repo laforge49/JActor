@@ -3,15 +3,15 @@ package org.agilewiki.jactor.events.echoTiming;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventDestination;
 import org.agilewiki.jactor.events.EventDispatcher;
-import org.agilewiki.jactor.events.EventProcessor;
-import org.agilewiki.jactor.events.JAEventDispatcher;
+import org.agilewiki.jactor.events.ActiveEventProcessor;
+import org.agilewiki.jactor.events.JAEventQueue;
 
-public final class Echo implements EventProcessor<Object>, EventDestination<Object> {
+public final class Echo implements ActiveEventProcessor<Object>, EventDestination<Object> {
 
     private EventDispatcher<Object> eventDispatcher;
 
     public Echo(ThreadManager threadManager) {
-        eventDispatcher = new JAEventDispatcher<Object>(threadManager);
+        eventDispatcher = new JAEventQueue<Object>(threadManager);
         eventDispatcher.setEventProcessor(this);
     }
 

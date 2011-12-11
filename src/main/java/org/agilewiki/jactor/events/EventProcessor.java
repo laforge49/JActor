@@ -24,22 +24,15 @@
 package org.agilewiki.jactor.events;
 
 /**
- * An EventProcessor processes events and
- * receives notifications that there are events to be processed.
+ * An ActiveEventProcessor processes events.
  *
  * @param <E> The type of event.
  */
 public interface EventProcessor<E> {
     /**
-     * The processMessage method is called when there is an incoming message to process.
+     * The processMessage method is called when there is an incoming event to process.
      *
      * @param event The event to be processed.
      */
     public void processEvent(E event);
-
-    /**
-     * The haveEvents method is called when
-     * there may be one or more pending events.
-     */
-    public void haveEvents();
 }

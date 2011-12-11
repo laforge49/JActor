@@ -21,30 +21,28 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.events;
+package org.agilewiki.jactor.bufferedEvents;
+
+import org.agilewiki.jactor.events.EventDispatcher;
 
 /**
- * An EventDispatcher processes events on another thread.
+ * A BufferedEventsQueue receives buffered events, queues them,
+ * and then processes them on another thread.
  *
  * @param <E> The type of event.
  */
-public interface EventDispatcher<E> {
+public interface BufferedEventsQueue<E>
+        extends BufferedEventsDestination<E>, EventDispatcher<E> {
     /**
-     * Specifies the object which will process the dispatched events.
+     * Buffer the event for subsequent sending.
      *
-     * @param eventProcessor Processes the dispatched events.
+     * @param destination Buffered events receiver.
+     * @param event       The event to be sent.
      */
-    public void setEventProcessor(ActiveEventProcessor<E> eventProcessor);
+    public void send(BufferedEventsDestination<E> destination, E event);
 
     /**
-     * The isEmpty method returns true when there are no pending events,
-     * though the results may not always be correct due to concurrency issues.
+     * Send any pending events.
      */
-    public boolean isEmpty();
-
-    /**
-     * The dispatchEvents method processes any events in the queue.
-     * True is returned if any events were actually processed.
-     */
-    public boolean dispatchEvents();
+    public void sendPendingEvents();
 }
