@@ -8,16 +8,16 @@ import org.agilewiki.jactor.events.JAEventQueue;
 
 public final class Echo implements ActiveEventProcessor<Object>, EventDestination<Object> {
 
-    private EventDispatcher<Object> eventDispatcher;
+    private JAEventQueue<Object> eventQueue;
 
     public Echo(ThreadManager threadManager) {
-        eventDispatcher = new JAEventQueue<Object>(threadManager);
-        eventDispatcher.setEventProcessor(this);
+        eventQueue = new JAEventQueue<Object>(threadManager);
+        eventQueue.setEventProcessor(this);
     }
 
     @Override
     public void putEvent(Object event) {
-        eventDispatcher.putEvent(event);
+        eventQueue.putEvent(event);
     }
 
     @Override
@@ -28,6 +28,6 @@ public final class Echo implements ActiveEventProcessor<Object>, EventDestinatio
 
     @Override
     public void haveEvents() {
-        eventDispatcher.dispatchEvents();
+        eventQueue.dispatchEvents();
     }
 }

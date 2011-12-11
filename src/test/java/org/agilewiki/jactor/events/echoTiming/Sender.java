@@ -2,7 +2,6 @@ package org.agilewiki.jactor.events.echoTiming;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventDestination;
-import org.agilewiki.jactor.events.EventDispatcher;
 import org.agilewiki.jactor.events.ActiveEventProcessor;
 import org.agilewiki.jactor.events.JAEventQueue;
 
@@ -11,7 +10,7 @@ import java.util.concurrent.Semaphore;
 public class Sender implements ActiveEventProcessor<Object>, EventDestination<Object> {
 
     private ThreadManager threadManager;
-    private EventDispatcher<Object> eventDispatcher;
+    private JAEventQueue<Object> eventQueue;
     private Semaphore done = new Semaphore(0);
     private Echo echo = new Echo(threadManager);
     private int count = 0;
@@ -20,8 +19,8 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
 
     public Sender(ThreadManager threadManager) {
         this.threadManager = threadManager;
-        eventDispatcher = new JAEventQueue<Object>(threadManager);
-        eventDispatcher.setEventProcessor(this);
+        eventQueue = new JAEventQueue<Object>(threadManager);
+        eventQueue.setEventProcessor(this);
     }
 
     public void finished() {
@@ -33,7 +32,7 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
 
     @Override
     public void putEvent(Object event) {
-        eventDispatcher.putEvent(event);
+        eventQueue.putEvent(event);
     }
 
     @Override
@@ -59,6 +58,6 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
 
     @Override
     public void haveEvents() {
-        eventDispatcher.dispatchEvents();
+        eventQueue.dispatchEvents();
     }
 }
