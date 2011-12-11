@@ -6,15 +6,14 @@ import org.agilewiki.jactor.events.JAEventFuture;
 
 public class Sender extends JAEventActor<Object> {
 
-    private ThreadManager threadManager;
-    private Echo echo = new Echo(threadManager);
+    private Echo echo;
     private int count = 0;
     private int i = 0;
     private JAEventFuture<Object> eventFuture;
 
     public Sender(ThreadManager threadManager, int c) {
         super(threadManager);
-        this.threadManager = threadManager;
+        echo = new Echo(threadManager);
         count = c;
     }
 

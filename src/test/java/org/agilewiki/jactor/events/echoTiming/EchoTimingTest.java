@@ -10,9 +10,8 @@ import java.util.concurrent.ThreadFactory;
 
 public class EchoTimingTest extends TestCase {
     public void testTiming() {
-        System.out.println("!!!!!!!!!!!");
-        int c = 10;
-        //int c = 10000000; //c should be at least 10 million
+        //int c = 10;
+        int c = 10000000; //c should be at least 10 million
         ThreadFactory threadFactory = new JAThreadFactory();
         ThreadManager threadManager = new JAThreadManager();
         threadManager.start(1, threadFactory);
@@ -29,5 +28,9 @@ public class EchoTimingTest extends TestCase {
         } finally {
             threadManager.close();
         }
+        //20000000 messages sent
+        //msgs per sec = 8113590
+        //123 nanoseconds per message
+
     }
 }
