@@ -1,16 +1,16 @@
 package org.agilewiki.jactor.events.echoTiming;
 
+import junit.framework.TestCase;
 import org.agilewiki.jactor.concurrent.JAThreadFactory;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.JAEventFuture;
-import org.testng.annotations.Test;
 
 import java.util.concurrent.ThreadFactory;
 
-public class EchoTimingTest {
-    @Test
-    public void timing() {
+public class EchoTimingTest extends TestCase {
+    public void testTiming() {
+        System.out.println("!!!!!!!!!!!");
         int c = 10;
         //int c = 10000000; //c should be at least 10 million
         ThreadFactory threadFactory = new JAThreadFactory();
