@@ -2,7 +2,6 @@ package org.agilewiki.jactor.events.echoTiming;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventDestination;
-import org.agilewiki.jactor.events.EventDispatcher;
 import org.agilewiki.jactor.events.ActiveEventProcessor;
 import org.agilewiki.jactor.events.JAEventQueue;
 
