@@ -1,16 +1,13 @@
 package org.agilewiki.jactor.events.echoTiming;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.EventDestination;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
-import org.agilewiki.jactor.events.JAEventQueue;
+import org.agilewiki.jactor.events.JAEventActor;
 
 import java.util.concurrent.Semaphore;
 
-public class Sender implements ActiveEventProcessor<Object>, EventDestination<Object> {
+public class Sender extends JAEventActor<Object> {
 
     private ThreadManager threadManager;
-    private JAEventQueue<Object> eventQueue;
     private Semaphore done = new Semaphore(0);
     private Echo echo = new Echo(threadManager);
     private int count = 0;
@@ -18,9 +15,8 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
     private long t0 = 0L;
 
     public Sender(ThreadManager threadManager) {
+        super(threadManager);
         this.threadManager = threadManager;
-        eventQueue = new JAEventQueue<Object>(threadManager);
-        eventQueue.setEventProcessor(this);
     }
 
     public void finished() {
@@ -31,21 +27,16 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
     }
 
     @Override
-    public void putEvent(Object event) {
-        eventQueue.putEvent(event);
-    }
-
-    @Override
     public void processEvent(Object event) {
         if (event instanceof Integer) {
             int c = ((Integer) event).intValue();
             count = c;
             i = c;
             t0 = System.currentTimeMillis();
-            echo.putEvent(this);
+            send(echo, this);
         } else if (i > 0) {
             i -= 1;
-            echo.putEvent(this);
+            send(echo,this);
         } else {
             long t1 = System.currentTimeMillis();
             if (t1 != t0)
@@ -54,10 +45,5 @@ public class Sender implements ActiveEventProcessor<Object>, EventDestination<Ob
             done.release();
         }
 
-    }
-
-    @Override
-    public void haveEvents() {
-        eventQueue.dispatchEvents();
     }
 }

@@ -2,31 +2,17 @@ package org.agilewiki.jactor.events.echoTiming;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventDestination;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
-import org.agilewiki.jactor.events.JAEventQueue;
+import org.agilewiki.jactor.events.JAEventActor;
 
-public final class Echo implements ActiveEventProcessor<Object>, EventDestination<Object> {
-
-    private JAEventQueue<Object> eventQueue;
+public final class Echo extends JAEventActor<Object> {
 
     public Echo(ThreadManager threadManager) {
-        eventQueue = new JAEventQueue<Object>(threadManager);
-        eventQueue.setEventProcessor(this);
-    }
-
-    @Override
-    public void putEvent(Object event) {
-        eventQueue.putEvent(event);
+        super(threadManager);
     }
 
     @Override
     public void processEvent(Object event) {
-        if (event instanceof Sender)
-            ((Sender) event).putEvent(this);
-    }
-
-    @Override
-    public void haveEvents() {
-        eventQueue.dispatchEvents();
+        EventDestination<Object> destination = (EventDestination<Object>) event;
+        send(destination, this);
     }
 }

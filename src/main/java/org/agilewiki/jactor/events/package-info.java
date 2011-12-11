@@ -47,5 +47,8 @@
  * <p>
  * JAEventQueue is an implementation of EventQueue.
  * </p>
+ * <p>
+ * JAEventActor is an actor which passes one-way message (events).
+ * </p>
  */
 package org.agilewiki.jactor.events;
