@@ -29,7 +29,7 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 import java.util.ArrayList;
 
 abstract public class JABufferedEventsActor<E>
-        implements ActiveEventProcessor<E>, BufferedEventsDestination<E>, BufferedEventSource<E> {
+        implements ActiveEventProcessor<E>, BufferedEventsDestination<E>, BufferedEventsSource<E> {
 
     /**
      * The actor's mailbox.

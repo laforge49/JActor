@@ -32,7 +32,7 @@ import org.agilewiki.jactor.events.EventDispatcher;
  * @param <E> The type of event.
  */
 public interface BufferedEventsQueue<E>
-        extends BufferedEventsDestination<E>, EventDispatcher<E>, BufferedEventSource<E> {
+        extends BufferedEventsDestination<E>, EventDispatcher<E>, BufferedEventsSource<E> {
     /**
      * Send any pending events.
      */

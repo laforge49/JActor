@@ -24,11 +24,11 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 /**
- * A BufferedEventSource sends events.
+ * A BufferedEventsSource sends events.
  *
  * @param <E>
  */
-public interface BufferedEventSource<E> {
+public interface BufferedEventsSource<E> {
     /**
      * Buffer the event for subsequent sending.
      *

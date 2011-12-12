@@ -81,7 +81,7 @@ abstract public class JAEventActor<E>
      * @param destination Where the event is to be sent.
      * @param event The event to be sent.
      */
-    public void send(EventDestination<E> destination, E event) {
+    public final void send(EventDestination<E> destination, E event) {
         destination.putEvent(event);
     }
 
@@ -91,7 +91,7 @@ abstract public class JAEventActor<E>
      * @param event The events to be processed.
      */
     @Override
-    public void putEvent(E event) {
+    public final void putEvent(E event) {
         eventQueue.putEvent(event);
     }
 
