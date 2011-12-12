@@ -9,7 +9,7 @@ public final class Echo extends JAEventActor<Object> {
     }
 
     @Override
-    public void processEvent(Object event) {
+    protected void processEvent(Object event) {
         EventDestination<Object> destination = (EventDestination<Object>) event;
         send(destination, this);
     }

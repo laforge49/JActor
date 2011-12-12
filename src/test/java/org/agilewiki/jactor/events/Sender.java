@@ -16,7 +16,7 @@ public class Sender extends JAEventActor<Object> {
     }
 
     @Override
-    public void processEvent(Object event) {
+    protected void processEvent(Object event) {
         if (event instanceof JAEventFuture) {
             eventFuture = (JAEventFuture<Object>) event;
             i = count;
