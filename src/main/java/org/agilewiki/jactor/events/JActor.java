@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.events;
 
 /**
- * A base class for actors.
+ * A base class for actors with one-way messages (events).
  *
  * @param <E>
  */

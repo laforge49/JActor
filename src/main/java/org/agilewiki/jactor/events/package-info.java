@@ -48,7 +48,7 @@
  * JAEventQueue is an implementation of EventQueue.
  * </p>
  * <p>
- * JActor is a base class for actors.
+ * JActor is a base class for actors with one-way messages (events).
  * </p>
  * <p>
  * JAEventActor is an actor which passes one-way message (events).
