@@ -56,6 +56,30 @@ final public class JAThreadManager implements ThreadManager {
     private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**
+     * Create a JAThreadManager
+     *
+     * @param threadCount    The number of concurrent to be used.
+     * @return A new JAThreadManager.
+     */
+    public static ThreadManager newThreadManager(int threadCount) {
+        ThreadFactory threadFactory = new JAThreadFactory();
+        return newThreadManager(threadCount, threadFactory);
+    }
+
+    /**
+     * Create a JAThreadManager
+     *
+     * @param threadCount    The number of concurrent to be used.
+     * @param threadFactory  Used to create the concurrent.
+     * @return A new JAThreadManager.
+     */
+    public static ThreadManager newThreadManager(int threadCount, ThreadFactory threadFactory) {
+        ThreadManager threadManager = new JAThreadManager();
+        threadManager.start(threadCount, threadFactory);
+        return threadManager;
+    }
+
+    /**
      * Create and start the concurrent.
      *
      * @param threadCount   The number of concurrent to be used.

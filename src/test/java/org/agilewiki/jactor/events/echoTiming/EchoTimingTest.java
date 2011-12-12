@@ -16,9 +16,7 @@ public class EchoTimingTest extends TestCase {
         int t = 2;
         //int t = 4;
         //int t = 8;
-        ThreadFactory threadFactory = new JAThreadFactory();
-        ThreadManager threadManager = new JAThreadManager();
-        threadManager.start(t, threadFactory);
+        ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
             Sender sender = new Sender(threadManager, c);
             long t0 = System.currentTimeMillis();
