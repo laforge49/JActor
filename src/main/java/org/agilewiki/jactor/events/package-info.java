@@ -51,9 +51,9 @@
  * JAEventActor is an actor which passes one-way message (events).
  * </p>
  * <p>
- * Used mostly for testing, JAEventFuture is used to send
- * events to an EventDestination, like JAActor, and then wait
- * for a return event.
+ * Used mostly for testing, JAEventFuture sends
+ * events to an EventDestination, like JAActor, and then waits
+ * for a response event.
  * </p>
  */
 package org.agilewiki.jactor.events;
