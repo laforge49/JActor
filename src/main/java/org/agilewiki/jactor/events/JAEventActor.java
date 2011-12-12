@@ -58,11 +58,20 @@ abstract public class JAEventActor<E>
 
     /**
      * Create a JAEventActor
-     * 
+     *
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAEventActor(ThreadManager threadManager) {
-        eventQueue = new JAEventQueue<E>(threadManager);
+        this(new JAEventQueue<E>(threadManager));
+    }
+
+    /**
+     * Create a JAEventActor
+     *
+     * @param eventQueue The actor's mailbox.
+     */
+    public JAEventActor(EventQueue<E> eventQueue) {
+        this.eventQueue = eventQueue;
         eventQueue.setEventProcessor(eventProcessor);
     }
 
