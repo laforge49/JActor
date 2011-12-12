@@ -32,6 +32,9 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
  */
 abstract public class JAEventActor<E> extends JActor<E> implements EventDestination<E> {
 
+    /**
+     * The actor's inbox.
+     */
     private EventDestination<E> inbox;
 
     /**
