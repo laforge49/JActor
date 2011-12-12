@@ -30,28 +30,9 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
  *
  * @param <E> The type of event.
  */
-abstract public class JAEventActor<E> 
-        implements EventDestination<E> {
+abstract public class JAEventActor<E> extends JActor<E> implements EventDestination<E> {
 
-    /**
-     * The actor's mailbox.
-     */
-    private EventQueue<E> eventQueue;
-
-    /**
-     * Handles callbacks from the mailbox.
-     */
-    private ActiveEventProcessor<E> eventProcessor = new ActiveEventProcessor<E>() {
-        @Override
-        public void haveEvents() {
-            eventQueue.dispatchEvents();
-        }
-
-        @Override
-        public void processEvent(E event) {
-            JAEventActor.this.processEvent(event);
-        }
-    };
+    private EventDestination<E> inbox;
 
     /**
      * Create a JAEventActor
@@ -65,11 +46,11 @@ abstract public class JAEventActor<E>
     /**
      * Create a JAEventActor
      *
-     * @param eventQueue The actor's mailbox.
+     * @param inbox The actor's mailbox.
      */
-    public JAEventActor(EventQueue<E> eventQueue) {
-        this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(eventProcessor);
+    public JAEventActor(EventQueue<E> inbox) {
+        super(inbox);
+        this.inbox = inbox;
     }
 
     /**
@@ -89,13 +70,6 @@ abstract public class JAEventActor<E>
      */
     @Override
     public final void putEvent(E event) {
-        eventQueue.putEvent(event);
+        inbox.putEvent(event);
     }
-
-    /**
-     * The processMessage method is called when there is an incoming event to process.
-     *
-     * @param event The event to be processed.
-     */
-    abstract protected void processEvent(E event);
 }
