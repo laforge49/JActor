@@ -1,12 +1,10 @@
 package org.agilewiki.jactor.events.echoTiming;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.concurrent.JAThreadFactory;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.JAEventFuture;
-
-import java.util.concurrent.ThreadFactory;
+import org.agilewiki.jactor.events.Sender;
 
 public class EchoTimingTest extends TestCase {
     public void testTiming() {
@@ -19,14 +17,13 @@ public class EchoTimingTest extends TestCase {
         ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
             Sender sender = new Sender(threadManager, c);
-            long t0 = System.currentTimeMillis();
             JAEventFuture<Object> eventFuture = new JAEventFuture<Object>();
+            long t0 = System.currentTimeMillis();
             eventFuture.send(sender, eventFuture);
             long t1 = System.currentTimeMillis();
-            if (t1 != t0) {
-                System.out.println(""+(2*c)+" messages sent with "+t+" threads");
+            System.out.println(""+(2*c)+" messages sent with "+t+" threads");
+            if (t1 != t0)
                 System.out.println("msgs per sec = " + (c * 2L * 1000L / (t1 - t0)));
-            }
         } finally {
             threadManager.close();
         }

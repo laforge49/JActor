@@ -1,8 +1,6 @@
-package org.agilewiki.jactor.events.echoTiming;
+package org.agilewiki.jactor.events;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.JAEventActor;
-import org.agilewiki.jactor.events.JAEventFuture;
 
 public class Sender extends JAEventActor<Object> {
 
