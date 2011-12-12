@@ -24,17 +24,22 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
+import org.agilewiki.jactor.events.JActor;
 
 import java.util.ArrayList;
 
-abstract public class JABufferedEventsActor<E>
-        implements ActiveEventProcessor<E>, BufferedEventsDestination<E>, BufferedEventsSource<E> {
+/**
+ * An actor which passes blocks of one-way message (events).
+ *
+ * @param <E> The type of event.
+ */
+abstract public class JABufferedEventsActor<E> extends JActor<E>
+        implements BufferedEventsDestination<E>, BufferedEventsSource<E> {
 
     /**
      * The actor's mailbox.
      */
-    private BufferedEventsQueue<E> eventQueue;
+    private BufferedEventsQueue<E> mailbox;
 
     /**
      * Create a JAEventActor
@@ -42,27 +47,17 @@ abstract public class JABufferedEventsActor<E>
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JABufferedEventsActor(ThreadManager threadManager) {
-        eventQueue = new JABufferedEventsQueue<E>(threadManager);
-        eventQueue.setEventProcessor(this);
+        this(new JABufferedEventsQueue<E>(threadManager));
     }
 
     /**
      * Create a JAEventActor
      *
-     * @param eventQueue The actor's mailbox.
+     * @param mailbox The actor's mailbox.
      */
-    public JABufferedEventsActor(BufferedEventsQueue<E> eventQueue) {
-        this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(this);
-    }
-
-    /**
-     * The haveEvents method is called when
-     * there may be one or more pending events.
-     */
-    @Override
-    public void haveEvents() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public JABufferedEventsActor(BufferedEventsQueue<E> mailbox) {
+        super(mailbox);
+        this.mailbox = mailbox;
     }
 
     /**
@@ -73,7 +68,7 @@ abstract public class JABufferedEventsActor<E>
      */
     @Override
     public void send(BufferedEventsDestination<E> destination, E event) {
-        eventQueue.send(destination, event);
+        mailbox.send(destination, event);
     }
 
     /**
@@ -83,6 +78,6 @@ abstract public class JABufferedEventsActor<E>
      */
     @Override
     public void putBufferedEvents(ArrayList<E> bufferedEvents) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.putBufferedEvents(bufferedEvents);
     }
 }
