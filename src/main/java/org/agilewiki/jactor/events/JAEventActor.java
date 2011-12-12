@@ -27,9 +27,6 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
  * An actor which passes one-way message (events).
- * Using a simple echo test, JAEventActor takes 123 nanoseconds to send a message
- * when running with a single thread and 252 nanoseconds when running with multiple threads.
- * (Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz.)
  *
  * @param <E> The type of event.
  */
