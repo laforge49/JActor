@@ -61,6 +61,15 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
     }
 
     /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity) {
+        mailbox.setInitialBufferCapacity(initialBufferCapacity);
+    }
+
+    /**
      * Buffer the event for subsequent sending.
      *
      * @param destination Buffered events receiver.

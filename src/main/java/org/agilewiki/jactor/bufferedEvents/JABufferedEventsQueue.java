@@ -46,9 +46,14 @@ final public class JABufferedEventsQueue<E>
     private EventQueue<ArrayList<E>> eventQueue;
 
     /**
-     * The eventProcessor is used to process unbuffered events.
+     * The eventProcessor is used to process unblocked events.
      */
     ActiveEventProcessor<E> eventProcessor;
+
+    /**
+     * Used for buffering outgoing events.
+     */
+    private int initialBufferCapacity = 10;
 
     /**
      * The pending HashMap holds the buffered events which
@@ -77,6 +82,16 @@ final public class JABufferedEventsQueue<E>
     }
 
     /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    @Override
+    public void setInitialBufferCapacity(int initialBufferCapacity) {
+        this.initialBufferCapacity = initialBufferCapacity;
+    }
+
+    /**
      * Buffer the event for subsequent sending.
      *
      * @param destination Buffered events receiver.
@@ -86,7 +101,7 @@ final public class JABufferedEventsQueue<E>
     public void send(BufferedEventsDestination<E> destination, E event) {
         ArrayList<E> bufferedEvents = pending.get(destination);
         if (bufferedEvents == null) {
-            bufferedEvents = new ArrayList<E>();
+            bufferedEvents = new ArrayList<E>(initialBufferCapacity);
             pending.put(destination, bufferedEvents);
         }
         bufferedEvents.add(event);

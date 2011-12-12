@@ -37,4 +37,11 @@ public interface BufferedEventsQueue<E>
      * Send any pending events.
      */
     public void sendPendingEvents();
+
+    /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity);
 }
