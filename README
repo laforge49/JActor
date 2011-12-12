@@ -3,3 +3,8 @@ implementation where messages are typically sent in about 100 nanoseconds.
 
 See https://github.com/laforge49/Asynchronous-Functional-Programming/wiki for more
 information on AsyncFP.
+
+The first type of actor, JEEventActor takes 123 nanoseconds to send a message
+when running with a single thread and 252 nanoseconds when running with multiple threads.
+
+Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz.
