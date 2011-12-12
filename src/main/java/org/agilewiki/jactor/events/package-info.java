@@ -60,7 +60,7 @@
  * when running with a single thread and 252 nanoseconds when running with multiple threads.
  * </p>
  * <p>
- * In a dual echo test. JAEventActor takes 60 nanoseconds to send a message
+ * With a dual echo test. JAEventActor takes 60 nanoseconds to send a message
  * when running with a single thread, 144 nanoseconds when running with 2 threads,
  * 137 nanoseconds when running with 4 threads and 133 nanoseconds when running
  * with 8 threads.
