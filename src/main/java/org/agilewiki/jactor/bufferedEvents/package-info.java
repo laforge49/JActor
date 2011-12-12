@@ -24,13 +24,19 @@
 
 /**
  * <p>
- * The bufferedEvents package supports the dispatching of one-way messages (events),
- * but it buffers events and sends them only when there are no other incoming events
- * to process for a significant improvement in throughput.
+ * The bufferedEvents package supports the dispatching of one-way messages (events)
+ * but it buffers outgoing events and sends them only when there are no other incoming events
+ * to process, which results in a significant improvement in throughput when under load.
  * </p>
  * <p>
  * A BufferedEventsDestination receives lists of events from objects operating
  * on a different thread.
+ * </p>
+ * <p>
+ * An EventDispatcher processes events on another thread.
+ * </p>
+ * <p>
+ * A BufferedEventsSource sends events.
  * </p>
  * <p>
  * A BufferedEventsQueue receives buffered events, queues them,
@@ -38,6 +44,9 @@
  * </p>
  * <p>
  * JABufferedEventsQueue implements BufferedEventsQueue.
+ * </p>
+ * <p>
+ * A JABufferedEventsActor is an actor which passes blocks of one-way message (events).
  * </p>
 */
 package org.agilewiki.jactor.bufferedEvents;
