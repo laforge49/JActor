@@ -25,12 +25,13 @@
 /**
  * <p>
  * The JActor project implements high-performance actors.
- * The project pages are http://sourceforge.net/p/jactor/home/Home/ and https://github.com/laforge49/JActor
+ * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
+ * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
  * <p>
- * This project is a reimplementation of a portion of the AsyncFP project,
+ * This project is a reimplementation of a portion of the
+ * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a> project,
  * which is implemented in Scala.
- * For more information on AsyncFP, see https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
  * </p>
  */
 package org.agilewiki.jactor;
