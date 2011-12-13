@@ -27,38 +27,6 @@
  * The events package supports the dispatching of one-way messages (events).
  * </p>
  * <p>
- * EventProcessor is an interface for objects which process events.
- * </p>
- * <p>
- * ActiveEventProcessor is an interface for objects which process events
- * and receives notifications of new events.
- * </p>
- * <p>
- * EventDestination is an interface for objects which receive events.
- * </p>
- * <p>
- * EventDispatcher is an interface for objects which
- * process events on another thread.
- * </p>
- * <p>
- * EventQueue is an interface for objects which receives,
- * enqueues and subsequently dispatches events for processing.
- * </p>
- * <p>
- * JAEventQueue is an implementation of EventQueue.
- * </p>
- * <p>
- * JActor is a base class for actors with one-way messages (events).
- * </p>
- * <p>
- * JAEventActor is an actor which passes one-way message (events).
- * </p>
- * <p>
- * Used mostly for testing, JAEventFuture sends
- * events to an EventDestination, like JAActor, and then waits
- * for a response event.
- * </p>
- * <p>
  * Using a simple echo test, JAEventActor takes 123 nanoseconds to send a message
  * when running with a single thread and 252 nanoseconds when running with multiple threads.
  * </p>

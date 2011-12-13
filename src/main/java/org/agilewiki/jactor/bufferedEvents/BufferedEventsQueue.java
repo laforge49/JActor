@@ -32,7 +32,7 @@ import org.agilewiki.jactor.events.EventDispatcher;
  * @param <E> The type of event.
  */
 public interface BufferedEventsQueue<E>
-        extends BufferedEventsDestination<E>, EventDispatcher<E>, BufferedEventsSource<E> {
+        extends BufferedEventsDestination<E>, EventDispatcher<E> {
     /**
      * Send any pending events.
      */
@@ -44,4 +44,12 @@ public interface BufferedEventsQueue<E>
      * @param initialBufferCapacity The initial capacity for buffered outgoing events.
      */
     public void setInitialBufferCapacity(int initialBufferCapacity);
+
+    /**
+     * Buffer the event for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param event       The event to be sent.
+     */
+    public void send(BufferedEventsDestination<E> destination, E event);
 }

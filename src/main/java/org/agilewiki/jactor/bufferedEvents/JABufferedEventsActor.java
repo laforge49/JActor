@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @param <E> The type of event.
  */
 abstract public class JABufferedEventsActor<E> extends JActor<E>
-        implements BufferedEventsDestination<E>, BufferedEventsSource<E> {
+        implements BufferedEventsDestination<E> {
 
     /**
      * The actor's mailbox.
@@ -75,8 +75,7 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
      * @param destination Buffered events receiver.
      * @param event       The event to be sent.
      */
-    @Override
-    final public void send(BufferedEventsDestination<E> destination, E event) {
+    final protected void send(BufferedEventsDestination<E> destination, E event) {
         mailbox.send(destination, event);
     }
 

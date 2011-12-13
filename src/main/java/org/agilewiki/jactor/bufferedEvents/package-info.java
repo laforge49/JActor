@@ -28,30 +28,5 @@
  * but it buffers outgoing events and sends them only when there are no other incoming events
  * to process, which results in a significant improvement in throughput when under load.
  * </p>
- * <p>
- * A BufferedEventsDestination receives lists of events from objects operating
- * on a different thread.
- * </p>
- * <p>
- * An EventDispatcher processes events on another thread.
- * </p>
- * <p>
- * A BufferedEventsSource sends events.
- * </p>
- * <p>
- * A BufferedEventsQueue receives buffered events, queues them,
- * and then processes them on another thread.
- * </p>
- * <p>
- * JABufferedEventsQueue implements BufferedEventsQueue.
- * </p>
- * <p>
- * A JABufferedEventsActor is an actor which passes blocks of one-way message (events).
- * </p>
- * <p>
- * Used mostly for testing, JABufferedEventsFuture is used to send
- * events to a BufferedEventsDestination, like JABufferedEventsActor, and then wait
- * for a return event.
- * </p>
 */
 package org.agilewiki.jactor.bufferedEvents;
