@@ -8,8 +8,8 @@ import org.agilewiki.jactor.events.Sender;
 
 final public class DualEchoTimingTest extends TestCase {
     public void testTiming() {
-        //int c = 10;
-        int c = 10000000; //c should be at least 10 million
+        int c = 10;
+        //int c = 10000000; //c should be at least 10 million
         //int t = 1;
         //int t = 2;
         //int t = 4;

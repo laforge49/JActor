@@ -2,26 +2,33 @@ package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-public class Driver extends JABufferedEventsActor<Object> {
+final public class Driver extends JABufferedEventsActor<Object> {
 
-    private Sender sender1;
-    private Sender sender2;
+    private Sender[] senders;
     private BufferedEventsDestination<Object> source;
     private int pending;
+    private int p;
 
-    public Driver(ThreadManager threadManager, int c) {
+    public Driver(ThreadManager threadManager, int c, int p) {
         super(threadManager);
-        sender1 = new Sender(threadManager, c);
-        sender2 = new Sender(threadManager, c);
+        this.p = p;
+        int i = 0;
+        while (i < p) {
+            senders[i] = new Sender(threadManager, c);
+            i += 1;
+        }
     }
 
     @Override
     protected void processEvent(Object event) {
         if (!(event instanceof Sender)) {
             source = (BufferedEventsDestination<Object>) event;
-            pending = 2;
-            send(sender1, this);
-            send(sender2, this);
+            pending = p;
+            int i = 0;
+            while (i < p) {
+                send(senders[i], this);
+                i += 1;
+            }
         } else {
             pending -= 1;
             if (pending == 0)
