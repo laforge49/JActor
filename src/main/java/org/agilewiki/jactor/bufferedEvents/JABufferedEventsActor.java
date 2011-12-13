@@ -52,6 +52,8 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
 
     /**
      * Create a JAEventActor
+     * Use this constructor when providing an implementation of BufferedEventsQueue
+     * other than JABufferedEventsQueue.
      *
      * @param mailbox The actor's mailbox.
      */

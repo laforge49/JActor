@@ -21,21 +21,16 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.concurrent;
-
-import java.util.concurrent.ThreadFactory;
 
 /**
- * JAThreadFactory is used to create threads.
+ * <p>
+ * The JActor project implements high-performance actors.
+ * The project pages are http://sourceforge.net/p/jactor/home/Home/ and https://github.com/laforge49/JActor
+ * </p>
+ * <p>
+ * This project is a reimplementation of a portion of the AsyncFP project,
+ * which is implemented in Scala.
+ * For more information on AsyncFP, see https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
+ * </p>
  */
-final public class JAThreadFactory implements ThreadFactory {
-    /**
-     * The newThread method returns a newly created Thread.
-     *
-     * @param runnable The run method is called when the thread is started.
-     */
-    @Override
-    public Thread newThread(Runnable runnable) {
-        return new Thread(runnable);
-    }
-}
+package org.agilewiki.jactor;

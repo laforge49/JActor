@@ -38,7 +38,7 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
     private EventDestination<E> inbox;
 
     /**
-     * Create a JAEventActor
+     * Create a JAEventActor.
      *
      * @param threadManager Provides a thread for processing dispatched events.
      */
@@ -47,7 +47,8 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
     }
 
     /**
-     * Create a JAEventActor
+     * Create a JAEventActor.
+     * Use this constructor when providing an implementation of EventQueue other than JAEventQueue.
      *
      * @param inbox The actor's mailbox.
      */
@@ -62,7 +63,7 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
      * @param destination Where the event is to be sent.
      * @param event The event to be sent.
      */
-    public final void send(EventDestination<E> destination, E event) {
+    protected final void send(EventDestination<E> destination, E event) {
         destination.putEvent(event);
     }
 
