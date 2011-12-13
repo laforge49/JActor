@@ -30,7 +30,7 @@ final public class BufferedTimingTest extends TestCase {
         }
         //4 parallel runs of 200000000 messages each.
         //800000000 messages sent with 4 threads.
-        //msgs per sec = 81916854
+        //msgs per sec = 82987551
         //12 nanoseconds per message
     }
 }
