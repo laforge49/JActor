@@ -27,7 +27,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Used mostly for testing, JAEventFuture is used to send
- * events to an EventDestination, like JAActor, and then wait
+ * events to an EventDestination, like JAEventActor, and then wait
  * for a return event.
  *
  * @param <E> The type of event.

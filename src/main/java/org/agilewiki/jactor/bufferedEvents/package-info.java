@@ -48,5 +48,10 @@
  * <p>
  * A JABufferedEventsActor is an actor which passes blocks of one-way message (events).
  * </p>
+ * <p>
+ * Used mostly for testing, JABufferedEventsFuture is used to send
+ * events to a BufferedEventsDestination, like JABufferedEventsActor, and then wait
+ * for a return event.
+ * </p>
 */
 package org.agilewiki.jactor.bufferedEvents;
