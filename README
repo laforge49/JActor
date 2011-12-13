@@ -5,13 +5,3 @@ information on AsyncFP.)
 JActor currently implements only a very simple actor, JAEventActor, which sends 1-way messages, one
 at a time. But even without any of the speed enhancements found in AsyncFP, the performance is
 quite good.
-
-Using a simple echo test, JAEventActor takes 123 nanoseconds to send a message
-when running with a single thread and 252 nanoseconds when running with multiple threads.
-
-With a dual echo test. JAEventActor takes 60 nanoseconds to send a message
-when running with a single thread, 144 nanoseconds when running with 2 threads,
-137 nanoseconds when running with 4 threads and 133 nanoseconds when running
-with 8 threads.
-
-Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.

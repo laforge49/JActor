@@ -31,13 +31,14 @@
  * when running with a single thread and 252 nanoseconds when running with multiple threads.
  * </p>
  * <p>
- * With a dual echo test. JAEventActor takes 60 nanoseconds to send a message
- * when running with a single thread, 144 nanoseconds when running with 2 threads,
- * 137 nanoseconds when running with 4 threads and 133 nanoseconds when running
+ * With a dual echo test. JAEventActor takes 113 nanoseconds to send a message
+ * when running with a single thread, 210 nanoseconds when running with 2 threads,
+ * 223 nanoseconds when running with 4 threads and 225 nanoseconds when running
  * with 8 threads.
  * </p>
  * <p>
- * (Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.)
+ * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
+ * The times reported were best run in 5.
  * </p>
  */
 package org.agilewiki.jactor.events;

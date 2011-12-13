@@ -29,9 +29,8 @@
  * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
  * <p>
- * This project is a reimplementation of a portion of the
- * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a> project,
- * which is implemented in Scala.
+ * This project is a reimplementation of a portion of the Scala project,
+ * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
  * </p>
  */
 package org.agilewiki.jactor;
