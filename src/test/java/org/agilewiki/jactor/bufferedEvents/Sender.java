@@ -9,9 +9,10 @@ public class Sender extends JABufferedEventsActor<Object> {
     private int i = 0;
     private BufferedEventsDestination<Object> source;
 
-    public Sender(ThreadManager threadManager, int c) {
+    public Sender(ThreadManager threadManager, int c, int b) {
         super(threadManager);
         echo = new Echo(threadManager);
+        echo.setInitialBufferCapacity(b+10);
         count = c;
     }
 

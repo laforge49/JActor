@@ -6,27 +6,30 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class BufferedTimingTest extends TestCase {
     public void testTiming() {
-        int c = 10;
-        //int c = 10000000; //c should be at least 10 million
-        //int p = 1;
-        int p = 2;
-        //int t = 1;
+        //int c = 10;
+        int c = 10000000;
+        int b = 1;
+        //int b = 10000;
+        int p = 1;
+        //int p = 2;
+        //int p = 4;
+        int t = 1;
         //int t = 2;
         //int t = 4;
-        int t = 8;
+        //int t = 8;
         ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
-            Sender sender = new Sender(threadManager, c);
+            Driver driver = new Driver(threadManager, c, b, p);
             JABufferedEventsFuture<Object> eventFuture = new JABufferedEventsFuture<Object>();
-            eventFuture.send(sender, eventFuture);
-            eventFuture.send(sender, eventFuture);
+            eventFuture.send(driver, eventFuture);
+            eventFuture.send(driver, eventFuture);
             long t0 = System.currentTimeMillis();
-            eventFuture.send(sender, eventFuture);
+            eventFuture.send(driver, eventFuture);
             long t1 = System.currentTimeMillis();
-            System.out.println(""+p+" parallel runs of "+(2 * c)+" messages each.");
-            System.out.println("" + (p * 2 * c) + " messages sent with " + t + " threads.");
+            System.out.println(""+p+" parallel runs of "+(2 * c * b)+" messages each.");
+            System.out.println("" + (p * 2 * c * b) + " messages sent with " + t + " threads.");
             if (t1 != t0)
-                System.out.println("msgs per sec = " + (c * p * 2L * 1000L / (t1 - t0)));
+                System.out.println("msgs per sec = " + (c * b * p * 2L * 1000L / (t1 - t0)));
         } finally {
             threadManager.close();
         }

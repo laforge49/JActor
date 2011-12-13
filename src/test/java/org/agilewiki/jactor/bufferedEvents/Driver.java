@@ -9,12 +9,14 @@ final public class Driver extends JABufferedEventsActor<Object> {
     private int pending;
     private int p;
 
-    public Driver(ThreadManager threadManager, int c, int p) {
+    public Driver(ThreadManager threadManager, int c, int b, int p) {
         super(threadManager);
         this.p = p;
         int i = 0;
+        senders = new Sender[p];
         while (i < p) {
-            senders[i] = new Sender(threadManager, c);
+            senders[i] = new Sender(threadManager, c, b);
+            senders[i].setInitialBufferCapacity(b+10);
             i += 1;
         }
     }
