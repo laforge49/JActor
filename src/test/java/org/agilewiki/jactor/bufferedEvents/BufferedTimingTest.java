@@ -6,17 +6,12 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class BufferedTimingTest extends TestCase {
     public void testTiming() {
-        //int c = 10;
-        int c = 10000000;
-        int b = 1;
-        //int b = 10000;
-        int p = 1;
-        //int p = 2;
-        //int p = 4;
-        int t = 1;
-        //int t = 2;
-        //int t = 4;
-        //int t = 8;
+        int c = 2;
+        //int c = 100000;
+        int b = 3;
+        //int b = 1000;
+        int p = 4;
+        int t = 4;
         ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
             Driver driver = new Driver(threadManager, c, b, p);
@@ -33,24 +28,9 @@ final public class BufferedTimingTest extends TestCase {
         } finally {
             threadManager.close();
         }
-        //2 parallel runs of 40000000 messages each.
-        //40000000 messages sent with 1 threads.
-        //msgs per sec = 16757436
-        //60 nanoseconds per message
-
-        //2 parallel runs of 40000000 messages each.
-        //40000000 messages sent with 2 threads.
-        //msgs per sec = 6920415
-        //144 nanoseconds per message
-
-        //2 parallel runs of 40000000 messages each.
-        //40000000 messages sent with 4 threads.
-        //msgs per sec = 7853917
-        //127 nanoseconds per message
-
-        //2 parallel runs of 40000000 messages each.
-        //40000000 messages sent with 8 threads.
-        //msgs per sec = 7524454
-        //133 nanoseconds per message
+        //4 parallel runs of 200000000 messages each.
+        //800000000 messages sent with 4 threads.
+        //msgs per sec = 81916854
+        //12 nanoseconds per message
     }
 }
