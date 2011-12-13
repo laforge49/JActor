@@ -28,5 +28,5 @@
  * but it buffers outgoing events and sends them only when there are no other incoming events
  * to process, which results in a significant improvement in throughput when under load.
  * </p>
-*/
+ */
 package org.agilewiki.jactor.bufferedEvents;

@@ -58,7 +58,7 @@ final public class JAThreadManager implements ThreadManager {
     /**
      * Create a JAThreadManager
      *
-     * @param threadCount    The number of concurrent to be used.
+     * @param threadCount The number of concurrent to be used.
      * @return A new JAThreadManager.
      */
     public static ThreadManager newThreadManager(int threadCount) {
@@ -69,8 +69,8 @@ final public class JAThreadManager implements ThreadManager {
     /**
      * Create a JAThreadManager
      *
-     * @param threadCount    The number of concurrent to be used.
-     * @param threadFactory  Used to create the concurrent.
+     * @param threadCount   The number of concurrent to be used.
+     * @param threadFactory Used to create the concurrent.
      * @return A new JAThreadManager.
      */
     public static ThreadManager newThreadManager(int threadCount, ThreadFactory threadFactory) {

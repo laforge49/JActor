@@ -61,7 +61,7 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
      * Send an event.
      *
      * @param destination Where the event is to be sent.
-     * @param event The event to be sent.
+     * @param event       The event to be sent.
      */
     protected final void send(EventDestination<E> destination, E event) {
         destination.putEvent(event);

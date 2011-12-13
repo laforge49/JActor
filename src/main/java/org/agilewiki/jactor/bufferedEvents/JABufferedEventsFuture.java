@@ -1,7 +1,5 @@
 package org.agilewiki.jactor.bufferedEvents;
 
-import org.agilewiki.jactor.events.EventDestination;
-
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
@@ -12,7 +10,7 @@ import java.util.concurrent.Semaphore;
  *
  * @param <E> The type of event.
  */
-public class JABufferedEventsFuture<E> implements BufferedEventsDestination<E> {
+final public class JABufferedEventsFuture<E> implements BufferedEventsDestination<E> {
     private Semaphore done;
     private transient E result;
 
@@ -20,7 +18,7 @@ public class JABufferedEventsFuture<E> implements BufferedEventsDestination<E> {
      * Send an event and then wait for the response, which is returned.
      *
      * @param destination Where the event is to be sent.
-     * @param event The event to be sent.
+     * @param event       The event to be sent.
      */
     public E send(BufferedEventsDestination<E> destination, E event) {
         done = new Semaphore(0);
@@ -29,7 +27,8 @@ public class JABufferedEventsFuture<E> implements BufferedEventsDestination<E> {
         destination.putBufferedEvents(bufferedEvents);
         try {
             done.acquire();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
         done = null;
         return result;
     }

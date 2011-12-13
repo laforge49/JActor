@@ -29,4 +29,5 @@ package org.agilewiki.jactor.events;
  *
  * @param <E>
  */
-public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {}
+public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
+}

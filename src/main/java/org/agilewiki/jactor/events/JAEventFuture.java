@@ -35,19 +35,20 @@ import java.util.concurrent.Semaphore;
 public class JAEventFuture<E> implements EventDestination<E> {
     private Semaphore done;
     private transient E result;
-    
+
     /**
      * Send an event and then wait for the response, which is returned.
      *
      * @param destination Where the event is to be sent.
-     * @param event The event to be sent.
+     * @param event       The event to be sent.
      */
     public E send(EventDestination<E> destination, E event) {
         done = new Semaphore(0);
         destination.putEvent(event);
         try {
             done.acquire();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
         done = null;
         return result;
     }

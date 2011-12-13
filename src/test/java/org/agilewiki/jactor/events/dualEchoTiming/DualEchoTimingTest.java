@@ -23,7 +23,7 @@ final public class DualEchoTimingTest extends TestCase {
             long t0 = System.currentTimeMillis();
             eventFuture.send(sender, eventFuture);
             long t1 = System.currentTimeMillis();
-            System.out.println(""+(2 * 2 * c)+" messages sent with "+t+" threads");
+            System.out.println("" + (2 * 2 * c) + " messages sent with " + t + " threads");
             if (t1 != t0)
                 System.out.println("msgs per sec = " + (c * 2L * 2L * 1000L / (t1 - t0)));
         } finally {
