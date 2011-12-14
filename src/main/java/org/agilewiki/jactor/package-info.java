@@ -24,7 +24,7 @@
 
 /**
  * <p>
- * The JActor project implements high-performance actors.
+ * The JActor project implements actors in Java that can process 85 million messages per second.
  * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
  * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
@@ -38,7 +38,8 @@
  * </p>
  * <p>
  * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
- * The times reported were best run in 5.
+ * The times reported were best run in 5. Only standard switch settings were used--there was
+ * NO compiler optimization.
  * </p>
  */
 package org.agilewiki.jactor;

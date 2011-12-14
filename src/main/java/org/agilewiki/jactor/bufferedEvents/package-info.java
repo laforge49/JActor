@@ -24,17 +24,15 @@
 
 /**
  * <p>
- * The bufferedEvents package supports the dispatching of one-way messages (events)
+ * The bufferedEvents package supports the dispatching of one-way messages (events),
  * but it buffers outgoing events and sends them only when there are no other incoming events
  * to process, which results in a significant improvement in throughput when under load.
  * </p>
  * <p>
- * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
- * per message.
- * </p>
- * <p>
- * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
- * The times reported were best run in 5.
+ * An echo test running multiple pairs with 1000 messages per burst processed 85 million
+ * messages per second--12 nanoseconds per message. But when messages are sent one at a
+ * time, only 4468654 messages are processed per second--224 nanoseconds per message.
+ * Sending messages in bursts, which simulates a system under load, is 1,867% faster.
  * </p>
  */
 package org.agilewiki.jactor.bufferedEvents;

@@ -9,4 +9,4 @@ A second actor, JABufferedEventsActor has also been implemented. An echo test ru
 processed 85 million messages per second--12 nanoseconds per message.
 
 (Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The times
-reported were best run in 5.)
+reported were best run in 5. Only standard switch settings were used--there was NO compiler optimization.)
