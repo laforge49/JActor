@@ -6,10 +6,10 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class BufferedTimingTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 4;
-        //int t = 4;
+        int c = 2;
+        int b = 3;
+        int p = 4;
+        int t = 4;
 
         //int c = 100000;
         //int b = 1000;
@@ -41,10 +41,10 @@ final public class BufferedTimingTest extends TestCase {
         //int p = 160;
         //int t = 4;
 
-        int c = 1000000;
-        int b = 1;
-        int p = 16;
-        int t = 4;
+        //int c = 1000000;
+        //int b = 1;
+        //int p = 16;
+        //int t = 4;
 
         ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
