@@ -28,5 +28,13 @@
  * but it buffers outgoing events and sends them only when there are no other incoming events
  * to process, which results in a significant improvement in throughput when under load.
  * </p>
+ * <p>
+ * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
+ * per message.
+ * </p>
+ * <p>
+ * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
+ * The times reported were best run in 5.
+ * </p>
  */
 package org.agilewiki.jactor.bufferedEvents;

@@ -3,5 +3,10 @@ implementation. (See https://github.com/laforge49/Asynchronous-Functional-Progra
 information on AsyncFP.)
 
 JActor currently implements only a very simple actor, JAEventActor, which sends 1-way messages, one
-at a time. But even without any of the speed enhancements found in AsyncFP, the performance is
-quite good.
+at a time.
+
+A second actor, JABufferedEventsActor has also been implemented. An echo test running multiple pairs
+processed 85 million messages per second--12 nanoseconds per message.
+
+(Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The times
+reported were best run in 5.)

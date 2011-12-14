@@ -32,5 +32,13 @@
  * This project is a reimplementation of a portion of the Scala project,
  * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
  * </p>
+ * <p>
+ * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
+ * per message--using the JABufferedEventsActor.
+ * </p>
+ * <p>
+ * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
+ * The times reported were best run in 5.
+ * </p>
  */
 package org.agilewiki.jactor;
