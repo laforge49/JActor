@@ -6,12 +6,41 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class BufferedTimingTest extends TestCase {
     public void testTiming() {
-        int c = 2;
+        //int c = 2;
+        //int b = 3;
+        //int p = 4;
+        //int t = 4;
+
         //int c = 100000;
-        int b = 3;
         //int b = 1000;
-        int p = 4;
+        //int p = 4;
+        //int t = 4;
+
+        //int c = 50000;
+        //int b = 1000;
+        //int p = 8;
+        //int t = 8;
+
+        //int c = 25000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 16;
+
+        //int c = 50000;
+        //int b = 1000;
+        //int p = 8;
+        //int t = 4;
+
+        //int c = 25000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 4;
+
+        int c = 2500;
+        int b = 1000;
+        int p = 160;
         int t = 4;
+
         ThreadManager threadManager = JAThreadManager.newThreadManager(t);
         try {
             Driver driver = new Driver(threadManager, c, b, p);
@@ -22,15 +51,41 @@ final public class BufferedTimingTest extends TestCase {
             eventFuture.send(driver, eventFuture);
             long t1 = System.currentTimeMillis();
             System.out.println(""+p+" parallel runs of "+(2 * c * b)+" messages each.");
-            System.out.println("" + (p * 2 * c * b) + " messages sent with " + t + " threads.");
+            System.out.println("" + (p * 2 * c * b + 2 * p) + " messages sent with " + t + " threads.");
             if (t1 != t0)
-                System.out.println("msgs per sec = " + (c * b * p * 2L * 1000L / (t1 - t0)));
+                System.out.println("msgs per sec = " + ((c * b * p * 2L + 2L * p) * 1000L / (t1 - t0)));
         } finally {
             threadManager.close();
         }
+
         //4 parallel runs of 200000000 messages each.
-        //800000000 messages sent with 4 threads.
+        //800000008 messages sent with 4 threads.
         //msgs per sec = 82987551
+        //12 nanoseconds per message
+
+        //8 parallel runs of 100000000 messages each.
+        //800000016 messages sent with 8 threads.
+        //msgs per sec = 80256821
+        //12 nanoseconds per message
+
+        //16 parallel runs of 50000000 messages each.
+        //800000032 messages sent with 16 threads.
+        //msgs per sec = 83246618
+        //12 nanoseconds per message
+
+        //8 parallel runs of 100000000 messages each.
+        //800000016 messages sent with 4 threads.
+        //msgs per sec = 83927822
+        //12 nanoseconds per message
+
+        //16 parallel runs of 50000000 messages each.
+        //800000032 messages sent with 4 threads.
+        //msgs per sec = 85616438
+        //12 nanoseconds per message
+
+        //160 parallel runs of 5000000 messages each.
+        //800000320 messages sent with 4 threads.
+        //msgs per sec = 82584940
         //12 nanoseconds per message
     }
 }
