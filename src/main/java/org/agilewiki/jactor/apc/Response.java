@@ -21,16 +21,18 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.apc;
 
 /**
- * Accepts the response.
+ * Processes the response to a request message.
+ *
+ * @param <Result> The type of response.
  */
-public interface Response {
+public interface Response<Result> {
     /**
-     * Returns the result to the requestor.
+     * Receives a response message.
      *
-     * @param result The results of a request.
+     * @param result The response to a request.
      */
-    public void processResult(Object result);
+    public void processResult(Result result);
 }

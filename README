@@ -1,4 +1,4 @@
-JActor is a Java version of the scala project, AsyncFP, a high-performance actor
+JActor is a Java partial reimplementation of the scala project, AsyncFP, a high-performance actor
 implementation. (See https://github.com/laforge49/Asynchronous-Functional-Programming/wiki for more
 information on AsyncFP.)
 

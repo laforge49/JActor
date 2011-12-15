@@ -21,26 +21,6 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
+package org.agilewiki.jactor.apc;
 
-/**
- * <p>
- * The JActor project implements actors in Java that can process 85 million messages per second.
- * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
- * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
- * </p>
- * <p>
- * This project is a reimplementation of a portion of the Scala project,
- * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
- * </p>
- * <p>
- * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
- * per message--using the JABufferedEventsActor.
- * </p>
- * <p>
- * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
- * The times reported were best run in 5. Only standard switch settings were used--there was
- * NO compiler optimization.
- * </p>
- */
-
-package org.agilewiki.jactor;
+abstract public class APCMessage {}

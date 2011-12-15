@@ -24,23 +24,16 @@
 
 /**
  * <p>
- * The JActor project implements actors in Java that can process 85 million messages per second.
- * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
- * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
+ * The apc package implements Asynchronous Procedure Calls (APC), or two-way messaging.
+ * A message is treated as either a request or a response, where for every request there is
+ * exactly one response.
  * </p>
  * <p>
- * This project is a reimplementation of a portion of the Scala project,
- * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
- * </p>
- * <p>
- * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
- * per message--using the JABufferedEventsActor.
- * </p>
- * <p>
- * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
- * The times reported were best run in 5. Only standard switch settings were used--there was
- * NO compiler optimization.
+ * Actors traditionally use one-way messaging, which can be difficult to understand when the code
+ * of an actor becomes large. The apc package inst5ead uses messages to implement something closer
+ * to a method call. It also has the advantage of implicitly implementing flow control--which tends
+ * to result in systems that behave well under load.
  * </p>
  */
 
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.apc;
