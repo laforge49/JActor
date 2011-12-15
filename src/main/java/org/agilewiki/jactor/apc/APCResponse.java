@@ -25,13 +25,27 @@ package org.agilewiki.jactor.apc;
 
 final public class APCResponse extends APCMessage {
 
-    private Object rsp;
+    private Object data;
     
-    public APCResponse(Object rsp) {
-        this.rsp = rsp;
+    private APCRequest apcRequest;
+    
+    public APCResponse(Object data) {
+        this.data = data;
     }
 
-    public Object getRsp() {
-        return rsp;
+    public Object getData() {
+        return data;
+    }
+    
+    public void setApcRequest(APCRequest apcRequest) {
+        this.apcRequest = apcRequest;
+    }
+    
+    public APCRequest getOldAPCRequest() {
+        return apcRequest.getOldRequest();
+    }
+
+    public ResponseDestination getResponseDestination() {
+        return apcRequest.getResponseDestination();
     }
 }

@@ -23,16 +23,29 @@
  */
 package org.agilewiki.jactor.apc;
 
-/**
- * Processes the response to a request message.
- *
- * @param <Result> The type of response.
- */
-public interface Response<Result> {
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.events.EventDispatcher;
+
+public interface APCQueue extends BufferedEventsDestination<APCMessage>, EventDispatcher<APCRequest> {
     /**
-     * Receives a response message.
-     *
-     * @param result The response to a request.
+     * Send any pending events.
      */
-    public void processResult(Result result);
+    public void sendPendingEvents();
+
+    /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity);
+
+    /**
+     * Buffer the event for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param request     The request to be sent.
+     */
+    public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request);
+
+    public void response(Object data);
 }
