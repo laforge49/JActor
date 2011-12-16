@@ -23,29 +23,33 @@
  */
 package org.agilewiki.jactor.apc;
 
-final public class APCResponse extends APCMessage {
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.events.EventDispatcher;
 
-    private Object result;
+public interface xAPCMailbox extends BufferedEventsDestination<APCMessage>, EventDispatcher<APCRequest> {
+    /**
+     * Send any pending events.
+     */
+    public void sendPendingEvents();
 
-    private APCRequest apcRequest;
+    /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity);
 
-    public APCResponse(Object result) {
-        this.result = result;
-    }
+    /**
+     * Buffer the event for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param request     The request to be sent.
+     */
+    public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request);
 
-    public Object getResult() {
-        return result;
-    }
+    public void response(Object data);
 
-    public void setApcRequest(APCRequest apcRequest) {
-        this.apcRequest = apcRequest;
-    }
+    public void setExceptionHandler(ExceptionHandler exceptionHandler);
 
-    public APCRequest getOldAPCRequest() {
-        return apcRequest.getOldRequest();
-    }
-
-    public ResponseDestination getResponseDestination() {
-        return apcRequest.getResponseDestination();
-    }
+    public ExceptionHandler getExceptionHandler();
 }

@@ -29,12 +29,12 @@ import org.agilewiki.jactor.events.JActor;
 import java.util.ArrayList;
 
 /**
- * An actor which passes blocks of one-way message (events).
+ * Implements BufferedEventsActor.
  *
  * @param <E> The type of event.
  */
 abstract public class JABufferedEventsActor<E> extends JActor<E>
-        implements BufferedEventsDestination<E> {
+        implements BufferedEventsActor<E> {
 
     /**
      * The actor's mailbox.

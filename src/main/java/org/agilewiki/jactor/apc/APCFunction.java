@@ -23,29 +23,6 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
-import org.agilewiki.jactor.events.EventDispatcher;
-
-public interface APCQueue extends BufferedEventsDestination<APCMessage>, EventDispatcher<APCRequest> {
-    /**
-     * Send any pending events.
-     */
-    public void sendPendingEvents();
-
-    /**
-     * Set the initial capacity for buffered outgoing events.
-     *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
-     */
-    public void setInitialBufferCapacity(int initialBufferCapacity);
-
-    /**
-     * Buffer the event for subsequent sending.
-     *
-     * @param destination Buffered events receiver.
-     * @param request     The request to be sent.
-     */
-    public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request);
-
-    public void response(Object data);
+public interface APCFunction {
+    public void process(ResponseDestination responseDestination);
 }

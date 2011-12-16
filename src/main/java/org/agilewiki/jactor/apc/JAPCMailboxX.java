@@ -31,7 +31,7 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 
 import java.util.ArrayList;
 
-final public class APCMailbox implements APCQueue {
+final public class JAPCMailboxX implements xAPCMailbox {
 
     private APCRequest currentRequest;
 
@@ -42,7 +42,7 @@ final public class APCMailbox implements APCQueue {
      */
     ActiveEventProcessor<APCRequest> requestProcessor;
 
-    public APCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
+    public JAPCMailboxX(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
         eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
             @Override
@@ -56,24 +56,36 @@ final public class APCMailbox implements APCQueue {
                     currentRequest = (APCRequest) event;
                     try {
                         requestProcessor.processEvent(currentRequest);
-                    } catch(Exception ex) {
-                        response(ex);
+                    } catch (Exception ex) {
+                        processException(ex);
                     }
-                }
-                else {
+                } else {
                     APCResponse apcResponse = (APCResponse) event;
                     currentRequest = apcResponse.getOldAPCRequest();
-                    try {
-                    apcResponse.getResponseDestination().processResult(apcResponse.getData());
-                    } catch(Exception ex) {
-                        response(ex);
+                    Object data = apcResponse.getResult();
+                    if (data != null && data instanceof Exception)
+                        processException((Exception) data);
+                    else try {
+                        apcResponse.getResponseDestination().process(apcResponse.getResult());
+                    } catch (Exception ex) {
+                        processException(ex);
                     }
+                }
+            }
+
+            private void processException(Exception ex) {
+                ExceptionHandler exceptionHandler = getExceptionHandler();
+                if (exceptionHandler == null) response(ex);
+                else try {
+                    exceptionHandler.process(ex);
+                } catch (Exception ex2) {
+                    response(ex2);
                 }
             }
         });
     }
 
-    public APCMailbox(ThreadManager threadManager) {
+    public JAPCMailboxX(ThreadManager threadManager) {
         this(new JABufferedEventsQueue<APCMessage>(threadManager));
     }
 
@@ -83,6 +95,14 @@ final public class APCMailbox implements APCQueue {
 
     public void setCurrentRequest(APCRequest currentRequest) {
         this.currentRequest = currentRequest;
+    }
+
+    public ExceptionHandler getExceptionHandler() {
+        return currentRequest.getExceptionHandler();
+    }
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        currentRequest.setExceptionHandler(exceptionHandler);
     }
 
     /**
@@ -155,6 +175,6 @@ final public class APCMailbox implements APCQueue {
 
     @Override
     public void response(Object data) {
-        currentRequest.response(this, data);
+        currentRequest.response(eventQueue, data);
     }
 }

@@ -32,5 +32,5 @@ public interface ResponseDestination {
      *
      * @param result The response.
      */
-    public void processResult(Object result);
+    public void process(Object result);
 }

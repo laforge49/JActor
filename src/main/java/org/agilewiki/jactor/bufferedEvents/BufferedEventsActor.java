@@ -21,31 +21,19 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.bufferedEvents;
 
-final public class APCResponse extends APCMessage {
+/**
+ * An actor which passes blocks of one-way message (events).
+ *
+ * @param <E> The type of event.
+ */
+public interface BufferedEventsActor<E> extends BufferedEventsDestination<E> {
 
-    private Object result;
-
-    private APCRequest apcRequest;
-
-    public APCResponse(Object result) {
-        this.result = result;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setApcRequest(APCRequest apcRequest) {
-        this.apcRequest = apcRequest;
-    }
-
-    public APCRequest getOldAPCRequest() {
-        return apcRequest.getOldRequest();
-    }
-
-    public ResponseDestination getResponseDestination() {
-        return apcRequest.getResponseDestination();
-    }
+    /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity);
 }

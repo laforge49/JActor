@@ -23,21 +23,34 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+
 public class APCRequest extends APCMessage {
 
     private APCRequestSource requestSource;
+
+    private Object data;
 
     private ResponseDestination responseDestination;
 
     private APCRequest oldRequest;
 
-    public APCRequest(APCRequestSource requestSource, ResponseDestination responseDestination) {
+    private ExceptionHandler exceptionHandler;
+
+    public APCRequest(APCRequestSource requestSource,
+                      Object data,
+                      ResponseDestination responseDestination) {
         this.requestSource = requestSource;
+        this.data = data;
         this.responseDestination = responseDestination;
     }
 
     final public APCRequestSource getRequestSource() {
         return requestSource;
+    }
+
+    final public Object getData() {
+        return data;
     }
 
     final public ResponseDestination getResponseDestination() {
@@ -52,9 +65,17 @@ public class APCRequest extends APCMessage {
         return oldRequest;
     }
 
-    public void response(APCQueue respondingMailbox, Object data) {
+    final public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
+    }
+
+    final public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
+    }
+
+    public void response(BufferedEventsQueue<APCMessage> eventQueue, Object data) {
         APCResponse apcResponse = new APCResponse(data);
         apcResponse.setApcRequest(this);
-        requestSource.responseFrom(respondingMailbox, apcResponse);
+        requestSource.responseFrom(eventQueue, apcResponse);
     }
 }

@@ -21,39 +21,47 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bufferedEvents;
+package org.agilewiki.jactor.apc;
+
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-/**
- * Used mostly for testing, JABufferedEventsFuture is used to send
- * events to a BufferedEventsDestination, like JABufferedEventsActor, and then wait
- * for a return event.
- *
- * @param <E> The type of event.
- */
-final public class JABufferedEventsFuture<E> implements BufferedEventsDestination<E> {
+public class JAPCFuture {
     /**
-     * Used to wake up the sending thread when a message is received.
+     * Used to wake up the sending thread when a response is received.
      */
     private Semaphore done;
 
     /**
-     * The message received.
+     * The response received.
      */
-    private transient E result;
+    private transient Object result;
 
-    /**
-     * Send an event and then wait for the response, which is returned.
-     *
-     * @param actor The actor that is to receive the event.
-     * @param event The event to be sent.
-     */
-    public E send(BufferedEventsActor<E> actor, E event) {
+    private BufferedEventsDestination<APCMessage> bufferedEventsDestination =
+            new BufferedEventsDestination<APCMessage>() {
+                @Override
+                public void putBufferedEvents(ArrayList<APCMessage> bufferedEvents) {
+                    APCResponse apcResponse = (APCResponse) bufferedEvents.get(0);
+                    result = apcResponse.getResult();
+                    done.release();
+                }
+            };
+
+    private APCRequestSource apcRequestSource = new APCRequestSource() {
+        @Override
+        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
+            eventQueue.send(bufferedEventsDestination, apcResponse);
+        }
+    };
+
+    public Object send(APCActor actor, Object data) {
         done = new Semaphore(0);
-        ArrayList<E> bufferedEvents = new ArrayList<E>(1);
-        bufferedEvents.add(event);
+        APCRequest apcRequest = new APCRequest(apcRequestSource, data, null);
+        ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
+        bufferedEvents.add(apcRequest);
         actor.putBufferedEvents(bufferedEvents);
         try {
             done.acquire();
@@ -61,16 +69,5 @@ final public class JABufferedEventsFuture<E> implements BufferedEventsDestinatio
         }
         done = null;
         return result;
-    }
-
-    /**
-     * The putBufferedEvents method adds events to be processed.
-     *
-     * @param bufferedEvents The events to be processed.
-     */
-    @Override
-    public void putBufferedEvents(ArrayList<E> bufferedEvents) {
-        result = bufferedEvents.get(0);
-        done.release();
     }
 }

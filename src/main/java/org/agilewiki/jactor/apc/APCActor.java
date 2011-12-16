@@ -23,29 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
-final public class APCResponse extends APCMessage {
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsActor;
 
-    private Object result;
-
-    private APCRequest apcRequest;
-
-    public APCResponse(Object result) {
-        this.result = result;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setApcRequest(APCRequest apcRequest) {
-        this.apcRequest = apcRequest;
-    }
-
-    public APCRequest getOldAPCRequest() {
-        return apcRequest.getOldRequest();
-    }
-
-    public ResponseDestination getResponseDestination() {
-        return apcRequest.getResponseDestination();
-    }
+public interface APCActor extends BufferedEventsActor<APCMessage> {
 }
