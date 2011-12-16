@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.events.EventDispatcher;
 
-public interface xAPCMailbox extends BufferedEventsDestination<APCMessage>, EventDispatcher<APCRequest> {
+public interface APCMailbox extends BufferedEventsDestination<APCMessage>, EventDispatcher<APCRequest> {
     /**
      * Send any pending events.
      */

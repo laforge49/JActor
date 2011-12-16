@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 abstract public class JAPCActor implements APCActor {
 
-    private xAPCMailbox mailboxX;
+    private APCMailbox mailbox;
 
     /**
      * Handles callbacks from the inbox.
@@ -39,7 +39,7 @@ abstract public class JAPCActor implements APCActor {
     private ActiveEventProcessor<APCRequest> eventProcessor = new ActiveEventProcessor<APCRequest>() {
         @Override
         public void haveEvents() {
-            mailboxX.dispatchEvents();
+            mailbox.dispatchEvents();
         }
 
         @Override
@@ -61,7 +61,7 @@ abstract public class JAPCActor implements APCActor {
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAPCActor(ThreadManager threadManager) {
-        this(new JAPCMailboxX(threadManager));
+        this(new JAPCMailbox(threadManager));
     }
 
     /**
@@ -69,12 +69,12 @@ abstract public class JAPCActor implements APCActor {
      * Use this constructor when providing an implementation of BufferedEventsQueue
      * other than JABufferedEventsQueue.
      *
-     * @param mailboxX The actor's mailboxX.
+     * @param mailbox The actor's mailbox.
      */
-    public JAPCActor(xAPCMailbox mailboxX) {
-        this.mailboxX = mailboxX;
-        mailboxX.setEventProcessor(eventProcessor);
-        this.mailboxX = mailboxX;
+    public JAPCActor(APCMailbox mailbox) {
+        this.mailbox = mailbox;
+        mailbox.setEventProcessor(eventProcessor);
+        this.mailbox = mailbox;
     }
 
     /**
@@ -84,7 +84,7 @@ abstract public class JAPCActor implements APCActor {
      */
     @Override
     final public void setInitialBufferCapacity(int initialBufferCapacity) {
-        mailboxX.setInitialBufferCapacity(initialBufferCapacity);
+        mailbox.setInitialBufferCapacity(initialBufferCapacity);
     }
 
     /**
@@ -94,12 +94,12 @@ abstract public class JAPCActor implements APCActor {
      */
     @Override
     final public void putBufferedEvents(ArrayList<APCMessage> bufferedEvents) {
-        mailboxX.putBufferedEvents(bufferedEvents);
+        mailbox.putBufferedEvents(bufferedEvents);
     }
 
     final protected void send(APCActor actor, Object data, ResponseDestination responseDestination) {
         APCRequest apcRequest = new APCRequest(apcRequestSource, data, responseDestination);
-        mailboxX.send(actor, apcRequest);
+        mailbox.send(actor, apcRequest);
     }
 
     final protected void iterate(final APCFunction apcFunction,

@@ -31,7 +31,7 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 
 import java.util.ArrayList;
 
-final public class JAPCMailboxX implements xAPCMailbox {
+final public class JAPCMailbox implements APCMailbox {
 
     private APCRequest currentRequest;
 
@@ -42,7 +42,7 @@ final public class JAPCMailboxX implements xAPCMailbox {
      */
     ActiveEventProcessor<APCRequest> requestProcessor;
 
-    public JAPCMailboxX(BufferedEventsQueue<APCMessage> eventQueue) {
+    public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
         eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
             @Override
@@ -85,7 +85,7 @@ final public class JAPCMailboxX implements xAPCMailbox {
         });
     }
 
-    public JAPCMailboxX(ThreadManager threadManager) {
+    public JAPCMailbox(ThreadManager threadManager) {
         this(new JABufferedEventsQueue<APCMessage>(threadManager));
     }
 
