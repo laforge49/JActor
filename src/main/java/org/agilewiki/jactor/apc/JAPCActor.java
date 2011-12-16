@@ -44,7 +44,12 @@ abstract public class JAPCActor implements APCActor {
 
         @Override
         public void processEvent(APCRequest request) {
-            JAPCActor.this.processRequest(request);
+            JAPCActor.this.processRequest(request.getData(), new ResponseDestination(){
+                @Override
+                public void process(Object result) {
+                    mailbox.response(result);
+                }
+            });
         }
     };
 
@@ -115,5 +120,5 @@ abstract public class JAPCActor implements APCActor {
         apcFunction.process(rd);
     }
 
-    abstract protected void processRequest(APCRequest request);
+    abstract protected void processRequest(Object data, ResponseDestination responseDestination);
 }
