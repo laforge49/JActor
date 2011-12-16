@@ -53,6 +53,8 @@ public class APCRequest extends APCMessage {
     }
 
     public void response(APCQueue respondingMailbox, Object data) {
-        requestSource.responseFrom(respondingMailbox, new APCResponse(data));
+        APCResponse apcResponse = new APCResponse(data);
+        apcResponse.setApcRequest(this);
+        requestSource.responseFrom(respondingMailbox, apcResponse);
     }
 }

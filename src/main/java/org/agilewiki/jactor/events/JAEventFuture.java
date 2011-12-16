@@ -32,7 +32,7 @@ import java.util.concurrent.Semaphore;
  *
  * @param <E> The type of event.
  */
-public class JAEventFuture<E> implements EventDestination<E> {
+final public class JAEventFuture<E> implements EventDestination<E> {
     private Semaphore done;
     private transient E result;
 

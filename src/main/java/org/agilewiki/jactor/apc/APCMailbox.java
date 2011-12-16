@@ -52,11 +52,22 @@ final public class APCMailbox implements APCQueue {
 
             @Override
             public void processEvent(APCMessage event) {
-                if (event instanceof APCRequest) requestProcessor.processEvent((APCRequest) event);
+                if (event instanceof APCRequest) {
+                    currentRequest = (APCRequest) event;
+                    try {
+                        requestProcessor.processEvent(currentRequest);
+                    } catch(Exception ex) {
+                        response(ex);
+                    }
+                }
                 else {
                     APCResponse apcResponse = (APCResponse) event;
                     currentRequest = apcResponse.getOldAPCRequest();
+                    try {
                     apcResponse.getResponseDestination().processResult(apcResponse.getData());
+                    } catch(Exception ex) {
+                        response(ex);
+                    }
                 }
             }
         });
@@ -138,6 +149,7 @@ final public class APCMailbox implements APCQueue {
      */
     @Override
     public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request) {
+        request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }
 
