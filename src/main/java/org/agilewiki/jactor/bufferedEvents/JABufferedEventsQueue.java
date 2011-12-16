@@ -39,7 +39,7 @@ import java.util.Iterator;
  * @param <E> The type of event.
  */
 final public class JABufferedEventsQueue<E>
-        implements BufferedEventsQueue<E>, ActiveEventProcessor<ArrayList<E>> {
+        implements BufferedEventsQueue<E> {
     /**
      * The eventQueue handles the actual dispatching of buffered events.
      */
@@ -69,7 +69,21 @@ final public class JABufferedEventsQueue<E>
      */
     public JABufferedEventsQueue(EventQueue<ArrayList<E>> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(this);
+        eventQueue.setEventProcessor(new ActiveEventProcessor<ArrayList<E>>(){
+            @Override
+            public void processEvent(ArrayList<E> bufferedEvents) {
+                int i = 0;
+                while (i < bufferedEvents.size()) {
+                    eventProcessor.processEvent(bufferedEvents.get(i));
+                    i += 1;
+                }
+            }
+
+            @Override
+            public void haveEvents() {
+                eventProcessor.haveEvents();
+            }
+        });
     }
 
     /**
@@ -162,28 +176,5 @@ final public class JABufferedEventsQueue<E>
             return true;
         }
         return false;
-    }
-
-    /**
-     * The processMessage method is called when there is an incoming event to process.
-     *
-     * @param bufferedEvents The events to be processed.
-     */
-    @Override
-    public void processEvent(ArrayList<E> bufferedEvents) {
-        int i = 0;
-        while (i < bufferedEvents.size()) {
-            eventProcessor.processEvent(bufferedEvents.get(i));
-            i += 1;
-        }
-    }
-
-    /**
-     * The haveEvents method is called when
-     * there may be one or more pending events.
-     */
-    @Override
-    public void haveEvents() {
-        eventProcessor.haveEvents();
     }
 }

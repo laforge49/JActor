@@ -31,7 +31,7 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 
 import java.util.ArrayList;
 
-final public class APCMailbox implements APCQueue, ActiveEventProcessor<APCMessage> {
+final public class APCMailbox implements APCQueue {
     
     private APCRequest currentRequest;
 
@@ -44,7 +44,22 @@ final public class APCMailbox implements APCQueue, ActiveEventProcessor<APCMessa
 
     public APCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(this);
+        eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>(){
+            @Override
+            public void haveEvents() {
+                dispatchEvents();
+            }
+
+            @Override
+            public void processEvent(APCMessage event) {
+                if (event instanceof APCRequest) requestProcessor.processEvent((APCRequest) event);
+                else {
+                    APCResponse apcResponse = (APCResponse) event;
+                    currentRequest = apcResponse.getOldAPCRequest();
+                    apcResponse.getResponseDestination().processResult(apcResponse.getData());
+                }
+            }
+        });
     }
     
     public APCMailbox(ThreadManager threadManager) {
@@ -57,15 +72,6 @@ final public class APCMailbox implements APCQueue, ActiveEventProcessor<APCMessa
 
     public void setCurrentRequest(APCRequest currentRequest) {
         this.currentRequest = currentRequest;
-    }
-
-    /**
-     * The haveEvents method is called when
-     * there may be one or more pending events.
-     */
-    @Override
-    public void haveEvents() {
-        dispatchEvents();
     }
 
     /**
@@ -138,21 +144,5 @@ final public class APCMailbox implements APCQueue, ActiveEventProcessor<APCMessa
     @Override
     public void response(Object data) {
         currentRequest.response(this, data);
-    }
-    
-    /**
-     * The processMessage method is called when there is an incoming event to process.
-     *
-     * @param event The event to be processed.
-     */
-    @Override
-    public void processEvent(APCMessage event) {
-        if (event instanceof APCRequest) requestProcessor.processEvent((APCRequest) event);
-        else processResponse((APCResponse) event);
-    }
-
-    private void processResponse(APCResponse apcResponse) {
-        currentRequest = apcResponse.getOldAPCRequest();
-        apcResponse.getResponseDestination().processResult(apcResponse.getData());
     }
 }
