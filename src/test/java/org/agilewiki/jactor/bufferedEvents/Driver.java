@@ -16,7 +16,7 @@ final public class Driver extends JABufferedEventsActor<Object> {
         senders = new Sender[p];
         while (i < p) {
             senders[i] = new Sender(threadManager, c, b);
-            senders[i].setInitialBufferCapacity(b+10);
+            senders[i].setInitialBufferCapacity(b + 10);
             i += 1;
         }
     }

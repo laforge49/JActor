@@ -27,5 +27,6 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 
 public interface APCRequestSource {
     BufferedEventsDestination<APCMessage> bufferedEventsDestination();
+
     void responseFrom(APCQueue respondingMailbox, APCResponse apcResponse);
 }

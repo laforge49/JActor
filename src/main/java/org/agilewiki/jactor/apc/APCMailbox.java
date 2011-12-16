@@ -32,7 +32,7 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 import java.util.ArrayList;
 
 final public class APCMailbox implements APCQueue {
-    
+
     private APCRequest currentRequest;
 
     private BufferedEventsQueue<APCMessage> eventQueue;
@@ -44,7 +44,7 @@ final public class APCMailbox implements APCQueue {
 
     public APCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>(){
+        eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();
@@ -61,7 +61,7 @@ final public class APCMailbox implements APCQueue {
             }
         });
     }
-    
+
     public APCMailbox(ThreadManager threadManager) {
         this(new JABufferedEventsQueue<APCMessage>(threadManager));
     }

@@ -24,18 +24,18 @@
 package org.agilewiki.jactor.apc;
 
 public class APCRequest extends APCMessage {
-    
+
     private APCRequestSource requestSource;
-    
+
     private ResponseDestination responseDestination;
-    
+
     private APCRequest oldRequest;
-    
+
     public APCRequest(APCRequestSource requestSource, ResponseDestination responseDestination) {
         this.requestSource = requestSource;
         this.responseDestination = responseDestination;
     }
-    
+
     final public APCRequestSource getRequestSource() {
         return requestSource;
     }
@@ -51,7 +51,7 @@ public class APCRequest extends APCMessage {
     final public APCRequest getOldRequest() {
         return oldRequest;
     }
-    
+
     public void response(APCQueue respondingMailbox, Object data) {
         requestSource.responseFrom(respondingMailbox, new APCResponse(data));
     }

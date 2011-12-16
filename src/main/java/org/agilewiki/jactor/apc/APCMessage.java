@@ -23,4 +23,5 @@
  */
 package org.agilewiki.jactor.apc;
 
-abstract public class APCMessage {}
+abstract public class APCMessage {
+}

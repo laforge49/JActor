@@ -26,9 +26,9 @@ package org.agilewiki.jactor.apc;
 final public class APCResponse extends APCMessage {
 
     private Object data;
-    
+
     private APCRequest apcRequest;
-    
+
     public APCResponse(Object data) {
         this.data = data;
     }
@@ -36,11 +36,11 @@ final public class APCResponse extends APCMessage {
     public Object getData() {
         return data;
     }
-    
+
     public void setApcRequest(APCRequest apcRequest) {
         this.apcRequest = apcRequest;
     }
-    
+
     public APCRequest getOldAPCRequest() {
         return apcRequest.getOldRequest();
     }

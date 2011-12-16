@@ -15,7 +15,7 @@ public class Sender extends JABufferedEventsActor<Object> {
     public Sender(ThreadManager threadManager, int c, int b) {
         super(threadManager);
         echo = new Echo(threadManager);
-        echo.setInitialBufferCapacity(b+10);
+        echo.setInitialBufferCapacity(b + 10);
         count = c;
         burst = b;
     }
