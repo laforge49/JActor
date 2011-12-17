@@ -23,19 +23,8 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
-abstract public class JAPCRequestSource {
-    private ExceptionHandler exceptionHandler;
-
-    final public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
-    }
-
-    final public void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
-    }
-
+public interface RequestSource {
     abstract public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse);
 }

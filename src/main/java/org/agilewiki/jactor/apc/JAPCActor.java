@@ -52,7 +52,7 @@ abstract public class JAPCActor implements APCActor {
         }
     };
 
-    private JAPCRequestSource japcRequestSource = new JAPCRequestSource() {
+    private RequestSource requestSource = new RequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
             eventQueue.send(JAPCActor.this, apcResponse);
@@ -79,7 +79,6 @@ abstract public class JAPCActor implements APCActor {
         this.mailbox = mailbox;
         mailbox.setRequestProcessor(requestProcessor);
         this.mailbox = mailbox;
-        System.out.println(mailbox);
     }
 
     /**
@@ -103,15 +102,15 @@ abstract public class JAPCActor implements APCActor {
     }
 
     final protected ExceptionHandler getExceptionHandler() {
-        return japcRequestSource.getExceptionHandler();
+        return mailbox.getExceptionHandler();
     }
 
     final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        japcRequestSource.setExceptionHandler(exceptionHandler);
+        mailbox.setExceptionHandler(exceptionHandler);
     }
 
     final protected void send(APCActor actor, Object data, ResponseDestination responseDestination) {
-        APCRequest apcRequest = new APCRequest(japcRequestSource, data, responseDestination);
+        APCRequest apcRequest = new APCRequest(requestSource, data, responseDestination);
         mailbox.send(actor, apcRequest);
     }
 

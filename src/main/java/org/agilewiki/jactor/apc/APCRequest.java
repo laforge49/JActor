@@ -27,7 +27,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 public class APCRequest extends APCMessage {
 
-    private JAPCRequestSource requestSource;
+    private RequestSource requestSource;
 
     private Object data;
 
@@ -35,7 +35,7 @@ public class APCRequest extends APCMessage {
 
     private APCRequest oldRequest;
 
-    public APCRequest(JAPCRequestSource requestSource,
+    public APCRequest(RequestSource requestSource,
                       Object data,
                       ResponseDestination responseDestination) {
         this.requestSource = requestSource;
@@ -43,7 +43,7 @@ public class APCRequest extends APCMessage {
         this.responseDestination = responseDestination;
     }
 
-    final public JAPCRequestSource getRequestSource() {
+    final public RequestSource getRequestSource() {
         return requestSource;
     }
 
@@ -61,10 +61,6 @@ public class APCRequest extends APCMessage {
 
     final public APCRequest getOldRequest() {
         return oldRequest;
-    }
-
-    final public ExceptionHandler getExceptionHandler() {
-        return requestSource.getExceptionHandler();
     }
 
     public void response(BufferedEventsQueue<APCMessage> eventQueue, Object data) {

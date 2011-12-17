@@ -8,7 +8,6 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 public class Doer extends JAPCActor {
     public Doer(ThreadManager threadManager) {
         super(threadManager);
-        System.out.println("Doer constructed "+this);
     }
 
     @Override
@@ -17,12 +16,10 @@ public class Doer extends JAPCActor {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
-                System.out.println("Exception caught by Doer");
-                exception.printStackTrace();
+                System.out.println("Exception caught by Doer "+rd);
                 rd.process(null);
             }
         });
-        System.out.println("Doer "+getExceptionHandler());
         if (data instanceof T1) {
             throw new Exception("Exception thrown in request processing");
         } else {

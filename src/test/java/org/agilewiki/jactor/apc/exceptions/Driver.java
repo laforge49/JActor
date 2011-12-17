@@ -10,7 +10,6 @@ public class Driver extends JAPCActor {
     
     public Driver(ThreadManager threadManager) {
         super(threadManager);
-        System.out.println("Driver constructed "+this);
         doer = new Doer(threadManager);
     }
 
@@ -20,8 +19,7 @@ public class Driver extends JAPCActor {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
-                System.out.println("Exception caught by Driver");
-                exception.printStackTrace();
+                System.out.println("Exception caught by Driver "+rd);
                 rd.process(null);
             }
         });

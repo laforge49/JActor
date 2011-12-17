@@ -48,4 +48,8 @@ public interface APCMailbox extends BufferedEventsDestination<APCMessage>, Reque
     public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request);
 
     public void response(Object data);
+
+    public ExceptionHandler getExceptionHandler();
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler);
 }

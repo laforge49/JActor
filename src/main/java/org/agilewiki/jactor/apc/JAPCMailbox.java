@@ -40,7 +40,9 @@ final public class JAPCMailbox implements APCMailbox {
     /**
      * The requestProcessor is used to process requests.
      */
-    ActiveRequestProcessor requestProcessor;
+    private ActiveRequestProcessor requestProcessor;
+
+    private ExceptionHandler exceptionHandler;
 
     public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
@@ -75,7 +77,6 @@ final public class JAPCMailbox implements APCMailbox {
 
             private void processException(Exception ex) {
                 ExceptionHandler exceptionHandler = getExceptionHandler();
-                System.out.println("process exception "+exceptionHandler+" "+JAPCMailbox.this);
                 if (exceptionHandler == null) response(ex);
                 else try {
                     exceptionHandler.process(ex);
@@ -99,7 +100,11 @@ final public class JAPCMailbox implements APCMailbox {
     }
 
     public ExceptionHandler getExceptionHandler() {
-        return currentRequest.getExceptionHandler();
+        return exceptionHandler;
+    }
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
     /**

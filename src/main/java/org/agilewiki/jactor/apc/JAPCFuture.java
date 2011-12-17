@@ -50,7 +50,7 @@ public class JAPCFuture {
                 }
             };
 
-    private JAPCRequestSource japcRequestSource = new JAPCRequestSource() {
+    private RequestSource requestSource = new RequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
             eventQueue.send(bufferedEventsDestination, apcResponse);
@@ -59,7 +59,7 @@ public class JAPCFuture {
 
     public Object send(APCActor actor, Object data) throws Exception {
         done = new Semaphore(0);
-        APCRequest apcRequest = new APCRequest(japcRequestSource, data, null);
+        APCRequest apcRequest = new APCRequest(requestSource, data, null);
         ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
         bufferedEvents.add(apcRequest);
         actor.putBufferedEvents(bufferedEvents);
