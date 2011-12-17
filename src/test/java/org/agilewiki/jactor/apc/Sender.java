@@ -2,7 +2,7 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-public class Sender extends JAPCActor {
+final public class Sender extends JAPCActor {
 
     private Echo echo;
     private final int count;

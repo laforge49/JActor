@@ -2,7 +2,7 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-public class Echo extends JAPCActor {
+final public class Echo extends JAPCActor {
 
     public Echo(ThreadManager threadManager) {
         super(threadManager);
