@@ -40,7 +40,7 @@ final public class JAPCMailbox implements APCMailbox {
     /**
      * The requestProcessor is used to process requests.
      */
-    ActiveEventProcessor<APCRequest> requestProcessor;
+    ActiveRequestProcessor requestProcessor;
 
     public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
@@ -55,7 +55,7 @@ final public class JAPCMailbox implements APCMailbox {
                 if (event instanceof APCRequest) {
                     currentRequest = (APCRequest) event;
                     try {
-                        requestProcessor.processEvent(currentRequest);
+                        requestProcessor.processRequest(currentRequest);
                     } catch (Exception ex) {
                         processException(ex);
                     }
@@ -101,17 +101,13 @@ final public class JAPCMailbox implements APCMailbox {
         return currentRequest.getExceptionHandler();
     }
 
-    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        currentRequest.setExceptionHandler(exceptionHandler);
-    }
-
     /**
      * Specifies the object which will process the dispatched events.
      *
      * @param requestProcessor Processes the dispatched events.
      */
     @Override
-    public void setEventProcessor(ActiveEventProcessor<APCRequest> requestProcessor) {
+    public void setRequestProcessor(ActiveRequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }
 

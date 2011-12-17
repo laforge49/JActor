@@ -50,24 +50,22 @@ public class JAPCFuture {
                 }
             };
 
-    private APCRequestSource apcRequestSource = new APCRequestSource() {
+    private JAPCRequestSource japcRequestSource = new JAPCRequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
             eventQueue.send(bufferedEventsDestination, apcResponse);
         }
     };
 
-    public Object send(APCActor actor, Object data) {
+    public Object send(APCActor actor, Object data) throws Exception {
         done = new Semaphore(0);
-        APCRequest apcRequest = new APCRequest(apcRequestSource, data, null);
+        APCRequest apcRequest = new APCRequest(japcRequestSource, data, null);
         ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
         bufferedEvents.add(apcRequest);
         actor.putBufferedEvents(bufferedEvents);
-        try {
-            done.acquire();
-        } catch (InterruptedException e) {
-        }
+        done.acquire();
         done = null;
+        if (result instanceof Exception) throw (Exception) result;
         return result;
     }
 }

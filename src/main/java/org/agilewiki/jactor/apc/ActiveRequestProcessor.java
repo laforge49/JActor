@@ -23,6 +23,6 @@
  */
 package org.agilewiki.jactor.apc;
 
-public interface APCFunction {
-    public void process(ResponseDestination responseDestination) throws Exception;
+public interface ActiveRequestProcessor extends RequestProcessor {
+    public void haveEvents();
 }

@@ -17,12 +17,12 @@ final public class Sender extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd1) {
+    protected void processRequest(final Object data, final ResponseDestination rd1) throws Exception {
         iterate(new APCFunction() {
             int i = 0;
 
             @Override
-            public void process(final ResponseDestination rd2) {
+            public void process(final ResponseDestination rd2) throws Exception {
                 if (i > count) rd2.process(this);
                 else {
                     i += 1;
@@ -30,7 +30,7 @@ final public class Sender extends JAPCActor {
                         int r = burst;
 
                         @Override
-                        public void process(Object result) {
+                        public void process(Object result) throws Exception {
                             r -= 1;
                             if (r == 0) rd2.process(null);
                         }

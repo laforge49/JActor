@@ -25,7 +25,6 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
 
 import java.util.ArrayList;
 
@@ -36,14 +35,14 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Handles callbacks from the inbox.
      */
-    private ActiveEventProcessor<APCRequest> eventProcessor = new ActiveEventProcessor<APCRequest>() {
+    private ActiveRequestProcessor requestProcessor = new ActiveRequestProcessor() {
         @Override
         public void haveEvents() {
             mailbox.dispatchEvents();
         }
 
         @Override
-        public void processEvent(APCRequest request) {
+        public void processRequest(APCRequest request) throws Exception {
             JAPCActor.this.processRequest(request.getData(), new ResponseDestination(){
                 @Override
                 public void process(Object result) {
@@ -53,7 +52,7 @@ abstract public class JAPCActor implements APCActor {
         }
     };
 
-    private APCRequestSource apcRequestSource = new APCRequestSource() {
+    private JAPCRequestSource japcRequestSource = new JAPCRequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
             eventQueue.send(JAPCActor.this, apcResponse);
@@ -78,7 +77,7 @@ abstract public class JAPCActor implements APCActor {
      */
     public JAPCActor(APCMailbox mailbox) {
         this.mailbox = mailbox;
-        mailbox.setEventProcessor(eventProcessor);
+        mailbox.setRequestProcessor(requestProcessor);
         this.mailbox = mailbox;
     }
 
@@ -102,16 +101,24 @@ abstract public class JAPCActor implements APCActor {
         mailbox.putBufferedEvents(bufferedEvents);
     }
 
+    final protected ExceptionHandler getExceptionHandler() {
+        return japcRequestSource.getExceptionHandler();
+    }
+
+    final protected void SetExceptionHandler(ExceptionHandler exceptionHandler) {
+        japcRequestSource.setExceptionHandler(exceptionHandler);
+    }
+
     final protected void send(APCActor actor, Object data, ResponseDestination responseDestination) {
-        APCRequest apcRequest = new APCRequest(apcRequestSource, data, responseDestination);
+        APCRequest apcRequest = new APCRequest(japcRequestSource, data, responseDestination);
         mailbox.send(actor, apcRequest);
     }
 
     final protected void iterate(final APCFunction apcFunction,
-                                 final ResponseDestination responseDestination) {
+                                 final ResponseDestination responseDestination) throws Exception {
         ResponseDestination rd = new ResponseDestination() {
             @Override
-            public void process(Object result) {
+            public void process(Object result) throws Exception {
                 if (result == null)
                     apcFunction.process(this);
                 else responseDestination.process(result);
@@ -120,5 +127,6 @@ abstract public class JAPCActor implements APCActor {
         apcFunction.process(rd);
     }
 
-    abstract protected void processRequest(Object data, ResponseDestination responseDestination);
+    abstract protected void processRequest(Object data, ResponseDestination responseDestination)
+            throws Exception;
 }

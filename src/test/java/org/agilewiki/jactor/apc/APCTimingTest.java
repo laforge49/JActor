@@ -4,12 +4,12 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-public class APCTimingTest extends TestCase {
+final public class APCTimingTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 1;
-        //int t = 1;
+        int c = 2;
+        int b = 3;
+        int p = 1;
+        int t = 1;
 
         //int c = 100000;
         //int b = 1000;
@@ -22,10 +22,10 @@ public class APCTimingTest extends TestCase {
         //msgs per sec = 49578582
         //20 nanoseconds per message
 
-        int c = 25000;
-        int b = 1000;
-        int p = 16;
-        int t = 4;
+        //int c = 25000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 4;
 
         //burst size of 1000
         //16 parallel runs of 50000000 messages each.
@@ -57,6 +57,8 @@ public class APCTimingTest extends TestCase {
             System.out.println("" + (p * 2 * c * b) + " messages sent with " + t + " threads.");
             if (t1 != t0)
                 System.out.println("msgs per sec = " + ((c * b * p * 2L) * 1000L / (t1 - t0)));
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             threadManager.close();
         }

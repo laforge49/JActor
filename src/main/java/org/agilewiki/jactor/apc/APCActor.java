@@ -25,5 +25,4 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsActor;
 
-public interface APCActor extends BufferedEventsActor<APCMessage> {
-}
+public interface APCActor extends BufferedEventsActor<APCMessage> {}

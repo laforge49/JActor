@@ -19,12 +19,12 @@ final public class Driver extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd1) {
+    protected void processRequest(final Object data, final ResponseDestination rd1) throws Exception {
         ResponseDestination rd2 = new ResponseDestination() {
             int r = p;
             
             @Override
-            public void process(Object result) {
+            public void process(Object result) throws Exception {
                 r -= 1;
                 if (r == 0) rd1.process(null);
             }

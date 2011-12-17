@@ -9,7 +9,8 @@ final public class Echo extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(Object data, ResponseDestination responseDestination) {
+    protected void processRequest(Object data, ResponseDestination responseDestination)
+            throws Exception {
         responseDestination.process(null);
     }
 }
