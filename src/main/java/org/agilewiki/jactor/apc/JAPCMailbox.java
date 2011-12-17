@@ -75,6 +75,7 @@ final public class JAPCMailbox implements APCMailbox {
 
             private void processException(Exception ex) {
                 ExceptionHandler exceptionHandler = getExceptionHandler();
+                System.out.println("process exception "+exceptionHandler+" "+JAPCMailbox.this);
                 if (exceptionHandler == null) response(ex);
                 else try {
                     exceptionHandler.process(ex);

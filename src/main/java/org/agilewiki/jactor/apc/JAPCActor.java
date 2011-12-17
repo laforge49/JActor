@@ -79,6 +79,7 @@ abstract public class JAPCActor implements APCActor {
         this.mailbox = mailbox;
         mailbox.setRequestProcessor(requestProcessor);
         this.mailbox = mailbox;
+        System.out.println(mailbox);
     }
 
     /**
@@ -105,7 +106,7 @@ abstract public class JAPCActor implements APCActor {
         return japcRequestSource.getExceptionHandler();
     }
 
-    final protected void SetExceptionHandler(ExceptionHandler exceptionHandler) {
+    final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
         japcRequestSource.setExceptionHandler(exceptionHandler);
     }
 

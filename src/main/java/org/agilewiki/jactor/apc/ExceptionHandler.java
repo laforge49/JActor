@@ -24,5 +24,5 @@
 package org.agilewiki.jactor.apc;
 
 public interface ExceptionHandler {
-    void process(Exception exception);
+    void process(Exception exception) throws Exception;
 }
