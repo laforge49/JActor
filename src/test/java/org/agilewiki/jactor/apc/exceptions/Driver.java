@@ -19,7 +19,7 @@ public class Driver extends JAPCActor {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
-                System.out.println("Exception caught by Driver "+rd);
+                System.out.println("Exception caught by Driver");
                 rd.process(null);
             }
         });

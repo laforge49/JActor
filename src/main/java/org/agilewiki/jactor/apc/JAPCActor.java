@@ -109,8 +109,17 @@ abstract public class JAPCActor implements APCActor {
         mailbox.setExceptionHandler(exceptionHandler);
     }
 
-    final protected void send(APCActor actor, Object data, ResponseDestination responseDestination) {
-        APCRequest apcRequest = new APCRequest(requestSource, data, responseDestination);
+    final protected void send(final APCActor actor, final Object data, final ResponseDestination rd1) {
+        ResponseDestination rd2 = rd1;
+        final ExceptionHandler exceptionHandler = mailbox.getExceptionHandler();
+        if (exceptionHandler != null) rd2 = new ResponseDestination() {
+            @Override
+            public void process(Object result) throws Exception {
+                mailbox.setExceptionHandler(exceptionHandler);
+                rd1.process(result);
+            }
+        };
+        APCRequest apcRequest = new APCRequest(requestSource, data, rd2);
         mailbox.send(actor, apcRequest);
     }
 

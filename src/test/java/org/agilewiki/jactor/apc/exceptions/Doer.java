@@ -16,7 +16,7 @@ public class Doer extends JAPCActor {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
-                System.out.println("Exception caught by Doer "+rd);
+                System.out.println("Exception caught by Doer");
                 rd.process(null);
             }
         });
