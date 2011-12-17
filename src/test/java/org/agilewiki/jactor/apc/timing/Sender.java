@@ -1,5 +1,8 @@
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.apc.timing;
 
+import org.agilewiki.jactor.apc.APCFunction;
+import org.agilewiki.jactor.apc.JAPCActor;
+import org.agilewiki.jactor.apc.ResponseDestination;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class Sender extends JAPCActor {

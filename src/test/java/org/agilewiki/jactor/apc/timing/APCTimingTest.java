@@ -1,6 +1,7 @@
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.apc.timing;
 
 import junit.framework.TestCase;
+import org.agilewiki.jactor.apc.JAPCFuture;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
