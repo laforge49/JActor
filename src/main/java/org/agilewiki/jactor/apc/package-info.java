@@ -30,10 +30,15 @@
  * </p>
  * <p>
  * Actors traditionally use one-way messaging, which can be difficult to understand when the code
- * of an actor becomes large. The apc package inst5ead uses messages to implement something closer
+ * of an actor becomes large. The apc package instead uses messages to implement something closer
  * to a method call. It also has the advantage of implicitly implementing flow control--which tends
  * to result in systems that behave well under load.
  * </p>
+ * </p>
+ * Another advantage of using two-way messages is improved exception handling. If an exception is
+ * thrown while processing a request and there is no exception handler, then the exception is
+ * passed up to the actor which sent the request, recursively.
+ * <p>
  */
 
 package org.agilewiki.jactor.apc;

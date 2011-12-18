@@ -152,6 +152,9 @@ final public class JAPCMailbox implements APCMailbox {
 
     @Override
     public void response(Object data) {
-        currentRequest.response(eventQueue, data);
+        if (currentRequest.isActive()) {
+            currentRequest.inactive();
+            currentRequest.response(eventQueue, data);
+        }
     }
 }

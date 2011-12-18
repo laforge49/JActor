@@ -37,6 +37,8 @@ public class APCRequest extends APCMessage {
 
     private APCRequest oldRequest;
 
+    private boolean active = true;
+
     public APCRequest(RequestSource requestSource,
                       RequestProcessor requestProcessor,
                       Object data,
@@ -73,6 +75,14 @@ public class APCRequest extends APCMessage {
 
     final public APCRequest getOldRequest() {
         return oldRequest;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void inactive() {
+        active = false;
     }
 
     public void response(BufferedEventsQueue<APCMessage> eventQueue, Object data) {
