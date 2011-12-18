@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 public interface RequestDispatcher {
-    public void setRequestProcessor(ActiveRequestProcessor requestProcessor);
+    public void setRequestProcessor(RequestProcessor requestProcessor);
     public boolean isEmpty();
     public boolean dispatchEvents();
 }

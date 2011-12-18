@@ -27,8 +27,6 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-import java.util.ArrayList;
-
 abstract public class JAPCActor implements APCActor {
 
     private APCMailbox mailbox;
@@ -36,7 +34,7 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Handles callbacks from the inbox.
      */
-    private ActiveRequestProcessor requestProcessor = new ActiveRequestProcessor() {
+    private RequestProcessor requestProcessor = new RequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
         public ExceptionHandler getExceptionHandler() {

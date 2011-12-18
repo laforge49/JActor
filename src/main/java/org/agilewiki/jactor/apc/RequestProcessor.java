@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
-public interface ActiveRequestProcessor {
+public interface RequestProcessor {
     public void haveEvents();
     public void processRequest(APCRequest apcRequest) throws Exception;
     public ExceptionHandler getExceptionHandler();
