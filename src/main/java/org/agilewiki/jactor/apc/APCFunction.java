@@ -23,6 +23,15 @@
  */
 package org.agilewiki.jactor.apc;
 
+/**
+ * A function. Used by JAPCActor.interate.
+ */
 public interface APCFunction {
+    /**
+     * Call the function.
+     *
+     * @param responseProcessor Processes the response.
+     * @throws Exception An exception raised when the function is called.
+     */
     public void process(ResponseProcessor responseProcessor) throws Exception;
 }
