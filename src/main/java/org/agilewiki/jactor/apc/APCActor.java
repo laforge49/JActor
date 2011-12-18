@@ -29,7 +29,7 @@ package org.agilewiki.jactor.apc;
 public interface APCActor {
 
     /**
-     * Wraps and enqueues a request in the requester's outbox.
+     * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
      * @param requestSource    The originator of the request.
      * @param unwrappedRequest The unwrapped request to be sent.

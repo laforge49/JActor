@@ -27,12 +27,18 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * An implementation of APCActor.
+ */
 abstract public class JAPCActor implements APCActor {
 
+    /**
+     * The inbox and outbox of the actor.
+     */
     private APCMailbox mailbox;
 
     /**
-     * Handles callbacks from the inbox.
+     * Handles callbacks from the mailbox.
      */
     private RequestProcessor requestProcessor = new RequestProcessor() {
         private ExceptionHandler exceptionHandler;
@@ -61,24 +67,15 @@ abstract public class JAPCActor implements APCActor {
         }
     };
 
+    /**
+     * Serves as the originator of requests sent to other actors.
+     */
     private RequestSource requestSource = new RequestSource() {
-        /**
-         * Enqueues the response in the responder's outbox.
-         *
-         * @param eventQueue The responder's outbox.
-         * @param japcResponse The response to be enqueued.
-         */
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
-        /**
-         * Sends a request to a mailbox.
-         *
-         * @param destination The mailbox which is to receive the request.
-         * @param japcRequest The wrapped request to be sent.
-         */
         @Override
         public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
             mailbox.send(destination, japcRequest);
@@ -96,8 +93,8 @@ abstract public class JAPCActor implements APCActor {
 
     /**
      * Create a JAEventActor
-     * Use this constructor when providing an implementation of BufferedEventsQueue
-     * other than JABufferedEventsQueue.
+     * Use this constructor when providing an implementation of APCMailbox
+     * other than JAPCMailbox.
      *
      * @param mailbox The actor's mailbox.
      */
@@ -116,15 +113,32 @@ abstract public class JAPCActor implements APCActor {
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
     }
 
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
     final protected ExceptionHandler getExceptionHandler() {
         return requestProcessor.getExceptionHandler();
     }
 
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
     final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
         requestProcessor.setExceptionHandler(exceptionHandler);
     }
 
-    final protected void send(final APCActor actor, final Object data, final ResponseProcessor rd1) {
+    /**
+     * Send an unwrapped request to another actor.
+     *
+     * @param actor            The target actor.
+     * @param unwrappedRequest The unwrapped request.
+     * @param rd1              The response processor.
+     */
+    final protected void send(final APCActor actor, final Object unwrappedRequest, final ResponseProcessor rd1) {
         ResponseProcessor rd2 = rd1;
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
         if (exceptionHandler != null) rd2 = new ResponseProcessor() {
@@ -134,11 +148,11 @@ abstract public class JAPCActor implements APCActor {
                 rd1.process(unwrappedResponse);
             }
         };
-        actor.acceptRequest(requestSource, data, rd2);
+        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
     }
 
     /**
-     * Wraps and enqueues a request in the requester's outbox.
+     * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
      * @param requestSource    The originator of the request.
      * @param unwrappedRequest The unwrapped request to be sent.
@@ -152,6 +166,13 @@ abstract public class JAPCActor implements APCActor {
         requestSource.send(mailbox, japcRequest);
     }
 
+    /**
+     * Call a function repeatedly until the result is not null.
+     *
+     * @param apcFunction       Provides the function to be called.
+     * @param responseProcessor Processes the final, non-null result.
+     * @throws Exception Any uncaught exceptions raised when calling the provided function.
+     */
     final protected void iterate(final APCFunction apcFunction,
                                  final ResponseProcessor responseProcessor) throws Exception {
         ResponseProcessor rd = new ResponseProcessor() {
@@ -165,6 +186,13 @@ abstract public class JAPCActor implements APCActor {
         apcFunction.process(rd);
     }
 
-    abstract protected void processRequest(Object data, ResponseProcessor responseProcessor)
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param unwrappedRequest  An unwrapped request.
+     * @param responseProcessor The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
             throws Exception;
 }

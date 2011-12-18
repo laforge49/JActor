@@ -48,6 +48,8 @@ final public class JAPCMailbox implements APCMailbox {
 
     /**
      * Create a JAPCMailbox.
+     * Use this constructor when providing an implementation of BufferedEventsQueue
+     * other than JABufferedEventsQueue.
      *
      * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
      */

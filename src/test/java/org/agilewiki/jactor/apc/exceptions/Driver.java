@@ -14,7 +14,7 @@ public class Driver extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseProcessor rd)
+    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -23,10 +23,10 @@ public class Driver extends JAPCActor {
                 rd.process(null);
             }
         });
-        if (data instanceof T1) {
-            send(doer, data, rd);
+        if (unwrappedRequest instanceof T1) {
+            send(doer, unwrappedRequest, rd);
         } else {
-            send(doer, data, new ResponseProcessor() {
+            send(doer, unwrappedRequest, new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) throws Exception {
                     throw new Exception("Exception thrown in response processing");

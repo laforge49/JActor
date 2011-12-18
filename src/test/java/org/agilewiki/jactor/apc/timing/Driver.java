@@ -21,7 +21,7 @@ final public class Driver extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseProcessor rd1) throws Exception {
+    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
         ResponseProcessor rd2 = new ResponseProcessor() {
             int r = p;
 

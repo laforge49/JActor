@@ -11,7 +11,7 @@ public class Doer extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseProcessor rd)
+    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -20,10 +20,10 @@ public class Doer extends JAPCActor {
                 rd.process(null);
             }
         });
-        if (data instanceof T1) {
+        if (unwrappedRequest instanceof T1) {
             throw new Exception("Exception thrown in request processing");
         } else {
-            rd.process(data);
+            rd.process(unwrappedRequest);
         }
     }
 }

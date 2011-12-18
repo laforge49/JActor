@@ -20,7 +20,7 @@ final public class Sender extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseProcessor rd1) throws Exception {
+    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
         iterate(new APCFunction() {
             int i = 0;
 

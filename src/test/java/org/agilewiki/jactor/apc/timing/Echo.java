@@ -11,7 +11,7 @@ final public class Echo extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(Object data, ResponseProcessor responseProcessor)
+    protected void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
             throws Exception {
         responseProcessor.process(null);
     }
