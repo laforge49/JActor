@@ -93,7 +93,7 @@ final public class JAPCMailbox implements APCMailbox {
     }
 
     /**
-     * The isEmpty method returns true when there are no pending events,
+     * The isEmpty method returns true when there are no pending messages,
      * though the results may not always be correct due to concurrency issues.
      */
     @Override
@@ -102,8 +102,8 @@ final public class JAPCMailbox implements APCMailbox {
     }
 
     /**
-     * The dispatchEvents method processes any events in the queue.
-     * True is returned if any events were actually processed.
+     * The dispatchMessages method processes any messages in the queue.
+     * True is returned if any messages were actually processed.
      */
     @Override
     public boolean dispatchEvents() {
@@ -121,17 +121,17 @@ final public class JAPCMailbox implements APCMailbox {
     }
 
     /**
-     * Send any pending events.
+     * Send any pending Messages.
      */
     @Override
-    public void sendPendingEvents() {
+    public void sendPendingMessages() {
         eventQueue.sendPendingEvents();
     }
 
     /**
-     * Set the initial capacity for buffered outgoing events.
+     * Set the initial capacity for buffered outgoing messages.
      *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
     public void setInitialBufferCapacity(int initialBufferCapacity) {
@@ -139,7 +139,7 @@ final public class JAPCMailbox implements APCMailbox {
     }
 
     /**
-     * Buffer the event for subsequent sending.
+     * Buffer the request for subsequent sending.
      *
      * @param destination Buffered events receiver.
      * @param request     The request to be sent.
@@ -150,11 +150,16 @@ final public class JAPCMailbox implements APCMailbox {
         eventQueue.send(destination, request);
     }
 
+    /**
+     * Return the response for processing.
+     *
+     * @param unwrappedResponse
+     */
     @Override
-    public void response(Object data) {
+    public void response(Object unwrappedResponse) {
         if (currentRequest.isActive()) {
             currentRequest.inactive();
-            currentRequest.response(eventQueue, data);
+            currentRequest.response(eventQueue, unwrappedResponse);
         }
     }
 }

@@ -23,15 +23,26 @@
  */
 package org.agilewiki.jactor.apc;
 
+/**
+ * An actor which works with two-way messages and supports an event handler.
+ */
 public interface APCActor {
+
+    /**
+     * Wraps and enqueues a request in the requester's outbox.
+     *
+     * @param requestSource    The originator of the request.
+     * @param unwrappedRequest The unwrapped request to be sent.
+     * @param rd               The request processor.
+     */
     void acceptRequest(RequestSource requestSource,
-                       Object data,
+                       Object unwrappedRequest,
                        ResponseProcessor rd);
 
     /**
-     * Set the initial capacity for buffered outgoing events.
+     * Set the initial capacity for buffered outgoing messages.
      *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     public void setInitialBufferCapacity(int initialBufferCapacity);
 }

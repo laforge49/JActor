@@ -107,9 +107,9 @@ abstract public class JAPCActor implements APCActor {
     }
 
     /**
-     * Set the initial capacity for buffered outgoing events.
+     * Set the initial capacity for buffered outgoing messages.
      *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
     final public void setInitialBufferCapacity(int initialBufferCapacity) {
@@ -137,11 +137,18 @@ abstract public class JAPCActor implements APCActor {
         actor.acceptRequest(requestSource, data, rd2);
     }
 
+    /**
+     * Wraps and enqueues a request in the requester's outbox.
+     *
+     * @param requestSource    The originator of the request.
+     * @param unwrappedRequest The unwrapped request to be sent.
+     * @param rd               The request processor.
+     */
     @Override
     final public void acceptRequest(RequestSource requestSource,
-                                    Object data,
+                                    Object unwrappedRequest,
                                     ResponseProcessor rd) {
-        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, data, rd);
+        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
         requestSource.send(mailbox, japcRequest);
     }
 

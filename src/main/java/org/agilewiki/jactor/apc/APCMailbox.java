@@ -25,30 +25,46 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 
+/**
+ * Serves as the asynchronous transport for APCMessages.
+ */
 public interface APCMailbox extends BufferedEventsDestination<APCMessage> {
     /**
-     * Send any pending events.
+     * Send any pending messages.
      */
-    public void sendPendingEvents();
+    public void sendPendingMessages();
 
     /**
-     * Set the initial capacity for buffered outgoing events.
+     * Set the initial capacity for buffered outgoing messages.
      *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     public void setInitialBufferCapacity(int initialBufferCapacity);
 
     /**
-     * Buffer the event for subsequent sending.
+     * Buffer the request for subsequent sending.
      *
      * @param destination Buffered events receiver.
      * @param request     The request to be sent.
      */
     public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest request);
 
-    public void response(Object data);
+    /**
+     * Return the response for processing.
+     *
+     * @param unwrappedResponse
+     */
+    public void response(Object unwrappedResponse);
 
+    /**
+     * The isEmpty method returns true when there are no pending messages,
+     * though the results may not always be correct due to concurrency issues.
+     */
     public boolean isEmpty();
 
+    /**
+     * The dispatchMessages method processes any messages in the queue.
+     * True is returned if any messages were actually processed.
+     */
     public boolean dispatchEvents();
 }
