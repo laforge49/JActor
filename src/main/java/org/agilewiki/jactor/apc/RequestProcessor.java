@@ -23,12 +23,34 @@
  */
 package org.agilewiki.jactor.apc;
 
+/**
+ * Processes events and manages events and an exception handler.
+ */
 public interface RequestProcessor {
+    /**
+     * A notification that there are incoming requests and responses that are ready for processing.
+     */
     public void haveEvents();
 
+    /**
+     * Process a wrapped request.
+     *
+     * @param japcRequest The wrapped request.
+     * @throws Exception An exception thrown while processing the request.
+     */
     public void processRequest(JAPCRequest japcRequest) throws Exception;
 
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
     public ExceptionHandler getExceptionHandler();
 
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
     public void setExceptionHandler(ExceptionHandler exceptionHandler);
 }

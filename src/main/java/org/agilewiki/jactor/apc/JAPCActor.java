@@ -62,11 +62,23 @@ abstract public class JAPCActor implements APCActor {
     };
 
     private RequestSource requestSource = new RequestSource() {
+        /**
+         * Enqueues the response in the responder's outbox.
+         *
+         * @param eventQueue The responder's outbox.
+         * @param japcResponse The response to be enqueued.
+         */
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
+        /**
+         * Sends a request to a mailbox.
+         *
+         * @param destination The mailbox which is to receive the request.
+         * @param japcRequest The wrapped request to be sent.
+         */
         @Override
         public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
             mailbox.send(destination, japcRequest);

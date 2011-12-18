@@ -26,8 +26,23 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
+/**
+ * The originator of a request.
+ */
 public interface RequestSource {
+    /**
+     * Enqueues the response in the responder's outbox.
+     *
+     * @param eventQueue   The responder's outbox.
+     * @param japcResponse The wrapped response to be enqueued.
+     */
     abstract public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse);
 
+    /**
+     * Sends a request to a mailbox.
+     *
+     * @param destination The mailbox which is to receive the request.
+     * @param japcRequest The wrapped request to be sent.
+     */
     public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest);
 }
