@@ -32,7 +32,7 @@
  * An echo test running multiple pairs with 1000 messages per burst processed 85 million
  * messages per second--12 nanoseconds per message. But when messages are sent one at a
  * time, only 4468654 messages are processed per second--224 nanoseconds per message.
- * Sending messages in bursts, which simulates a system under load, is 1,867% faster.
+ * Sending messages in bursts, which simulates a system under load, is 1,767% faster.
  * </p>
  */
 package org.agilewiki.jactor.bufferedEvents;

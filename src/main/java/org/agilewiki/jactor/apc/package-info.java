@@ -38,7 +38,13 @@
  * Another advantage of using two-way messages is improved exception handling. If an exception is
  * thrown while processing a request and there is no exception handler, then the exception is
  * passed up to the actor which sent the request, recursively.
+ * </p>
  * <p>
+ * An echo test running multiple pairs with 1000 messages per burst processed 49 million
+ * messages per second--20 nanoseconds per message. But when messages are sent one at a
+ * time, only 4255319 messages are processed per second--235 nanoseconds per message.
+ * Sending messages in bursts, which simulates a system under load, is 1,075% faster.
+ * </p>
  */
 
 package org.agilewiki.jactor.apc;

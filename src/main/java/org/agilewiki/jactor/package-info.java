@@ -24,7 +24,7 @@
 
 /**
  * <p>
- * The JActor project implements actors in Java that can process 85 million messages per second.
+ * The JActor project implements actors in Java that can process 85 million 1-way messages per second.
  * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
  * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
@@ -33,8 +33,9 @@
  * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
  * </p>
  * <p>
- * An echo test running multiple pairs processed 85 million messages per second--12 nanoseconds
- * per message--using the JABufferedEventsActor.
+ * An echo test running multiple pairs processed 85 million 1-way messages per second--12 nanoseconds
+ * per message--using the JABufferedEventsActor. The JAPCActor processes 49 million 2-way message
+ * per second--20 nanoseconds per message--and supports exception processing.
  * </p>
  * <p>
  * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
