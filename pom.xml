@@ -6,7 +6,7 @@
 
     <groupId>JActor</groupId>
     <artifactId>JActor</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
     <name>JActor</name>
 
