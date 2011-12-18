@@ -7,7 +7,7 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 
 public class Driver extends JAPCActor {
     private Doer doer;
-    
+
     public Driver(ThreadManager threadManager) {
         super(threadManager);
         doer = new Doer(threadManager);
@@ -28,7 +28,7 @@ public class Driver extends JAPCActor {
         } else {
             send(doer, data, new ResponseProcessor() {
                 @Override
-                public void process(Object result) throws Exception {
+                public void process(Object unwrappedResponse) throws Exception {
                     throw new Exception("Exception thrown in response processing");
                 }
             });

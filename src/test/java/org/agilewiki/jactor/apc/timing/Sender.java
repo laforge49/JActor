@@ -33,7 +33,7 @@ final public class Sender extends JAPCActor {
                         int r = burst;
 
                         @Override
-                        public void process(Object result) throws Exception {
+                        public void process(Object unwrappedResponse) throws Exception {
                             r -= 1;
                             if (r == 0) rd2.process(null);
                         }

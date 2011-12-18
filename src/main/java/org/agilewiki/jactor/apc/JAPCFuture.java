@@ -44,16 +44,16 @@ public class JAPCFuture {
             new BufferedEventsDestination<APCMessage>() {
                 @Override
                 public void putBufferedEvents(ArrayList<APCMessage> bufferedEvents) {
-                    APCResponse apcResponse = (APCResponse) bufferedEvents.get(0);
-                    result = apcResponse.getResult();
+                    JAPCResponse japcResponse = (JAPCResponse) bufferedEvents.get(0);
+                    result = japcResponse.getUnwrappedResponse();
                     done.release();
                 }
             };
 
     private RequestSource requestSource = new RequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
-            eventQueue.send(bufferedEventsDestination, apcResponse);
+        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
+            eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override

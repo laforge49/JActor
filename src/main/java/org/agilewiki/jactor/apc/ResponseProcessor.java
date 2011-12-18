@@ -30,7 +30,7 @@ public interface ResponseProcessor {
     /**
      * Receives and processes a response.
      *
-     * @param result The response.
+     * @param unwrappedResponse The response.
      */
-    public void process(Object result) throws Exception;
+    public void process(Object unwrappedResponse) throws Exception;
 }

@@ -26,8 +26,8 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
- * Requests sent to an APCActor are wrapped by an JAPCRequest,
- * which is then passed to the APCMailbox.
+ * Requests sent to a JAPCActor are wrapped by an JAPCRequest,
+ * which is then passed to the JAPCMailbox.
  */
 public class JAPCRequest extends APCMessage {
 
@@ -67,9 +67,9 @@ public class JAPCRequest extends APCMessage {
     /**
      * Create an JAPCRequest.
      *
-     * @param requestSource The target of the response.
-     * @param requestProcessor The target of the request.
-     * @param unwrappedRequest The wrapped request.
+     * @param requestSource     The target of the response.
+     * @param requestProcessor  The target of the request.
+     * @param unwrappedRequest  The wrapped request.
      * @param responseProcessor Processes the response.
      */
     public JAPCRequest(RequestSource requestSource,
@@ -84,6 +84,7 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Returns the requestProcessor.
+     *
      * @return The requestProcessor.
      */
     final public RequestProcessor getRequestProcessor() {
@@ -92,6 +93,7 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Returns the exceptionHandler.
+     *
      * @return The exceptionHandler.
      */
     final public ExceptionHandler getExceptionHandler() {
@@ -100,6 +102,7 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Returns the unwrapped request.
+     *
      * @return The unwrapped request.
      */
     final public Object getUnwrappedRequest() {
@@ -108,6 +111,7 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Returns the responseProcessor.
+     *
      * @return The responseProcessor.
      */
     final public ResponseProcessor getResponseProcessor() {
@@ -117,6 +121,7 @@ public class JAPCRequest extends APCMessage {
     /**
      * Sets oldREquest to the request being processed when this request
      * was created.
+     *
      * @param oldRequest The request being processed when this request was created.
      */
     final public void setOldRequest(JAPCRequest oldRequest) {
@@ -126,8 +131,9 @@ public class JAPCRequest extends APCMessage {
     /**
      * Returns the request that was being processed when this request
      * was created.
+     *
      * @return The request that was being processed when this request
-     * was created.
+     *         was created.
      */
     final public JAPCRequest getOldRequest() {
         return oldRequest;
@@ -135,6 +141,7 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Returns true if no response has been returned.
+     *
      * @return Is true when no response has been returned.
      */
     public boolean isActive() {
@@ -150,12 +157,13 @@ public class JAPCRequest extends APCMessage {
 
     /**
      * Enqueue a response to be sent when there are no more incoming messages to be processed.
-     * @param eventQueue The internal queue used by JAPCMailbox.
+     *
+     * @param eventQueue        The internal queue used by JAPCMailbox.
      * @param unwrappedResponse The unwrapped response.
      */
     public void response(BufferedEventsQueue<APCMessage> eventQueue, Object unwrappedResponse) {
-        APCResponse apcResponse = new APCResponse(unwrappedResponse);
-        apcResponse.setJAPCRequest(this);
-        requestSource.responseFrom(eventQueue, apcResponse);
+        JAPCResponse japcResponse = new JAPCResponse(unwrappedResponse);
+        japcResponse.setJAPCRequest(this);
+        requestSource.responseFrom(eventQueue, japcResponse);
     }
 }

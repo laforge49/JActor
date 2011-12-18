@@ -47,6 +47,8 @@ public interface APCMailbox extends BufferedEventsDestination<APCMessage> {
     public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest request);
 
     public void response(Object data);
+
     public boolean isEmpty();
+
     public boolean dispatchEvents();
 }

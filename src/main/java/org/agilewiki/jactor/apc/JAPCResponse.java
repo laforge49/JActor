@@ -23,29 +23,64 @@
  */
 package org.agilewiki.jactor.apc;
 
-final public class APCResponse extends APCMessage {
+/**
+ * Responses sent to a JAPCActor are wrapped by an JAPCResponse,
+ * which is then passed to the JAPCMailbox.
+ */
+final public class JAPCResponse extends APCMessage {
 
-    private Object result;
+    /**
+     * The unwrapped response.
+     */
+    private Object unwrappedResponse;
 
+    /**
+     * The request to which this is the response.
+     */
     private JAPCRequest japcRequest;
 
-    public APCResponse(Object result) {
-        this.result = result;
+    /**
+     * Create a JAPCResponse.
+     *
+     * @param unwrappedResponse The unwrapped response.
+     */
+    public JAPCResponse(Object unwrappedResponse) {
+        this.unwrappedResponse = unwrappedResponse;
     }
 
-    public Object getResult() {
-        return result;
+    /**
+     * Returns the unwrapped response.
+     *
+     * @return
+     */
+    public Object getUnwrappedResponse() {
+        return unwrappedResponse;
     }
 
+    /**
+     * Assign the request to which this is the response.
+     *
+     * @param japcRequest The request to which this is the response.
+     */
     public void setJAPCRequest(JAPCRequest japcRequest) {
         this.japcRequest = japcRequest;
     }
 
+    /**
+     * Returns the request that will resume processing when this response is returned.
+     *
+     * @return The request that will resume processing when this response is returned.
+     */
     public JAPCRequest getOldAPCRequest() {
         return japcRequest.getOldRequest();
     }
 
-    public ResponseProcessor getResponseDestination() {
+    /**
+     * Returns the object which will process the response.
+     *
+     * @return The object which will process the response.
+     */
+    public ResponseProcessor getResponseProcessor() {
         return japcRequest.getResponseProcessor();
     }
 }

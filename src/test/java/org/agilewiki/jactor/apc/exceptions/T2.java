@@ -1,3 +1,4 @@
 package org.agilewiki.jactor.apc.exceptions;
 
-public class T2 {}
+public class T2 {
+}

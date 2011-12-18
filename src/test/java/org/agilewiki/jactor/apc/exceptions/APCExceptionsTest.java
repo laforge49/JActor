@@ -15,13 +15,13 @@ public class APCExceptionsTest extends TestCase {
                 System.out.println("Test T1");
                 eventFuture.send(driver, new T1());
             } catch (Exception e) {
-                System.out.println("T1: "+e.getMessage());
+                System.out.println("T1: " + e.getMessage());
             }
             try {
                 System.out.println("Test T2");
                 eventFuture.send(driver, new T2());
             } catch (Exception e) {
-                System.out.println("T2: "+e.getMessage());
+                System.out.println("T2: " + e.getMessage());
             }
         } finally {
             threadManager.close();

@@ -55,13 +55,13 @@ final public class JAPCMailbox implements APCMailbox {
                         processException(ex);
                     }
                 } else {
-                    APCResponse apcResponse = (APCResponse) event;
-                    currentRequest = apcResponse.getOldAPCRequest();
-                    Object data = apcResponse.getResult();
+                    JAPCResponse japcResponse = (JAPCResponse) event;
+                    currentRequest = japcResponse.getOldAPCRequest();
+                    Object data = japcResponse.getUnwrappedResponse();
                     if (data != null && data instanceof Exception)
                         processException((Exception) data);
                     else try {
-                        apcResponse.getResponseDestination().process(apcResponse.getResult());
+                        japcResponse.getResponseProcessor().process(japcResponse.getUnwrappedResponse());
                     } catch (Exception ex) {
                         processException(ex);
                     }

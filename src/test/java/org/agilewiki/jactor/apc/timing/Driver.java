@@ -24,9 +24,9 @@ final public class Driver extends JAPCActor {
     protected void processRequest(final Object data, final ResponseProcessor rd1) throws Exception {
         ResponseProcessor rd2 = new ResponseProcessor() {
             int r = p;
-            
+
             @Override
-            public void process(Object result) throws Exception {
+            public void process(Object unwrappedResponse) throws Exception {
                 r -= 1;
                 if (r == 0) rd1.process(null);
             }

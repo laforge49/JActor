@@ -52,10 +52,10 @@ abstract public class JAPCActor implements APCActor {
 
         @Override
         public void processRequest(JAPCRequest request) throws Exception {
-            JAPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor(){
+            JAPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
-                public void process(Object result) {
-                    mailbox.response(result);
+                public void process(Object unwrappedResponse) {
+                    mailbox.response(unwrappedResponse);
                 }
             });
         }
@@ -63,8 +63,8 @@ abstract public class JAPCActor implements APCActor {
 
     private RequestSource requestSource = new RequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
-            eventQueue.send(mailbox, apcResponse);
+        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
+            eventQueue.send(mailbox, japcResponse);
         }
 
         @Override
@@ -117,9 +117,9 @@ abstract public class JAPCActor implements APCActor {
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
         if (exceptionHandler != null) rd2 = new ResponseProcessor() {
             @Override
-            public void process(Object result) throws Exception {
+            public void process(Object unwrappedResponse) throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
-                rd1.process(result);
+                rd1.process(unwrappedResponse);
             }
         };
         actor.acceptRequest(requestSource, data, rd2);
@@ -137,10 +137,10 @@ abstract public class JAPCActor implements APCActor {
                                  final ResponseProcessor responseProcessor) throws Exception {
         ResponseProcessor rd = new ResponseProcessor() {
             @Override
-            public void process(Object result) throws Exception {
-                if (result == null)
+            public void process(Object unwrappedResponse) throws Exception {
+                if (unwrappedResponse == null)
                     apcFunction.process(this);
-                else responseProcessor.process(result);
+                else responseProcessor.process(unwrappedResponse);
             }
         };
         apcFunction.process(rd);

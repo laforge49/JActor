@@ -25,8 +25,9 @@ package org.agilewiki.jactor.apc;
 
 public interface APCActor {
     void acceptRequest(RequestSource requestSource,
-                                    Object data,
-                                    ResponseProcessor rd);
+                       Object data,
+                       ResponseProcessor rd);
+
     /**
      * Set the initial capacity for buffered outgoing events.
      *
