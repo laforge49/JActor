@@ -31,12 +31,26 @@ import org.agilewiki.jactor.events.ActiveEventProcessor;
 
 import java.util.ArrayList;
 
+/**
+ * An implementation of APCMailbox.
+ */
 final public class JAPCMailbox implements APCMailbox {
 
+    /**
+     * The request message currently being processed.
+     */
     private JAPCRequest currentRequest;
 
+    /**
+     * The lower-level mailbox which transports messages as 1-way events.
+     */
     private BufferedEventsQueue<APCMessage> eventQueue;
 
+    /**
+     * Create a JAPCMailbox.
+     *
+     * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
+     */
     public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
         eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
@@ -80,14 +94,29 @@ final public class JAPCMailbox implements APCMailbox {
         });
     }
 
+    /**
+     * Create a JAPCMailbox.
+     *
+     * @param threadManager Provides a thread for processing dispatched events.
+     */
     public JAPCMailbox(ThreadManager threadManager) {
         this(new JABufferedEventsQueue<APCMessage>(threadManager));
     }
 
+    /**
+     * Returns the request message being processed.
+     *
+     * @return The request message being processed.
+     */
     public JAPCRequest getCurrentRequest() {
         return currentRequest;
     }
 
+    /**
+     * Assigns the request message to be processed.
+     *
+     * @param currentRequest The request message being processed.
+     */
     public void setCurrentRequest(JAPCRequest currentRequest) {
         this.currentRequest = currentRequest;
     }
