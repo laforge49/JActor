@@ -2,7 +2,7 @@ package org.agilewiki.jactor.apc.exceptions;
 
 import org.agilewiki.jactor.apc.ExceptionHandler;
 import org.agilewiki.jactor.apc.JAPCActor;
-import org.agilewiki.jactor.apc.ResponseDestination;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 public class Driver extends JAPCActor {
@@ -14,7 +14,7 @@ public class Driver extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd)
+    protected void processRequest(final Object data, final ResponseProcessor rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -26,7 +26,7 @@ public class Driver extends JAPCActor {
         if (data instanceof T1) {
             send(doer, data, rd);
         } else {
-            send(doer, data, new ResponseDestination() {
+            send(doer, data, new ResponseProcessor() {
                 @Override
                 public void process(Object result) throws Exception {
                     throw new Exception("Exception thrown in response processing");

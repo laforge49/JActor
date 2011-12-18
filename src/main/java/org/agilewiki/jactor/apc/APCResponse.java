@@ -27,7 +27,7 @@ final public class APCResponse extends APCMessage {
 
     private Object result;
 
-    private APCRequest apcRequest;
+    private JAPCRequest japcRequest;
 
     public APCResponse(Object result) {
         this.result = result;
@@ -37,15 +37,15 @@ final public class APCResponse extends APCMessage {
         return result;
     }
 
-    public void setApcRequest(APCRequest apcRequest) {
-        this.apcRequest = apcRequest;
+    public void setJAPCRequest(JAPCRequest japcRequest) {
+        this.japcRequest = japcRequest;
     }
 
-    public APCRequest getOldAPCRequest() {
-        return apcRequest.getOldRequest();
+    public JAPCRequest getOldAPCRequest() {
+        return japcRequest.getOldRequest();
     }
 
-    public ResponseDestination getResponseDestination() {
-        return apcRequest.getResponseDestination();
+    public ResponseProcessor getResponseDestination() {
+        return japcRequest.getResponseProcessor();
     }
 }

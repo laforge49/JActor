@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 final public class JAPCMailbox implements APCMailbox {
 
-    private APCRequest currentRequest;
+    private JAPCRequest currentRequest;
 
     private BufferedEventsQueue<APCMessage> eventQueue;
 
@@ -47,8 +47,8 @@ final public class JAPCMailbox implements APCMailbox {
 
             @Override
             public void processEvent(APCMessage event) {
-                if (event instanceof APCRequest) {
-                    currentRequest = (APCRequest) event;
+                if (event instanceof JAPCRequest) {
+                    currentRequest = (JAPCRequest) event;
                     try {
                         currentRequest.getRequestProcessor().processRequest(currentRequest);
                     } catch (Exception ex) {
@@ -84,11 +84,11 @@ final public class JAPCMailbox implements APCMailbox {
         this(new JABufferedEventsQueue<APCMessage>(threadManager));
     }
 
-    public APCRequest getCurrentRequest() {
+    public JAPCRequest getCurrentRequest() {
         return currentRequest;
     }
 
-    public void setCurrentRequest(APCRequest currentRequest) {
+    public void setCurrentRequest(JAPCRequest currentRequest) {
         this.currentRequest = currentRequest;
     }
 
@@ -145,7 +145,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request) {
+    public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest request) {
         request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }

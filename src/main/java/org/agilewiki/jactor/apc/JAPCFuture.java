@@ -57,9 +57,9 @@ public class JAPCFuture {
         }
 
         @Override
-        public void send(BufferedEventsDestination<APCMessage> destination, APCRequest apcRequest) {
+        public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
             ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
-            bufferedEvents.add(apcRequest);
+            bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }
     };

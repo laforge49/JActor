@@ -2,7 +2,7 @@ package org.agilewiki.jactor.apc.exceptions;
 
 import org.agilewiki.jactor.apc.ExceptionHandler;
 import org.agilewiki.jactor.apc.JAPCActor;
-import org.agilewiki.jactor.apc.ResponseDestination;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 public class Doer extends JAPCActor {
@@ -11,7 +11,7 @@ public class Doer extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd)
+    protected void processRequest(final Object data, final ResponseProcessor rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override

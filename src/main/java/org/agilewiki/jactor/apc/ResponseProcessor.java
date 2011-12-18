@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 /**
  * Processes a response.
  */
-public interface ResponseDestination {
+public interface ResponseProcessor {
     /**
      * Receives and processes a response.
      *

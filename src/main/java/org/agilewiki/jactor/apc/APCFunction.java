@@ -24,5 +24,5 @@
 package org.agilewiki.jactor.apc;
 
 public interface APCFunction {
-    public void process(ResponseDestination responseDestination) throws Exception;
+    public void process(ResponseProcessor responseProcessor) throws Exception;
 }

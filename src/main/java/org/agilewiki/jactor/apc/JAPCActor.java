@@ -51,8 +51,8 @@ abstract public class JAPCActor implements APCActor {
         }
 
         @Override
-        public void processRequest(APCRequest request) throws Exception {
-            JAPCActor.this.processRequest(request.getData(), new ResponseDestination(){
+        public void processRequest(JAPCRequest request) throws Exception {
+            JAPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor(){
                 @Override
                 public void process(Object result) {
                     mailbox.response(result);
@@ -68,8 +68,8 @@ abstract public class JAPCActor implements APCActor {
         }
 
         @Override
-        public void send(BufferedEventsDestination<APCMessage> destination, APCRequest apcRequest) {
-            mailbox.send(destination, apcRequest);
+        public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
+            mailbox.send(destination, japcRequest);
         }
     };
 
@@ -112,10 +112,10 @@ abstract public class JAPCActor implements APCActor {
         requestProcessor.setExceptionHandler(exceptionHandler);
     }
 
-    final protected void send(final APCActor actor, final Object data, final ResponseDestination rd1) {
-        ResponseDestination rd2 = rd1;
+    final protected void send(final APCActor actor, final Object data, final ResponseProcessor rd1) {
+        ResponseProcessor rd2 = rd1;
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
-        if (exceptionHandler != null) rd2 = new ResponseDestination() {
+        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
             @Override
             public void process(Object result) throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
@@ -128,24 +128,24 @@ abstract public class JAPCActor implements APCActor {
     @Override
     final public void acceptRequest(RequestSource requestSource,
                                     Object data,
-                                    ResponseDestination rd) {
-        APCRequest apcRequest = new APCRequest(requestSource, requestProcessor, data, rd);
-        requestSource.send(mailbox, apcRequest);
+                                    ResponseProcessor rd) {
+        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, data, rd);
+        requestSource.send(mailbox, japcRequest);
     }
 
     final protected void iterate(final APCFunction apcFunction,
-                                 final ResponseDestination responseDestination) throws Exception {
-        ResponseDestination rd = new ResponseDestination() {
+                                 final ResponseProcessor responseProcessor) throws Exception {
+        ResponseProcessor rd = new ResponseProcessor() {
             @Override
             public void process(Object result) throws Exception {
                 if (result == null)
                     apcFunction.process(this);
-                else responseDestination.process(result);
+                else responseProcessor.process(result);
             }
         };
         apcFunction.process(rd);
     }
 
-    abstract protected void processRequest(Object data, ResponseDestination responseDestination)
+    abstract protected void processRequest(Object data, ResponseProcessor responseProcessor)
             throws Exception;
 }

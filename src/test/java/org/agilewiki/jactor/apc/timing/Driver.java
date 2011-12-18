@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.apc.timing;
 
 import org.agilewiki.jactor.apc.JAPCActor;
-import org.agilewiki.jactor.apc.ResponseDestination;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class Driver extends JAPCActor {
@@ -21,8 +21,8 @@ final public class Driver extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd1) throws Exception {
-        ResponseDestination rd2 = new ResponseDestination() {
+    protected void processRequest(final Object data, final ResponseProcessor rd1) throws Exception {
+        ResponseProcessor rd2 = new ResponseProcessor() {
             int r = p;
             
             @Override

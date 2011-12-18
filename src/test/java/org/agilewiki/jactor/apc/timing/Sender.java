@@ -2,7 +2,7 @@ package org.agilewiki.jactor.apc.timing;
 
 import org.agilewiki.jactor.apc.APCFunction;
 import org.agilewiki.jactor.apc.JAPCActor;
-import org.agilewiki.jactor.apc.ResponseDestination;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 final public class Sender extends JAPCActor {
@@ -20,16 +20,16 @@ final public class Sender extends JAPCActor {
     }
 
     @Override
-    protected void processRequest(final Object data, final ResponseDestination rd1) throws Exception {
+    protected void processRequest(final Object data, final ResponseProcessor rd1) throws Exception {
         iterate(new APCFunction() {
             int i = 0;
 
             @Override
-            public void process(final ResponseDestination rd2) throws Exception {
+            public void process(final ResponseProcessor rd2) throws Exception {
                 if (i > count) rd2.process(this);
                 else {
                     i += 1;
-                    ResponseDestination rd3 = new ResponseDestination() {
+                    ResponseProcessor rd3 = new ResponseProcessor() {
                         int r = burst;
 
                         @Override
