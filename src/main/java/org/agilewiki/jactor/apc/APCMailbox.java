@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.events.EventDispatcher;
 
-public interface APCMailbox extends BufferedEventsDestination<APCMessage>, RequestDispatcher {
+public interface APCMailbox extends BufferedEventsDestination<APCMessage> {
     /**
      * Send any pending events.
      */
@@ -48,8 +48,6 @@ public interface APCMailbox extends BufferedEventsDestination<APCMessage>, Reque
     public void send(BufferedEventsDestination<APCMessage> destination, APCRequest request);
 
     public void response(Object data);
-
-    public ExceptionHandler getExceptionHandler();
-
-    public void setExceptionHandler(ExceptionHandler exceptionHandler);
+    public boolean isEmpty();
+    public boolean dispatchEvents();
 }

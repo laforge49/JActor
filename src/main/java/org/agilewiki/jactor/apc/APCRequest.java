@@ -29,6 +29,8 @@ public class APCRequest extends APCMessage {
 
     private RequestSource requestSource;
 
+    private ActiveRequestProcessor requestProcessor;
+
     private Object data;
 
     private ResponseDestination responseDestination;
@@ -36,15 +38,25 @@ public class APCRequest extends APCMessage {
     private APCRequest oldRequest;
 
     public APCRequest(RequestSource requestSource,
+                      ActiveRequestProcessor requestProcessor,
                       Object data,
                       ResponseDestination responseDestination) {
         this.requestSource = requestSource;
+        this.requestProcessor = requestProcessor;
         this.data = data;
         this.responseDestination = responseDestination;
     }
 
     final public RequestSource getRequestSource() {
         return requestSource;
+    }
+
+    final public ActiveRequestProcessor getRequestProcessor() {
+        return requestProcessor;
+    }
+
+    final public ExceptionHandler getExceptionHandler() {
+        return requestProcessor.getExceptionHandler();
     }
 
     final public Object getData() {

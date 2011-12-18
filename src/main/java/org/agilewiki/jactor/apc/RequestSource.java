@@ -23,8 +23,10 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 public interface RequestSource {
     abstract public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse);
+    public void send(BufferedEventsDestination<APCMessage> destination, APCRequest apcRequest);
 }

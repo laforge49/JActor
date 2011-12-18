@@ -55,14 +55,18 @@ public class JAPCFuture {
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, APCResponse apcResponse) {
             eventQueue.send(bufferedEventsDestination, apcResponse);
         }
+
+        @Override
+        public void send(BufferedEventsDestination<APCMessage> destination, APCRequest apcRequest) {
+            ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
+            bufferedEvents.add(apcRequest);
+            destination.putBufferedEvents(bufferedEvents);
+        }
     };
 
     public Object send(APCActor actor, Object data) throws Exception {
         done = new Semaphore(0);
-        APCRequest apcRequest = new APCRequest(requestSource, data, null);
-        ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
-        bufferedEvents.add(apcRequest);
-        actor.putBufferedEvents(bufferedEvents);
+        actor.acceptRequest(requestSource, data, null);
         done.acquire();
         done = null;
         if (result instanceof Exception) throw (Exception) result;

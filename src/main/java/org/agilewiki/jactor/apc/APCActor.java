@@ -23,6 +23,14 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsActor;
-
-public interface APCActor extends BufferedEventsActor<APCMessage> {}
+public interface APCActor {
+    void acceptRequest(RequestSource requestSource,
+                                    Object data,
+                                    ResponseDestination rd);
+    /**
+     * Set the initial capacity for buffered outgoing events.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing events.
+     */
+    public void setInitialBufferCapacity(int initialBufferCapacity);
+}

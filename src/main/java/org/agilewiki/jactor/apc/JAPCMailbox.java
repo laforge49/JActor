@@ -37,13 +37,6 @@ final public class JAPCMailbox implements APCMailbox {
 
     private BufferedEventsQueue<APCMessage> eventQueue;
 
-    /**
-     * The requestProcessor is used to process requests.
-     */
-    private ActiveRequestProcessor requestProcessor;
-
-    private ExceptionHandler exceptionHandler;
-
     public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
         this.eventQueue = eventQueue;
         eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
@@ -57,7 +50,7 @@ final public class JAPCMailbox implements APCMailbox {
                 if (event instanceof APCRequest) {
                     currentRequest = (APCRequest) event;
                     try {
-                        requestProcessor.processRequest(currentRequest);
+                        currentRequest.getRequestProcessor().processRequest(currentRequest);
                     } catch (Exception ex) {
                         processException(ex);
                     }
@@ -76,7 +69,7 @@ final public class JAPCMailbox implements APCMailbox {
             }
 
             private void processException(Exception ex) {
-                ExceptionHandler exceptionHandler = getExceptionHandler();
+                ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
                 if (exceptionHandler == null) response(ex);
                 else try {
                     exceptionHandler.process(ex);
@@ -97,24 +90,6 @@ final public class JAPCMailbox implements APCMailbox {
 
     public void setCurrentRequest(APCRequest currentRequest) {
         this.currentRequest = currentRequest;
-    }
-
-    public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
-    }
-
-    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
-    }
-
-    /**
-     * Specifies the object which will process the dispatched events.
-     *
-     * @param requestProcessor Processes the dispatched events.
-     */
-    @Override
-    public void setRequestProcessor(ActiveRequestProcessor requestProcessor) {
-        this.requestProcessor = requestProcessor;
     }
 
     /**
