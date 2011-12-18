@@ -29,6 +29,9 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+/**
+ * Used mostly in testing to send a request to an actor and wait for a response.
+ */
 public class JAPCFuture {
     /**
      * Used to wake up the sending thread when a response is received.
@@ -40,6 +43,9 @@ public class JAPCFuture {
      */
     private transient Object result;
 
+    /**
+     * Receives the response as a bufferedEvent.
+     */
     private BufferedEventsDestination<APCMessage> bufferedEventsDestination =
             new BufferedEventsDestination<APCMessage>() {
                 @Override
@@ -50,24 +56,15 @@ public class JAPCFuture {
                 }
             };
 
+    /**
+     * Serves as the originator of a request.
+     */
     private RequestSource requestSource = new RequestSource() {
-        /**
-         * Enqueues the response in the responder's outbox.
-         *
-         * @param eventQueue The responder's outbox.
-         * @param japcResponse The response to be enqueued.
-         */
         @Override
         public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
-        /**
-         * Sends a request to a mailbox.
-         *
-         * @param destination The mailbox which is to receive the request.
-         * @param japcRequest The wrapped request to be sent.
-         */
         @Override
         public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
             ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
@@ -76,9 +73,17 @@ public class JAPCFuture {
         }
     };
 
-    public Object send(APCActor actor, Object data) throws Exception {
+    /**
+     * Sends a request and waits for a response.
+     *
+     * @param actor            The target actor.
+     * @param unwrappedRequest The unwrapped request.
+     * @return The unwrapped response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public Object send(APCActor actor, Object unwrappedRequest) throws Exception {
         done = new Semaphore(0);
-        actor.acceptRequest(requestSource, data, null);
+        actor.acceptRequest(requestSource, unwrappedRequest, null);
         done.acquire();
         done = null;
         if (result instanceof Exception) throw (Exception) result;
