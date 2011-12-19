@@ -51,7 +51,7 @@ final public class JAPCResponse extends APCMessage {
     /**
      * Returns the unwrapped response.
      *
-     * @return
+     * @return The unwrapped response.
      */
     public Object getUnwrappedResponse() {
         return unwrappedResponse;

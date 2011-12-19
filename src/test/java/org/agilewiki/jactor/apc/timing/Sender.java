@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.apc.timing;
 
-import org.agilewiki.jactor.apc.APCFunction;
+import org.agilewiki.jactor.apc.Function;
 import org.agilewiki.jactor.apc.JAPCActor;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
@@ -21,7 +21,7 @@ final public class Sender extends JAPCActor {
 
     @Override
     protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
-        iterate(new APCFunction() {
+        iterate(new Function() {
             int i = 0;
 
             @Override

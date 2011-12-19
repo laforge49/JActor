@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 /**
  * A function. Used by JAPCActor.interate.
  */
-public interface APCFunction {
+public interface Function {
     /**
      * Call the function.
      *

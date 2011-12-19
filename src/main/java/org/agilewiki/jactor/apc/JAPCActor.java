@@ -169,21 +169,21 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Call a function repeatedly until the result is not null.
      *
-     * @param apcFunction       Provides the function to be called.
+     * @param function       Provides the function to be called.
      * @param responseProcessor Processes the final, non-null result.
      * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
-    final protected void iterate(final APCFunction apcFunction,
+    final protected void iterate(final Function function,
                                  final ResponseProcessor responseProcessor) throws Exception {
         ResponseProcessor rd = new ResponseProcessor() {
             @Override
             public void process(Object unwrappedResponse) throws Exception {
                 if (unwrappedResponse == null)
-                    apcFunction.process(this);
+                    function.process(this);
                 else responseProcessor.process(unwrappedResponse);
             }
         };
-        apcFunction.process(rd);
+        function.process(rd);
     }
 
     /**
