@@ -21,10 +21,13 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.lpc;
+
+import org.agilewiki.jactor.apc.APCRequestProcessor;
 
 /**
- * All requests sent to a APCMailbox, and all returned responses, are subclasses of JAPCMessage.
+ * Processes events and manages events and an exception handler.
  */
-abstract public class JAPCMessage {
+public interface LPCRequestProcessor extends APCRequestProcessor {
+    public LPCMailbox getLPCMailbox();
 }

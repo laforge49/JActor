@@ -21,10 +21,31 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.lpc;
+
+import org.agilewiki.jactor.apc.JAPCRequest;
+import org.agilewiki.jactor.apc.RequestSource;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
- * All requests sent to a APCMailbox, and all returned responses, are subclasses of JAPCMessage.
+ * Requests sent to a JLPCMailbox are wrapped by an JLPCRequest.
  */
-abstract public class JAPCMessage {
+public class JLPCRequest extends JAPCRequest {
+
+    private boolean sync;
+
+    public JLPCRequest(RequestSource requestSource,
+                       LPCRequestProcessor lpcRequestProcessor,
+                       Object unwrappedRequest,
+                       ResponseProcessor responseProcessor) {
+        super(requestSource, lpcRequestProcessor, unwrappedRequest, responseProcessor);
+    }
+
+    public boolean isSync() {
+        return sync;
+    }
+
+    public void setSync(boolean sync) {
+        this.sync = sync;
+    }
 }

@@ -26,8 +26,7 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
- * Requests sent to a JAPCActor are wrapped by an JAPCRequest,
- * which is then passed to the JAPCMailbox.
+ * Requests sent to a JAPCMailbox are wrapped by an JAPCRequest.
  */
 public class JAPCRequest extends JAPCMessage {
 
