@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
  * Requests sent to a JAPCActor are wrapped by an JAPCRequest,
  * which is then passed to the JAPCMailbox.
  */
-public class JAPCRequest extends APCMessage {
+public class JAPCRequest extends JAPCMessage {
 
     /**
      * The target of the response.
@@ -161,7 +161,7 @@ public class JAPCRequest extends APCMessage {
      * @param eventQueue        The internal queue used by JAPCMailbox.
      * @param unwrappedResponse The unwrapped response.
      */
-    public void response(BufferedEventsQueue<APCMessage> eventQueue, Object unwrappedResponse) {
+    public void response(BufferedEventsQueue<JAPCMessage> eventQueue, Object unwrappedResponse) {
         JAPCResponse japcResponse = new JAPCResponse(unwrappedResponse);
         japcResponse.setJAPCRequest(this);
         requestSource.responseFrom(eventQueue, japcResponse);

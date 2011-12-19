@@ -46,10 +46,10 @@ public class JAPCFuture {
     /**
      * Receives the response as a bufferedEvent.
      */
-    private BufferedEventsDestination<APCMessage> bufferedEventsDestination =
-            new BufferedEventsDestination<APCMessage>() {
+    private BufferedEventsDestination<JAPCMessage> bufferedEventsDestination =
+            new BufferedEventsDestination<JAPCMessage>() {
                 @Override
-                public void putBufferedEvents(ArrayList<APCMessage> bufferedEvents) {
+                public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
                     JAPCResponse japcResponse = (JAPCResponse) bufferedEvents.get(0);
                     result = japcResponse.getUnwrappedResponse();
                     done.release();
@@ -61,13 +61,13 @@ public class JAPCFuture {
      */
     private RequestSource requestSource = new RequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
+        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
-            ArrayList<APCMessage> bufferedEvents = new ArrayList<APCMessage>(1);
+        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
+            ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }

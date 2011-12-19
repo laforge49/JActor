@@ -72,12 +72,12 @@ abstract public class JAPCActor implements APCActor {
      */
     private RequestSource requestSource = new RequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse) {
+        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest) {
+        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
             mailbox.send(destination, japcRequest);
         }
     };

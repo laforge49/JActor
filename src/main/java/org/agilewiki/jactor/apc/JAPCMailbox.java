@@ -44,7 +44,7 @@ final public class JAPCMailbox implements APCMailbox {
     /**
      * The lower-level mailbox which transports messages as 1-way events.
      */
-    private BufferedEventsQueue<APCMessage> eventQueue;
+    private BufferedEventsQueue<JAPCMessage> eventQueue;
 
     /**
      * Create a JAPCMailbox.
@@ -53,16 +53,16 @@ final public class JAPCMailbox implements APCMailbox {
      *
      * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
      */
-    public JAPCMailbox(BufferedEventsQueue<APCMessage> eventQueue) {
+    public JAPCMailbox(BufferedEventsQueue<JAPCMessage> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(new ActiveEventProcessor<APCMessage>() {
+        eventQueue.setEventProcessor(new ActiveEventProcessor<JAPCMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();
             }
 
             @Override
-            public void processEvent(APCMessage event) {
+            public void processEvent(JAPCMessage event) {
                 if (event instanceof JAPCRequest) {
                     currentRequest = (JAPCRequest) event;
                     try {
@@ -102,7 +102,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAPCMailbox(ThreadManager threadManager) {
-        this(new JABufferedEventsQueue<APCMessage>(threadManager));
+        this(new JABufferedEventsQueue<JAPCMessage>(threadManager));
     }
 
     /**
@@ -147,7 +147,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    public void putBufferedEvents(ArrayList<APCMessage> bufferedEvents) {
+    public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
         eventQueue.putBufferedEvents(bufferedEvents);
     }
 
@@ -176,7 +176,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest request) {
+    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
         request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }

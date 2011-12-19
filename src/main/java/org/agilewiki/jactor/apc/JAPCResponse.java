@@ -27,7 +27,7 @@ package org.agilewiki.jactor.apc;
  * Responses sent to a JAPCActor are wrapped by an JAPCResponse,
  * which is then passed to the JAPCMailbox.
  */
-final public class JAPCResponse extends APCMessage {
+final public class JAPCResponse extends JAPCMessage {
 
     /**
      * The unwrapped response.

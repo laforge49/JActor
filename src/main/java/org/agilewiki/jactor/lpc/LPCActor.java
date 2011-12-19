@@ -21,18 +21,26 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.apc.RequestSource;
+import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
- * Serves as the asynchronous transport for APCMessages.
+ * An actor which implements Local Procedure Calls (LPC).
  */
-public interface APCMailbox extends BufferedEventsDestination<JAPCMessage> {
+public interface LPCActor {
+
     /**
-     * Send any pending messages.
+     * Wraps and enqueues an unwrapped request in the requester's outbox.
+     *
+     * @param requestSource    The originator of the request.
+     * @param unwrappedRequest The unwrapped request to be sent.
+     * @param rd               The request processor.
      */
-    public void sendPendingMessages();
+    void acceptRequest(RequestSource requestSource,
+                       Object unwrappedRequest,
+                       ResponseProcessor rd);
 
     /**
      * Set the initial capacity for buffered outgoing messages.
@@ -40,31 +48,4 @@ public interface APCMailbox extends BufferedEventsDestination<JAPCMessage> {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     public void setInitialBufferCapacity(int initialBufferCapacity);
-
-    /**
-     * Buffer the request for subsequent sending.
-     *
-     * @param destination Buffered events receiver.
-     * @param request     The request to be sent.
-     */
-    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request);
-
-    /**
-     * Return the response for processing.
-     *
-     * @param unwrappedResponse
-     */
-    public void response(Object unwrappedResponse);
-
-    /**
-     * The isEmpty method returns true when there are no pending messages,
-     * though the results may not always be correct due to concurrency issues.
-     */
-    public boolean isEmpty();
-
-    /**
-     * The dispatchMessages method processes any messages in the queue.
-     * True is returned if any messages were actually processed.
-     */
-    public boolean dispatchEvents();
 }

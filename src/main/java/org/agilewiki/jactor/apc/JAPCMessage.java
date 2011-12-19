@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 /**
- * All requests sent to an Actor, and all returned responses, are subclasses of APCMessage.
+ * All requests sent to an Actor, and all returned responses, are subclasses of JAPCMessage.
  */
-abstract public class APCMessage {
+abstract public class JAPCMessage {
 }

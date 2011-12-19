@@ -36,7 +36,7 @@ public interface RequestSource {
      * @param eventQueue   The responder's outbox.
      * @param japcResponse The wrapped response to be enqueued.
      */
-    abstract public void responseFrom(BufferedEventsQueue<APCMessage> eventQueue, JAPCResponse japcResponse);
+    abstract public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse);
 
     /**
      * Sends a request to a mailbox.
@@ -44,5 +44,5 @@ public interface RequestSource {
      * @param destination The mailbox which is to receive the request.
      * @param japcRequest The wrapped request to be sent.
      */
-    public void send(BufferedEventsDestination<APCMessage> destination, JAPCRequest japcRequest);
+    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest);
 }
