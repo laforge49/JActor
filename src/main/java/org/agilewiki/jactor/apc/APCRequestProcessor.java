@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 /**
  * Processes events and manages events and an exception handler.
  */
-public interface RequestProcessor {
+public interface APCRequestProcessor {
     /**
      * A notification that there are incoming requests and responses that are ready for processing.
      */

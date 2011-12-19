@@ -40,7 +40,7 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Handles callbacks from the mailbox.
      */
-    private RequestProcessor requestProcessor = new RequestProcessor() {
+    private APCRequestProcessor apcRequestProcessor = new APCRequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
         public ExceptionHandler getExceptionHandler() {
@@ -119,7 +119,7 @@ abstract public class JAPCActor implements APCActor {
      * @return The exception handler.
      */
     final protected ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
+        return apcRequestProcessor.getExceptionHandler();
     }
 
     /**
@@ -128,7 +128,7 @@ abstract public class JAPCActor implements APCActor {
      * @param exceptionHandler The exception handler.
      */
     final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        requestProcessor.setExceptionHandler(exceptionHandler);
+        apcRequestProcessor.setExceptionHandler(exceptionHandler);
     }
 
     /**
@@ -140,11 +140,11 @@ abstract public class JAPCActor implements APCActor {
      */
     final protected void send(final APCActor actor, final Object unwrappedRequest, final ResponseProcessor rd1) {
         ResponseProcessor rd2 = rd1;
-        final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
+        final ExceptionHandler exceptionHandler = apcRequestProcessor.getExceptionHandler();
         if (exceptionHandler != null) rd2 = new ResponseProcessor() {
             @Override
             public void process(Object unwrappedResponse) throws Exception {
-                requestProcessor.setExceptionHandler(exceptionHandler);
+                apcRequestProcessor.setExceptionHandler(exceptionHandler);
                 rd1.process(unwrappedResponse);
             }
         };
@@ -162,7 +162,7 @@ abstract public class JAPCActor implements APCActor {
     final public void acceptRequest(RequestSource requestSource,
                                     Object unwrappedRequest,
                                     ResponseProcessor rd) {
-        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
+        JAPCRequest japcRequest = new JAPCRequest(requestSource, apcRequestProcessor, unwrappedRequest, rd);
         requestSource.send(mailbox, japcRequest);
     }
 

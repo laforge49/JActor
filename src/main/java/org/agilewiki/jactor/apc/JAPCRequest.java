@@ -41,7 +41,7 @@ public class JAPCRequest extends APCMessage {
     /**
      * An anonymous object in the JAPCActor that is the target of the JAPCRequest.
      */
-    private RequestProcessor requestProcessor;
+    private APCRequestProcessor apcRequestProcessor;
 
     /**
      * The unwrapped request that was sent to a JAPCActor.
@@ -68,27 +68,27 @@ public class JAPCRequest extends APCMessage {
      * Create an JAPCRequest.
      *
      * @param requestSource     The target of the response.
-     * @param requestProcessor  The target of the request.
+     * @param apcRequestProcessor  The target of the request.
      * @param unwrappedRequest  The wrapped request.
      * @param responseProcessor Processes the response.
      */
     public JAPCRequest(RequestSource requestSource,
-                       RequestProcessor requestProcessor,
+                       APCRequestProcessor apcRequestProcessor,
                        Object unwrappedRequest,
                        ResponseProcessor responseProcessor) {
         this.requestSource = requestSource;
-        this.requestProcessor = requestProcessor;
+        this.apcRequestProcessor = apcRequestProcessor;
         this.unwrappedRequest = unwrappedRequest;
         this.responseProcessor = responseProcessor;
     }
 
     /**
-     * Returns the requestProcessor.
+     * Returns the apcRequestProcessor.
      *
-     * @return The requestProcessor.
+     * @return The apcRequestProcessor.
      */
-    final public RequestProcessor getRequestProcessor() {
-        return requestProcessor;
+    final public APCRequestProcessor getApcRequestProcessor() {
+        return apcRequestProcessor;
     }
 
     /**
@@ -97,7 +97,7 @@ public class JAPCRequest extends APCMessage {
      * @return The exceptionHandler.
      */
     final public ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
+        return apcRequestProcessor.getExceptionHandler();
     }
 
     /**
