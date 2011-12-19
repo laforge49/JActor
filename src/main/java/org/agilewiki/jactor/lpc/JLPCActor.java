@@ -23,14 +23,48 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.Function;
-import org.agilewiki.jactor.apc.RequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.apc.*;
 
 /**
  * Implements LPCActor.
  */
 abstract public class JLPCActor implements LPCActor {
+
+    /**
+     * The inbox and outbox of the actor.
+     */
+    private LPCMailbox mailbox;
+
+    /**
+     * Handles callbacks from the mailbox.
+     */
+    private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
+        private ExceptionHandler exceptionHandler;
+
+        public ExceptionHandler getExceptionHandler() {
+            return exceptionHandler;
+        }
+
+        public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+            this.exceptionHandler = exceptionHandler;
+        }
+
+        @Override
+        public void haveEvents() {
+            mailbox.dispatchEvents();
+        }
+
+        @Override
+        public void processRequest(JAPCRequest request) throws Exception {
+            JLPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
+                @Override
+                public void process(Object unwrappedResponse) {
+                    mailbox.response(unwrappedResponse);
+                }
+            });
+        }
+    };
+
     /**
      * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
@@ -39,7 +73,7 @@ abstract public class JLPCActor implements LPCActor {
      * @param rd               The request processor.
      */
     @Override
-    public void acceptRequest(RequestSource requestSource, Object unwrappedRequest, ResponseProcessor rd) {
+    public void acceptRequest(APCRequestSource requestSource, Object unwrappedRequest, ResponseProcessor rd) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

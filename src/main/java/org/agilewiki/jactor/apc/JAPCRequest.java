@@ -35,7 +35,7 @@ public class JAPCRequest extends JAPCMessage {
      * An anonymous object in the JAPCActor or JAPCFuture
      * that originated the request. Used in response processing.
      */
-    private RequestSource requestSource;
+    private APCRequestSource requestSource;
 
     /**
      * An anonymous object in the JAPCActor that is the target of the JAPCRequest.
@@ -71,7 +71,7 @@ public class JAPCRequest extends JAPCMessage {
      * @param unwrappedRequest    The wrapped request.
      * @param responseProcessor   Processes the response.
      */
-    public JAPCRequest(RequestSource requestSource,
+    public JAPCRequest(APCRequestSource requestSource,
                        APCRequestProcessor apcRequestProcessor,
                        Object unwrappedRequest,
                        ResponseProcessor responseProcessor) {

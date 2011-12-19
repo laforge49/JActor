@@ -59,7 +59,7 @@ public class JAPCFuture {
     /**
      * Serves as the originator of a request.
      */
-    private RequestSource requestSource = new RequestSource() {
+    private APCRequestSource requestSource = new APCRequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);

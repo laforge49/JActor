@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.RequestSource;
+import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
@@ -38,7 +38,7 @@ public interface LPCActor {
      * @param unwrappedRequest The unwrapped request to be sent.
      * @param rd               The request processor.
      */
-    void acceptRequest(RequestSource requestSource,
+    void acceptRequest(APCRequestSource requestSource,
                        Object unwrappedRequest,
                        ResponseProcessor rd);
 

@@ -23,8 +23,9 @@
  */
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.apc.APCRequestProcessor;
 import org.agilewiki.jactor.apc.JAPCRequest;
-import org.agilewiki.jactor.apc.RequestSource;
+import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
@@ -34,11 +35,11 @@ public class JLPCRequest extends JAPCRequest {
 
     private boolean sync;
 
-    public JLPCRequest(RequestSource requestSource,
-                       LPCRequestProcessor lpcRequestProcessor,
+    public JLPCRequest(APCRequestSource requestSource,
+                       APCRequestProcessor requestProcessor,
                        Object unwrappedRequest,
                        ResponseProcessor responseProcessor) {
-        super(requestSource, lpcRequestProcessor, unwrappedRequest, responseProcessor);
+        super(requestSource, requestProcessor, unwrappedRequest, responseProcessor);
     }
 
     public boolean isSync() {

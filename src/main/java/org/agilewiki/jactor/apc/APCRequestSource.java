@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 /**
  * The originator of a request.
  */
-public interface RequestSource {
+public interface APCRequestSource {
     /**
      * Enqueues the response in the responder's outbox.
      *

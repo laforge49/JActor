@@ -35,7 +35,7 @@ public interface APCActor {
      * @param unwrappedRequest The unwrapped request to be sent.
      * @param rd               The request processor.
      */
-    void acceptRequest(RequestSource requestSource,
+    void acceptRequest(APCRequestSource requestSource,
                        Object unwrappedRequest,
                        ResponseProcessor rd);
 

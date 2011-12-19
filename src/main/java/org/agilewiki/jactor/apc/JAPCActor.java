@@ -70,7 +70,7 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Serves as the originator of requests sent to other actors.
      */
-    private RequestSource requestSource = new RequestSource() {
+    private APCRequestSource requestSource = new APCRequestSource() {
         @Override
         public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
@@ -159,7 +159,7 @@ abstract public class JAPCActor implements APCActor {
      * @param rd               The request processor.
      */
     @Override
-    final public void acceptRequest(RequestSource requestSource,
+    final public void acceptRequest(APCRequestSource requestSource,
                                     Object unwrappedRequest,
                                     ResponseProcessor rd) {
         JAPCRequest japcRequest = new JAPCRequest(requestSource, apcRequestProcessor, unwrappedRequest, rd);
