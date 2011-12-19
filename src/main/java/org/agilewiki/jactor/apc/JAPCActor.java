@@ -169,7 +169,7 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Call a function repeatedly until the result is not null.
      *
-     * @param function       Provides the function to be called.
+     * @param function          Provides the function to be called.
      * @param responseProcessor Processes the final, non-null result.
      * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
@@ -179,7 +179,7 @@ abstract public class JAPCActor implements APCActor {
             @Override
             public void process(Object unwrappedResponse) throws Exception {
                 if (unwrappedResponse == null)
-                    function.process(this);
+                    function.process(this); //not recursive
                 else responseProcessor.process(unwrappedResponse);
             }
         };

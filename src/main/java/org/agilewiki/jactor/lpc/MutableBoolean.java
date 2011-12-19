@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCMailbox;
-
 /**
- * Serves as the asynchronous transport for APCMessages.
+ * A wrapped boolean. Useful when working with anonymous classes.
  */
-public interface LPCMailbox extends APCMailbox {
+public class MutableBoolean {
+    /**
+     * The boolean value.
+     */
+    public boolean value = false;
 }

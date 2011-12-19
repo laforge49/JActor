@@ -23,13 +23,14 @@
  */
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.apc.Function;
 import org.agilewiki.jactor.apc.RequestSource;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
  * Implements LPCActor.
  */
-public class JLPCActor implements LPCActor {
+abstract public class JLPCActor implements LPCActor {
     /**
      * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
@@ -51,4 +52,47 @@ public class JLPCActor implements LPCActor {
     public void setInitialBufferCapacity(int initialBufferCapacity) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Call a function repeatedly until the result is not null.
+     *
+     * @param function          Provides the function to be called.
+     * @param responseProcessor Processes the final, non-null result.
+     * @throws Exception Any uncaught exceptions raised when calling the provided function.
+     */
+    final protected void iterate(final Function function,
+                                 final ResponseProcessor responseProcessor) throws Exception {
+        final MutableBoolean sync = new MutableBoolean();
+        final MutableBoolean async = new MutableBoolean();
+        sync.value = true;
+        while (sync.value) {
+            sync.value = false;
+            ResponseProcessor rd = new ResponseProcessor() {
+                @Override
+                public void process(Object unwrappedResponse) throws Exception {
+                    if (unwrappedResponse == null) {
+                        if (!async.value) {
+                            sync.value = true;
+                        } else {
+                            iterate(function, responseProcessor); //not recursive
+                        }
+                    } else responseProcessor.process(unwrappedResponse);
+                }
+            };
+            function.process(rd);
+            if (!sync.value) {
+                async.value = true;
+            }
+        }
+    }
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param unwrappedRequest  An unwrapped request.
+     * @param responseProcessor The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
+            throws Exception;
 }

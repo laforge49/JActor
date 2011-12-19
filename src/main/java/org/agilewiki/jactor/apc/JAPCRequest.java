@@ -66,10 +66,10 @@ public class JAPCRequest extends JAPCMessage {
     /**
      * Create an JAPCRequest.
      *
-     * @param requestSource     The target of the response.
-     * @param apcRequestProcessor  The target of the request.
-     * @param unwrappedRequest  The wrapped request.
-     * @param responseProcessor Processes the response.
+     * @param requestSource       The target of the response.
+     * @param apcRequestProcessor The target of the request.
+     * @param unwrappedRequest    The wrapped request.
+     * @param responseProcessor   Processes the response.
      */
     public JAPCRequest(RequestSource requestSource,
                        APCRequestProcessor apcRequestProcessor,
