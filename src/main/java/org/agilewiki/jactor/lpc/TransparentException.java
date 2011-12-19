@@ -23,30 +23,29 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCRequestProcessor;
-import org.agilewiki.jactor.apc.JAPCRequest;
-import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
-
 /**
- * Requests sent to a JLPCMailbox are wrapped by an JLPCRequest.
+ * A TransparentException wraps another exception.
+ * Transparent exceptions are created when an exception occurs while
+ * processing a synchronous response, as a means of ensuring that an
+ * exception handler of the actor which sourced the request is invoked
+ * instead of an exception handler of the target actor.
  */
-public class JLPCRequest extends JAPCRequest {
-
-    private boolean sync;
-
-    public JLPCRequest(LPCRequestSource requestSource,
-                       APCRequestProcessor requestProcessor,
-                       Object unwrappedRequest,
-                       ResponseProcessor responseProcessor) {
-        super(requestSource, requestProcessor, unwrappedRequest, responseProcessor);
+public class TransparentException extends Exception {
+    /**
+     * Create a new TransparentException
+     *
+     * @param ex The wrapped exception.
+     */
+    public TransparentException(Exception ex) {
+        super(ex);
     }
 
-    public boolean isSync() {
-        return sync;
-    }
-
-    public void setSync(boolean sync) {
-        this.sync = sync;
+    /**
+     * Speeds things up by not filling in the stack trace.
+     * @return this
+     */
+    @Override
+    public Throwable fillInStackTrace() {
+        return this;
     }
 }

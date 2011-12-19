@@ -40,7 +40,8 @@ public interface LPCActor {
      */
     void acceptRequest(APCRequestSource requestSource,
                        Object unwrappedRequest,
-                       ResponseProcessor rd);
+                       ResponseProcessor rd)
+            throws Exception;
 
     /**
      * Set the initial capacity for buffered outgoing messages.

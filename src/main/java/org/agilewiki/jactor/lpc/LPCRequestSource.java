@@ -23,30 +23,15 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCRequestProcessor;
-import org.agilewiki.jactor.apc.JAPCRequest;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
- * Requests sent to a JLPCMailbox are wrapped by an JLPCRequest.
+ * The originator of a request.
  */
-public class JLPCRequest extends JAPCRequest {
-
-    private boolean sync;
-
-    public JLPCRequest(LPCRequestSource requestSource,
-                       APCRequestProcessor requestProcessor,
-                       Object unwrappedRequest,
-                       ResponseProcessor responseProcessor) {
-        super(requestSource, requestProcessor, unwrappedRequest, responseProcessor);
-    }
-
-    public boolean isSync() {
-        return sync;
-    }
-
-    public void setSync(boolean sync) {
-        this.sync = sync;
-    }
+public interface LPCRequestSource extends APCRequestSource {
+    /**
+     * Returns the actor's mailbox, or null if the request source is not an actor.
+     * @return
+     */
+    LPCMailbox getMailbox();
 }

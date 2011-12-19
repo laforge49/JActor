@@ -40,7 +40,7 @@ abstract public class JAPCActor implements APCActor {
     /**
      * Handles callbacks from the mailbox.
      */
-    private APCRequestProcessor apcRequestProcessor = new APCRequestProcessor() {
+    private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
         public ExceptionHandler getExceptionHandler() {
@@ -83,7 +83,7 @@ abstract public class JAPCActor implements APCActor {
     };
 
     /**
-     * Create a JAEventActor
+     * Create a JAPCActor
      *
      * @param threadManager Provides a thread for processing dispatched events.
      */
@@ -92,14 +92,13 @@ abstract public class JAPCActor implements APCActor {
     }
 
     /**
-     * Create a JAEventActor
+     * Create a JAPCActor
      * Use this constructor when providing an implementation of APCMailbox
      * other than JAPCMailbox.
      *
      * @param mailbox The actor's mailbox.
      */
     public JAPCActor(APCMailbox mailbox) {
-        this.mailbox = mailbox;
         this.mailbox = mailbox;
     }
 
@@ -119,7 +118,7 @@ abstract public class JAPCActor implements APCActor {
      * @return The exception handler.
      */
     final protected ExceptionHandler getExceptionHandler() {
-        return apcRequestProcessor.getExceptionHandler();
+        return requestProcessor.getExceptionHandler();
     }
 
     /**
@@ -128,27 +127,7 @@ abstract public class JAPCActor implements APCActor {
      * @param exceptionHandler The exception handler.
      */
     final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        apcRequestProcessor.setExceptionHandler(exceptionHandler);
-    }
-
-    /**
-     * Send an unwrapped request to another actor.
-     *
-     * @param actor            The target actor.
-     * @param unwrappedRequest The unwrapped request.
-     * @param rd1              The response processor.
-     */
-    final protected void send(final APCActor actor, final Object unwrappedRequest, final ResponseProcessor rd1) {
-        ResponseProcessor rd2 = rd1;
-        final ExceptionHandler exceptionHandler = apcRequestProcessor.getExceptionHandler();
-        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
-            @Override
-            public void process(Object unwrappedResponse) throws Exception {
-                apcRequestProcessor.setExceptionHandler(exceptionHandler);
-                rd1.process(unwrappedResponse);
-            }
-        };
-        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
+        requestProcessor.setExceptionHandler(exceptionHandler);
     }
 
     /**
@@ -162,8 +141,28 @@ abstract public class JAPCActor implements APCActor {
     final public void acceptRequest(APCRequestSource requestSource,
                                     Object unwrappedRequest,
                                     ResponseProcessor rd) {
-        JAPCRequest japcRequest = new JAPCRequest(requestSource, apcRequestProcessor, unwrappedRequest, rd);
+        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
         requestSource.send(mailbox, japcRequest);
+    }
+
+    /**
+     * Send an unwrapped request to another actor.
+     *
+     * @param actor            The target actor.
+     * @param unwrappedRequest The unwrapped request.
+     * @param rd1              The response processor.
+     */
+    final protected void send(final APCActor actor, final Object unwrappedRequest, final ResponseProcessor rd1) {
+        ResponseProcessor rd2 = rd1;
+        final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
+        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
+            @Override
+            public void process(Object unwrappedResponse) throws Exception {
+                requestProcessor.setExceptionHandler(exceptionHandler);
+                rd1.process(unwrappedResponse);
+            }
+        };
+        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
     }
 
     /**

@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.apc.*;
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
  * Implements LPCActor.
@@ -66,15 +68,33 @@ abstract public class JLPCActor implements LPCActor {
     };
 
     /**
-     * Wraps and enqueues an unwrapped request in the requester's outbox.
-     *
-     * @param requestSource    The originator of the request.
-     * @param unwrappedRequest The unwrapped request to be sent.
-     * @param rd               The request processor.
+     * Serves as the originator of requests sent to other actors.
      */
-    @Override
-    public void acceptRequest(APCRequestSource requestSource, Object unwrappedRequest, ResponseProcessor rd) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    private LPCRequestSource requestSource = new LPCRequestSource() {
+        @Override
+        public LPCMailbox getMailbox() {
+            return mailbox;
+        }
+
+        @Override
+        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
+            eventQueue.send(mailbox, japcResponse);
+        }
+
+        @Override
+        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
+            mailbox.send(destination, japcRequest);
+        }
+    };
+
+    /**
+     * Create a JLPCActor
+     *
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public JLPCActor(LPCMailbox mailbox) {
+        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
+        this.mailbox = mailbox;
     }
 
     /**
@@ -83,8 +103,89 @@ abstract public class JLPCActor implements LPCActor {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
-    public void setInitialBufferCapacity(int initialBufferCapacity) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    final public void setInitialBufferCapacity(int initialBufferCapacity) {
+        mailbox.setInitialBufferCapacity(initialBufferCapacity);
+    }
+
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
+    final protected ExceptionHandler getExceptionHandler() {
+        return requestProcessor.getExceptionHandler();
+    }
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        requestProcessor.setExceptionHandler(exceptionHandler);
+    }
+
+    /**
+     * Wraps and enqueues an unwrapped request in the requester's outbox.
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param unwrappedRequest The unwrapped request to be sent.
+     * @param rd               The request processor.
+     */
+    @Override
+    public void acceptRequest(final APCRequestSource apcRequestSource, 
+                              final Object unwrappedRequest, 
+                              final ResponseProcessor rd) 
+            throws Exception {
+        LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
+        LPCMailbox sourceMailbox = requestSource.getMailbox();
+        if (sourceMailbox != mailbox) {
+            JLPCRequest jlpcRequest = new JLPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
+            requestSource.send(mailbox, jlpcRequest);
+            return;
+        }
+        try {
+            processRequest(unwrappedRequest, new ResponseProcessor() {
+                @Override
+                public void process(Object unwrappedResponse) throws Exception {
+                    try {
+                        rd.process(unwrappedResponse);
+                    } catch (Exception e) {
+                        throw new TransparentException(e);
+                    }
+                }
+            });
+        } catch (TransparentException t) {
+            Exception e = (Exception) t.getCause();
+            throw e;
+        } catch (Exception e) {
+            ExceptionHandler eh = getExceptionHandler();
+            if (eh == null) throw e;
+            eh.process(e);
+        }
+    }
+
+    /**
+     * Send an unwrapped request to another actor.
+     *
+     * @param actor            The target actor.
+     * @param unwrappedRequest The unwrapped request.
+     * @param rd1              The response processor.
+     */
+    final protected void send(final LPCActor actor, 
+                              final Object unwrappedRequest, 
+                              final ResponseProcessor rd1) 
+            throws Exception {
+        ResponseProcessor rd2 = rd1;
+        final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
+        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
+            @Override
+            public void process(Object unwrappedResponse) throws Exception {
+                requestProcessor.setExceptionHandler(exceptionHandler);
+                rd1.process(unwrappedResponse);
+            }
+        };
+        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
     }
 
     /**
