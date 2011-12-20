@@ -1,9 +1,11 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.apc.APCMailbox;
+import org.agilewiki.jactor.apc.JAPCMailbox;
 import org.agilewiki.jactor.apc.JAPCMessage;
 import org.agilewiki.jactor.apc.JAPCRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.concurrent.ThreadManager;
 
 import java.util.ArrayList;
 
@@ -11,8 +13,31 @@ import java.util.ArrayList;
  * Implements LPCMailbox.
  */
 public class JLPCMailbox implements LPCMailbox {
-    
+
+    /**
+     * The lower-level mailbox which actually transports the messages.
+     */
     private APCMailbox mailbox;
+
+    /**
+     * Create a JLPCMailbox.
+     * Use this constructor when providing an implementation of APCMailbox
+     * other than JAPCMailbox.
+     *
+     * @param mailbox The lower-level mailbox which actually transports the messages.
+     */
+    public JLPCMailbox(APCMailbox mailbox) {
+        this.mailbox = mailbox;
+    }
+
+    /**
+     * Create a JLPCMailbox.
+     *
+     * @param threadManager Provides a thread for processing dispatched events.
+     */
+    public JLPCMailbox(ThreadManager threadManager) {
+        this(new JAPCMailbox(threadManager));
+    }
 
     /**
      * Returns the request message being processed.
@@ -37,7 +62,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public void sendPendingMessages() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.sendPendingMessages();
     }
 
     /**
@@ -47,7 +72,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public void setInitialBufferCapacity(int initialBufferCapacity) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.setInitialBufferCapacity(initialBufferCapacity);
     }
 
     /**
@@ -58,7 +83,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.send(destination, request);
     }
 
     /**
@@ -68,7 +93,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public void response(Object unwrappedResponse) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.response(unwrappedResponse);
     }
 
     /**
@@ -77,7 +102,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public boolean isEmpty() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return mailbox.isEmpty();
     }
 
     /**
@@ -86,7 +111,7 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public boolean dispatchEvents() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return mailbox.dispatchEvents();
     }
 
     /**
@@ -96,6 +121,6 @@ public class JLPCMailbox implements LPCMailbox {
      */
     @Override
     public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mailbox.putBufferedEvents(bufferedEvents);
     }
 }
