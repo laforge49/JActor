@@ -35,7 +35,7 @@ abstract public class JLPCActor implements LPCActor {
     /**
      * The inbox and outbox of the actor.
      */
-    private LPCMailbox mailbox;
+    protected LPCMailbox mailbox;
 
     /**
      * Handles callbacks from the mailbox.
