@@ -195,31 +195,11 @@ abstract public class JLPCActor implements LPCActor {
      * @param responseProcessor Processes the final, non-null result.
      * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
-    final protected void iterate(final Function function,
-                                 final ResponseProcessor responseProcessor)
+    final protected void iterate(Function function,
+                                 ResponseProcessor responseProcessor)
             throws Exception {
-        final MutableBoolean sync = new MutableBoolean();
-        final MutableBoolean async = new MutableBoolean();
-        ResponseProcessor rd = new ResponseProcessor() {
-            @Override
-            public void process(Object unwrappedResponse) throws Exception {
-                if (unwrappedResponse == null) {
-                    if (!async.value) {
-                        sync.value = true;
-                    } else {
-                        iterate(function, responseProcessor); //not recursive
-                    }
-                } else responseProcessor.process(unwrappedResponse);
-            }
-        };
-        sync.value = true;
-        while (sync.value) {
-            sync.value = false;
-            function.process(rd);
-            if (!sync.value) {
-                async.value = true;
-            }
-        }
+        JIterator it = new JIterator(function, responseProcessor);
+        it.iterate();
     }
 
     /**
