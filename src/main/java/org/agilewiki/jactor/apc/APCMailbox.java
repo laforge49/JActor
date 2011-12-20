@@ -29,6 +29,21 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
  * Serves as the asynchronous transport for APCMessages.
  */
 public interface APCMailbox extends BufferedEventsDestination<JAPCMessage> {
+
+    /**
+     * Returns the request message being processed.
+     *
+     * @return The request message being processed.
+     */
+    public JAPCRequest getCurrentRequest();
+
+    /**
+     * Assigns the request message to be processed.
+     *
+     * @param currentRequest The request message being processed.
+     */
+    public void setCurrentRequest(JAPCRequest currentRequest);
+
     /**
      * Send any pending messages.
      */

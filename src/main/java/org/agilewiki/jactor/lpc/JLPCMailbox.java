@@ -1,5 +1,6 @@
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.apc.APCMailbox;
 import org.agilewiki.jactor.apc.JAPCMessage;
 import org.agilewiki.jactor.apc.JAPCRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
@@ -10,6 +11,27 @@ import java.util.ArrayList;
  * Implements LPCMailbox.
  */
 public class JLPCMailbox implements LPCMailbox {
+    
+    private APCMailbox mailbox;
+
+    /**
+     * Returns the request message being processed.
+     *
+     * @return The request message being processed.
+     */
+    public JAPCRequest getCurrentRequest() {
+        return mailbox.getCurrentRequest();
+    }
+
+    /**
+     * Assigns the request message to be processed.
+     *
+     * @param currentRequest The request message being processed.
+     */
+    public void setCurrentRequest(JAPCRequest currentRequest) {
+        mailbox.setCurrentRequest(currentRequest);
+    }
+    
     /**
      * Send any pending messages.
      */
