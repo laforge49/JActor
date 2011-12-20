@@ -48,6 +48,15 @@ public class JLPCMailbox implements LPCMailbox {
     }
 
     /**
+     * Create a JLPCMailbox.
+     *
+     * @param threadManager Provides a thread for processing dispatched events.
+     */
+    public JLPCMailbox(ThreadManager threadManager) {
+        this(new JAPCMailbox(threadManager), false);
+    }
+
+    /**
      * Returns the request message being processed.
      *
      * @return The request message being processed.
