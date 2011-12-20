@@ -199,21 +199,21 @@ abstract public class JLPCActor implements LPCActor {
                                  final ResponseProcessor responseProcessor) throws Exception {
         final MutableBoolean sync = new MutableBoolean();
         final MutableBoolean async = new MutableBoolean();
+        ResponseProcessor rd = new ResponseProcessor() {
+            @Override
+            public void process(Object unwrappedResponse) throws Exception {
+                if (unwrappedResponse == null) {
+                    if (!async.value) {
+                        sync.value = true;
+                    } else {
+                        iterate(function, responseProcessor); //not recursive
+                    }
+                } else responseProcessor.process(unwrappedResponse);
+            }
+        };
         sync.value = true;
         while (sync.value) {
             sync.value = false;
-            ResponseProcessor rd = new ResponseProcessor() {
-                @Override
-                public void process(Object unwrappedResponse) throws Exception {
-                    if (unwrappedResponse == null) {
-                        if (!async.value) {
-                            sync.value = true;
-                        } else {
-                            iterate(function, responseProcessor); //not recursive
-                        }
-                    } else responseProcessor.process(unwrappedResponse);
-                }
-            };
             function.process(rd);
             if (!sync.value) {
                 async.value = true;

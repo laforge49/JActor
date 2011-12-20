@@ -10,10 +10,10 @@ import org.agilewiki.jactor.lpc.LPCMailbox;
 
 public class SharedMailboxTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 1;
-        //int t = 1;
+        int c = 2;
+        int b = 3;
+        int p = 1;
+        int t = 1;
 
         //int c = 20000000;
         //int b = 1;
@@ -23,8 +23,19 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //16 parallel runs of 40000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 198203778
-        //5 nanoseconds per message
+        //msgs per sec = 314805705
+        //3.2 nanoseconds per message
+
+        //int c = 80000000;
+        //int b = 1;
+        //int p = 8;
+        //int t = 4;
+
+        //burst size of 1
+        //8 parallel runs of 160000000 messages each.
+        //1280000000 messages sent with 4 threads.
+        //msgs per sec = 284697508
+        //3.5 nanoseconds per message
 
         //int c = 500000;
         //int b = 1000;
@@ -37,10 +48,10 @@ public class SharedMailboxTest extends TestCase {
         //msgs per sec = 829703381
         //1.2 nanosecond per message
 
-        int c = 100000;
-        int b = 1000;
-        int p = 16;
-        int t = 4;
+        //int c = 100000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 4;
 
         //burst size of 1000
         //16 parallel runs of 200000000 messages each.
