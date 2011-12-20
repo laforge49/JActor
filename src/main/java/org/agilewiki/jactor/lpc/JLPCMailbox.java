@@ -15,6 +15,11 @@ import java.util.ArrayList;
 public class JLPCMailbox implements LPCMailbox {
 
     /**
+     * Set to true when all requests are to be processed asynchronously.
+     */
+    private boolean async;
+
+    /**
      * The lower-level mailbox which actually transports the messages.
      */
     private APCMailbox mailbox;
@@ -25,8 +30,10 @@ public class JLPCMailbox implements LPCMailbox {
      * other than JAPCMailbox.
      *
      * @param mailbox The lower-level mailbox which actually transports the messages.
+     * @param async Set to true when all requests are to be processed asynchronously.
      */
-    public JLPCMailbox(APCMailbox mailbox) {
+    public JLPCMailbox(APCMailbox mailbox, boolean async) {
+        this.async = async;
         this.mailbox = mailbox;
     }
 
@@ -34,9 +41,10 @@ public class JLPCMailbox implements LPCMailbox {
      * Create a JLPCMailbox.
      *
      * @param threadManager Provides a thread for processing dispatched events.
+     * @param async Set to true when all requests are to be processed asynchronously.
      */
-    public JLPCMailbox(ThreadManager threadManager) {
-        this(new JAPCMailbox(threadManager));
+    public JLPCMailbox(ThreadManager threadManager, boolean async) {
+        this(new JAPCMailbox(threadManager), async);
     }
 
     /**
