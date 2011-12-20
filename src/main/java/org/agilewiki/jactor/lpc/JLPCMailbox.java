@@ -30,7 +30,7 @@ public class JLPCMailbox implements LPCMailbox {
      * other than JAPCMailbox.
      *
      * @param mailbox The lower-level mailbox which actually transports the messages.
-     * @param async Set to true when all requests are to be processed asynchronously.
+     * @param async   Set to true when all requests are to be processed asynchronously.
      */
     public JLPCMailbox(APCMailbox mailbox, boolean async) {
         this.async = async;
@@ -41,7 +41,7 @@ public class JLPCMailbox implements LPCMailbox {
      * Create a JLPCMailbox.
      *
      * @param threadManager Provides a thread for processing dispatched events.
-     * @param async Set to true when all requests are to be processed asynchronously.
+     * @param async         Set to true when all requests are to be processed asynchronously.
      */
     public JLPCMailbox(ThreadManager threadManager, boolean async) {
         this(new JAPCMailbox(threadManager), async);
@@ -73,7 +73,7 @@ public class JLPCMailbox implements LPCMailbox {
     public void setCurrentRequest(JAPCRequest currentRequest) {
         mailbox.setCurrentRequest(currentRequest);
     }
-    
+
     /**
      * Send any pending messages.
      */

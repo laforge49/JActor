@@ -31,6 +31,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 public interface LPCRequestSource extends APCRequestSource {
     /**
      * Returns the actor's mailbox, or null if the request source is not an actor.
+     *
      * @return
      */
     LPCMailbox getMailbox();

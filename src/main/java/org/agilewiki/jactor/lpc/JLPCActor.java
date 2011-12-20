@@ -133,9 +133,9 @@ abstract public class JLPCActor implements LPCActor {
      * @param rd               The request processor.
      */
     @Override
-    public void acceptRequest(final APCRequestSource apcRequestSource, 
-                              final Object unwrappedRequest, 
-                              final ResponseProcessor rd) 
+    public void acceptRequest(final APCRequestSource apcRequestSource,
+                              final Object unwrappedRequest,
+                              final ResponseProcessor rd)
             throws Exception {
         LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
         LPCMailbox sourceMailbox = requestSource.getMailbox();
@@ -172,9 +172,9 @@ abstract public class JLPCActor implements LPCActor {
      * @param unwrappedRequest The unwrapped request.
      * @param rd1              The response processor.
      */
-    final protected void send(final LPCActor actor, 
-                              final Object unwrappedRequest, 
-                              final ResponseProcessor rd1) 
+    final protected void send(final LPCActor actor,
+                              final Object unwrappedRequest,
+                              final ResponseProcessor rd1)
             throws Exception {
         ResponseProcessor rd2 = rd1;
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
@@ -196,7 +196,8 @@ abstract public class JLPCActor implements LPCActor {
      * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
     final protected void iterate(final Function function,
-                                 final ResponseProcessor responseProcessor) throws Exception {
+                                 final ResponseProcessor responseProcessor)
+            throws Exception {
         final MutableBoolean sync = new MutableBoolean();
         final MutableBoolean async = new MutableBoolean();
         ResponseProcessor rd = new ResponseProcessor() {

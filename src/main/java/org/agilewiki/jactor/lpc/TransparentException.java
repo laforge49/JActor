@@ -42,6 +42,7 @@ public class TransparentException extends Exception {
 
     /**
      * Speeds things up by not filling in the stack trace.
+     *
      * @return this
      */
     @Override
