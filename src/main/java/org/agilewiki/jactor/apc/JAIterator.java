@@ -3,7 +3,7 @@ package org.agilewiki.jactor.apc;
 /**
  * Iterates over a Function.
  */
-final public class JAIterator implements ResponseProcessor {
+abstract public class JAIterator {
 
     /**
      * Set to true when the response has not been received asynchronously.
@@ -16,59 +16,35 @@ final public class JAIterator implements ResponseProcessor {
     private boolean async = false;
 
     /**
-     * @param function          Provides the function to be called.
-     */
-    private final Function function;
-
-    /**
      * @param responseProcessor Processes the final, non-null result.
      */
     private final ResponseProcessor responseProcessor;
 
     /**
-     * The other JAIterator being used.
+     * The internal ResponseProcessor which handles the responses from the call to process.
      */
-    private JAIterator it = null;
+    private final ResponseProcessor irp = new ResponseProcessor() {
+        @Override
+        public void process(Object unwrappedResponse) throws Exception {
+            if (unwrappedResponse == null) {
+                if (!async) {
+                    sync = true;
+                } else {
+                    iterate(); //not recursive
+                }
+            } else responseProcessor.process(unwrappedResponse);
+        }
+    };
 
     /**
      * Create a JAIterator.
      *
-     * @param function          Provides the function to be called.
      * @param responseProcessor Processes the final, non-null result.
+     * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
-    private JAIterator(Function function, ResponseProcessor responseProcessor) {
-        this.function = function;
+    public JAIterator(ResponseProcessor responseProcessor) throws Exception {
         this.responseProcessor = responseProcessor;
-    }
-
-    /**
-     * Create a JAIterator.
-     *
-     * @param function          Provides the function to be called.
-     * @param responseProcessor Processes the final, non-null result.
-     * @param it                The other JAIterator being used.
-     */
-    private JAIterator(Function function, ResponseProcessor responseProcessor, JAIterator it) {
-        this(function, responseProcessor);
-        this.it = it;
-    }
-
-    /**
-     * Receives and processes a response.
-     *
-     * @param unwrappedResponse The response.
-     * @throws Exception Any uncaught exceptions raised when processing the response.
-     */
-    @Override
-    public void process(Object unwrappedResponse) throws Exception {
-        if (unwrappedResponse == null) {
-            if (!async) {
-                sync = true;
-            } else {
-                if (it == null) it = new JAIterator(function, responseProcessor, this);
-                it.iterate(); //not recursive
-            }
-        } else responseProcessor.process(unwrappedResponse);
+        iterate();
     }
 
     /**
@@ -80,22 +56,17 @@ final public class JAIterator implements ResponseProcessor {
         sync = true;
         while (sync) {
             sync = false;
-            function.process(this);
+            process(irp);
             if (!sync) {
                 async = true;
             }
         }
     }
-
     /**
-     * Iterates over a Function.
+     * Perform an iteration.
      *
-     * @param function          Provides the function to be called.
-     * @param responseProcessor Processes the final, non-null result.
-     * @throws Exception Any uncaught exceptions raised when calling the provided function.
+     * @param responseProcessor Processes the response.
+     * @throws Exception An exception raised when the function is called.
      */
-    public static void iterate(Function function, ResponseProcessor responseProcessor) throws Exception {
-        JAIterator it = new JAIterator(function, responseProcessor);
-        it.iterate();
-    }
+    abstract protected void process(ResponseProcessor responseProcessor) throws Exception;
 }

@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.apc.timing;
 
-import org.agilewiki.jactor.apc.Function;
 import org.agilewiki.jactor.apc.JAIterator;
 import org.agilewiki.jactor.apc.JAPCActor;
 import org.agilewiki.jactor.apc.ResponseProcessor;
@@ -22,7 +21,7 @@ final public class Sender extends JAPCActor {
 
     @Override
     protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
-        JAIterator.iterate(new Function() {
+        new JAIterator(rd1) {
             int i = 0;
 
             @Override
@@ -46,6 +45,6 @@ final public class Sender extends JAPCActor {
                     }
                 }
             }
-        }, rd1);
+        };
     }
 }
