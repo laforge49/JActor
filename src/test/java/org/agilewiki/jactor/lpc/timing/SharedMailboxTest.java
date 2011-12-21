@@ -15,16 +15,16 @@ public class SharedMailboxTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        //int c = 20000000;
+        //int c = 40000000;
         //int b = 1;
         //int p = 16;
         //int t = 4;
 
         //burst size of 1
-        //16 parallel runs of 40000000 messages each.
-        //640000000 messages sent with 4 threads.
-        //msgs per sec = 353006067
-        //2.8 nanoseconds per message.
+        //16 parallel runs of 80000000 messages each.
+        //1280000000 messages sent with 4 threads.
+        //msgs per sec = 445527323
+        //2.2 nanoseconds per message.
 
         //int c = 10000000;
         //int b = 2;
@@ -56,8 +56,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //8 parallel runs of 160000000 messages each.
         //1280000000 messages sent with 4 threads.
-        //msgs per sec = 342245989
-        //2.9 nanoseconds per message
+        //msgs per sec = 448965275
+        //2.2 nanoseconds per message
 
         //int c = 500000;
         //int b = 1000;
@@ -89,7 +89,8 @@ public class SharedMailboxTest extends TestCase {
                 LPCMailbox sharedMailbox = new JLPCMailbox(threadManager, true);
                 LPCActor echo = new Echo(sharedMailbox);
                 echo.setInitialBufferCapacity(b + 10);
-                senders[i] = new Sender(sharedMailbox, echo, c, b);
+                if (b == 1) senders[i] = new Sender1(sharedMailbox, echo, c, b);
+                else senders[i] = new Sender(sharedMailbox, echo, c, b);
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
