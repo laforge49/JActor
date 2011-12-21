@@ -16,7 +16,7 @@ abstract public class JAIterator {
     private boolean async = false;
 
     /**
-     * @param responseProcessor Processes the final, non-null result.
+     * Processes the final, non-null result.
      */
     private final ResponseProcessor responseProcessor;
 
