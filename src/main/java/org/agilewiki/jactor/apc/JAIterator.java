@@ -40,7 +40,7 @@ abstract public class JAIterator {
      * Create a JAIterator.
      *
      * @param responseProcessor Processes the final, non-null result.
-     * @throws Exception Any uncaught exceptions raised when calling the provided function.
+     * @throws Exception Any uncaught exceptions raised by the process method.
      */
     public JAIterator(ResponseProcessor responseProcessor) throws Exception {
         this.responseProcessor = responseProcessor;
@@ -50,7 +50,7 @@ abstract public class JAIterator {
     /**
      * Iterates over the process method.
      *
-     * @throws Exception Any uncaught exceptions raised when calling the provided function.
+     * @throws Exception Any uncaught exceptions raised by the process method.
      */
     private void iterate() throws Exception {
         sync = true;
@@ -66,7 +66,7 @@ abstract public class JAIterator {
      * Perform an iteration.
      *
      * @param responseProcessor Processes the response.
-     * @throws Exception An exception raised when the function is called.
+     * @throws Exception Any uncaught exceptions raised by the process method.
      */
     abstract protected void process(ResponseProcessor responseProcessor) throws Exception;
 }
