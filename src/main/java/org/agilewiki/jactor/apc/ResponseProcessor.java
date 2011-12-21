@@ -31,6 +31,7 @@ public interface ResponseProcessor {
      * Receives and processes a response.
      *
      * @param unwrappedResponse The response.
+     * @throws Exception Any uncaught exceptions raised when processing the response.
      */
     public void process(Object unwrappedResponse) throws Exception;
 }

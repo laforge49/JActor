@@ -198,8 +198,7 @@ abstract public class JLPCActor implements LPCActor {
     final protected void iterate(Function function,
                                  ResponseProcessor responseProcessor)
             throws Exception {
-        JIterator it = new JIterator(function, responseProcessor);
-        it.iterate();
+        JAIterator.iterate(function, responseProcessor);
     }
 
     /**
