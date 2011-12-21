@@ -26,17 +26,6 @@ public class SharedMailboxTest extends TestCase {
         //msgs per sec = 445527323
         //2.2 nanoseconds per message.
 
-        //int c = 10000000;
-        //int b = 2;
-        //int p = 16;
-        //int t = 4;
-
-        //burst size of 2
-        //16 parallel runs of 40000000 messages each.
-        //640000000 messages sent with 4 threads.
-        //msgs per sec = 478325859
-        //2.1 nanoseconds per message.
-
         //int c = 2000000;
         //int b = 10;
         //int p = 16;
