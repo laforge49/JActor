@@ -23,8 +23,30 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //16 parallel runs of 40000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 378474275
-        //2.6 nanoseconds per message --slowed down a bit by JIterator.
+        //msgs per sec = 353006067
+        //2.8 nanoseconds per message.
+
+        //int c = 10000000;
+        //int b = 2;
+        //int p = 16;
+        //int t = 4;
+
+        //burst size of 2
+        //16 parallel runs of 40000000 messages each.
+        //640000000 messages sent with 4 threads.
+        //msgs per sec = 478325859
+        //2.1 nanoseconds per message.
+
+        //int c = 2000000;
+        //int b = 10;
+        //int p = 16;
+        //int t = 4;
+
+        //burst size of 10
+        //16 parallel runs of 40000000 messages each.
+        //640000000 messages sent with 4 threads.
+        //msgs per sec = 696409140
+        //1.4 nanoseconds per message.
 
         //int c = 80000000;
         //int b = 1;
@@ -34,8 +56,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //8 parallel runs of 160000000 messages each.
         //1280000000 messages sent with 4 threads.
-        //msgs per sec = 284697508
-        //3.5 nanoseconds per message
+        //msgs per sec = 342245989
+        //2.9 nanoseconds per message
 
         //int c = 500000;
         //int b = 1000;

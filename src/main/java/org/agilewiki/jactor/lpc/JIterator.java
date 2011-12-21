@@ -9,12 +9,18 @@ import org.agilewiki.jactor.apc.ResponseProcessor;
 final public class JIterator implements ResponseProcessor {
     private boolean sync = false;
     private boolean async = false;
-    private Function function;
-    private ResponseProcessor responseProcessor;
+    private final Function function;
+    private final ResponseProcessor responseProcessor;
+    JIterator it = null;
 
     JIterator(Function function, ResponseProcessor responseProcessor) {
         this.function = function;
         this.responseProcessor = responseProcessor;
+    }
+
+    JIterator(Function function, ResponseProcessor responseProcessor, JIterator it) {
+        this(function, responseProcessor);
+        this.it = it;
     }
 
     @Override
@@ -23,7 +29,7 @@ final public class JIterator implements ResponseProcessor {
             if (!async) {
                 sync = true;
             } else {
-                JIterator it = new JIterator(function, responseProcessor);
+                if (it == null) it = new JIterator(function, responseProcessor, this);
                 it.iterate(); //not recursive
             }
         } else responseProcessor.process(unwrappedResponse);
