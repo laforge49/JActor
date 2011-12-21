@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.apc;
 
 /**
- * Iterates over a Function.
+ * Iterates over its process method.
  */
 abstract public class JAIterator {
 
@@ -48,7 +48,7 @@ abstract public class JAIterator {
     }
 
     /**
-     * Iterates over a Function.
+     * Iterates over the process method.
      *
      * @throws Exception Any uncaught exceptions raised when calling the provided function.
      */
