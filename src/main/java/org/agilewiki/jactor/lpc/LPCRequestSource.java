@@ -32,7 +32,7 @@ public interface LPCRequestSource extends APCRequestSource {
     /**
      * Returns the actor's mailbox, or null if the request source is not an actor.
      *
-     * @return
+     * @return The actor's mailbox, or null if the request source is not an actor.
      */
     LPCMailbox getMailbox();
 }
