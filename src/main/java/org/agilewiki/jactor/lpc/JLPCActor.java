@@ -189,19 +189,6 @@ abstract public class JLPCActor implements LPCActor {
     }
 
     /**
-     * Call a function repeatedly until the result is not null.
-     *
-     * @param function          Provides the function to be called.
-     * @param responseProcessor Processes the final, non-null result.
-     * @throws Exception Any uncaught exceptions raised when calling the provided function.
-     */
-    final protected void iterate(Function function,
-                                 ResponseProcessor responseProcessor)
-            throws Exception {
-        JAIterator.iterate(function, responseProcessor);
-    }
-
-    /**
      * The application method for processing requests sent to the actor.
      *
      * @param unwrappedRequest  An unwrapped request.
