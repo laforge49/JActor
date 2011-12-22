@@ -20,7 +20,7 @@ package org.agilewiki.jactor.apc;
  *     int r = 1;
  *
  *     public void process(ResponseProcessor rp) throws Exception {
- *         if (i > max) rp.process(r);
+ *         if (i > max) rp.process(new Integer(r);
  *         else {
  *             i += 1;
  *             r = r * i;
@@ -47,13 +47,13 @@ package org.agilewiki.jactor.apc;
  *     int r = 1;
  *
  *     public void process(ResponseProcessor rp) throws Exception {
- *         if (i > max) rp.process(r);
+ *         if (i > max) rp.process(new Integer(r));
  *         else {
  *             i += 1;
  *             Multiply m = new Multiply(r, i);
  *             send(anotherActor, m, new ResponseProcessor() {
  *                 public void process(Object rsp) throws Exception {
- *                     r = (int) rsp;
+ *                     r = ((Integer) rsp).intValue();
  *                 }
  *             });
  *         }
