@@ -62,7 +62,7 @@ public interface APCMailbox extends BufferedEventsDestination<JAPCMessage> {
      * @param destination Buffered events receiver.
      * @param request     The request to be sent.
      */
-    public void apcSend(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request);
+    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request);
 
     /**
      * Return the response for processing.

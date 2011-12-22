@@ -83,7 +83,7 @@ abstract public class JLPCActor implements LPCActor {
 
         @Override
         public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
-            mailbox.lpcSend(destination, (JLPCRequest) japcRequest, mailbox);
+            mailbox.send(destination, japcRequest);
         }
     };
 
@@ -133,17 +133,44 @@ abstract public class JLPCActor implements LPCActor {
      * @param rd               The request processor.
      */
     @Override
-    public void acceptRequest(final APCRequestSource apcRequestSource,
-                              final Object unwrappedRequest,
-                              final ResponseProcessor rd)
+    public void acceptRequest(APCRequestSource apcRequestSource,
+                              Object unwrappedRequest,
+                              ResponseProcessor rd)
             throws Exception {
         LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
         LPCMailbox sourceMailbox = requestSource.getMailbox();
-        if (sourceMailbox != mailbox) {
-            JLPCRequest jlpcRequest = new JLPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
-            requestSource.send(mailbox, jlpcRequest);
+        if (sourceMailbox == mailbox) {
+            syncProcess(unwrappedRequest, rd);
             return;
         }
+        if (mailbox.isAsync() || sourceMailbox == null) {
+            asyncSend(apcRequestSource, unwrappedRequest, rd);
+            return;
+        }
+        LPCMailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+        if (mailbox.getControllingMailbox() == srcControllingMailbox) {
+            syncProcess(unwrappedRequest, rd);
+        } else if (!mailbox.acquireControl(srcControllingMailbox)) {
+            asyncSend(apcRequestSource, unwrappedRequest, rd);
+            return;
+        } else {
+            try {
+                syncProcess(unwrappedRequest, rd);
+            } finally {
+                mailbox.relinquishControl();
+                mailbox.dispatchRemaining(srcControllingMailbox);
+            }
+        }
+    }
+
+    final private void asyncSend(APCRequestSource apcRequestSource, Object unwrappedRequest, ResponseProcessor rd) {
+        JAPCRequest japcRequest = new JAPCRequest(apcRequestSource, requestProcessor, unwrappedRequest, rd);
+        apcRequestSource.send(mailbox, japcRequest);
+    }
+
+    final private void syncProcess(final Object unwrappedRequest,
+                                   final ResponseProcessor rd)
+            throws Exception {
         try {
             processRequest(unwrappedRequest, new ResponseProcessor() {
                 @Override

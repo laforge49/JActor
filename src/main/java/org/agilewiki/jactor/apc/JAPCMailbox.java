@@ -176,7 +176,7 @@ public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void apcSend(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
+    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
         request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }

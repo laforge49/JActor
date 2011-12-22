@@ -33,17 +33,34 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 public interface LPCMailbox extends APCMailbox {
 
     /**
-     * Process the request immediately if possible; otherwise buffer the request for subsequent sending.
-     *
-     * @param destination Buffered events receiver.
-     * @param request     The request to be sent.
-     */
-    public void lpcSend(BufferedEventsDestination<JAPCMessage> destination,
-                        JLPCRequest request,
-                        LPCMailbox srcMailbox);
-
-    /**
      * Returns the controlling mailbox, or null.
      */
     public LPCMailbox getControllingMailbox();
+
+    /**
+     * Gains control over the mailbox.
+     *
+     * @param srcControllingMailbox The mailbox gaining control.
+     * @return True when control was acquired.
+     */
+    public boolean acquireControl(LPCMailbox srcControllingMailbox);
+
+    /**
+     * Relinquish control over the mailbox.
+     */
+    public void relinquishControl();
+
+    /**
+     * Returns true when all requests are to be processed asynchronously.
+     *
+     * @return True when all requests are to be processed asynchronously.
+     */
+    public boolean isAsync();
+
+    /**
+     * Dispatch any enqueued requests, if possible.
+     *
+     * @param controllingMailbox The mailbox that was just in control.
+     */
+    public void dispatchRemaining(LPCMailbox controllingMailbox);
 }

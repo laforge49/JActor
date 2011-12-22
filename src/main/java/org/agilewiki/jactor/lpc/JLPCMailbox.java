@@ -58,11 +58,39 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
     }
 
     /**
+     * Returns true when all requests are to be processed asynchronously.
+     *
+     * @return True when all requests are to be processed asynchronously.
+     */
+    public boolean isAsync() {
+        return async;
+    }
+
+    /**
      * Returns the controlling mailbox, or null.
      */
     @Override
     public final LPCMailbox getControllingMailbox() {
         return atomicControl.get();
+    }
+
+    /**
+     * Gains control over the mailbox.
+     *
+     * @param srcControllingMailbox The mailbox gaining control.
+     * @return True when control was acquired.
+     */
+    @Override
+    public boolean acquireControl(LPCMailbox srcControllingMailbox) {
+        return atomicControl.compareAndSet(null, srcControllingMailbox);
+    }
+
+    /**
+     * Relinquish control over the mailbox.
+     */
+    @Override
+    public void relinquishControl() {
+        atomicControl.set(null);
     }
 
     /**
@@ -84,51 +112,21 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
     }
 
     /**
-     * Process the request immediately if possible; otherwise buffer the request for subsequent sending.
+     * Dispatch any enqueued requests, if possible.
      *
-     * @param destination Buffered events receiver.
-     * @param request     The request to be sent.
+     * @param controllingMailbox The mailbox that was just in control.
      */
-    @Override
-    public final void lpcSend(BufferedEventsDestination<JAPCMessage> destination, 
-                        JLPCRequest request, 
-                        LPCMailbox srcMailbox) {
-        /*
-        if (async) {
-        */
-            request.setSync(false);
-            apcSend(destination, request);
-        /*
-            return;
+    final public void dispatchRemaining(LPCMailbox controllingMailbox) {
+        while (!isEmpty()) {
+            if (getControllingMailbox() == controllingMailbox) {
+                super.dispatchEvents();
+            } else if (acquireControl(controllingMailbox)) {
+                try {
+                    super.dispatchEvents();
+                } finally {
+                    relinquishControl();
+                }
+            } else return;
         }
-        request.setOldRequest(getCurrentRequest());
-        LPCMailbox srcControllingMailbox = srcMailbox.getControllingMailbox();
-        if (getControllingMailbox() == srcControllingMailbox) {
-            _sendReq(request);
-            return;
-        }
-        request.setSync(false);
-        apcSend(destination, request);
-        if (!atomicControl.compareAndSet(null, srcControllingMailbox)) {
-            request.setSync(false);
-            apcSend(destination, request);
-            return;
-        }
-        try {
-            _sendReq(request);
-        } finally {
-            atomicControl.set(null);
-        }
-        if (!isEmpty()) sendRem(srcMailbox);
-        */
-    }
-    
-    private final void _sendReq(JLPCRequest request) {
-        request.setSync(true);
-        //todo
-    }
-
-    private final void sendRem(LPCMailbox srcMailbox) {
-        //todo
     }
 }

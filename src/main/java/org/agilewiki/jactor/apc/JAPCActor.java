@@ -78,7 +78,7 @@ abstract public class JAPCActor implements APCActor {
 
         @Override
         public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
-            mailbox.apcSend(destination, japcRequest);
+            mailbox.send(destination, japcRequest);
         }
     };
 
