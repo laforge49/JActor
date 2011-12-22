@@ -1,7 +1,65 @@
 package org.agilewiki.jactor.apc;
 
 /**
- * Iterates over its process method.
+ * <p>
+ * Iterates over its process method and works within any actor which supports 2-way messages.
+ * </p>
+ * <p>
+ * We can use JAIterator to calculate factorials:
+ * </p>
+ * <pre>
+ * int max = 5;
+ * ResponseProcessor printResult = new ResponseProcessor() throws Exception {
+ *     public void process(Object rsp) {
+ *         System.out.println(rsp);
+ *     }
+ * };
+ *
+ * new JAIterator(printResult) {
+ *     int i = 0;
+ *     int r = 1;
+ *
+ *     public void process(ResponseProcessor rp) throws Exception {
+ *         if (i > max) rp.process(r);
+ *         else {
+ *             i += 1;
+ *             r = r * i;
+ *             rp.process(null)
+ *         }
+ *     }
+ * };
+ * </pre>
+ * <p>
+ * The JAIterator.process method is called repeatedly until it returns a non-null response,
+ * which is then returned by JAIterator. However, the response need not be returned immediately, so the
+ * JAIterator.process method can send messages to other actors:
+ * </p>
+ * <pre>
+ * int max = 5;
+ * ResponseProcessor printResult = new ResponseProcessor() {
+ *     public void process(Object rsp) throws Exception {
+ *         System.out.println(rsp);
+ *     }
+ * };
+ *
+ * new JAIterator(printResult) {
+ *     int i = 0;
+ *     int r = 1;
+ *
+ *     public void process(ResponseProcessor rp) throws Exception {
+ *         if (i > max) rp.process(r);
+ *         else {
+ *             i += 1;
+ *             Multiply m = new Multiply(r, i);
+ *             send(anotherActor, m, new ResponseProcessor() {
+ *                 public void process(Object rsp) throws Exception {
+ *                     r = (int) rsp;
+ *                 }
+ *             });
+ *         }
+ *     }
+ * };
+ * </pre>
  */
 abstract public class JAIterator {
 

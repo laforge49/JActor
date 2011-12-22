@@ -34,7 +34,7 @@ import java.util.ArrayList;
 /**
  * An implementation of APCMailbox.
  */
-final public class JAPCMailbox implements APCMailbox {
+public class JAPCMailbox implements APCMailbox {
 
     /**
      * The request message currently being processed.
@@ -110,7 +110,7 @@ final public class JAPCMailbox implements APCMailbox {
      *
      * @return The request message being processed.
      */
-    public JAPCRequest getCurrentRequest() {
+    final public JAPCRequest getCurrentRequest() {
         return currentRequest;
     }
 
@@ -119,7 +119,7 @@ final public class JAPCMailbox implements APCMailbox {
      *
      * @param currentRequest The request message being processed.
      */
-    public void setCurrentRequest(JAPCRequest currentRequest) {
+    final public void setCurrentRequest(JAPCRequest currentRequest) {
         this.currentRequest = currentRequest;
     }
 
@@ -128,7 +128,7 @@ final public class JAPCMailbox implements APCMailbox {
      * though the results may not always be correct due to concurrency issues.
      */
     @Override
-    public boolean isEmpty() {
+    final public boolean isEmpty() {
         return eventQueue.isEmpty();
     }
 
@@ -147,7 +147,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
+    final public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
         eventQueue.putBufferedEvents(bufferedEvents);
     }
 
@@ -155,7 +155,7 @@ final public class JAPCMailbox implements APCMailbox {
      * Send any pending Messages.
      */
     @Override
-    public void sendPendingMessages() {
+    final public void sendPendingMessages() {
         eventQueue.sendPendingEvents();
     }
 
@@ -165,7 +165,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
-    public void setInitialBufferCapacity(int initialBufferCapacity) {
+    final public void setInitialBufferCapacity(int initialBufferCapacity) {
         eventQueue.setInitialBufferCapacity(initialBufferCapacity);
     }
 
@@ -176,7 +176,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
+    final public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
         request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }
@@ -187,7 +187,7 @@ final public class JAPCMailbox implements APCMailbox {
      * @param unwrappedResponse
      */
     @Override
-    public void response(Object unwrappedResponse) {
+    final public void response(Object unwrappedResponse) {
         if (currentRequest.isActive()) {
             currentRequest.inactive();
             currentRequest.response(eventQueue, unwrappedResponse);
