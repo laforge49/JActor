@@ -1,14 +1,11 @@
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCMailbox;
 import org.agilewiki.jactor.apc.JAPCMailbox;
 import org.agilewiki.jactor.apc.JAPCMessage;
-import org.agilewiki.jactor.apc.JAPCRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -63,5 +60,75 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
     /**
      * Returns the controlling mailbox, or null.
      */
-    public final LPCMailbox controllingMailbox = atomicControl.get();
+    @Override
+    public final LPCMailbox getControllingMailbox() {
+        return atomicControl.get();
+    }
+
+    /**
+     * The dispatchMessages method processes any messages in the queue.
+     * True is returned if any messages were actually processed.
+     */
+    @Override
+    final public boolean dispatchEvents() {
+        if (async) return super.dispatchEvents();
+        boolean dispatched = false;
+        if (atomicControl.compareAndSet(null, this)) {
+            try {
+                dispatched = super.dispatchEvents();
+            } finally {
+                atomicControl.set(null);
+            }
+        }
+        return dispatched;
+    }
+
+    /**
+     * Process the request immediately if possible; otherwise buffer the request for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param request     The request to be sent.
+     */
+    @Override
+    public final void lpcSend(BufferedEventsDestination<JAPCMessage> destination, 
+                        JLPCRequest request, 
+                        LPCMailbox srcMailbox) {
+        /*
+        if (async) {
+        */
+            request.setSync(false);
+            apcSend(destination, request);
+        /*
+            return;
+        }
+        request.setOldRequest(getCurrentRequest());
+        LPCMailbox srcControllingMailbox = srcMailbox.getControllingMailbox();
+        if (getControllingMailbox() == srcControllingMailbox) {
+            _sendReq(request);
+            return;
+        }
+        request.setSync(false);
+        apcSend(destination, request);
+        if (!atomicControl.compareAndSet(null, srcControllingMailbox)) {
+            request.setSync(false);
+            apcSend(destination, request);
+            return;
+        }
+        try {
+            _sendReq(request);
+        } finally {
+            atomicControl.set(null);
+        }
+        if (!isEmpty()) sendRem(srcMailbox);
+        */
+    }
+    
+    private final void _sendReq(JLPCRequest request) {
+        request.setSync(true);
+        //todo
+    }
+
+    private final void sendRem(LPCMailbox srcMailbox) {
+        //todo
+    }
 }

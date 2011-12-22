@@ -83,7 +83,7 @@ abstract public class JLPCActor implements LPCActor {
 
         @Override
         public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
-            mailbox.send(destination, japcRequest);
+            mailbox.lpcSend(destination, (JLPCRequest) japcRequest, mailbox);
         }
     };
 

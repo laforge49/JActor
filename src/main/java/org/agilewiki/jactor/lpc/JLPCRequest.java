@@ -23,15 +23,13 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCRequestProcessor;
-import org.agilewiki.jactor.apc.JAPCRequest;
-import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.apc.*;
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
  * Requests sent to a JLPCMailbox are wrapped by an JLPCRequest.
  */
-public class JLPCRequest extends JAPCRequest {
+final public class JLPCRequest extends JAPCRequest {
 
     private boolean sync;
 

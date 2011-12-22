@@ -24,9 +24,26 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.apc.APCMailbox;
+import org.agilewiki.jactor.apc.JAPCMessage;
+import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 
 /**
  * Serves as the asynchronous transport for APCMessages.
  */
 public interface LPCMailbox extends APCMailbox {
+
+    /**
+     * Process the request immediately if possible; otherwise buffer the request for subsequent sending.
+     *
+     * @param destination Buffered events receiver.
+     * @param request     The request to be sent.
+     */
+    public void lpcSend(BufferedEventsDestination<JAPCMessage> destination,
+                        JLPCRequest request,
+                        LPCMailbox srcMailbox);
+
+    /**
+     * Returns the controlling mailbox, or null.
+     */
+    public LPCMailbox getControllingMailbox();
 }

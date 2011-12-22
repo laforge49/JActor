@@ -143,14 +143,14 @@ public class JAPCRequest extends JAPCMessage {
      *
      * @return Is true when no response has been returned.
      */
-    public boolean isActive() {
+    final public boolean isActive() {
         return active;
     }
 
     /**
      * Sets active to false--a response has been returned.
      */
-    public void inactive() {
+    final public void inactive() {
         active = false;
     }
 
@@ -160,7 +160,7 @@ public class JAPCRequest extends JAPCMessage {
      * @param eventQueue        The internal queue used by JAPCMailbox.
      * @param unwrappedResponse The unwrapped response.
      */
-    public void response(BufferedEventsQueue<JAPCMessage> eventQueue, Object unwrappedResponse) {
+    final public void response(BufferedEventsQueue<JAPCMessage> eventQueue, Object unwrappedResponse) {
         JAPCResponse japcResponse = new JAPCResponse(unwrappedResponse);
         japcResponse.setJAPCRequest(this);
         requestSource.responseFrom(eventQueue, japcResponse);
