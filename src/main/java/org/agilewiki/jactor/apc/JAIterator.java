@@ -120,6 +120,7 @@ abstract public class JAIterator {
             }
         }
     }
+
     /**
      * Perform an iteration.
      *

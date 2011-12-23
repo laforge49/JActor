@@ -30,7 +30,7 @@ package org.agilewiki.jactor.lpc;
  * exception handler of the actor which sourced the request is invoked
  * instead of an exception handler of the target actor.
  */
-public class TransparentException extends Exception {
+final public class TransparentException extends Exception {
     /**
      * Create a new TransparentException
      *

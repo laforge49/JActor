@@ -40,24 +40,24 @@ abstract public class JLPCActor implements LPCActor {
     /**
      * Handles callbacks from the mailbox.
      */
-    private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
+    final private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
-        public ExceptionHandler getExceptionHandler() {
+        final public ExceptionHandler getExceptionHandler() {
             return exceptionHandler;
         }
 
-        public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             this.exceptionHandler = exceptionHandler;
         }
 
         @Override
-        public void haveEvents() {
+        final public void haveEvents() {
             mailbox.dispatchEvents();
         }
 
         @Override
-        public void processRequest(JAPCRequest request) throws Exception {
+        final public void processRequest(final JAPCRequest request) throws Exception {
             JLPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) {
@@ -70,19 +70,21 @@ abstract public class JLPCActor implements LPCActor {
     /**
      * Serves as the originator of requests sent to other actors.
      */
-    private LPCRequestSource requestSource = new LPCRequestSource() {
+    final private LPCRequestSource requestSource = new LPCRequestSource() {
         @Override
-        public LPCMailbox getMailbox() {
+        final public LPCMailbox getMailbox() {
             return mailbox;
         }
 
         @Override
-        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
+        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue,
+                                       final JAPCResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
+        final public void send(final BufferedEventsDestination<JAPCMessage> destination,
+                               final JAPCRequest japcRequest) {
             mailbox.send(destination, japcRequest);
         }
     };
@@ -92,7 +94,7 @@ abstract public class JLPCActor implements LPCActor {
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public JLPCActor(LPCMailbox mailbox) {
+    public JLPCActor(final LPCMailbox mailbox) {
         if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
         this.mailbox = mailbox;
     }
@@ -103,7 +105,7 @@ abstract public class JLPCActor implements LPCActor {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
-    final public void setInitialBufferCapacity(int initialBufferCapacity) {
+    final public void setInitialBufferCapacity(final int initialBufferCapacity) {
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
     }
 
@@ -121,7 +123,7 @@ abstract public class JLPCActor implements LPCActor {
      *
      * @param exceptionHandler The exception handler.
      */
-    final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
+    final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
         requestProcessor.setExceptionHandler(exceptionHandler);
     }
 
@@ -133,12 +135,12 @@ abstract public class JLPCActor implements LPCActor {
      * @param rd               The request processor.
      */
     @Override
-    public void acceptRequest(APCRequestSource apcRequestSource,
-                              Object unwrappedRequest,
-                              ResponseProcessor rd)
+    final public void acceptRequest(final APCRequestSource apcRequestSource,
+                                    final Object unwrappedRequest,
+                                    final ResponseProcessor rd)
             throws Exception {
-        LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
-        LPCMailbox sourceMailbox = requestSource.getMailbox();
+        final LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
+        final LPCMailbox sourceMailbox = requestSource.getMailbox();
         if (sourceMailbox == mailbox) {
             syncProcess(unwrappedRequest, rd);
             return;
@@ -147,7 +149,7 @@ abstract public class JLPCActor implements LPCActor {
             asyncSend(apcRequestSource, unwrappedRequest, rd);
             return;
         }
-        LPCMailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+        final LPCMailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
         if (mailbox.getControllingMailbox() == srcControllingMailbox) {
             syncProcess(unwrappedRequest, rd);
         } else if (!mailbox.acquireControl(srcControllingMailbox)) {
@@ -163,8 +165,11 @@ abstract public class JLPCActor implements LPCActor {
         }
     }
 
-    final private void asyncSend(APCRequestSource apcRequestSource, Object unwrappedRequest, ResponseProcessor rd) {
-        JAPCRequest japcRequest = new JAPCRequest(apcRequestSource, requestProcessor, unwrappedRequest, rd);
+    final private void asyncSend(final APCRequestSource apcRequestSource, 
+                                 final Object unwrappedRequest, 
+                                 final ResponseProcessor rd) {
+        final JAPCRequest japcRequest = new JAPCRequest(apcRequestSource, 
+                requestProcessor, unwrappedRequest, rd);
         apcRequestSource.send(mailbox, japcRequest);
     }
 
@@ -183,10 +188,10 @@ abstract public class JLPCActor implements LPCActor {
                 }
             });
         } catch (TransparentException t) {
-            Exception e = (Exception) t.getCause();
+            final Exception e = (Exception) t.getCause();
             throw e;
         } catch (Exception e) {
-            ExceptionHandler eh = getExceptionHandler();
+            final ExceptionHandler eh = getExceptionHandler();
             if (eh == null) throw e;
             eh.process(e);
         }
@@ -207,7 +212,8 @@ abstract public class JLPCActor implements LPCActor {
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
         if (exceptionHandler != null) rd2 = new ResponseProcessor() {
             @Override
-            public void process(Object unwrappedResponse) throws Exception {
+            public void process(final Object unwrappedResponse)
+                    throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
                 rd1.process(unwrappedResponse);
             }

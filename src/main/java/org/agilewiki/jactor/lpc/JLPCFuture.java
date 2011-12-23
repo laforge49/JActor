@@ -33,7 +33,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Used mostly in testing to send a request to an actor and wait for a response.
  */
-public class JLPCFuture {
+final public class JLPCFuture {
     /**
      * Used to wake up the sending thread when a response is received.
      */
@@ -62,18 +62,20 @@ public class JLPCFuture {
      */
     private LPCRequestSource requestSource = new LPCRequestSource() {
         @Override
-        public LPCMailbox getMailbox() {
+        final public LPCMailbox getMailbox() {
             return null;
         }
 
         @Override
-        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
+        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue, 
+                                       final JAPCResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
-            ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
+        final public void send(final BufferedEventsDestination<JAPCMessage> destination, 
+                               final JAPCRequest japcRequest) {
+            final ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }
@@ -87,7 +89,9 @@ public class JLPCFuture {
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object send(LPCActor actor, Object unwrappedRequest) throws Exception {
+    public Object send(final LPCActor actor,
+                       final Object unwrappedRequest)
+            throws Exception {
         done = new Semaphore(0);
         actor.acceptRequest(requestSource, unwrappedRequest, null);
         done.acquire();
