@@ -11,7 +11,12 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Implements LPCMailbox.
  */
-public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
+final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
+
+    /**
+     * Used to create mailboxes.
+     */
+    private MailboxFactory mailboxFactory;
 
     /**
      * Tracks which mailbox has control. If an exchange can gain control
@@ -29,34 +34,49 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * Use this constructor when providing an implementation of BufferedEventsQueue
      * other than JABufferedEventsQueue.
      *
-     * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
-     * @param async      Set to true when all requests are to be processed asynchronously.
+     * @param eventQueue     The lower-level mailbox which transports messages as 1-way events.
+     * @param mailboxFactory Provides a thread for processing dispatched events.
+     * @param async          Set to true when all requests are to be processed asynchronously.
      */
     public JLPCMailbox(final BufferedEventsQueue<JAPCMessage> eventQueue,
+                       final MailboxFactory mailboxFactory,
                        final boolean async) {
         super(eventQueue);
+        this.mailboxFactory = mailboxFactory;
         this.async = async;
     }
 
     /**
      * Create a JLPCMailbox.
      *
-     * @param threadManager Provides a thread for processing dispatched events.
-     * @param async         Set to true when all requests are to be processed asynchronously.
+     * @param mailboxFactory Provides a thread for processing dispatched events.
+     * @param async          Set to true when requests from other mailboxes
+     *                       are to be processed asynchronously.
      */
-    public JLPCMailbox(final ThreadManager threadManager,
+    public JLPCMailbox(final MailboxFactory mailboxFactory,
                        final boolean async) {
-        super(threadManager);
+        super(mailboxFactory);
+        this.mailboxFactory = mailboxFactory;
         this.async = async;
     }
 
     /**
      * Create a JLPCMailbox.
      *
-     * @param threadManager Provides a thread for processing dispatched events.
+     * @param mailboxFactory Provides a thread for processing dispatched events.
      */
-    public JLPCMailbox(final ThreadManager threadManager) {
-        this(threadManager, false);
+    public JLPCMailbox(final MailboxFactory mailboxFactory) {
+        this(mailboxFactory, false);
+    }
+
+    /**
+     * Returns the mailbox factory.
+     *
+     * @return The mailbox factory.
+     */
+    @Override
+    public MailboxFactory getMailboxFactory() {
+        return mailboxFactory;
     }
 
     /**
@@ -64,7 +84,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      *
      * @return True when all requests are to be processed asynchronously.
      */
-    final public boolean isAsync() {
+    public boolean isAsync() {
         return async;
     }
 
@@ -72,7 +92,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * Returns the controlling mailbox, or null.
      */
     @Override
-    final public LPCMailbox getControllingMailbox() {
+    public LPCMailbox getControllingMailbox() {
         return atomicControl.get();
     }
 
@@ -83,7 +103,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * @return True when control was acquired.
      */
     @Override
-    final public boolean acquireControl(final LPCMailbox srcControllingMailbox) {
+    public boolean acquireControl(final LPCMailbox srcControllingMailbox) {
         return atomicControl.compareAndSet(null, srcControllingMailbox);
     }
 
@@ -91,7 +111,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * Relinquish control over the mailbox.
      */
     @Override
-    final public void relinquishControl() {
+    public void relinquishControl() {
         atomicControl.set(null);
     }
 
@@ -100,7 +120,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * True is returned if any messages were actually processed.
      */
     @Override
-    final public boolean dispatchEvents() {
+    public boolean dispatchEvents() {
         if (async) return super.dispatchEvents();
         boolean dispatched = false;
         if (atomicControl.compareAndSet(null, this)) {
@@ -118,7 +138,7 @@ public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      *
      * @param controllingMailbox The mailbox that was just in control.
      */
-    final public void dispatchRemaining(final LPCMailbox controllingMailbox) {
+    public void dispatchRemaining(final LPCMailbox controllingMailbox) {
         while (!isEmpty()) {
             if (getControllingMailbox() == controllingMailbox) {
                 super.dispatchEvents();

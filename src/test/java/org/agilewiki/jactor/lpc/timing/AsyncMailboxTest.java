@@ -3,10 +3,7 @@ package org.agilewiki.jactor.lpc.timing;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.lpc.JLPCFuture;
-import org.agilewiki.jactor.lpc.JLPCMailbox;
-import org.agilewiki.jactor.lpc.LPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.*;
 
 public class AsyncMailboxTest extends TestCase {
     public void testTiming() {
@@ -15,21 +12,21 @@ public class AsyncMailboxTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        ThreadManager threadManager = JAThreadManager.newThreadManager(t);
+        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
         try {
             LPCActor[] senders = new LPCActor[p];
             int i = 0;
             while (i < p) {
-                LPCMailbox echoMailbox = new JLPCMailbox(threadManager, true);
+                LPCMailbox echoMailbox = mailboxFactory.createAsyncMailbox();
                 LPCActor echo = new Echo(echoMailbox);
                 echo.setInitialBufferCapacity(b + 10);
-                LPCMailbox senderMailbox = new JLPCMailbox(threadManager, true);
+                LPCMailbox senderMailbox = mailboxFactory.createAsyncMailbox();
                 if (b == 1) senders[i] = new Sender1(senderMailbox, echo, c, b);
                 else senders[i] = new Sender(senderMailbox, echo, c, b);
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            Driver driver = new Driver(new JLPCMailbox(threadManager), senders, p);
+            Driver driver = new Driver(mailboxFactory.createMailbox(), senders, p);
             JLPCFuture future = new JLPCFuture();
             future.send(driver, future);
             future.send(driver, future);
@@ -43,7 +40,7 @@ public class AsyncMailboxTest extends TestCase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            threadManager.close();
+            mailboxFactory.close();
         }
     }
 }

@@ -31,17 +31,17 @@ import java.util.concurrent.ThreadFactory;
 /**
  * A high performance implementation of ThreadManager.
  */
-final public class JAThreadManager implements ThreadManager {
+public class JAThreadManager implements ThreadManager {
     /**
      * The taskRequest semaphore is used to wake up a thread
      * when there is a task to process.
      */
-    private Semaphore taskRequest = new Semaphore(0);
+    final private Semaphore taskRequest = new Semaphore(0);
 
     /**
      * The tasks queue holds the tasks waiting to be processed.
      */
-    private ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<Runnable>();
+    final private ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<Runnable>();
 
     /**
      * When closing is true, concurrent exit as they finish their assigned tasks.
@@ -53,7 +53,7 @@ final public class JAThreadManager implements ThreadManager {
      */
     private int threadCount;
 
-    private ArrayList<Thread> threads = new ArrayList<Thread>();
+    final private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**
      * Create a JAThreadManager
@@ -86,7 +86,7 @@ final public class JAThreadManager implements ThreadManager {
      * @param threadFactory Used to create the concurrent.
      */
     @Override
-    public void start(int threadCount, ThreadFactory threadFactory) {
+    final public void start(int threadCount, ThreadFactory threadFactory) {
         this.threadCount = threadCount;
         Runnable runnable = new Runnable() {
             @Override
@@ -121,7 +121,7 @@ final public class JAThreadManager implements ThreadManager {
      * @param task A task to be processed on another thread.
      */
     @Override
-    public void process(Runnable task) {
+    final public void process(Runnable task) {
         tasks.add(task);
         taskRequest.release();
     }
@@ -133,7 +133,7 @@ final public class JAThreadManager implements ThreadManager {
      * This method only returns after all the threads have died.
      */
     @Override
-    public void close() {
+    final public void close() {
         closing = true;
         int c = 0;
         while (c < threadCount) {

@@ -165,10 +165,10 @@ abstract public class JLPCActor implements LPCActor {
         }
     }
 
-    final private void asyncSend(final APCRequestSource apcRequestSource, 
-                                 final Object unwrappedRequest, 
+    final private void asyncSend(final APCRequestSource apcRequestSource,
+                                 final Object unwrappedRequest,
                                  final ResponseProcessor rd) {
-        final JAPCRequest japcRequest = new JAPCRequest(apcRequestSource, 
+        final JAPCRequest japcRequest = new JAPCRequest(apcRequestSource,
                 requestProcessor, unwrappedRequest, rd);
         apcRequestSource.send(mailbox, japcRequest);
     }
@@ -219,6 +219,15 @@ abstract public class JLPCActor implements LPCActor {
             }
         };
         actor.acceptRequest(requestSource, unwrappedRequest, rd2);
+    }
+
+    /**
+     * Returns the mailbox factory.
+     *
+     * @return The mailbox factory.
+     */
+    final protected MailboxFactory getMailboxFactory() {
+        return mailbox.getMailboxFactory();
     }
 
     /**

@@ -1,17 +1,12 @@
 package org.agilewiki.jactor.lpc.exceptions;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.concurrent.JAThreadManager;
-import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.lpc.JLPCFuture;
-import org.agilewiki.jactor.lpc.JLPCMailbox;
-import org.agilewiki.jactor.lpc.LPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.*;
 
 public class SharedMailboxTest extends TestCase {
     public void testExceptions() {
-        ThreadManager threadManager = JAThreadManager.newThreadManager(1);
-        LPCMailbox sharedMailbox = new JLPCMailbox(threadManager, false);
+        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
+        LPCMailbox sharedMailbox = mailboxFactory.createMailbox();
         try {
             LPCActor doer = new Doer(sharedMailbox);
             LPCActor driver = new Driver(sharedMailbox, doer);
@@ -29,7 +24,7 @@ public class SharedMailboxTest extends TestCase {
                 System.out.println("T2: " + e.getMessage());
             }
         } finally {
-            threadManager.close();
+            mailboxFactory.close();
         }
     }
 }

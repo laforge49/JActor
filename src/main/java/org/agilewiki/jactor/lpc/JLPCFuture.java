@@ -67,13 +67,13 @@ final public class JLPCFuture {
         }
 
         @Override
-        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue, 
+        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue,
                                        final JAPCResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        final public void send(final BufferedEventsDestination<JAPCMessage> destination, 
+        final public void send(final BufferedEventsDestination<JAPCMessage> destination,
                                final JAPCRequest japcRequest) {
             final ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
             bufferedEvents.add(japcRequest);

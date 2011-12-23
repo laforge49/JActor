@@ -23,51 +23,23 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.apc.APCMailbox;
-import org.agilewiki.jactor.apc.JAPCMessage;
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * Serves as the asynchronous transport for APCMessages.
+ * Creates Mailboxes.
  */
-public interface LPCMailbox extends APCMailbox {
-
+public interface MailboxFactory extends ThreadManager {
     /**
-     * Returns the controlling mailbox, or null.
-     */
-    public LPCMailbox getControllingMailbox();
-
-    /**
-     * Gains control over the mailbox.
+     * Create a mailbox.
      *
-     * @param srcControllingMailbox The mailbox gaining control.
-     * @return True when control was acquired.
+     * @return A new mailbox.
      */
-    public boolean acquireControl(LPCMailbox srcControllingMailbox);
+    LPCMailbox createMailbox();
 
     /**
-     * Relinquish control over the mailbox.
-     */
-    public void relinquishControl();
-
-    /**
-     * Returns true when all requests are to be processed asynchronously.
+     * Create an asynchronous mailbox.
      *
-     * @return True when all requests are to be processed asynchronously.
+     * @return A new asynchronous mailbox.
      */
-    public boolean isAsync();
-
-    /**
-     * Dispatch any enqueued requests, if possible.
-     *
-     * @param controllingMailbox The mailbox that was just in control.
-     */
-    public void dispatchRemaining(LPCMailbox controllingMailbox);
-
-    /**
-     * Returns the mailbox factory.
-     *
-     * @return The mailbox factory.
-     */
-    public MailboxFactory getMailboxFactory();
+    LPCMailbox createAsyncMailbox();
 }
