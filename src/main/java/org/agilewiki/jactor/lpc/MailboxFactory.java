@@ -28,7 +28,14 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 /**
  * Creates Mailboxes.
  */
-public interface MailboxFactory extends ThreadManager {
+public interface MailboxFactory {
+    /**
+     * Returns the thread manager.
+     *
+     * @return The thread manager.
+     */
+    ThreadManager getThreadManager();
+    
     /**
      * Create a mailbox.
      *
@@ -42,4 +49,9 @@ public interface MailboxFactory extends ThreadManager {
      * @return A new asynchronous mailbox.
      */
     LPCMailbox createAsyncMailbox();
+
+    /**
+     * Stop all the threads as they complete their tasks.
+     */
+    public void close();
 }

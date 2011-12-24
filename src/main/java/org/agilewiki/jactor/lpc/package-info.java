@@ -33,14 +33,19 @@
  * </p>
  * <p>
  * LPCMailboxes are now first class objects which can be shared by LPCActors. The result is
- * even better performance (1.2 nanoseconds per message), as procedure calls between actors
+ * even better performance (1.2 nanoseconds per message), as procedure calls between LPCActors
  * with the same mailbox do not use request or response wrappers.
+ * </p>
+ * <p>
+ * When LPCActors use different mailboxes messages are still passed synchronously, except when
+ * the target mailbox is busy. The results are still very good (3.4 nanoseconds per message),
+ * as the same procedure calls between actors are used.
  * </p>
  * <p>
  * Now there are times when, to be able to make good use of the available hardware threads,
  * asynchronous procedure calls are needed. This is achieved by flagging a LPCMailbox as
  * asynchronous. Procedure calls to an actor with an asynchronous mailbox are always asynchronous--
- * except when both actors share the same mailbox.
+ * except when both actors share the same mailbox. Performance remains reasonable (22 nanoseconds per message).
  * </p>
  */
 

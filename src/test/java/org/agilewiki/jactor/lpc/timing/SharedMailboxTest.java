@@ -74,7 +74,7 @@ public class SharedMailboxTest extends TestCase {
         //msgs per sec = 847457627
         //1.2 nanoseconds per message
 
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
+        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(t);
         try {
             LPCActor[] senders = new LPCActor[p];
             int i = 0;

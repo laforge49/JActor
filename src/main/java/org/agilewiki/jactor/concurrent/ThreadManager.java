@@ -47,7 +47,7 @@ public interface ThreadManager {
     public void process(Runnable runnable);
 
     /**
-     * Stop all the concurrent as they complete their tasks.
+     * Stop all the threads as they complete their tasks.
      */
     public void close();
 }

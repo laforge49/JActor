@@ -2,12 +2,7 @@ JActor is a Java partial reimplementation of the scala project, AsyncFP, a high-
 implementation. (See https://github.com/laforge49/Asynchronous-Functional-Programming/wiki for more
 information on AsyncFP.)
 
-JActor implements a very simple actor, JAEventActor, which sends 1-way messages, one
-at a time.
-
-A second actor that buffers messages sent to other actors, JABufferedEventsActor,
-has also been implemented. An echo test running multiple pairs
-processed 85 million messages per second--12 nanoseconds per message.
+Message passing is mostly synchronous, at a rate of up to .8 billion messages per second.
 
 (Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The times
 reported were best run in 5. Only standard switch settings were used--there was NO compiler optimization.)

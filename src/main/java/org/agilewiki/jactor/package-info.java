@@ -24,7 +24,7 @@
 
 /**
  * <p>
- * The JActor project implements actors in Java that can process 85 million 1-way messages per second.
+ * The JActor project implements actors in Java that can process .8 Billion messages per second.
  * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
  * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
@@ -33,9 +33,19 @@
  * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
  * </p>
  * <p>
- * An echo test running multiple pairs processed 85 million 1-way messages per second--12 nanoseconds
- * per message--using the JABufferedEventsActor. The JAPCActor processes 49 million 2-way message
- * per second--20 nanoseconds per message--and supports exception processing.
+ * Message passing between actors uses 2-way messages (request / response). This makes message passing
+ * very much like method calls and most message passing is done synchronously. Mailboxes are used by actors
+ * when passing messages between threads and are first class objects. This allows actors to share mailboxes
+ * for improved performance.
+ * </p>
+ * <p>
+ * When actors share a common mailbox, 847,457,627 messages are passed per second. Otherwise the rate drops to
+ * 293,040,293 per second.
+ * </p>
+ * <p>
+ * Asynchronous message passing is also supported, making it easy to use all the available hardware threads for
+ * good vertical scalability. Request messages sent to an actor with an asynchronous mailbox (and the corresponding
+ * responses) are passed asynchronously at a rate of 48,221,820 per second.
  * </p>
  * <p>
  * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.

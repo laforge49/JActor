@@ -55,7 +55,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      */
     public JLPCMailbox(final MailboxFactory mailboxFactory,
                        final boolean async) {
-        super(mailboxFactory);
+        super(mailboxFactory.getThreadManager());
         this.mailboxFactory = mailboxFactory;
         this.async = async;
     }

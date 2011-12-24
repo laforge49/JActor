@@ -9,7 +9,16 @@ import java.util.concurrent.ThreadFactory;
 /**
  * Implements MailboxFactory.
  */
-public class JMailboxFactory extends JAThreadManager implements MailboxFactory {
+public class JMailboxFactory implements MailboxFactory {
+
+    /**
+     * The thread manager.
+     */
+    private ThreadManager threadManager;
+    
+    public JMailboxFactory(ThreadManager threadManager) {
+        this.threadManager = threadManager;
+    }
 
     /**
      * Create a JMailboxFactory
@@ -18,21 +27,23 @@ public class JMailboxFactory extends JAThreadManager implements MailboxFactory {
      * @return A new JMailboxFactory.
      */
     public static JMailboxFactory newMailboxFactory(int threadCount) {
-        ThreadFactory threadFactory = new JAThreadFactory();
-        return newMailboxFactory(threadCount, threadFactory);
+        return new JMailboxFactory(JAThreadManager.newThreadManager(threadCount));
     }
 
     /**
-     * Create a JMailboxFactory
+     * Returns the thread manager.
      *
-     * @param threadCount   The number of concurrent to be used.
-     * @param threadFactory Used to create the concurrent.
-     * @return A new JMailboxFactory.
+     * @return The thread manager.
      */
-    public static JMailboxFactory newMailboxFactory(int threadCount, ThreadFactory threadFactory) {
-        JMailboxFactory mailboxFactory = new JMailboxFactory();
-        mailboxFactory.start(threadCount, threadFactory);
-        return mailboxFactory;
+    public ThreadManager getThreadManager() {
+        return threadManager;
+    }
+
+    /**
+     * Stop all the threads as they complete their tasks.
+     */
+    public void close() {
+        threadManager.close();
     }
 
     /**

@@ -12,7 +12,18 @@ public class AsyncMailboxTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
+        //int c = 30000;
+        //int b = 1000;
+        //int p = 4;
+        //int t = 4;
+
+        //burst size of 1000
+        //4 parallel runs of 200000000 messages each.
+        //800000000 messages sent with 4 threads.
+        //msgs per sec = 48221820
+        //22 nanoseconds per message
+
+        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(t);
         try {
             LPCActor[] senders = new LPCActor[p];
             int i = 0;
@@ -26,7 +37,7 @@ public class AsyncMailboxTest extends TestCase {
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            Driver driver = new Driver(mailboxFactory.createMailbox(), senders, p);
+            Driver driver = new Driver(mailboxFactory.createAsyncMailbox(), senders, p);
             JLPCFuture future = new JLPCFuture();
             future.send(driver, future);
             future.send(driver, future);

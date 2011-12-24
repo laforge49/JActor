@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadFactory;
 /**
  * A high performance implementation of ThreadManager.
  */
-public class JAThreadManager implements ThreadManager {
+final public class JAThreadManager implements ThreadManager {
     /**
      * The taskRequest semaphore is used to wake up a thread
      * when there is a task to process.
@@ -127,7 +127,7 @@ public class JAThreadManager implements ThreadManager {
     }
 
     /**
-     * The close method is used to stop all the concurrent as they become idle.
+     * The close method is used to stop all the threads as they become idle.
      * This method sets a flag to indicate that the concurrent should stop
      * and then wakes up all the concurrent.
      * This method only returns after all the threads have died.

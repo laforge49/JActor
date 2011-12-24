@@ -7,10 +7,10 @@ import org.agilewiki.jactor.lpc.*;
 
 public class MailboxTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 1;
-        //int t = 1;
+        int c = 2;
+        int b = 3;
+        int p = 1;
+        int t = 1;
 
         //int c = 40000000;
         //int b = 1;
@@ -20,23 +20,21 @@ public class MailboxTest extends TestCase {
         //burst size of 1
         //16 parallel runs of 80000000 messages each.
         //1280000000 messages sent with 4 threads.
-        //msgs per sec = 263863121
-        //3.8 nanoseconds per message test
-        //-.65 nanosecond for JAIterator
-        //= 3.1 nanoseconds per message
+        //msgs per sec = 275328027
+        //3.6 nanoseconds per message test
 
-        int c = 100000;
-        int b = 1000;
-        int p = 16;
-        int t = 4;
+        //int c = 40000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 4;
 
         //burst size of 1000
-        //16 parallel runs of 200000000 messages each.
-        //3200000000 messages sent with 4 threads.
-        //msgs per sec = 277200277
-        //3.6 nanoseconds per message
+        //16 parallel runs of 80000000 messages each.
+        //1280000000 messages sent with 4 threads.
+        //msgs per sec = 293040293
+        //3.4 nanoseconds per message
 
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
+        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(t);
         try {
             LPCActor[] senders = new LPCActor[p];
             int i = 0;
