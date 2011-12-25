@@ -2,11 +2,11 @@ package org.agilewiki.jactor.lpc.timing;
 
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.Mailbox;
 
 final public class Echo extends JLPCActor {
 
-    public Echo(LPCMailbox mailbox) {
+    public Echo(Mailbox mailbox) {
         super(mailbox);
     }
 

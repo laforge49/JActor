@@ -1,8 +1,6 @@
 package org.agilewiki.jactor.lpc.timing;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.concurrent.JAThreadManager;
-import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.*;
 
 public class AsyncMailboxTest extends TestCase {
@@ -23,15 +21,15 @@ public class AsyncMailboxTest extends TestCase {
         //msgs per sec = 48221820
         //22 nanoseconds per message
 
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(t);
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
-            LPCActor[] senders = new LPCActor[p];
+            Actor[] senders = new Actor[p];
             int i = 0;
             while (i < p) {
-                LPCMailbox echoMailbox = mailboxFactory.createAsyncMailbox();
-                LPCActor echo = new Echo(echoMailbox);
+                Mailbox echoMailbox = mailboxFactory.createAsyncMailbox();
+                Actor echo = new Echo(echoMailbox);
                 echo.setInitialBufferCapacity(b + 10);
-                LPCMailbox senderMailbox = mailboxFactory.createAsyncMailbox();
+                Mailbox senderMailbox = mailboxFactory.createAsyncMailbox();
                 if (b == 1) senders[i] = new Sender1(senderMailbox, echo, c, b);
                 else senders[i] = new Sender(senderMailbox, echo, c, b);
                 senders[i].setInitialBufferCapacity(b + 10);

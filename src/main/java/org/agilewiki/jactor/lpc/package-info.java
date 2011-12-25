@@ -43,7 +43,7 @@
  * </p>
  * <p>
  * Now there are times when, to be able to make good use of the available hardware threads,
- * asynchronous procedure calls are needed. This is achieved by flagging a LPCMailbox as
+ * asynchronous procedure calls are needed. This is achieved by flagging a Mailbox as
  * asynchronous. Procedure calls to an actor with an asynchronous mailbox are always asynchronous--
  * except when both actors share the same mailbox. Performance remains reasonable (22 nanoseconds per message).
  * </p>

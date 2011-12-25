@@ -2,14 +2,14 @@ package org.agilewiki.jactor.lpc.exceptions;
 
 import org.agilewiki.jactor.apc.ExceptionHandler;
 import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.lpc.Actor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.LPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.Mailbox;
 
 public class Driver extends JLPCActor {
-    private LPCActor doer;
+    private Actor doer;
 
-    public Driver(LPCMailbox mailbox, LPCActor doer) {
+    public Driver(Mailbox mailbox, Actor doer) {
         super(mailbox);
         this.doer = doer;
     }

@@ -29,7 +29,7 @@ import org.agilewiki.jactor.apc.ResponseProcessor;
 /**
  * An actor which implements Local Procedure Calls (LPC).
  */
-public interface LPCActor {
+public interface Actor {
 
     /**
      * Wraps and enqueues an unwrapped request in the requester's outbox.

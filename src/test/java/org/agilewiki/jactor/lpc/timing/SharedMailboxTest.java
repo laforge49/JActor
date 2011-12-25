@@ -1,8 +1,6 @@
 package org.agilewiki.jactor.lpc.timing;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.concurrent.JAThreadManager;
-import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.*;
 
 public class SharedMailboxTest extends TestCase {
@@ -74,13 +72,13 @@ public class SharedMailboxTest extends TestCase {
         //msgs per sec = 847457627
         //1.2 nanoseconds per message
 
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(t);
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
-            LPCActor[] senders = new LPCActor[p];
+            Actor[] senders = new Actor[p];
             int i = 0;
             while (i < p) {
-                LPCMailbox sharedMailbox = mailboxFactory.createAsyncMailbox();
-                LPCActor echo = new Echo(sharedMailbox);
+                Mailbox sharedMailbox = mailboxFactory.createAsyncMailbox();
+                Actor echo = new Echo(sharedMailbox);
                 echo.setInitialBufferCapacity(b + 10);
                 if (b == 1) senders[i] = new Sender1(sharedMailbox, echo, c, b);
                 else senders[i] = new Sender(sharedMailbox, echo, c, b);

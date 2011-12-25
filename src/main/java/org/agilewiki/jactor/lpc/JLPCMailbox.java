@@ -1,17 +1,15 @@
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JAPCMailbox;
-import org.agilewiki.jactor.apc.JAPCMessage;
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.concurrent.ThreadManager;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Implements LPCMailbox.
+ * Implements Mailbox.
  */
-final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
+final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
 
     /**
      * Used to create mailboxes.
@@ -22,7 +20,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * Tracks which mailbox has control. If an exchange can gain control
      * over another exchange, it can send requests to it synchronously.
      */
-    final private AtomicReference<LPCMailbox> atomicControl = new AtomicReference<LPCMailbox>();
+    final private AtomicReference<Mailbox> atomicControl = new AtomicReference<Mailbox>();
 
     /**
      * Set to true when all requests are to be processed asynchronously.
@@ -38,7 +36,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * @param mailboxFactory Provides a thread for processing dispatched events.
      * @param async          Set to true when all requests are to be processed asynchronously.
      */
-    public JLPCMailbox(final BufferedEventsQueue<JAPCMessage> eventQueue,
+    public JLPCMailbox(final BufferedEventsQueue<JAMessage> eventQueue,
                        final MailboxFactory mailboxFactory,
                        final boolean async) {
         super(eventQueue);
@@ -92,7 +90,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * Returns the controlling mailbox, or null.
      */
     @Override
-    public LPCMailbox getControllingMailbox() {
+    public Mailbox getControllingMailbox() {
         return atomicControl.get();
     }
 
@@ -103,7 +101,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      * @return True when control was acquired.
      */
     @Override
-    public boolean acquireControl(final LPCMailbox srcControllingMailbox) {
+    public boolean acquireControl(final Mailbox srcControllingMailbox) {
         return atomicControl.compareAndSet(null, srcControllingMailbox);
     }
 
@@ -138,7 +136,7 @@ final public class JLPCMailbox extends JAPCMailbox implements LPCMailbox {
      *
      * @param controllingMailbox The mailbox that was just in control.
      */
-    public void dispatchRemaining(final LPCMailbox controllingMailbox) {
+    public void dispatchRemaining(final Mailbox controllingMailbox) {
         while (!isEmpty()) {
             if (getControllingMailbox() == controllingMailbox) {
                 super.dispatchEvents();

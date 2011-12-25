@@ -39,12 +39,12 @@ public class JAPCMailbox implements APCMailbox {
     /**
      * The request message currently being processed.
      */
-    private JAPCRequest currentRequest;
+    private JARequest currentRequest;
 
     /**
      * The lower-level mailbox which transports messages as 1-way events.
      */
-    private BufferedEventsQueue<JAPCMessage> eventQueue;
+    private BufferedEventsQueue<JAMessage> eventQueue;
 
     /**
      * Create a JAPCMailbox.
@@ -53,25 +53,25 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
      */
-    public JAPCMailbox(BufferedEventsQueue<JAPCMessage> eventQueue) {
+    public JAPCMailbox(BufferedEventsQueue<JAMessage> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(new ActiveEventProcessor<JAPCMessage>() {
+        eventQueue.setEventProcessor(new ActiveEventProcessor<JAMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();
             }
 
             @Override
-            public void processEvent(JAPCMessage event) {
-                if (event instanceof JAPCRequest) {
-                    currentRequest = (JAPCRequest) event;
+            public void processEvent(JAMessage event) {
+                if (event instanceof JARequest) {
+                    currentRequest = (JARequest) event;
                     try {
                         currentRequest.getApcRequestProcessor().processRequest(currentRequest);
                     } catch (Exception ex) {
                         processException(ex);
                     }
                 } else {
-                    JAPCResponse japcResponse = (JAPCResponse) event;
+                    JAResponse japcResponse = (JAResponse) event;
                     currentRequest = japcResponse.getOldAPCRequest();
                     Object data = japcResponse.getUnwrappedResponse();
                     if (data != null && data instanceof Exception)
@@ -102,7 +102,7 @@ public class JAPCMailbox implements APCMailbox {
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAPCMailbox(ThreadManager threadManager) {
-        this(new JABufferedEventsQueue<JAPCMessage>(threadManager));
+        this(new JABufferedEventsQueue<JAMessage>(threadManager));
     }
 
     /**
@@ -110,7 +110,7 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @return The request message being processed.
      */
-    final public JAPCRequest getCurrentRequest() {
+    final public JARequest getCurrentRequest() {
         return currentRequest;
     }
 
@@ -119,7 +119,7 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @param currentRequest The request message being processed.
      */
-    final public void setCurrentRequest(JAPCRequest currentRequest) {
+    final public void setCurrentRequest(JARequest currentRequest) {
         this.currentRequest = currentRequest;
     }
 
@@ -147,7 +147,7 @@ public class JAPCMailbox implements APCMailbox {
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    final public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
+    final public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
         eventQueue.putBufferedEvents(bufferedEvents);
     }
 
@@ -176,7 +176,7 @@ public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest request) {
+    public void send(BufferedEventsDestination<JAMessage> destination, JARequest request) {
         request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }

@@ -41,14 +41,14 @@ public interface MailboxFactory {
      *
      * @return A new mailbox.
      */
-    LPCMailbox createMailbox();
+    Mailbox createMailbox();
 
     /**
      * Create an asynchronous mailbox.
      *
      * @return A new asynchronous mailbox.
      */
-    LPCMailbox createAsyncMailbox();
+    Mailbox createAsyncMailbox();
 
     /**
      * Stop all the threads as they complete their tasks.

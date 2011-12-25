@@ -21,10 +21,18 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor.lpc;
+
+import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
- * All requests sent to a APCMailbox, and all returned responses, are subclasses of JAPCMessage.
+ * The originator of a request.
  */
-abstract public class JAPCMessage {
+public interface RequestSource extends APCRequestSource {
+    /**
+     * Returns the actor's mailbox, or null if the request source is not an actor.
+     *
+     * @return The actor's mailbox, or null if the request source is not an actor.
+     */
+    Mailbox getMailbox();
 }

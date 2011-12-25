@@ -24,18 +24,16 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.apc.APCMailbox;
-import org.agilewiki.jactor.apc.JAPCMessage;
-import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 
 /**
- * Serves as the asynchronous transport for APCMessages.
+ * Serves as the asynchronous transport for wrapped requests / responses.
  */
-public interface LPCMailbox extends APCMailbox {
+public interface Mailbox extends APCMailbox {
 
     /**
      * Returns the controlling mailbox, or null.
      */
-    public LPCMailbox getControllingMailbox();
+    public Mailbox getControllingMailbox();
 
     /**
      * Gains control over the mailbox.
@@ -43,7 +41,7 @@ public interface LPCMailbox extends APCMailbox {
      * @param srcControllingMailbox The mailbox gaining control.
      * @return True when control was acquired.
      */
-    public boolean acquireControl(LPCMailbox srcControllingMailbox);
+    public boolean acquireControl(Mailbox srcControllingMailbox);
 
     /**
      * Relinquish control over the mailbox.
@@ -62,7 +60,7 @@ public interface LPCMailbox extends APCMailbox {
      *
      * @param controllingMailbox The mailbox that was just in control.
      */
-    public void dispatchRemaining(LPCMailbox controllingMailbox);
+    public void dispatchRemaining(Mailbox controllingMailbox);
 
     /**
      * Returns the mailbox factory.

@@ -57,7 +57,7 @@ abstract public class JAPCActor implements APCActor {
         }
 
         @Override
-        public void processRequest(JAPCRequest request) throws Exception {
+        public void processRequest(JARequest request) throws Exception {
             JAPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) {
@@ -72,12 +72,12 @@ abstract public class JAPCActor implements APCActor {
      */
     private APCRequestSource requestSource = new APCRequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
+        public void responseFrom(BufferedEventsQueue<JAMessage> eventQueue, JAResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
+        public void send(BufferedEventsDestination<JAMessage> destination, JARequest japcRequest) {
             mailbox.send(destination, japcRequest);
         }
     };
@@ -141,7 +141,7 @@ abstract public class JAPCActor implements APCActor {
     final public void acceptRequest(APCRequestSource requestSource,
                                     Object unwrappedRequest,
                                     ResponseProcessor rd) {
-        JAPCRequest japcRequest = new JAPCRequest(requestSource, requestProcessor, unwrappedRequest, rd);
+        JARequest japcRequest = new JARequest(requestSource, requestProcessor, unwrappedRequest, rd);
         requestSource.send(mailbox, japcRequest);
     }
 

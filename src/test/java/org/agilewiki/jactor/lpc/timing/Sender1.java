@@ -3,15 +3,15 @@ package org.agilewiki.jactor.lpc.timing;
 import org.agilewiki.jactor.apc.JAIterator;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.LPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.Actor;
+import org.agilewiki.jactor.lpc.Mailbox;
 
 public class Sender1 extends JLPCActor {
 
-    private LPCActor echo;
+    private Actor echo;
     private final int count;
 
-    public Sender1(LPCMailbox mailbox, LPCActor echo, int c, int b) {
+    public Sender1(Mailbox mailbox, Actor echo, int c, int b) {
         super(mailbox);
         this.echo = echo;
         echo.setInitialBufferCapacity(b + 10);

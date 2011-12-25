@@ -1,33 +1,30 @@
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.concurrent.JAThreadFactory;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
-
-import java.util.concurrent.ThreadFactory;
 
 /**
  * Implements MailboxFactory.
  */
-public class JMailboxFactory implements MailboxFactory {
+final public class JAMailboxFactory implements MailboxFactory {
 
     /**
      * The thread manager.
      */
     private ThreadManager threadManager;
     
-    public JMailboxFactory(ThreadManager threadManager) {
+    public JAMailboxFactory(ThreadManager threadManager) {
         this.threadManager = threadManager;
     }
 
     /**
-     * Create a JMailboxFactory
+     * Create a JAMailboxFactory
      *
      * @param threadCount The number of concurrent to be used.
-     * @return A new JMailboxFactory.
+     * @return A new JAMailboxFactory.
      */
-    public static JMailboxFactory newMailboxFactory(int threadCount) {
-        return new JMailboxFactory(JAThreadManager.newThreadManager(threadCount));
+    public static JAMailboxFactory newMailboxFactory(int threadCount) {
+        return new JAMailboxFactory(JAThreadManager.newThreadManager(threadCount));
     }
 
     /**
@@ -52,7 +49,7 @@ public class JMailboxFactory implements MailboxFactory {
      * @return A new mailbox.
      */
     @Override
-    final public LPCMailbox createMailbox() {
+    final public Mailbox createMailbox() {
         final JLPCMailbox mailbox = new JLPCMailbox(this);
         return mailbox;
     }
@@ -63,7 +60,7 @@ public class JMailboxFactory implements MailboxFactory {
      * @return A new asynchronous mailbox.
      */
     @Override
-    final public LPCMailbox createAsyncMailbox() {
+    final public Mailbox createAsyncMailbox() {
         final JLPCMailbox mailbox = new JLPCMailbox(this, true);
         return mailbox;
     }

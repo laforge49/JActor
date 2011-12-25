@@ -5,12 +5,12 @@ import org.agilewiki.jactor.lpc.*;
 
 public class SyncTest extends TestCase {
     public void testExceptions() {
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
-        LPCMailbox doerMailbox = mailboxFactory.createMailbox();
-        LPCMailbox driverMailbox = mailboxFactory.createMailbox();
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        Mailbox doerMailbox = mailboxFactory.createMailbox();
+        Mailbox driverMailbox = mailboxFactory.createMailbox();
         try {
-            LPCActor doer = new Doer(doerMailbox);
-            LPCActor driver = new Driver(driverMailbox, doer);
+            Actor doer = new Doer(doerMailbox);
+            Actor driver = new Driver(driverMailbox, doer);
             JLPCFuture future = new JLPCFuture();
             try {
                 System.out.println("Test T1");

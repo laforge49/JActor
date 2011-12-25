@@ -38,7 +38,7 @@ public interface APCRequestProcessor {
      * @param japcRequest The wrapped request.
      * @throws Exception An exception thrown while processing the request.
      */
-    public void processRequest(JAPCRequest japcRequest) throws Exception;
+    public void processRequest(JARequest japcRequest) throws Exception;
 
     /**
      * Returns the exception handler.

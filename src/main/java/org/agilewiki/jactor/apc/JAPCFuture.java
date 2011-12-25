@@ -46,11 +46,11 @@ public class JAPCFuture {
     /**
      * Receives the response as a bufferedEvent.
      */
-    private BufferedEventsDestination<JAPCMessage> bufferedEventsDestination =
-            new BufferedEventsDestination<JAPCMessage>() {
+    private BufferedEventsDestination<JAMessage> bufferedEventsDestination =
+            new BufferedEventsDestination<JAMessage>() {
                 @Override
-                public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
-                    JAPCResponse japcResponse = (JAPCResponse) bufferedEvents.get(0);
+                public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
+                    JAResponse japcResponse = (JAResponse) bufferedEvents.get(0);
                     result = japcResponse.getUnwrappedResponse();
                     done.release();
                 }
@@ -61,13 +61,13 @@ public class JAPCFuture {
      */
     private APCRequestSource requestSource = new APCRequestSource() {
         @Override
-        public void responseFrom(BufferedEventsQueue<JAPCMessage> eventQueue, JAPCResponse japcResponse) {
+        public void responseFrom(BufferedEventsQueue<JAMessage> eventQueue, JAResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        public void send(BufferedEventsDestination<JAPCMessage> destination, JAPCRequest japcRequest) {
-            ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
+        public void send(BufferedEventsDestination<JAMessage> destination, JARequest japcRequest) {
+            ArrayList<JAMessage> bufferedEvents = new ArrayList<JAMessage>(1);
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }

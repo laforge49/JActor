@@ -3,10 +3,10 @@ package org.agilewiki.jactor.lpc.exceptions;
 import org.agilewiki.jactor.apc.ExceptionHandler;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.Mailbox;
 
 public class Doer extends JLPCActor {
-    public Doer(LPCMailbox mailbox) {
+    public Doer(Mailbox mailbox) {
         super(mailbox);
     }
 

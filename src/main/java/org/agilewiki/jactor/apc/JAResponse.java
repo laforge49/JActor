@@ -24,10 +24,10 @@
 package org.agilewiki.jactor.apc;
 
 /**
- * Responses sent to a JAPCActor are wrapped by an JAPCResponse,
+ * Responses sent to a JAPCActor are wrapped by an JAResponse,
  * which is then passed to the JAPCMailbox.
  */
-final public class JAPCResponse extends JAPCMessage {
+final public class JAResponse extends JAMessage {
 
     /**
      * The unwrapped response.
@@ -37,14 +37,14 @@ final public class JAPCResponse extends JAPCMessage {
     /**
      * The request to which this is the response.
      */
-    private JAPCRequest japcRequest;
+    private JARequest japcRequest;
 
     /**
-     * Create a JAPCResponse.
+     * Create a JAResponse.
      *
      * @param unwrappedResponse The unwrapped response.
      */
-    public JAPCResponse(Object unwrappedResponse) {
+    public JAResponse(Object unwrappedResponse) {
         this.unwrappedResponse = unwrappedResponse;
     }
 
@@ -62,7 +62,7 @@ final public class JAPCResponse extends JAPCMessage {
      *
      * @param japcRequest The request to which this is the response.
      */
-    public void setJAPCRequest(JAPCRequest japcRequest) {
+    public void setJAPCRequest(JARequest japcRequest) {
         this.japcRequest = japcRequest;
     }
 
@@ -71,7 +71,7 @@ final public class JAPCResponse extends JAPCMessage {
      *
      * @return The request that will resume processing when this response is returned.
      */
-    public JAPCRequest getOldAPCRequest() {
+    public JARequest getOldAPCRequest() {
         return japcRequest.getOldRequest();
     }
 

@@ -28,14 +28,14 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
- * Implements LPCActor.
+ * Implements Actor.
  */
-abstract public class JLPCActor implements LPCActor {
+abstract public class JLPCActor implements Actor {
 
     /**
      * The inbox and outbox of the actor.
      */
-    protected LPCMailbox mailbox;
+    protected Mailbox mailbox;
 
     /**
      * Handles callbacks from the mailbox.
@@ -57,7 +57,7 @@ abstract public class JLPCActor implements LPCActor {
         }
 
         @Override
-        final public void processRequest(final JAPCRequest request) throws Exception {
+        final public void processRequest(final JARequest request) throws Exception {
             JLPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) {
@@ -70,21 +70,21 @@ abstract public class JLPCActor implements LPCActor {
     /**
      * Serves as the originator of requests sent to other actors.
      */
-    final private LPCRequestSource requestSource = new LPCRequestSource() {
+    final private RequestSource requestSource = new RequestSource() {
         @Override
-        final public LPCMailbox getMailbox() {
+        final public Mailbox getMailbox() {
             return mailbox;
         }
 
         @Override
-        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue,
-                                       final JAPCResponse japcResponse) {
+        final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
+                                       final JAResponse japcResponse) {
             eventQueue.send(mailbox, japcResponse);
         }
 
         @Override
-        final public void send(final BufferedEventsDestination<JAPCMessage> destination,
-                               final JAPCRequest japcRequest) {
+        final public void send(final BufferedEventsDestination<JAMessage> destination,
+                               final JARequest japcRequest) {
             mailbox.send(destination, japcRequest);
         }
     };
@@ -94,7 +94,7 @@ abstract public class JLPCActor implements LPCActor {
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public JLPCActor(final LPCMailbox mailbox) {
+    public JLPCActor(final Mailbox mailbox) {
         if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
         this.mailbox = mailbox;
     }
@@ -139,8 +139,8 @@ abstract public class JLPCActor implements LPCActor {
                                     final Object unwrappedRequest,
                                     final ResponseProcessor rd)
             throws Exception {
-        final LPCRequestSource requestSource = (LPCRequestSource) apcRequestSource;
-        final LPCMailbox sourceMailbox = requestSource.getMailbox();
+        final RequestSource requestSource = (RequestSource) apcRequestSource;
+        final Mailbox sourceMailbox = requestSource.getMailbox();
         if (sourceMailbox == mailbox) {
             syncProcess(unwrappedRequest, rd);
             return;
@@ -149,7 +149,7 @@ abstract public class JLPCActor implements LPCActor {
             asyncSend(apcRequestSource, unwrappedRequest, rd);
             return;
         }
-        final LPCMailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+        final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
         if (mailbox.getControllingMailbox() == srcControllingMailbox) {
             syncProcess(unwrappedRequest, rd);
         } else if (!mailbox.acquireControl(srcControllingMailbox)) {
@@ -168,7 +168,7 @@ abstract public class JLPCActor implements LPCActor {
     final private void asyncSend(final APCRequestSource apcRequestSource,
                                  final Object unwrappedRequest,
                                  final ResponseProcessor rd) {
-        final JAPCRequest japcRequest = new JAPCRequest(apcRequestSource,
+        final JARequest japcRequest = new JARequest(apcRequestSource,
                 requestProcessor, unwrappedRequest, rd);
         apcRequestSource.send(mailbox, japcRequest);
     }
@@ -204,7 +204,7 @@ abstract public class JLPCActor implements LPCActor {
      * @param unwrappedRequest The unwrapped request.
      * @param rd1              The response processor.
      */
-    final protected void send(final LPCActor actor,
+    final protected void send(final Actor actor,
                               final Object unwrappedRequest,
                               final ResponseProcessor rd1)
             throws Exception {

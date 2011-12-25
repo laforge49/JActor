@@ -5,11 +5,11 @@ import org.agilewiki.jactor.lpc.*;
 
 public class SharedMailboxTest extends TestCase {
     public void testExceptions() {
-        MailboxFactory mailboxFactory = JMailboxFactory.newMailboxFactory(1);
-        LPCMailbox sharedMailbox = mailboxFactory.createMailbox();
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        Mailbox sharedMailbox = mailboxFactory.createMailbox();
         try {
-            LPCActor doer = new Doer(sharedMailbox);
-            LPCActor driver = new Driver(sharedMailbox, doer);
+            Actor doer = new Doer(sharedMailbox);
+            Actor driver = new Driver(sharedMailbox, doer);
             JLPCFuture future = new JLPCFuture();
             try {
                 System.out.println("Test T1");

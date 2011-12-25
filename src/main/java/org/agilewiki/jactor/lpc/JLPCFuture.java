@@ -47,11 +47,11 @@ final public class JLPCFuture {
     /**
      * Receives the response as a bufferedEvent.
      */
-    private BufferedEventsDestination<JAPCMessage> bufferedEventsDestination =
-            new BufferedEventsDestination<JAPCMessage>() {
+    private BufferedEventsDestination<JAMessage> bufferedEventsDestination =
+            new BufferedEventsDestination<JAMessage>() {
                 @Override
-                public void putBufferedEvents(ArrayList<JAPCMessage> bufferedEvents) {
-                    JAPCResponse japcResponse = (JAPCResponse) bufferedEvents.get(0);
+                public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
+                    JAResponse japcResponse = (JAResponse) bufferedEvents.get(0);
                     result = japcResponse.getUnwrappedResponse();
                     done.release();
                 }
@@ -60,22 +60,22 @@ final public class JLPCFuture {
     /**
      * Serves as the originator of a request.
      */
-    private LPCRequestSource requestSource = new LPCRequestSource() {
+    private RequestSource requestSource = new RequestSource() {
         @Override
-        final public LPCMailbox getMailbox() {
+        final public Mailbox getMailbox() {
             return null;
         }
 
         @Override
-        final public void responseFrom(final BufferedEventsQueue<JAPCMessage> eventQueue,
-                                       final JAPCResponse japcResponse) {
+        final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
+                                       final JAResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        final public void send(final BufferedEventsDestination<JAPCMessage> destination,
-                               final JAPCRequest japcRequest) {
-            final ArrayList<JAPCMessage> bufferedEvents = new ArrayList<JAPCMessage>(1);
+        final public void send(final BufferedEventsDestination<JAMessage> destination,
+                               final JARequest japcRequest) {
+            final ArrayList<JAMessage> bufferedEvents = new ArrayList<JAMessage>(1);
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }
@@ -89,7 +89,7 @@ final public class JLPCFuture {
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object send(final LPCActor actor,
+    public Object send(final Actor actor,
                        final Object unwrappedRequest)
             throws Exception {
         done = new Semaphore(0);

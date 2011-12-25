@@ -1,15 +1,15 @@
 package org.agilewiki.jactor.lpc.timing;
 
 import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.lpc.Actor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.LPCActor;
-import org.agilewiki.jactor.lpc.LPCMailbox;
+import org.agilewiki.jactor.lpc.Mailbox;
 
 public class Driver extends JLPCActor {
     private int p;
-    private LPCActor[] senders;
+    private Actor[] senders;
 
-    public Driver(LPCMailbox mailbox, LPCActor[] senders, int p) {
+    public Driver(Mailbox mailbox, Actor[] senders, int p) {
         super(mailbox);
         this.senders = senders;
         this.p = p;

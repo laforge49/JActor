@@ -26,9 +26,9 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
- * Requests sent to a JAPCMailbox are wrapped by an JAPCRequest.
+ * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-public class JAPCRequest extends JAPCMessage {
+final public class JARequest extends JAMessage {
 
     /**
      * The target of the response.
@@ -38,7 +38,7 @@ public class JAPCRequest extends JAPCMessage {
     private APCRequestSource requestSource;
 
     /**
-     * An anonymous object in the JAPCActor that is the target of the JAPCRequest.
+     * An anonymous object in the JAPCActor that is the target of the JARequest.
      */
     private APCRequestProcessor apcRequestProcessor;
 
@@ -53,9 +53,9 @@ public class JAPCRequest extends JAPCMessage {
     private ResponseProcessor responseProcessor;
 
     /**
-     * The JAPCRequest that was being processed when this request was created.
+     * The JARequest that was being processed when this request was created.
      */
-    private JAPCRequest oldRequest;
+    private JARequest oldRequest;
 
     /**
      * Initially true, active is set to false when a response is sent.
@@ -64,17 +64,17 @@ public class JAPCRequest extends JAPCMessage {
     private boolean active = true;
 
     /**
-     * Create an JAPCRequest.
+     * Create an JARequest.
      *
      * @param requestSource       The target of the response.
      * @param apcRequestProcessor The target of the request.
      * @param unwrappedRequest    The wrapped request.
      * @param responseProcessor   Processes the response.
      */
-    public JAPCRequest(APCRequestSource requestSource,
-                       APCRequestProcessor apcRequestProcessor,
-                       Object unwrappedRequest,
-                       ResponseProcessor responseProcessor) {
+    public JARequest(APCRequestSource requestSource,
+                     APCRequestProcessor apcRequestProcessor,
+                     Object unwrappedRequest,
+                     ResponseProcessor responseProcessor) {
         this.requestSource = requestSource;
         this.apcRequestProcessor = apcRequestProcessor;
         this.unwrappedRequest = unwrappedRequest;
@@ -123,7 +123,7 @@ public class JAPCRequest extends JAPCMessage {
      *
      * @param oldRequest The request being processed when this request was created.
      */
-    final public void setOldRequest(JAPCRequest oldRequest) {
+    final public void setOldRequest(JARequest oldRequest) {
         this.oldRequest = oldRequest;
     }
 
@@ -134,7 +134,7 @@ public class JAPCRequest extends JAPCMessage {
      * @return The request that was being processed when this request
      *         was created.
      */
-    final public JAPCRequest getOldRequest() {
+    final public JARequest getOldRequest() {
         return oldRequest;
     }
 
@@ -160,8 +160,8 @@ public class JAPCRequest extends JAPCMessage {
      * @param eventQueue        The internal queue used by JAPCMailbox.
      * @param unwrappedResponse The unwrapped response.
      */
-    final public void response(BufferedEventsQueue<JAPCMessage> eventQueue, Object unwrappedResponse) {
-        JAPCResponse japcResponse = new JAPCResponse(unwrappedResponse);
+    final public void response(BufferedEventsQueue<JAMessage> eventQueue, Object unwrappedResponse) {
+        JAResponse japcResponse = new JAResponse(unwrappedResponse);
         japcResponse.setJAPCRequest(this);
         requestSource.responseFrom(eventQueue, japcResponse);
     }
