@@ -36,7 +36,7 @@ abstract public class JLPCActor implements Actor {
     /**
      * The inbox and outbox of the actor.
      */
-    protected Mailbox mailbox;
+    private Mailbox mailbox;
 
     /**
      * Handles callbacks from the mailbox.
@@ -98,6 +98,15 @@ abstract public class JLPCActor implements Actor {
     public JLPCActor(final Mailbox mailbox) {
         if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
         this.mailbox = mailbox;
+    }
+
+    /**
+     * Returns the actor's mailbox.
+     *
+     * @return The actor's mailbox.
+     */
+    protected Mailbox getMailbox() {
+        return mailbox;
     }
 
     /**

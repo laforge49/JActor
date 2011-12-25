@@ -24,7 +24,7 @@ public class Factorial extends JLPCActor {
         (new JAIterator(printResult) {
             int i;
             int r;
-            Multiplier mp = new Multiplier(mailbox);
+            Multiplier mp = new Multiplier(getMailbox());
 
             public void process(ResponseProcessor rp) throws Exception {
                 if (r == 0) r = 1;

@@ -34,11 +34,11 @@ public interface Actor {
      * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
      * @param requestSource    The originator of the request.
-     * @param unwrappedRequest The unwrapped request to be sent.
+     * @param request The unwrapped request to be sent.
      * @param rd               The request processor.
      */
     void acceptRequest(APCRequestSource requestSource,
-                       Object unwrappedRequest,
+                       Object request,
                        ResponseProcessor rd)
             throws Exception;
 
