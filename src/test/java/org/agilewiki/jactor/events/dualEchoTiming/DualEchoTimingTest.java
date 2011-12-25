@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.JAEventFuture;
-import org.agilewiki.jactor.events.Sender;
 
 final public class DualEchoTimingTest extends TestCase {
     public void testTiming() {

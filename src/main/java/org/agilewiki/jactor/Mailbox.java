@@ -38,10 +38,10 @@ public interface Mailbox extends APCMailbox {
     /**
      * Gains control over the mailbox.
      *
-     * @param srcControllingMailbox The mailbox gaining control.
+     * @param activeMailbox The mailbox gaining control.
      * @return True when control was acquired.
      */
-    public boolean acquireControl(Mailbox srcControllingMailbox);
+    public boolean acquireControl(Mailbox activeMailbox);
 
     /**
      * Relinquish control over the mailbox.
@@ -58,9 +58,9 @@ public interface Mailbox extends APCMailbox {
     /**
      * Dispatch any enqueued requests, if possible.
      *
-     * @param controllingMailbox The mailbox that was just in control.
+     * @param activeMailbox The mailbox that was just in control.
      */
-    public void dispatchRemaining(Mailbox controllingMailbox);
+    public void dispatchRemaining(Mailbox activeMailbox);
 
     /**
      * Returns the mailbox factory.
