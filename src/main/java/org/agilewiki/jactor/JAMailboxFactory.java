@@ -13,7 +13,7 @@ final public class JAMailboxFactory implements MailboxFactory {
      * The thread manager.
      */
     private ThreadManager threadManager;
-    
+
     public JAMailboxFactory(ThreadManager threadManager) {
         this.threadManager = threadManager;
     }

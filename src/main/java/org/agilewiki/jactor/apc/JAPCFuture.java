@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
@@ -81,7 +82,7 @@ final public class JAPCFuture {
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object send(APCActor actor, Object unwrappedRequest) throws Exception {
+    public Object send(Actor actor, Object unwrappedRequest) throws Exception {
         done = new Semaphore(0);
         actor.acceptRequest(requestSource, unwrappedRequest, null);
         done.acquire();

@@ -175,6 +175,13 @@ abstract public class JLPCActor implements Actor {
         }
     }
 
+    /**
+     * Process a request asynchronously.
+     *
+     * @param apcRequestSource The source of the request.
+     * @param unwrappedRequest The request.
+     * @param rd               Processes the response.
+     */
     final private void asyncSend(final APCRequestSource apcRequestSource,
                                  final Object unwrappedRequest,
                                  final ResponseProcessor rd) {
@@ -183,6 +190,13 @@ abstract public class JLPCActor implements Actor {
         apcRequestSource.send(mailbox, japcRequest);
     }
 
+    /**
+     * Process a request synchronously.
+     *
+     * @param unwrappedRequest The request.
+     * @param rd               Processes the response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
     final private void syncProcess(final Object unwrappedRequest,
                                    final ResponseProcessor rd)
             throws Exception {

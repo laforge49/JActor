@@ -36,7 +36,7 @@ public interface MailboxFactory {
      * @return The thread manager.
      */
     ThreadManager getThreadManager();
-    
+
     /**
      * Create a mailbox.
      *

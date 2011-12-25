@@ -18,11 +18,11 @@ public class SyncTimingTest extends TestCase {
             public void process(Object unwrappedResponse) throws Exception {
                 final long t1 = System.currentTimeMillis();
                 long d = t1 - t0;
-                if (d > 0) System.out.println("iterations per sec = "+c*1000L/d);
-                System.out.println("each iteration takes "+d*1000000./c+" nanoseconds");
+                if (d > 0) System.out.println("iterations per sec = " + c * 1000L / d);
+                System.out.println("each iteration takes " + d * 1000000. / c + " nanoseconds");
             }
         };
-        
+
         (new JAIterator(done) {
             long i;
 

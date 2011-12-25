@@ -8,10 +8,10 @@ public class SimpleFactorialTest extends TestCase {
     public void testFactorial() throws Exception {
         final int max = 5;
         ResponseProcessor printResult = new ResponseProcessor() {
-            public void process (Object rsp){
+            public void process(Object rsp) {
                 System.out.println(rsp);
             }
-        } ;
+        };
 
         (new JAIterator(printResult) {
             int i;

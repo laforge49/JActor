@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
@@ -30,9 +31,9 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * An implementation of APCActor.
+ * An implementation of Actor.
  */
-abstract public class JAPCActor implements APCActor {
+abstract public class JAPCActor implements Actor {
 
     /**
      * The inbox and outbox of the actor.
@@ -153,8 +154,11 @@ abstract public class JAPCActor implements APCActor {
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
      * @param rd1              The response processor.
+     * @throws Exception Any uncaught exceptions thrown while processing the request.
      */
-    final protected void send(final APCActor actor, final Object unwrappedRequest, final ResponseProcessor rd1) {
+    final protected void send(final Actor actor,
+                              final Object unwrappedRequest,
+                              final ResponseProcessor rd1) throws Exception {
         ResponseProcessor rd2 = rd1;
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
         if (exceptionHandler != null) rd2 = new ResponseProcessor() {
