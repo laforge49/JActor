@@ -23,12 +23,12 @@ final public class Driver extends JAPCActor {
     @Override
     protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
         ResponseProcessor rd2 = new ResponseProcessor() {
-            int r = p;
+            int r;
 
             @Override
             public void process(Object unwrappedResponse) throws Exception {
-                r -= 1;
-                if (r == 0) rd1.process(null);
+                r += 1;
+                if (r == p) rd1.process(null);
             }
         };
         int i = 0;

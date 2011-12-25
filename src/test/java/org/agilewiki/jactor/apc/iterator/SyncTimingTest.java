@@ -26,7 +26,8 @@ public class SyncTimingTest extends TestCase {
         };
         
         new JAIterator(done) {
-            long i = 0;
+            long i;
+
             @Override
             protected void process(ResponseProcessor rp) throws Exception {
                 i += 1;

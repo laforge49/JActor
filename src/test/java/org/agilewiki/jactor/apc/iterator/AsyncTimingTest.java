@@ -25,7 +25,7 @@ public class AsyncTimingTest extends TestCase {
         };
 
         class It extends JAIterator {
-            long i = 0;
+            long i;
             ResponseProcessor rp;
 
             It(ResponseProcessor fin) throws Exception {

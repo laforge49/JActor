@@ -8,23 +8,24 @@ package org.agilewiki.jactor.apc;
  * We can use JAIterator to calculate factorials:
  * </p>
  * <pre>
- * int max = 5;
- * ResponseProcessor printResult = new ResponseProcessor() throws Exception {
+ * final int max = 5;
+ * ResponseProcessor printResult = new ResponseProcessor() {
  *     public void process(Object rsp) {
  *         System.out.println(rsp);
  *     }
  * };
  *
  * new JAIterator(printResult) {
- *     int i = 0;
- *     int r = 1;
+ *     int i;
+ *     int r;
  *
  *     public void process(ResponseProcessor rp) throws Exception {
- *         if (i > max) rp.process(new Integer(r);
+ *         if (r == 0) r = 1;
+ *         if (i >= max) rp.process(new Integer(r));
  *         else {
  *             i += 1;
  *             r = r * i;
- *             rp.process(null)
+ *             rp.process(null);
  *         }
  *     }
  * };
