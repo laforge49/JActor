@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.apc.JAIterator;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
-public class SyncSampleTest extends TestCase {
+public class SimpleSampleTest extends TestCase {
     public void testSample() throws Exception {
         final int max = 5;
         ResponseProcessor printResult = new ResponseProcessor() {
@@ -13,7 +13,7 @@ public class SyncSampleTest extends TestCase {
             }
         } ;
 
-        new JAIterator(printResult) {
+        (new JAIterator(printResult) {
             int i;
             int r;
 
@@ -26,6 +26,6 @@ public class SyncSampleTest extends TestCase {
                     rp.process(null);
                 }
             }
-        };
+        }).iterate();
     }
 }

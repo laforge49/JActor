@@ -39,6 +39,7 @@ public class AsyncTimingTest extends TestCase {
         }
 
         final It it = new It(done);
+        it.iterate();
         while (it.i < c) {
             it.i += 1;
             it.rp.process(null);

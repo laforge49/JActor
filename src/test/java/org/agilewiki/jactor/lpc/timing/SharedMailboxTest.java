@@ -5,10 +5,10 @@ import org.agilewiki.jactor.lpc.*;
 
 public class SharedMailboxTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 1;
-        //int t = 1;
+        int c = 2;
+        int b = 3;
+        int p = 1;
+        int t = 1;
 
         //int c = 40000000;
         //int b = 1;
@@ -23,10 +23,10 @@ public class SharedMailboxTest extends TestCase {
         //-.65 nanosecond for JAIterator
         //= 1.2 nanoseconds per message
 
-        int c = 2000000;
-        int b = 10;
-        int p = 16;
-        int t = 4;
+        //int c = 2000000;
+        //int b = 10;
+        //int p = 16;
+        //int t = 4;
 
         //burst size of 10
         //16 parallel runs of 40000000 messages each.

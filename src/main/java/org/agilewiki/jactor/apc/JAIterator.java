@@ -15,7 +15,7 @@ package org.agilewiki.jactor.apc;
  *     }
  * };
  *
- * new JAIterator(printResult) {
+ * (new JAIterator(printResult) {
  *     int i;
  *     int r;
  *
@@ -28,7 +28,7 @@ package org.agilewiki.jactor.apc;
  *             rp.process(null);
  *         }
  *     }
- * };
+ * }).iterate();
  * </pre>
  * <p>
  * The JAIterator.process method is called repeatedly until it returns a non-null response,
@@ -36,18 +36,19 @@ package org.agilewiki.jactor.apc;
  * JAIterator.process method can send messages to other actors:
  * </p>
  * <pre>
- * int max = 5;
+ * final int max = 5;
  * ResponseProcessor printResult = new ResponseProcessor() {
  *     public void process(Object rsp) throws Exception {
  *         System.out.println(rsp);
  *     }
  * };
  *
- * new JAIterator(printResult) {
- *     int i = 0;
- *     int r = 1;
+ * (new JAIterator(printResult) {
+ *     int i;
+ *     int r;
  *
  *     public void process(ResponseProcessor rp) throws Exception {
+ *         if (r == 0) r = 1;
  *         if (i > max) rp.process(new Integer(r));
  *         else {
  *             i += 1;
@@ -59,7 +60,7 @@ package org.agilewiki.jactor.apc;
  *             });
  *         }
  *     }
- * };
+ * }).iterate;
  * </pre>
  */
 abstract public class JAIterator {
@@ -101,9 +102,8 @@ abstract public class JAIterator {
      * @param responseProcessor Processes the final, non-null result.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    public JAIterator(ResponseProcessor responseProcessor) throws Exception {
+    public JAIterator(ResponseProcessor responseProcessor) {
         this.responseProcessor = responseProcessor;
-        iterate();
     }
 
     /**
@@ -111,7 +111,7 @@ abstract public class JAIterator {
      *
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    private void iterate() throws Exception {
+    public void iterate() throws Exception {
         sync = true;
         while (sync) {
             sync = false;

@@ -21,7 +21,7 @@ final public class Sender extends JAPCActor {
 
     @Override
     protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1) throws Exception {
-        new JAIterator(rd1) {
+        (new JAIterator(rd1) {
             int i;
 
             @Override
@@ -45,6 +45,6 @@ final public class Sender extends JAPCActor {
                     }
                 }
             }
-        };
+        }).iterate();
     }
 }
