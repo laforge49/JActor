@@ -1,8 +1,8 @@
 package org.agilewiki.jactor.apc.exceptions;
 
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.apc.JAPCActor;
-import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 public class Doer extends JAPCActor {

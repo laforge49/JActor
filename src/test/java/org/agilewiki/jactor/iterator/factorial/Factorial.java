@@ -2,7 +2,7 @@ package org.agilewiki.jactor.iterator.factorial;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Factorial extends JLPCActor {

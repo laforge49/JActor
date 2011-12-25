@@ -1,7 +1,5 @@
 package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.apc.ResponseProcessor;
-
 /**
  * <p>
  * Iterates over its process method and works within any actor which supports 2-way messages.

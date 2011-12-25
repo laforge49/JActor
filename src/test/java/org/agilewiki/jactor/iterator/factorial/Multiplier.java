@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.iterator.factorial;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Multiplier extends JLPCActor {

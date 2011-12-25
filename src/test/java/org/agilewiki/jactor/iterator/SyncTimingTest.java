@@ -2,7 +2,7 @@ package org.agilewiki.jactor.iterator;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.ResponseProcessor;
 
 public class SyncTimingTest extends TestCase {
     public void testSync() throws Exception {

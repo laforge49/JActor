@@ -23,9 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.apc.JAMessage;
-import org.agilewiki.jactor.apc.JARequest;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * Responses sent to a JAPCActor are wrapped by an JAResponse,

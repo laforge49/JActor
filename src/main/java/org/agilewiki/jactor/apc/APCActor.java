@@ -23,6 +23,8 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.ResponseProcessor;
+
 /**
  * An actor which works with two-way messages and supports an event handler.
  */

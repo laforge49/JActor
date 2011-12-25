@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
  * An actor which implements Local Procedure Calls (LPC).
