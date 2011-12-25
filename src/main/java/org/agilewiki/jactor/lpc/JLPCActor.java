@@ -27,6 +27,7 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.chain.Chain;
 
 /**
  * A mostly synchronous implementation of Actor.
@@ -227,6 +228,7 @@ abstract public class JLPCActor implements Actor {
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
      * @param rd1              The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void send(final Actor actor,
                               final Object unwrappedRequest,
@@ -243,6 +245,21 @@ abstract public class JLPCActor implements Actor {
             }
         };
         actor.acceptRequest(requestSource, unwrappedRequest, rd2);
+    }
+
+    /**
+     * Creates a Chain.
+     *
+     * @return The new Chain.
+     */
+    final protected Chain newChain() {
+        return new Chain(this) {
+            @Override
+            public void send(Actor actor, Object request, ResponseProcessor rp)
+                    throws Exception {
+                JLPCActor.this.send(actor, request, rp);
+            }
+        };
     }
 
     /**
