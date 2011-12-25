@@ -31,7 +31,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * An implementation of Actor.
+ * An asynchronous implementation of Actor.
  */
 abstract public class JAPCActor implements Actor {
 

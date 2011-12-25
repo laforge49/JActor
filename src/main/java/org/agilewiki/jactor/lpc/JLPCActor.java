@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
- * Implements Actor.
+ * A mostly synchronous implementation of Actor.
  */
 abstract public class JLPCActor implements Actor {
 
