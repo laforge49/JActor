@@ -34,7 +34,14 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 /**
- * Used mostly in testing to send a request to an actor and wait for a response.
+ * <p>
+ * Used both in the program's main method and in testing to send a request to an actor and wait for a response.
+ * </p>
+ * <pre>
+ *             Factorial factorial = new Factorial(mailboxFactory.createMailbox());
+ *             JAFuture future = new JAFuture();
+ *             future.send(factorial, null);
+ * </pre>
  */
 final public class JAFuture {
     /**

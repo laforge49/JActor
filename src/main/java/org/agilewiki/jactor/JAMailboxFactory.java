@@ -5,7 +5,18 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.JLPCMailbox;
 
 /**
+ * <p>
  * Implements MailboxFactory.
+ * In general you need only one instance of MailboxFactory per program.
+ * </p>
+ * <pre>
+ *         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+ *         try {
+ *             ...
+ *         } finally {
+ *             mailboxFactory.close();
+ *         }
+ * </pre>
  */
 final public class JAMailboxFactory implements MailboxFactory {
 

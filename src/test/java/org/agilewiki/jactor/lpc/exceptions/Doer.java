@@ -11,19 +11,19 @@ public class Doer extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
+    protected void processRequest(final Object request, final ResponseProcessor rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Exception caught by Doer");
-                rd.process(null);
+                rp.process(null);
             }
         });
-        if (unwrappedRequest instanceof T1) {
+        if (request instanceof T1) {
             throw new Exception("Exception thrown in request processing");
         } else {
-            rd.process(unwrappedRequest);
+            rp.process(request);
         }
     }
 }

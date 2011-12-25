@@ -8,27 +8,27 @@ package org.agilewiki.jactor;
  * We can use JAIterator to calculate factorials:
  * </p>
  * <pre>
- * final int max = 5;
- * ResponseProcessor printResult = new ResponseProcessor() {
- *     public void process(Object rsp) {
- *         System.out.println(rsp);
- *     }
- * };
+ *        final int max = 5;
+ *        ResponseProcessor printResult = new ResponseProcessor() {
+ *            public void process(Object rsp) {
+ *                System.out.println(rsp);
+ *            }
+ *        };
  *
- * (new JAIterator(printResult) {
- *     int i;
- *     int r;
+ *        (new JAIterator(printResult) {
+ *            int i;
+ *            int r;
  *
- *     public void process(ResponseProcessor rp) throws Exception {
- *         if (r == 0) r = 1;
- *         if (i >= max) rp.process(new Integer(r));
- *         else {
- *             i += 1;
- *             r = r * i;
- *             rp.process(null);
- *         }
- *     }
- * }).iterate();
+ *            public void process(ResponseProcessor rp) throws Exception {
+ *                if (r == 0) r = 1;
+ *                if (i >= max) rp.process(new Integer(r));
+ *                else {
+ *                    i += 1;
+ *                    r = r * i;
+ *                    rp.process(null);
+ *                }
+ *            }
+ *        }).iterate();
  * </pre>
  * <p>
  * The JAIterator.process method is called repeatedly until it returns a non-null response,
@@ -36,34 +36,45 @@ package org.agilewiki.jactor;
  * JAIterator.process method can send messages to other actors:
  * </p>
  * <pre>
- * final int max = 5;
- * ResponseProcessor printResult = new ResponseProcessor() {
- *     public void process(Object rsp) throws Exception {
- *         System.out.println(rsp);
+ * public class Factorial extends JLPCActor {
+ *
+ *     public Factorial(Mailbox mailbox) {
+ *         super(mailbox);
  *     }
- * };
  *
- * (new JAIterator(printResult) {
- *     int i;
- *     int r;
- *     Multiplier mp = new Multiplier(mailbox);
+ *     protected void processRequest(Object req, final ResponseProcessor rp)
+ *             throws Exception {
+ *         final int max = 5;
+ *         ResponseProcessor printResult = new ResponseProcessor() {
+ *             public void process(Object rsp) throws Exception {
+ *                 System.out.println(rsp);
+ *                 rp.process(null);
+ *             }
+ *         };
+ *         (new JAIterator(printResult) {
+ *             int i;
+ *             int r;
+ *             Multiplier mp = new Multiplier(getMailbox());
  *
- *     public void process(ResponseProcessor rp) throws Exception {
- *         if (r == 0) r = 1;
- *         if (i >= max) rp.process(new Integer(r));
- *         else {
- *             i += 1;
- *             Multiply m = new Multiply();
- *             m.a = r;
- *             m.b = i;
- *             send(mp, m, new ResponseProcessor() {
- *                 public void process(Object rsp) throws Exception {
- *                     r = ((Integer) rsp).intValue();
+ *             public void process(ResponseProcessor rp) throws Exception {
+ *                 if (r == 0) r = 1;
+ *                 if (i >= max) rp.process(new Integer(r));
+ *                 else {
+ *                     i += 1;
+ *                     Multiply m = new Multiply();
+ *                     m.a = r;
+ *                     m.b = i;
+ *                     send(mp, m, new ResponseProcessor() {
+ *                         public void process(Object rsp) throws Exception {
+ *                             r = ((Integer) rsp).intValue();
+ *                         }
+ *                     });
+ *                     rp.process(null);
  *                 }
- *             });
- *         }
+ *             }
+ *         }).iterate();
  *     }
- * }).iterate();
+ * }
  * </pre>
  */
 abstract public class JAIterator {

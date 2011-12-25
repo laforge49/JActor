@@ -23,6 +23,50 @@
  */
 package org.agilewiki.jactor;
 
+/**
+ * <p>
+ * As responses can be received either synchronously or asynchronously,
+ * control flow can be somewhat obscure and the code to catch exceptions
+ * can be error prone. Use of an exception handler makes life simpler.
+ * </p>
+ * <p>
+ * To assign an exception handler, call the setExceptionHandler method in the
+ * constructor of an actor.
+ * </p>
+ * <p>
+ * If an exception occurs when processing a request, and no exception handler
+ * has been assigned, the exception is passed to the exception handler of
+ * the actor which sent the request, recursively.
+ * </p>
+ * <pre>
+ * public class Doer extends JLPCActor {
+ *     public Doer(Mailbox mailbox) {
+ *         super(mailbox);
+ *     }
+ *
+ *     protected void processRequest(final Object request, final ResponseProcessor rp)
+ *             throws Exception {
+ *         setExceptionHandler(new ExceptionHandler() {
+ *             public void process(Exception exception) throws Exception {
+ *                 System.out.println("Exception caught by Doer");
+ *                 rp.process(null);
+ *             }
+ *         });
+ *         if (request instanceof T1) {
+ *             throw new Exception("Exception thrown in request processing");
+ *         } else {
+ *             rp.process(request);
+ *         }
+ *     }
+ * }
+ * </pre>
+ */
 public interface ExceptionHandler {
+    /**
+     * Process an exception.
+     *
+     * @param exception The exception to be processed.
+     * @throws Exception Any uncaught exceptions raised while processing the exception.
+     */
     void process(Exception exception) throws Exception;
 }

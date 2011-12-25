@@ -26,7 +26,29 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
+ * <p>
  * An actor which implements Local Procedure Calls (LPC).
+ * Actors need to implement the processRequest method.
+ * </p>
+ * <pre>
+ * public class Multiply {
+ *     public int a;
+ *     public int b;
+ * }
+ *
+ * public class Multiplier extends JLPCActor {
+ *
+ *     public Multiplier(Mailbox mailbox) {
+ *         super(mailbox);
+ *     }
+ *
+ *     protected void processRequest(Object req, ResponseProcessor rp)
+ *             throws Exception {
+ *         Multiply m = (Multiply) req;
+ *         rp.process(new Integer(m.a * m.b));
+ *     }
+ * }
+ * </pre>
  */
 public interface Actor {
 

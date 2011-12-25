@@ -27,7 +27,7 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * Creates Mailboxes.
+ * Creates Mailboxes and provides access to the thread manager.
  */
 public interface MailboxFactory {
     /**
