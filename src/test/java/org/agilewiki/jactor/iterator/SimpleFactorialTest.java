@@ -1,7 +1,7 @@
-package org.agilewiki.jactor.apc.iterator;
+package org.agilewiki.jactor.iterator;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.apc.JAIterator;
+import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
 public class SimpleFactorialTest extends TestCase {

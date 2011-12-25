@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.lpc.exceptions;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.lpc.*;
+import org.agilewiki.jactor.*;
 
 public class SharedMailboxTest extends TestCase {
     public void testExceptions() {

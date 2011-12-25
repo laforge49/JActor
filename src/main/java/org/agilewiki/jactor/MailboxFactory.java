@@ -21,32 +21,38 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.lpc;
+package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.apc.ResponseProcessor;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * An actor which implements Local Procedure Calls (LPC).
+ * Creates Mailboxes.
  */
-public interface Actor {
+public interface MailboxFactory {
+    /**
+     * Returns the thread manager.
+     *
+     * @return The thread manager.
+     */
+    ThreadManager getThreadManager();
+    
+    /**
+     * Create a mailbox.
+     *
+     * @return A new mailbox.
+     */
+    Mailbox createMailbox();
 
     /**
-     * Wraps and enqueues an unwrapped request in the requester's outbox.
+     * Create an asynchronous mailbox.
      *
-     * @param requestSource    The originator of the request.
-     * @param unwrappedRequest The unwrapped request to be sent.
-     * @param rd               The request processor.
+     * @return A new asynchronous mailbox.
      */
-    void acceptRequest(APCRequestSource requestSource,
-                       Object unwrappedRequest,
-                       ResponseProcessor rd)
-            throws Exception;
+    Mailbox createAsyncMailbox();
 
     /**
-     * Set the initial capacity for buffered outgoing messages.
-     *
-     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
+     * Stop all the threads as they complete their tasks.
      */
-    public void setInitialBufferCapacity(int initialBufferCapacity);
+    public void close();
 }

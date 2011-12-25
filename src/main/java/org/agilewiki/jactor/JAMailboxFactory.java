@@ -1,7 +1,8 @@
-package org.agilewiki.jactor.lpc;
+package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
+import org.agilewiki.jactor.lpc.JLPCMailbox;
 
 /**
  * Implements MailboxFactory.

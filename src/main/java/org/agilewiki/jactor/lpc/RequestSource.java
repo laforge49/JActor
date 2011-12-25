@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**

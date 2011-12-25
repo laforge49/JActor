@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.apc.timing;
 
-import org.agilewiki.jactor.apc.JAIterator;
+import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.apc.JAPCActor;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.concurrent.ThreadManager;

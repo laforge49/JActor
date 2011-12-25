@@ -1,9 +1,9 @@
-package org.agilewiki.jactor.apc.iterator.factorial;
+package org.agilewiki.jactor.iterator.factorial;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.lpc.JAFuture;
-import org.agilewiki.jactor.lpc.JAMailboxFactory;
-import org.agilewiki.jactor.lpc.MailboxFactory;
+import org.agilewiki.jactor.JAFuture;
+import org.agilewiki.jactor.JAMailboxFactory;
+import org.agilewiki.jactor.MailboxFactory;
 
 public class FactorialTest extends TestCase {
     public void testFactorial() throws Exception {

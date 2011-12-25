@@ -1,8 +1,8 @@
 package org.agilewiki.jactor.lpc.timing;
 
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.Mailbox;
 
 final public class Echo extends JLPCActor {
 

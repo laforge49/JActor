@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.apc.iterator.factorial;
+package org.agilewiki.jactor.iterator.factorial;
 
 public class Multiply {
     public int a;

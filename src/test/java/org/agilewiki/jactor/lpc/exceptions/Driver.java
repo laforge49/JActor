@@ -1,10 +1,10 @@
 package org.agilewiki.jactor.lpc.exceptions;
 
-import org.agilewiki.jactor.apc.ExceptionHandler;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.apc.ResponseProcessor;
-import org.agilewiki.jactor.lpc.Actor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.lpc.Mailbox;
 
 public class Driver extends JLPCActor {
     private Actor doer;

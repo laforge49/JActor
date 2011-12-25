@@ -1,4 +1,6 @@
-package org.agilewiki.jactor.apc;
+package org.agilewiki.jactor;
+
+import org.agilewiki.jactor.apc.ResponseProcessor;
 
 /**
  * <p>

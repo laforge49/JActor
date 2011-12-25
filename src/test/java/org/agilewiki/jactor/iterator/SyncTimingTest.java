@@ -1,10 +1,8 @@
-package org.agilewiki.jactor.apc.iterator;
+package org.agilewiki.jactor.iterator;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.apc.JAIterator;
+import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.apc.ResponseProcessor;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class SyncTimingTest extends TestCase {
     public void testSync() throws Exception {

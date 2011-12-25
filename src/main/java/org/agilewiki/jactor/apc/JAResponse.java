@@ -23,6 +23,10 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.apc.JAMessage;
+import org.agilewiki.jactor.apc.JARequest;
+import org.agilewiki.jactor.apc.ResponseProcessor;
+
 /**
  * Responses sent to a JAPCActor are wrapped by an JAResponse,
  * which is then passed to the JAPCMailbox.
