@@ -11,7 +11,7 @@ public class SyncTest extends TestCase {
         try {
             Actor doer = new Doer(doerMailbox);
             Actor driver = new Driver(driverMailbox, doer);
-            JLPCFuture future = new JLPCFuture();
+            JAFuture future = new JAFuture();
             try {
                 System.out.println("Test T1");
                 future.send(driver, new T1());

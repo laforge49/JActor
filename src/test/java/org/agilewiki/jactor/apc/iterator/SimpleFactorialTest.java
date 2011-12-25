@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.apc.JAIterator;
 import org.agilewiki.jactor.apc.ResponseProcessor;
 
-public class SimpleSampleTest extends TestCase {
-    public void testSample() throws Exception {
+public class SimpleFactorialTest extends TestCase {
+    public void testFactorial() throws Exception {
         final int max = 5;
         ResponseProcessor printResult = new ResponseProcessor() {
             public void process (Object rsp){

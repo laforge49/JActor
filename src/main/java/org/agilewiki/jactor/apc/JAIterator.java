@@ -46,21 +46,24 @@ package org.agilewiki.jactor.apc;
  * (new JAIterator(printResult) {
  *     int i;
  *     int r;
+ *     Multiplier mp = new Multiplier(mailbox);
  *
  *     public void process(ResponseProcessor rp) throws Exception {
  *         if (r == 0) r = 1;
- *         if (i > max) rp.process(new Integer(r));
+ *         if (i >= max) rp.process(new Integer(r));
  *         else {
  *             i += 1;
- *             Multiply m = new Multiply(r, i);
- *             send(anotherActor, m, new ResponseProcessor() {
+ *             Multiply m = new Multiply();
+ *             m.a = r;
+ *             m.b = i;
+ *             send(mp, m, new ResponseProcessor() {
  *                 public void process(Object rsp) throws Exception {
  *                     r = ((Integer) rsp).intValue();
  *                 }
  *             });
  *         }
  *     }
- * }).iterate;
+ * }).iterate();
  * </pre>
  */
 abstract public class JAIterator {

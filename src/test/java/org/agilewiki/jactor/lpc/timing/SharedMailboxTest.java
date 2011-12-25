@@ -86,7 +86,7 @@ public class SharedMailboxTest extends TestCase {
                 i += 1;
             }
             Driver driver = new Driver(mailboxFactory.createMailbox(), senders, p);
-            JLPCFuture future = new JLPCFuture();
+            JAFuture future = new JAFuture();
             future.send(driver, future);
             future.send(driver, future);
             long t0 = System.currentTimeMillis();

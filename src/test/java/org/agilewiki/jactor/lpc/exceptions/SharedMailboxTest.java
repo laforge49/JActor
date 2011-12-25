@@ -10,7 +10,7 @@ public class SharedMailboxTest extends TestCase {
         try {
             Actor doer = new Doer(sharedMailbox);
             Actor driver = new Driver(sharedMailbox, doer);
-            JLPCFuture future = new JLPCFuture();
+            JAFuture future = new JAFuture();
             try {
                 System.out.println("Test T1");
                 future.send(driver, new T1());

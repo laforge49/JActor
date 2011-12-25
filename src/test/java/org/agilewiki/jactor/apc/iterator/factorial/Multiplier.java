@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.apc.iterator;
+package org.agilewiki.jactor.apc.iterator.factorial;
 
 import org.agilewiki.jactor.apc.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;

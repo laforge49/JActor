@@ -33,7 +33,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Used mostly in testing to send a request to an actor and wait for a response.
  */
-final public class JLPCFuture {
+final public class JAFuture {
     /**
      * Used to wake up the sending thread when a response is received.
      */
