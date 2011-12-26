@@ -3,7 +3,7 @@ package org.agilewiki.jactor;
 /**
  * Returns a response only when the expected number of responses are received.
  */
-final public class ResponseCounter implements ResponseProcessor {
+final public class JAResponseCounter implements ResponseProcessor {
     /**
      * Number of responses expected.
      */
@@ -25,12 +25,12 @@ final public class ResponseCounter implements ResponseProcessor {
     private Object response;
 
     /**
-     * Create a ResponseCounter.
+     * Create a JAResponseCounter.
      *
      * @param max Number of responses expected.
      * @param rp  Used to send the response on completion.
      */
-    public ResponseCounter(int max, ResponseProcessor rp) {
+    public JAResponseCounter(int max, ResponseProcessor rp) {
         this.max = max;
         this.rp = rp;
     }

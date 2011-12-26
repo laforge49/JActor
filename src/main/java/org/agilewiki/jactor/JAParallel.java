@@ -3,9 +3,9 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
- * Sends either the same request to all the actors or a different request to each actor.
+ * Supports parallel request processing.
  */
-final public class Parallel extends JLPCActor {
+final public class JAParallel extends JLPCActor {
     /**
      * The actors to be run in parallel.
      */
@@ -14,15 +14,15 @@ final public class Parallel extends JLPCActor {
     /**
      * Returns a response only when the expected number of responses are received.
      */
-    private ResponseCounter responseCounter;
+    private JAResponseCounter responseCounter;
 
     /**
-     * Create a Parallel actor.
+     * Create a JAParallel actor.
      *
      * @param mailbox A mailbox which may be shared with other actors.
      * @param actors  The actors to be run in parallel.
      */
-    public Parallel(Mailbox mailbox, Actor[] actors) {
+    public JAParallel(Mailbox mailbox, Actor[] actors) {
         super(mailbox);
         this.actors = actors;
         int p = actors.length;
@@ -39,7 +39,7 @@ final public class Parallel extends JLPCActor {
     protected void processRequest(final Object request, final ResponseProcessor rd1)
             throws Exception {
         int p = actors.length;
-        responseCounter = new ResponseCounter(p, rd1);
+        responseCounter = new JAResponseCounter(p, rd1);
         int i = 0;
         if (request instanceof Object[]) {
             Object[] requests = (Object[]) request;

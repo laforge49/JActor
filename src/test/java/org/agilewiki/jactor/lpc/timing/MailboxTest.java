@@ -46,7 +46,7 @@ public class MailboxTest extends TestCase {
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            Parallel parallel = new Parallel(mailboxFactory.createMailbox(), senders);
+            JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), senders);
             JAFuture future = new JAFuture();
             future.send(parallel, future);
             future.send(parallel, future);
