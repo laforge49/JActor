@@ -54,7 +54,7 @@ final public class APCTimingTest extends TestCase {
             long t0 = System.currentTimeMillis();
             eventFuture.send(driver, eventFuture);
             long t1 = System.currentTimeMillis();
-            System.out.println("" + p + " parallel runs of " + (2 * c * b) + " messages each.");
+            System.out.println("" + p + " driver runs of " + (2 * c * b) + " messages each.");
             System.out.println("" + (p * 2 * c * b) + " messages sent with " + t + " threads.");
             if (t1 != t0)
                 System.out.println("msgs per sec = " + ((c * b * p * 2L) * 1000L / (t1 - t0)));

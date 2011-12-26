@@ -46,12 +46,12 @@ public class MailboxTest extends TestCase {
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            Driver driver = new Driver(mailboxFactory.createMailbox(), senders, p);
+            Parallel parallel = new Parallel(mailboxFactory.createMailbox(), senders);
             JAFuture future = new JAFuture();
-            future.send(driver, future);
-            future.send(driver, future);
+            future.send(parallel, future);
+            future.send(parallel, future);
             long t0 = System.currentTimeMillis();
-            future.send(driver, future);
+            future.send(parallel, future);
             long t1 = System.currentTimeMillis();
             System.out.println("" + p + " parallel runs of " + (2L * c * b) + " messages each.");
             System.out.println("" + (2L * c * b * p) + " messages sent with " + t + " threads.");

@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
