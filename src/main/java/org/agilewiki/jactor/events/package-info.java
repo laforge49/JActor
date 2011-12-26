@@ -27,11 +27,11 @@
  * The events package supports the dispatching of one-way messages (events).
  * </p>
  * <p>
- * Using a simple echo test, JAEventActor takes 123 nanoseconds to send a message
+ * A simple echo test takes 123 nanoseconds to send a message
  * when running with a single thread and 252 nanoseconds when running with multiple threads.
  * </p>
  * <p>
- * With a dual echo test. JAEventActor takes 113 nanoseconds to send a message
+ * A dual echo test takes 113 nanoseconds to send a message
  * when running with a single thread, 210 nanoseconds when running with 2 threads,
  * 223 nanoseconds when running with 4 threads and 225 nanoseconds when running
  * with 8 threads.

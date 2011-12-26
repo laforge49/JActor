@@ -13,11 +13,11 @@ abstract public class Chain {
     private Actor sourceActor;
     private ArrayList<Send> sends = new ArrayList<Send>();
     private HashMap<String, Object> results = new HashMap<String, Object>();
-    
+
     public Chain(Actor sourceActor) {
         this.sourceActor = sourceActor;
     }
-    
+
     final public Object get(String resultName) {
         return results.get(resultName);
     }
@@ -77,11 +77,11 @@ abstract public class Chain {
             }
         }).iterate();
     }
-    
+
     /**
      * Send a request to an actor.
      *
-     * @param actor The target actor.
+     * @param actor   The target actor.
      * @param request The request.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
