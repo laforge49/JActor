@@ -25,6 +25,7 @@ package org.agilewiki.jactor.compose;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
+import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ import java.util.Iterator;
  * Composes a series of calls to send.
  */
 abstract public class _Compose {
-    private ArrayList<Operation> operations = new ArrayList<Operation>();
-    public HashMap<String, Object> results = new HashMap<String, Object>();
+    final private ArrayList<Operation> operations = new ArrayList<Operation>();
+    final public HashMap<String, Object> results = new HashMap<String, Object>();
 
     final public Object get(String resultName) {
         return results.get(resultName);
@@ -74,13 +75,21 @@ abstract public class _Compose {
         operations.add(new SendFV(targetActor, request, resultName));
     }
 
-    final public void run(ResponseProcessor rp) throws Exception {
+    final public void _return(Object value) {
+        operations.add(new ReturnV(value));
+    }
+
+    final public void _return(Func func) {
+        operations.add(new ReturnF(func));
+    }
+
+    final public void call(ResponseProcessor rp) throws Exception {
         (new JAIterator(rp) {
             Iterator<Operation> it = operations.iterator();
 
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
-                if (!it.hasNext()) rp1.process(this);
+                if (!it.hasNext()) rp1.process(new JANull());
                 else {
                     final Operation o = it.next();
                     o.call(_Compose.this, rp1);

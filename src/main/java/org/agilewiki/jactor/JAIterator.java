@@ -99,14 +99,15 @@ abstract public class JAIterator {
      */
     private final ResponseProcessor irp = new ResponseProcessor() {
         @Override
-        public void process(Object unwrappedResponse) throws Exception {
-            if (unwrappedResponse == null) {
+        public void process(Object response) throws Exception {
+            if (response == null) {
                 if (!async) {
                     sync = true;
                 } else {
                     iterate(); //not recursive
                 }
-            } else responseProcessor.process(unwrappedResponse);
+            } else if (response instanceof JANull) responseProcessor.process(null);
+            else responseProcessor.process(response); 
         }
     };
 
