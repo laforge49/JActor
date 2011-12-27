@@ -27,7 +27,7 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.chain.Chain;
+import org.agilewiki.jactor.compose._Compose;
 
 /**
  * A mostly synchronous implementation of Actor.
@@ -248,18 +248,16 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Creates a Chain.
+     * Creates a _Compose.
      *
-     * @return The new Chain.
+     * @return The new _Compose.
      */
-    final protected Chain newChain() {
-        return new Chain(this) {
+    protected class Compose extends _Compose {
             @Override
             public void send(Actor actor, Object request, ResponseProcessor rp)
                     throws Exception {
                 JLPCActor.this.send(actor, request, rp);
             }
-        };
     }
 
     /**
