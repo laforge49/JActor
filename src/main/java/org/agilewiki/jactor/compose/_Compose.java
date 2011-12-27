@@ -36,7 +36,7 @@ import java.util.Iterator;
  * Composes a series of calls to send.
  */
 abstract public class _Compose {
-    final private ArrayList<Operation> operations = new ArrayList<Operation>();
+    final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Object> results = new HashMap<String, Object>();
 
     final public Object get(String resultName) {
@@ -44,70 +44,74 @@ abstract public class _Compose {
     }
 
     final public void _send(Actor targetActor, Object request) {
-        operations.add(new SendVV(targetActor, request, null));
+        operations.add(new _SendVV(targetActor, request, null));
     }
 
     final public void _send(Actor targetActor, Object request, String resultName) {
-        operations.add(new SendVV(targetActor, request, resultName));
+        operations.add(new _SendVV(targetActor, request, resultName));
     }
 
     final public void _send(ActorFunc targetActor, Func request) {
-        operations.add(new SendFF(targetActor, request, null));
+        operations.add(new _SendFF(targetActor, request, null));
     }
 
     final public void _send(ActorFunc targetActor, Func request, String resultName) {
-        operations.add(new SendFF(targetActor, request, resultName));
+        operations.add(new _SendFF(targetActor, request, resultName));
     }
 
     final public void _send(Actor targetActor, Func request) {
-        operations.add(new SendVF(targetActor, request, null));
+        operations.add(new _SendVF(targetActor, request, null));
     }
 
     final public void _send(Actor targetActor, Func request, String resultName) {
-        operations.add(new SendVF(targetActor, request, resultName));
+        operations.add(new _SendVF(targetActor, request, resultName));
     }
 
     final public void _send(ActorFunc targetActor, Object request) {
-        operations.add(new SendFV(targetActor, request, null));
+        operations.add(new _SendFV(targetActor, request, null));
     }
 
     final public void _send(ActorFunc targetActor, Object request, String resultName) {
-        operations.add(new SendFV(targetActor, request, resultName));
+        operations.add(new _SendFV(targetActor, request, resultName));
     }
 
     final public void _return(Object value) {
-        operations.add(new ReturnV(value));
+        operations.add(new _ReturnV(value));
     }
 
     final public void _return(Func func) {
-        operations.add(new ReturnF(func));
+        operations.add(new _ReturnF(func));
     }
 
     final public void _set(Func func) {
-        operations.add(new SetF(func, null));
+        operations.add(new _SetF(func, null));
     }
 
-    final public void _set(Func func,String resultName) {
-        operations.add(new SetF(func, resultName));
+    final public void _set(Func func, String resultName) {
+        operations.add(new _SetF(func, resultName));
     }
 
     final public void _set(Object value) {
-        operations.add(new SetV(value, null));
+        operations.add(new _SetV(value, null));
     }
 
-    final public void _set(Object value,String resultName) {
-        operations.add(new SetV(value, resultName));
+    final public void _set(Object value, String resultName) {
+        operations.add(new _SetV(value, resultName));
+    }
+
+    final public void _iterator(JAIterator iterator, String resultName) {
+        operations.add(new _Iterator(iterator, resultName));
     }
 
     final public void call(ResponseProcessor rp) throws Exception {
         (new JAIterator() {
-            Iterator<Operation> it = operations.iterator();
+            Iterator<_Operation> it = operations.iterator();
 
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
                 if (!it.hasNext()) rp1.process(new JANull());
                 else {
-                    final Operation o = it.next();
+                    final _Operation o = it.next();
                     o.call(_Compose.this, rp1);
                 }
             }

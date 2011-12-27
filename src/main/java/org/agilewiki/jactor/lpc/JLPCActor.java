@@ -253,11 +253,11 @@ abstract public class JLPCActor implements Actor {
      * @return The new _Compose.
      */
     protected class Compose extends _Compose {
-            @Override
-            final public void send(Actor actor, Object request, ResponseProcessor rp)
-                    throws Exception {
-                JLPCActor.this.send(actor, request, rp);
-            }
+        @Override
+        final public void send(Actor actor, Object request, ResponseProcessor rp)
+                throws Exception {
+            JLPCActor.this.send(actor, request, rp);
+        }
     }
 
     /**

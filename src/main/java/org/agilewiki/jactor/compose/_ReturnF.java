@@ -3,16 +3,16 @@ package org.agilewiki.jactor.compose;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
-final public class ReturnV extends Operation{
-    private Object value;
+final public class _ReturnF extends _Operation {
+    private Func func;
 
-    public ReturnV(Object value) {
-        this.value = value;
+    public _ReturnF(Func func) {
+        this.func = func;
     }
 
     @Override
     final public void call(_Compose compose, ResponseProcessor rp) throws Exception {
-        Object rv = value;
+        Object rv = func.get();
         if (rv == null) rv = new JANull();
         rp.process(rv);
     }

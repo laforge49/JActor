@@ -37,7 +37,7 @@ final public class JAEventFuture<E> implements EventDestination<E> {
     private transient E result;
 
     /**
-     * Send an event and then wait for the response, which is returned.
+     * _Send an event and then wait for the response, which is returned.
      *
      * @param destination Where the event is to be sent.
      * @param event       The event to be sent.

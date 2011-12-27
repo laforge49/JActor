@@ -23,32 +23,8 @@
  */
 package org.agilewiki.jactor.compose;
 
-import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ResponseProcessor;
 
-public class SendFV extends Send {
-    private ActorFunc targetActor;
-    private Object request;
-
-    private String resultName;
-
-    public SendFV(ActorFunc targetActor, Object request, String resultName) {
-        this.targetActor = targetActor;
-        this.request = request;
-        this.resultName = resultName;
-    }
-
-    @Override
-    public Actor getTargetActor() {
-        return targetActor.get();
-    }
-
-    @Override
-    public Object getRequest() {
-        return request;
-    }
-
-    @Override
-    public String getResultName() {
-        return resultName;
-    }
+abstract public class _Operation {
+    abstract public void call(_Compose compose, final ResponseProcessor rp) throws Exception;
 }

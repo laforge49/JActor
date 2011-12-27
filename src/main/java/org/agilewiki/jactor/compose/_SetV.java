@@ -2,11 +2,11 @@ package org.agilewiki.jactor.compose;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
-public class SetV extends Operation {
+public class _SetV extends _Operation {
     private Object value;
     private String resultName;
 
-    public SetV(Object value, String resultName) {
+    public _SetV(Object value, String resultName) {
         this.value = value;
         this.resultName = resultName;
     }

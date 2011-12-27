@@ -8,7 +8,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 final public class Driver extends JLPCActor {
     private CounterActor counterActor;
     private long runs;
-    
+
     public Driver(Mailbox mailbox, CounterActor counterActor, long runs) {
         super(mailbox);
         this.counterActor = counterActor;
@@ -16,8 +16,8 @@ final public class Driver extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request, 
-                                  final ResponseProcessor rp) 
+    protected void processRequest(Object request,
+                                  final ResponseProcessor rp)
             throws Exception {
         ResponseProcessor getAndReset = new ResponseProcessor() {
             @Override
@@ -27,7 +27,7 @@ final public class Driver extends JLPCActor {
         };
         (new JAIterator() {
             long i = 0;
-            
+
             @Override
             protected void process(ResponseProcessor rp1) throws Exception {
                 if (i == runs) rp1.process(this);

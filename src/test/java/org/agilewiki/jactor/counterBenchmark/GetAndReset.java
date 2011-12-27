@@ -1,3 +1,4 @@
 package org.agilewiki.jactor.counterBenchmark;
 
-final public class GetAndReset {}
+final public class GetAndReset {
+}

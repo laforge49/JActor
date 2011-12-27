@@ -25,13 +25,13 @@ package org.agilewiki.jactor.compose;
 
 import org.agilewiki.jactor.Actor;
 
-public class SendVV extends Send {
+public class _SendVF extends _Send {
     private Actor targetActor;
-    private Object request;
+    private Func request;
 
     private String resultName;
 
-    public SendVV(Actor targetActor, Object request, String resultName) {
+    public _SendVF(Actor targetActor, Func request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;
         this.resultName = resultName;
@@ -44,7 +44,7 @@ public class SendVV extends Send {
 
     @Override
     public Object getRequest() {
-        return request;
+        return request.get();
     }
 
     @Override

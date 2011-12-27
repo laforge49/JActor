@@ -183,7 +183,7 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     /**
-     * ReturnF the response for processing.
+     * _ReturnF the response for processing.
      *
      * @param unwrappedResponse
      */

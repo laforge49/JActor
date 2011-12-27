@@ -24,31 +24,29 @@
 package org.agilewiki.jactor.compose;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ResponseProcessor;
 
-public class SendFF extends Send {
-    private ActorFunc targetActor;
-    private Func request;
-
-    private String resultName;
-
-    public SendFF(ActorFunc targetActor, Func request, String resultName) {
-        this.targetActor = targetActor;
-        this.request = request;
-        this.resultName = resultName;
-    }
-
+/**
+ * Adds a call to send to a _Compose.
+ */
+abstract public class _Send extends _Operation {
     @Override
-    public Actor getTargetActor() {
-        return targetActor.get();
+    final public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
+        Actor a = getTargetActor();
+        Object r = getRequest();
+        compose.send(a, r, new ResponseProcessor() {
+            @Override
+            public void process(Object response) throws Exception {
+                String rn = getResultName();
+                if (rn != null) compose.results.put(rn, response);
+                rp.process(null);
+            }
+        });
     }
 
-    @Override
-    public Object getRequest() {
-        return request.get();
-    }
+    abstract public Actor getTargetActor();
 
-    @Override
-    public String getResultName() {
-        return resultName;
-    }
+    abstract public Object getRequest();
+
+    abstract public String getResultName();
 }

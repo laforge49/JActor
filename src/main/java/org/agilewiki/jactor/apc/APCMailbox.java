@@ -65,7 +65,7 @@ public interface APCMailbox extends BufferedEventsDestination<JAMessage> {
     public void send(BufferedEventsDestination<JAMessage> destination, JARequest request);
 
     /**
-     * ReturnF the response for processing.
+     * _ReturnF the response for processing.
      *
      * @param unwrappedResponse
      */

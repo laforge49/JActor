@@ -107,7 +107,7 @@ abstract public class JAIterator {
                     iterate(responseProcessor); //not recursive
                 }
             } else if (response instanceof JANull) responseProcessor.process(null);
-            else responseProcessor.process(response); 
+            else responseProcessor.process(response);
         }
     };
 

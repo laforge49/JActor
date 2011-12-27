@@ -25,11 +25,11 @@ public class CounterTest extends TestCase {
             long start = System.currentTimeMillis();
             Long count = (Long) future.send(driver, null);
             long finish = System.currentTimeMillis();
-            double elapsedTime = (finish - start)/1000.;
-            System.out.println("[java-shared] Number of runs: "+runs);
-            System.out.println("[java-shared] Count: "+count);
-            System.out.println("[java-shared] Test time in seconds: "+elapsedTime);
-            System.out.println("[java-shared] Messages per second: "+runs/elapsedTime);
+            double elapsedTime = (finish - start) / 1000.;
+            System.out.println("[java-shared] Number of runs: " + runs);
+            System.out.println("[java-shared] Count: " + count);
+            System.out.println("[java-shared] Test time in seconds: " + elapsedTime);
+            System.out.println("[java-shared] Messages per second: " + runs / elapsedTime);
         } finally {
             mailboxFactory.close();
         }
@@ -52,11 +52,11 @@ public class CounterTest extends TestCase {
             long start = System.currentTimeMillis();
             Long count = (Long) future.send(driver, null);
             long finish = System.currentTimeMillis();
-            double elapsedTime = (finish - start)/1000.;
-            System.out.println("[java-unshared] Number of runs: "+runs);
-            System.out.println("[java-unshared] Count: "+count);
-            System.out.println("[java-unshared] Test time in seconds: "+elapsedTime);
-            System.out.println("[java-unshared] Messages per second: "+runs/elapsedTime);
+            double elapsedTime = (finish - start) / 1000.;
+            System.out.println("[java-unshared] Number of runs: " + runs);
+            System.out.println("[java-unshared] Count: " + count);
+            System.out.println("[java-unshared] Test time in seconds: " + elapsedTime);
+            System.out.println("[java-unshared] Messages per second: " + runs / elapsedTime);
         } finally {
             mailboxFactory.close();
         }
