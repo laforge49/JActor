@@ -28,18 +28,14 @@ public class AsyncTimingTest extends TestCase {
             long i;
             ResponseProcessor rp;
 
-            It(ResponseProcessor fin) throws Exception {
-                super(fin);
-            }
-
             @Override
             protected void process(ResponseProcessor rp) throws Exception {
                 this.rp = rp;
             }
         }
 
-        final It it = new It(done);
-        it.iterate();
+        final It it = new It();
+        it.iterate(done);
         while (it.i < c) {
             it.i += 1;
             it.rp.process(null);

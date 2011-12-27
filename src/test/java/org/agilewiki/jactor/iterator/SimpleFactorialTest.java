@@ -13,7 +13,7 @@ public class SimpleFactorialTest extends TestCase {
             }
         };
 
-        (new JAIterator(printResult) {
+        (new JAIterator() {
             int i;
             int r;
 
@@ -26,6 +26,6 @@ public class SimpleFactorialTest extends TestCase {
                     rp.process(null);
                 }
             }
-        }).iterate();
+        }).iterate(printResult);
     }
 }

@@ -21,7 +21,7 @@ public class Sender1 extends JLPCActor {
     @Override
     protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1)
             throws Exception {
-        (new JAIterator(rd1) {
+        (new JAIterator() {
             int i;
 
             @Override
@@ -32,6 +32,6 @@ public class Sender1 extends JLPCActor {
                     send(echo, null, rd2);
                 }
             }
-        }).iterate();
+        }).iterate(rd1);
     }
 }

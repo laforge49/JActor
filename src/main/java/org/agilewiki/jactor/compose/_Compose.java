@@ -83,8 +83,24 @@ abstract public class _Compose {
         operations.add(new ReturnF(func));
     }
 
+    final public void _set(Func func) {
+        operations.add(new SetF(func, null));
+    }
+
+    final public void _set(Func func,String resultName) {
+        operations.add(new SetF(func, resultName));
+    }
+
+    final public void _set(Object value) {
+        operations.add(new SetV(value, null));
+    }
+
+    final public void _set(Object value,String resultName) {
+        operations.add(new SetV(value, resultName));
+    }
+
     final public void call(ResponseProcessor rp) throws Exception {
-        (new JAIterator(rp) {
+        (new JAIterator() {
             Iterator<Operation> it = operations.iterator();
 
             @Override
@@ -95,7 +111,7 @@ abstract public class _Compose {
                     o.call(_Compose.this, rp1);
                 }
             }
-        }).iterate();
+        }).iterate(rp);
     }
 
     /**

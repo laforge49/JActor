@@ -21,7 +21,7 @@ public class Factorial extends JLPCActor {
                 rp.process(null);
             }
         };
-        (new JAIterator(printResult) {
+        (new JAIterator() {
             int i;
             int r;
             Multiplier mp = new Multiplier(getMailbox());
@@ -42,6 +42,6 @@ public class Factorial extends JLPCActor {
                     rp.process(null);
                 }
             }
-        }).iterate();
+        }).iterate(printResult);
     }
 }

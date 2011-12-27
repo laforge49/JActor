@@ -25,7 +25,7 @@ final public class Driver extends JLPCActor {
                 send(counterActor, new GetAndReset(), rp);
             }
         };
-        (new JAIterator(getAndReset) {
+        (new JAIterator() {
             long i = 0;
             
             @Override
@@ -38,6 +38,6 @@ final public class Driver extends JLPCActor {
                     send(counterActor, addCount, rp1);
                 }
             }
-        }).iterate();
+        }).iterate(getAndReset);
     }
 }

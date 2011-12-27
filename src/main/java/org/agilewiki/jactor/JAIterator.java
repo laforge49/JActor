@@ -92,7 +92,7 @@ abstract public class JAIterator {
     /**
      * Processes the final, non-null result.
      */
-    private final ResponseProcessor responseProcessor;
+    private ResponseProcessor responseProcessor;
 
     /**
      * The internal ResponseProcessor which handles the responses from the call to process.
@@ -104,7 +104,7 @@ abstract public class JAIterator {
                 if (!async) {
                     sync = true;
                 } else {
-                    iterate(); //not recursive
+                    iterate(responseProcessor); //not recursive
                 }
             } else if (response instanceof JANull) responseProcessor.process(null);
             else responseProcessor.process(response); 
@@ -112,21 +112,12 @@ abstract public class JAIterator {
     };
 
     /**
-     * Create a JAIterator.
-     *
-     * @param responseProcessor Processes the final, non-null result.
-     * @throws Exception Any uncaught exceptions raised by the process method.
-     */
-    public JAIterator(ResponseProcessor responseProcessor) {
-        this.responseProcessor = responseProcessor;
-    }
-
-    /**
      * Iterates over the process method.
      *
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    public void iterate() throws Exception {
+    public void iterate(ResponseProcessor responseProcessor) throws Exception {
+        this.responseProcessor = responseProcessor;
         sync = true;
         while (sync) {
             sync = false;

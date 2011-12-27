@@ -23,7 +23,7 @@ public class SyncTimingTest extends TestCase {
             }
         };
 
-        (new JAIterator(done) {
+        (new JAIterator() {
             long i;
 
             @Override
@@ -32,6 +32,6 @@ public class SyncTimingTest extends TestCase {
                 if (i < c) rp.process(null);
                 else rp.process(this);
             }
-        }).iterate();
+        }).iterate(done);
     }
 }
