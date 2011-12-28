@@ -30,7 +30,6 @@ import org.agilewiki.jactor.ResponseProcessor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Composes a series of calls to send.
@@ -38,6 +37,8 @@ import java.util.Iterator;
 abstract public class _Compose {
     final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Object> results = new HashMap<String, Object>();
+    final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
+    public int programCounter;
 
     final public Object get(String resultName) {
         return results.get(resultName);
@@ -99,19 +100,47 @@ abstract public class _Compose {
         operations.add(new _SetV(value, resultName));
     }
 
+    final public void _iterator(JAIterator iterator) {
+        operations.add(new _Iterator(iterator, null));
+    }
+
     final public void _iterator(JAIterator iterator, String resultName) {
         operations.add(new _Iterator(iterator, resultName));
     }
 
-    final public void call(ResponseProcessor rp) throws Exception {
-        (new JAIterator() {
-            Iterator<_Operation> it = operations.iterator();
+    final public void _label(String label) {
+        labels.put(label, new Integer(operations.size()));
+    }
 
+    final public void _go(String label) {
+        operations.add(new _Go(label));
+    }
+
+    final public void _if(boolean condition, String label) {
+        operations.add(new _IfV(condition, label));
+    }
+
+    final public void _if(BooleanFunc condition, String label) {
+        operations.add(new _IfF(condition, label));
+    }
+
+    final public void _call(_Compose comp) {
+        operations.add(new _Call(comp, null));
+    }
+
+    final public void _call(_Compose comp, String resultName) {
+        operations.add(new _Call(comp, resultName));
+    }
+
+    final public void call(ResponseProcessor rp) throws Exception {
+        programCounter = 0;
+        (new JAIterator() {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
-                if (!it.hasNext()) rp1.process(new JANull());
+                if (programCounter >= operations.size()) rp1.process(new JANull());
                 else {
-                    final _Operation o = it.next();
+                    final _Operation o = operations.get(programCounter);
+                    programCounter += 1;
                     o.call(_Compose.this, rp1);
                 }
             }
