@@ -23,32 +23,9 @@
  */
 package org.agilewiki.jactor.compose;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
+import java.util.HashMap;
 
-/**
- * Adds a call to send to a _Compose.
- */
-abstract public class _Send extends _Operation {
-    @Override
-    final public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
-        Actor a = getTargetActor();
-        Object r = getRequest();
-        final State oldState = compose.getState();
-        compose.send(a, r, new ResponseProcessor() {
-            @Override
-            final public void process(Object response) throws Exception {
-                String rn = getResultName();
-                if (rn != null) oldState.results.put(rn, response);
-                compose.setState(oldState);
-                rp.process(null);
-            }
-        });
-    }
-
-    abstract public Actor getTargetActor();
-
-    abstract public Object getRequest();
-
-    abstract public String getResultName();
+public class State {
+    public int programCounter = 0;
+    final public HashMap<String, Object> results = new HashMap<String, Object>();
 }

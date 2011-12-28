@@ -17,7 +17,7 @@ public class _Iterator extends _Operation {
         iterator.iterate(new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                if (resultName != null) compose.results.put(resultName, response);
+                if (resultName != null) compose.getState().results.put(resultName, response);
                 rp.process(null);
             }
         });

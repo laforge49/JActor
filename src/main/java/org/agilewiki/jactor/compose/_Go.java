@@ -13,7 +13,7 @@ public class _Go extends _Operation {
     public void call(_Compose compose, ResponseProcessor rp) throws Exception {
         Integer loc = compose.labels.get(label);
         if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
-        compose.programCounter = loc.intValue();
+        compose.getState().programCounter = loc.intValue();
         rp.process(null);
     }
 }

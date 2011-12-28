@@ -12,11 +12,14 @@ final public class _Call extends _Operation {
     }
 
     @Override
-    public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
+    public void call(final _Compose compose, final ResponseProcessor rp)
+            throws Exception {
+        final State oldState = compose.getState();
         comp.call(new ResponseProcessor() {
             @Override
-            public void process(Object response) throws Exception {
-                if (resultName != null) compose.results.put(resultName, response);
+            final public void process(Object response) throws Exception {
+                if (resultName != null) oldState.results.put(resultName, response);
+                compose.setState(oldState);
                 rp.process(null);
             }
         });

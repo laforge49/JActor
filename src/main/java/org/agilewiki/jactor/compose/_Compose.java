@@ -36,13 +36,7 @@ import java.util.HashMap;
  */
 abstract public class _Compose {
     final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
-    final public HashMap<String, Object> results = new HashMap<String, Object>();
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
-    public int programCounter;
-
-    final public Object get(String resultName) {
-        return results.get(resultName);
-    }
 
     final public void _send(Actor targetActor, Object request) {
         operations.add(new _SendVV(targetActor, request, null));
@@ -132,20 +126,31 @@ abstract public class _Compose {
         operations.add(new _Call(comp, resultName));
     }
 
-    final public void call(ResponseProcessor rp) throws Exception {
-        programCounter = 0;
+    final public void call(ResponseProcessor rp)
+            throws Exception {
+        final State state = new State();
+        setState(state);
         (new JAIterator() {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
+                int programCounter = state.programCounter;
                 if (programCounter >= operations.size()) rp1.process(new JANull());
                 else {
                     final _Operation o = operations.get(programCounter);
-                    programCounter += 1;
+                    state.programCounter += 1;
                     o.call(_Compose.this, rp1);
                 }
             }
         }).iterate(rp);
     }
+
+    final public Object get(String resultName) {
+        return getState().results.get(resultName);
+    }
+
+    abstract protected State getState();
+
+    abstract protected void setState(State state);
 
     /**
      * Send a request to an actor.

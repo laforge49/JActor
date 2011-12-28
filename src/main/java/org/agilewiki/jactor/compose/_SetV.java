@@ -13,7 +13,7 @@ public class _SetV extends _Operation {
 
     @Override
     public void call(_Compose compose, ResponseProcessor rp) throws Exception {
-        if (resultName != null) compose.results.put(resultName, value);
+        if (resultName != null) compose.getState().results.put(resultName, value);
         rp.process(null);
     }
 }

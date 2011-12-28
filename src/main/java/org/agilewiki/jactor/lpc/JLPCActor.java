@@ -27,6 +27,7 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.compose.State;
 import org.agilewiki.jactor.compose._Compose;
 
 /**
@@ -38,6 +39,8 @@ abstract public class JLPCActor implements Actor {
      * The inbox and outbox of the actor.
      */
     private Mailbox mailbox;
+
+    private State state;
 
     /**
      * Handles callbacks from the mailbox.
@@ -253,6 +256,16 @@ abstract public class JLPCActor implements Actor {
      * @return The new _Compose.
      */
     protected class Compose extends _Compose {
+        @Override
+        final protected State getState() {
+            return state;
+        }
+
+        @Override
+        final protected void setState(State state) {
+            JLPCActor.this.state = state;
+        }
+
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {
