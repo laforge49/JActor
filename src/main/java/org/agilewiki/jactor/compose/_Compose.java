@@ -133,7 +133,7 @@ abstract public class _Compose {
         (new JAIterator() {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
-                int programCounter = state.programCounter;
+                final int programCounter = state.programCounter;
                 if (programCounter >= operations.size()) rp1.process(new JANull());
                 else {
                     final _Operation o = operations.get(programCounter);

@@ -19,13 +19,8 @@ final public class Driver extends JLPCActor {
     protected void processRequest(Object request,
                                   final ResponseProcessor rp)
             throws Exception {
-        ResponseProcessor getAndReset = new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
-                send(counterActor, new GetAndReset(), rp);
-            }
-        };
-        (new JAIterator() {
+        Compose compose = new Compose();
+        compose._iterator(new JAIterator() {
             long i = 0;
 
             @Override
@@ -38,6 +33,8 @@ final public class Driver extends JLPCActor {
                     send(counterActor, addCount, rp1);
                 }
             }
-        }).iterate(getAndReset);
+        });
+        compose._send(counterActor, new GetAndReset());
+        compose.call(rp);
     }
 }

@@ -14,10 +14,12 @@ public class _Iterator extends _Operation {
 
     @Override
     public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
+        final State oldState = compose.getState();
         iterator.iterate(new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                if (resultName != null) compose.getState().results.put(resultName, response);
+                if (resultName != null) oldState.results.put(resultName, response);
+                compose.setState(oldState);
                 rp.process(null);
             }
         });

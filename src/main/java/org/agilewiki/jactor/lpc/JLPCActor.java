@@ -255,7 +255,7 @@ abstract public class JLPCActor implements Actor {
      *
      * @return The new _Compose.
      */
-    protected class Compose extends _Compose {
+    public class Compose extends _Compose {
         @Override
         final protected State getState() {
             return state;
