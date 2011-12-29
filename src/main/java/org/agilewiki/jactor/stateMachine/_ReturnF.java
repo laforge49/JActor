@@ -11,7 +11,7 @@ final public class _ReturnF extends _Operation {
     }
 
     @Override
-    final public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+    final public void call(_SMBuilder smBuilder, ResponseProcessor rp) throws Exception {
         Object rv = func.get();
         if (rv == null) rv = new JANull();
         rp.process(rv);

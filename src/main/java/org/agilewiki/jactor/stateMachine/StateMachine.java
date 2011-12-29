@@ -43,7 +43,7 @@ public class StateMachine {
      */
     final public HashMap<String, Object> results = new HashMap<String, Object>();
 
-    public _StateMachine smBuilder;
+    public _SMBuilder smBuilder;
 
     private JAIterator it = new JAIterator() {
         @Override
@@ -58,7 +58,7 @@ public class StateMachine {
     };
 
 
-    public StateMachine(_StateMachine smBuilder) {
+    public StateMachine(_SMBuilder smBuilder) {
         this.smBuilder = smBuilder;
     }
 

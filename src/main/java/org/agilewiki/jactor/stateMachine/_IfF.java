@@ -11,8 +11,8 @@ final public class _IfF extends _Go {
     }
 
     @Override
-    public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        if (condition.get()) super.call(stateMachine, rp);
+    public void call(_SMBuilder smBuilder, ResponseProcessor rp) throws Exception {
+        if (condition.get()) super.call(smBuilder, rp);
         else rp.process(null);
     }
 }

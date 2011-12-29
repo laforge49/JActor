@@ -10,10 +10,10 @@ public class _Go extends _Operation {
     }
 
     @Override
-    public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Integer loc = stateMachine.labels.get(label);
+    public void call(_SMBuilder smBuilder, ResponseProcessor rp) throws Exception {
+        Integer loc = smBuilder.labels.get(label);
         if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
-        stateMachine.getState().programCounter = loc.intValue();
+        smBuilder.getState().programCounter = loc.intValue();
         rp.process(null);
     }
 }

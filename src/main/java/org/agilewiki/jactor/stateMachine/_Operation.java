@@ -26,5 +26,5 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 abstract public class _Operation {
-    abstract public void call(_StateMachine stateMachine, final ResponseProcessor rp) throws Exception;
+    abstract public void call(_SMBuilder smBuilder, final ResponseProcessor rp) throws Exception;
 }

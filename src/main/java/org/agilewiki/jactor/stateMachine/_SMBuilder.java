@@ -33,7 +33,7 @@ import java.util.HashMap;
 /**
  * Creates and runs a state machine.
  */
-abstract public class _StateMachine {
+abstract public class _SMBuilder {
     final public ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
 
@@ -117,11 +117,11 @@ abstract public class _StateMachine {
         operations.add(new _IfF(condition, label));
     }
 
-    final public void _call(_StateMachine comp) {
+    final public void _call(_SMBuilder comp) {
         operations.add(new _Call(comp, null));
     }
 
-    final public void _call(_StateMachine comp, String resultName) {
+    final public void _call(_SMBuilder comp, String resultName) {
         operations.add(new _Call(comp, resultName));
     }
 

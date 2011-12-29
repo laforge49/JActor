@@ -28,7 +28,7 @@ import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.stateMachine.StateMachine;
-import org.agilewiki.jactor.stateMachine._StateMachine;
+import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 /**
  * A mostly synchronous implementation of Actor.
@@ -254,11 +254,11 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Creates a _StateMachine.
+     * Creates a _SMBuilder.
      *
-     * @return The new _StateMachine.
+     * @return The new _SMBuilder.
      */
-    public class SMBuilder extends _StateMachine {
+    public class SMBuilder extends _SMBuilder {
         @Override
         final protected StateMachine getState() {
             return stateMachine;

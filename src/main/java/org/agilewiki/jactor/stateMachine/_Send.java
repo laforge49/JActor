@@ -27,20 +27,20 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Adds a call to send to a _StateMachine.
+ * Adds a call to send to a _SMBuilder.
  */
 abstract public class _Send extends _Operation {
     @Override
-    final public void call(final _StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+    final public void call(final _SMBuilder smBuilder, final ResponseProcessor rp) throws Exception {
         Actor a = getTargetActor();
         Object r = getRequest();
-        final StateMachine oldStateMachine = stateMachine.getState();
-        stateMachine.send(a, r, new ResponseProcessor() {
+        final StateMachine oldStateMachine = smBuilder.getState();
+        smBuilder.send(a, r, new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
                 String rn = getResultName();
                 if (rn != null) oldStateMachine.results.put(rn, response);
-                stateMachine.setState(oldStateMachine);
+                smBuilder.setState(oldStateMachine);
                 rp.process(null);
             }
         });

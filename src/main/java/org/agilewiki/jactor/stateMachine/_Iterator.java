@@ -13,13 +13,13 @@ public class _Iterator extends _Operation {
     }
 
     @Override
-    public void call(final _StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
-        final StateMachine oldStateMachine = stateMachine.getState();
+    public void call(final _SMBuilder smBuilder, final ResponseProcessor rp) throws Exception {
+        final StateMachine oldStateMachine = smBuilder.getState();
         iterator.iterate(new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
                 if (resultName != null) oldStateMachine.results.put(resultName, response);
-                stateMachine.setState(oldStateMachine);
+                smBuilder.setState(oldStateMachine);
                 rp.process(null);
             }
         });
