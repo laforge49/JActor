@@ -6,7 +6,6 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Factorial extends JLPCActor {
-
     public Factorial(Mailbox mailbox) {
         super(mailbox);
     }
