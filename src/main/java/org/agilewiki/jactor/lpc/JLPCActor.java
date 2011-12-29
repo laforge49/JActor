@@ -40,6 +40,9 @@ abstract public class JLPCActor implements Actor {
      */
     private Mailbox mailbox;
 
+    /**
+     * The state of the currently active state machine.
+     */
     private State state;
 
     /**
@@ -255,7 +258,7 @@ abstract public class JLPCActor implements Actor {
      *
      * @return The new _StateMachine.
      */
-    public class StateMachine extends _StateMachine {
+    public class SMBuilder extends _StateMachine {
         @Override
         final protected State getState() {
             return state;

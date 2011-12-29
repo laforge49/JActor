@@ -6,11 +6,11 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 final public class Driver extends JLPCActor {
-    StateMachine stateMachine = new StateMachine();
+    SMBuilder SMBuilder = new SMBuilder();
 
     public Driver(Mailbox mailbox, final CounterActor counterActor, final long runs) {
         super(mailbox);
-        stateMachine._iterator(new JAIterator() {
+        SMBuilder._iterator(new JAIterator() {
             long i = 0;
 
             @Override
@@ -24,13 +24,13 @@ final public class Driver extends JLPCActor {
                 }
             }
         });
-        stateMachine._send(counterActor, new GetAndReset());
+        SMBuilder._send(counterActor, new GetAndReset());
     }
 
     @Override
     protected void processRequest(Object request,
                                   final ResponseProcessor rp)
             throws Exception {
-        stateMachine.call(rp);
+        SMBuilder.call(rp);
     }
 }

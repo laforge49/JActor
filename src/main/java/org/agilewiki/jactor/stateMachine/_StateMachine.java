@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Composes a series of calls to send.
+ * Creates and runs a state machine.
  */
 abstract public class _StateMachine {
-    final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
+    final public ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
 
     final public void _send(Actor targetActor, Object request) {
@@ -128,20 +128,9 @@ abstract public class _StateMachine {
 
     final public void call(ResponseProcessor rp)
             throws Exception {
-        final State state = new State();
+        final State state = new State(this);
         setState(state);
-        (new JAIterator() {
-            @Override
-            protected void process(final ResponseProcessor rp1) throws Exception {
-                final int programCounter = state.programCounter;
-                if (programCounter >= operations.size()) rp1.process(new JANull());
-                else {
-                    final _Operation o = operations.get(programCounter);
-                    state.programCounter += 1;
-                    o.call(_StateMachine.this, rp1);
-                }
-            }
-        }).iterate(rp);
+        state.execute(rp);
     }
 
     final public Object get(String resultName) {

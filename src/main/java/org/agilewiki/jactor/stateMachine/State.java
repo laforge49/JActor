@@ -23,9 +23,46 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
+import org.agilewiki.jactor.JAIterator;
+import org.agilewiki.jactor.JANull;
+import org.agilewiki.jactor.ResponseProcessor;
+
 import java.util.HashMap;
 
+/**
+ * The state of a state machine.
+ */
 public class State {
+    /**
+     * The next operation to be executed.
+     */
     public int programCounter = 0;
+
+    /**
+     * A table of partial results.
+     */
     final public HashMap<String, Object> results = new HashMap<String, Object>();
+
+    public _StateMachine smBuilder;
+
+    private JAIterator it = new JAIterator() {
+        @Override
+        protected void process(final ResponseProcessor rp1) throws Exception {
+            if (programCounter >= smBuilder.operations.size()) rp1.process(new JANull());
+            else {
+                final _Operation o = smBuilder.operations.get(programCounter);
+                programCounter += 1;
+                o.call(smBuilder, rp1);
+            }
+        }
+    };
+
+
+    public State(_StateMachine smBuilder) {
+        this.smBuilder = smBuilder;
+    }
+
+    public void execute(ResponseProcessor rp) throws Exception {
+        it.iterate(rp);
+    }
 }
