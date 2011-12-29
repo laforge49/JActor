@@ -36,9 +36,10 @@ final public class _IfF extends _Goto {
 
     /**
      * Create an _IfF
+     *
      * @param parentSMB The parent builder.
      * @param condition The condition.
-     * @param label The identifier of where to go to.
+     * @param label     The identifier of where to go to.
      */
     public _IfF(_SMBuilder parentSMB, BooleanFunc condition, String label) {
         super(parentSMB, label);
@@ -48,8 +49,8 @@ final public class _IfF extends _Goto {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

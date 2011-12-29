@@ -26,19 +26,34 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 public class _SetV extends _Operation {
+    /**
+     * The result.
+     */
     private Object value;
+
+    /**
+     * The name of the result, or null.
+     */
     private String resultName;
 
-    public _SetV(Object value, String resultName) {
+    /**
+     * Create a _SetV
+     *
+     * @param parentSMB  The parent builder.
+     * @param value      The result.
+     * @param resultName The name of the result, or null.
+     */
+    public _SetV(_SMBuilder parentSMB, Object value, String resultName) {
         this.value = value;
         this.resultName = resultName;
+        parentSMB.add(this);
     }
 
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

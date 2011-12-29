@@ -47,17 +47,17 @@ final public class _SendFV extends _Send {
     /**
      * Create a _SendFV.
      *
-     * @param parentSMB The parent builder.
+     * @param parentSMB   The parent builder.
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The request.
-     * @param resultName The name of the result, or null.
+     * @param request     The request.
+     * @param resultName  The name of the result, or null.
      */
     public _SendFV(_SMBuilder parentSMB, ActorFunc targetActor, Object request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;
         this.resultName = resultName;
         parentSMB.add(this);
-   }
+    }
 
     /**
      * Returns the actor which is to receive the message.

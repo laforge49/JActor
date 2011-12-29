@@ -39,7 +39,7 @@ final public class _ReturnV extends _Operation {
      * Create a_ReturnV.
      *
      * @param parentSMB The parent builder.
-     * @param result The result returned.
+     * @param result    The result returned.
      */
     public _ReturnV(_SMBuilder parentSMB, Object result) {
         this.result = result;
@@ -49,8 +49,8 @@ final public class _ReturnV extends _Operation {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

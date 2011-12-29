@@ -43,8 +43,8 @@ public class _Iterator extends _Operation {
     /**
      * Create an _Iterator.
      *
-     * @param parentSMB The parent builder.
-     * @param iterator The iterator to be executed.
+     * @param parentSMB  The parent builder.
+     * @param iterator   The iterator to be executed.
      * @param resultName The name of the result, or null.
      */
     public _Iterator(_SMBuilder parentSMB, JAIterator iterator, String resultName) {
@@ -56,8 +56,8 @@ public class _Iterator extends _Operation {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

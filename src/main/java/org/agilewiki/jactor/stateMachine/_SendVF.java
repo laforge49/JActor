@@ -47,10 +47,10 @@ final public class _SendVF extends _Send {
     /**
      * Create a _SendVF.
      *
-     * @param parentSMB The parent builder.
+     * @param parentSMB   The parent builder.
      * @param targetActor The actor which is to receive the message.
-     * @param request The (indirect) request.
-     * @param resultName The name of the result, or null.
+     * @param request     The (indirect) request.
+     * @param resultName  The name of the result, or null.
      */
     public _SendVF(_SMBuilder parentSMB, Actor targetActor, ObjectFunc request, String resultName) {
         this.targetActor = targetActor;

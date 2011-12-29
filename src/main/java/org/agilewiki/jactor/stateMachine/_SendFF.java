@@ -47,10 +47,10 @@ final public class _SendFF extends _Send {
     /**
      * Create a _SendFF.
      *
-     * @param parentSMB The parent builder.
+     * @param parentSMB   The parent builder.
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The (indirect) request.
-     * @param resultName The name of the result, or null.
+     * @param request     The (indirect) request.
+     * @param resultName  The name of the result, or null.
      */
     public _SendFF(_SMBuilder parentSMB, ActorFunc targetActor, ObjectFunc request, String resultName) {
         this.targetActor = targetActor;

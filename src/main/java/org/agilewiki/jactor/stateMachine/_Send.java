@@ -33,8 +33,8 @@ abstract public class _Send extends _Operation {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

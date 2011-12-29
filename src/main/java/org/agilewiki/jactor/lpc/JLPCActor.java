@@ -27,7 +27,6 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.stateMachine.StateMachine;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 /**

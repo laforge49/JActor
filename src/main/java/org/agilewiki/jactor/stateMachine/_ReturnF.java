@@ -39,7 +39,7 @@ final public class _ReturnF extends _Operation {
      * Create a_ReturnF.
      *
      * @param parentSMB The parent builder.
-     * @param result The indirect result returned.
+     * @param result    The indirect result returned.
      */
     public _ReturnF(_SMBuilder parentSMB, ObjectFunc result) {
         this.result = result;
@@ -49,8 +49,8 @@ final public class _ReturnF extends _Operation {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

@@ -70,7 +70,7 @@ public class StateMachine {
     final public Object get(Object resultName) {
         return results.get(resultName);
     }
-    
+
     final public Integer resolveLabel(String label) {
         return smBuilder.labels.get(label);
     }
@@ -80,7 +80,7 @@ public class StateMachine {
      *
      * @param actor   The target actor.
      * @param request The request.
-     * @param rp The response processor.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public void send(Actor actor, Object request, ResponseProcessor rp)

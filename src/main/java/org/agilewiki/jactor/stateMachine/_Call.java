@@ -42,8 +42,8 @@ final public class _Call extends _Operation {
     /**
      * Create a _Call.
      *
-     * @param parentSMB The parent builder.
-     * @param smb The builder of the state machine to be executed.
+     * @param parentSMB  The parent builder.
+     * @param smb        The builder of the state machine to be executed.
      * @param resultName The name of the result, or null.
      */
     public _Call(_SMBuilder parentSMB, _SMBuilder smb, String resultName) {
@@ -55,8 +55,8 @@ final public class _Call extends _Operation {
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

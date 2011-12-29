@@ -47,10 +47,10 @@ final public class _SendVV extends _Send {
     /**
      * Create a _SendVV.
      *
-     * @param parentSMB The parent builder.
+     * @param parentSMB   The parent builder.
      * @param targetActor The actor which is to receive the message.
-     * @param request The request.
-     * @param resultName The name of the result, or null.
+     * @param request     The request.
+     * @param resultName  The name of the result, or null.
      */
     public _SendVV(_SMBuilder parentSMB, Actor targetActor, Object request, String resultName) {
         this.targetActor = targetActor;

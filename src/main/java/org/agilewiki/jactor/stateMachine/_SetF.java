@@ -26,19 +26,34 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 final public class _SetF extends _Operation {
+    /**
+     * The (indirect) result.
+     */
     private ObjectFunc objectFunc;
+
+    /**
+     * The name of the result, or null.
+     */
     private String resultName;
 
-    public _SetF(ObjectFunc objectFunc, String resultName) {
+    /**
+     * Create a _SetF
+     *
+     * @param parentSMB  The parent builder.
+     * @param objectFunc The (indirect) result.
+     * @param resultName The name of the result, or null.
+     */
+    public _SetF(_SMBuilder parentSMB, ObjectFunc objectFunc, String resultName) {
         this.objectFunc = objectFunc;
         this.resultName = resultName;
+        parentSMB.add(this);
     }
 
     /**
      * Perform the operation.
      *
-     * @param stateMachine   The state machine driving the operation.
-     * @param rp The response processor.
+     * @param stateMachine The state machine driving the operation.
+     * @param rp           The response processor.
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override

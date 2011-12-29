@@ -45,7 +45,7 @@ abstract public class _SMBuilder {
      * Create a _SendVV.
      *
      * @param targetActor The actor which is to receive the message.
-     * @param request The request.
+     * @param request     The request.
      */
     final public void _send(Actor targetActor, Object request) {
         new _SendVV(this, targetActor, request, null);
@@ -55,8 +55,8 @@ abstract public class _SMBuilder {
      * Create a _SendVV.
      *
      * @param targetActor The actor which is to receive the message.
-     * @param request The request.
-     * @param resultName The name of the result, or null.
+     * @param request     The request.
+     * @param resultName  The name of the result, or null.
      */
     final public void _send(Actor targetActor, Object request, String resultName) {
         new _SendVV(this, targetActor, request, resultName);
@@ -66,7 +66,7 @@ abstract public class _SMBuilder {
      * Create a _SendFF.
      *
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The (indirect) request.
+     * @param request     The (indirect) request.
      */
     final public void _send(ActorFunc targetActor, ObjectFunc request) {
         new _SendFF(this, targetActor, request, null);
@@ -76,8 +76,8 @@ abstract public class _SMBuilder {
      * Create a _SendFF.
      *
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The (indirect) request.
-     * @param resultName The name of the result, or null.
+     * @param request     The (indirect) request.
+     * @param resultName  The name of the result, or null.
      */
     final public void _send(ActorFunc targetActor, ObjectFunc request, String resultName) {
         new _SendFF(this, targetActor, request, resultName);
@@ -87,7 +87,7 @@ abstract public class _SMBuilder {
      * Create a _SendVF.
      *
      * @param targetActor The actor which is to receive the message.
-     * @param request The (indirect) request.
+     * @param request     The (indirect) request.
      */
     final public void _send(Actor targetActor, ObjectFunc request) {
         new _SendVF(this, targetActor, request, null);
@@ -97,8 +97,8 @@ abstract public class _SMBuilder {
      * Create a _SendVF.
      *
      * @param targetActor The actor which is to receive the message.
-     * @param request The (indirect) request.
-     * @param resultName The name of the result, or null.
+     * @param request     The (indirect) request.
+     * @param resultName  The name of the result, or null.
      */
     final public void _send(Actor targetActor, ObjectFunc request, String resultName) {
         new _SendVF(this, targetActor, request, resultName);
@@ -108,7 +108,7 @@ abstract public class _SMBuilder {
      * Create a _SendFV.
      *
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The request.
+     * @param request     The request.
      */
     final public void _send(ActorFunc targetActor, Object request) {
         new _SendFV(this, targetActor, request, null);
@@ -118,8 +118,8 @@ abstract public class _SMBuilder {
      * Create a _SendFV.
      *
      * @param targetActor The (indirect) actor which is to receive the message.
-     * @param request The request.
-     * @param resultName The name of the result, or null.
+     * @param request     The request.
+     * @param resultName  The name of the result, or null.
      */
     final public void _send(ActorFunc targetActor, Object request, String resultName) {
         new _SendFV(this, targetActor, request, resultName);
@@ -143,20 +143,42 @@ abstract public class _SMBuilder {
         new _ReturnF(this, result);
     }
 
+    /**
+     * Create a _SetF.
+     *
+     * @param objectFunc The (indirect) result.
+     */
     final public void _set(ObjectFunc objectFunc) {
-        operations.add(new _SetF(objectFunc, null));
+        new _SetF(this, objectFunc, null);
     }
 
+    /**
+     * Create a _SetF.
+     *
+     * @param objectFunc The (indirect) result.
+     * @param resultName The name of the result, or null.
+     */
     final public void _set(ObjectFunc objectFunc, String resultName) {
-        operations.add(new _SetF(objectFunc, resultName));
+        new _SetF(this, objectFunc, resultName);
     }
 
+    /**
+     * Create a _SetV.
+     *
+     * @param value The result.
+     */
     final public void _set(Object value) {
-        operations.add(new _SetV(value, null));
+        new _SetV(this, value, null);
     }
 
+    /**
+     * Create a _SetV.
+     *
+     * @param value      The result.
+     * @param resultName The name of the result, or null.
+     */
     final public void _set(Object value, String resultName) {
-        operations.add(new _SetV(value, resultName));
+        new _SetV(this, value, resultName);
     }
 
     /**
@@ -171,7 +193,7 @@ abstract public class _SMBuilder {
     /**
      * Create an _Iterator.
      *
-     * @param iterator The iterator to be executed.
+     * @param iterator   The iterator to be executed.
      * @param resultName The name of the result, or null.
      */
     final public void _iterator(JAIterator iterator, String resultName) {
@@ -198,8 +220,9 @@ abstract public class _SMBuilder {
 
     /**
      * Create an _IfV
+     *
      * @param condition The condition.
-     * @param label The identifier of where to go to.
+     * @param label     The identifier of where to go to.
      */
     final public void _if(boolean condition, String label) {
         new _IfV(this, condition, label);
@@ -207,8 +230,9 @@ abstract public class _SMBuilder {
 
     /**
      * Create an _IfF
+     *
      * @param condition The condition.
-     * @param label The identifier of where to go to.
+     * @param label     The identifier of where to go to.
      */
     final public void _if(BooleanFunc condition, String label) {
         new _IfF(this, condition, label);
@@ -226,7 +250,7 @@ abstract public class _SMBuilder {
     /**
      * Create a _Call.
      *
-     * @param smb The builder of the state machine to be executed.
+     * @param smb        The builder of the state machine to be executed.
      * @param resultName The name of the result, or null.
      */
     final public void _call(_SMBuilder smb, String resultName) {
@@ -244,7 +268,7 @@ abstract public class _SMBuilder {
      *
      * @param actor   The target actor.
      * @param request The request.
-     * @param rp The response processor.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void send(Actor actor, Object request, ResponseProcessor rp) throws Exception;
