@@ -13,7 +13,8 @@ final public class _SetF extends _Operation {
 
     @Override
     public void call(_Compose compose, ResponseProcessor rp) throws Exception {
-        if (resultName != null) compose.getState().results.put(resultName, func.get());
+        Object value = func.get();
+        if (resultName != null) compose.getState().results.put(resultName, value);
         rp.process(null);
     }
 }

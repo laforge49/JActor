@@ -51,7 +51,7 @@ package org.agilewiki.jactor;
  *                 rp.process(null);
  *             }
  *         };
- *         (new JAIterator(printResult) {
+ *         (new JAIterator() {
  *             int i;
  *             int r;
  *             Multiplier mp = new Multiplier(getMailbox());
@@ -72,7 +72,7 @@ package org.agilewiki.jactor;
  *                     rp.process(null);
  *                 }
  *             }
- *         }).iterate();
+ *         }).iterate(printResult);
  *     }
  * }
  * </pre>
