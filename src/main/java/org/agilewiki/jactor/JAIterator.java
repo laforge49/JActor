@@ -15,7 +15,7 @@ package org.agilewiki.jactor;
  *            }
  *        };
  *
- *        (new JAIterator(printResult) {
+ *        (new JAIterator() {
  *            int i;
  *            int r;
  *
@@ -28,7 +28,7 @@ package org.agilewiki.jactor;
  *                    rp.process(null);
  *                }
  *            }
- *        }).iterate();
+ *        }).iterate(printResult);
  * </pre>
  * <p>
  * The JAIterator.process method is called repeatedly until it returns a non-null response,

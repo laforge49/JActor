@@ -6,20 +6,10 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 final public class Driver extends JLPCActor {
-    private CounterActor counterActor;
-    private long runs;
+    Compose compose = new Compose();
 
-    public Driver(Mailbox mailbox, CounterActor counterActor, long runs) {
+    public Driver(Mailbox mailbox, final CounterActor counterActor, final long runs) {
         super(mailbox);
-        this.counterActor = counterActor;
-        this.runs = runs;
-    }
-
-    @Override
-    protected void processRequest(Object request,
-                                  final ResponseProcessor rp)
-            throws Exception {
-        Compose compose = new Compose();
         compose._iterator(new JAIterator() {
             long i = 0;
 
@@ -35,6 +25,12 @@ final public class Driver extends JLPCActor {
             }
         });
         compose._send(counterActor, new GetAndReset());
+    }
+
+    @Override
+    protected void processRequest(Object request,
+                                  final ResponseProcessor rp)
+            throws Exception {
         compose.call(rp);
     }
 }
