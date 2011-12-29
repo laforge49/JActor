@@ -34,13 +34,13 @@ abstract public class _Send extends _Operation {
     final public void call(final _StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
         Actor a = getTargetActor();
         Object r = getRequest();
-        final State oldState = stateMachine.getState();
+        final StateMachine oldStateMachine = stateMachine.getState();
         stateMachine.send(a, r, new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
                 String rn = getResultName();
-                if (rn != null) oldState.results.put(rn, response);
-                stateMachine.setState(oldState);
+                if (rn != null) oldStateMachine.results.put(rn, response);
+                stateMachine.setState(oldStateMachine);
                 rp.process(null);
             }
         });

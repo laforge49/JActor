@@ -32,7 +32,7 @@ import java.util.HashMap;
 /**
  * The state of a state machine.
  */
-public class State {
+public class StateMachine {
     /**
      * The next operation to be executed.
      */
@@ -58,7 +58,7 @@ public class State {
     };
 
 
-    public State(_StateMachine smBuilder) {
+    public StateMachine(_StateMachine smBuilder) {
         this.smBuilder = smBuilder;
     }
 

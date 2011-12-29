@@ -25,7 +25,6 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
 import java.util.ArrayList;
@@ -128,18 +127,18 @@ abstract public class _StateMachine {
 
     final public void call(ResponseProcessor rp)
             throws Exception {
-        final State state = new State(this);
-        setState(state);
-        state.execute(rp);
+        final StateMachine stateMachine = new StateMachine(this);
+        setState(stateMachine);
+        stateMachine.execute(rp);
     }
 
     final public Object get(String resultName) {
         return getState().results.get(resultName);
     }
 
-    abstract protected State getState();
+    abstract protected StateMachine getState();
 
-    abstract protected void setState(State state);
+    abstract protected void setState(StateMachine stateMachine);
 
     /**
      * Send a request to an actor.

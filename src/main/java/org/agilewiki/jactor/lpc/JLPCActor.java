@@ -27,7 +27,7 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.stateMachine.State;
+import org.agilewiki.jactor.stateMachine.StateMachine;
 import org.agilewiki.jactor.stateMachine._StateMachine;
 
 /**
@@ -41,9 +41,9 @@ abstract public class JLPCActor implements Actor {
     private Mailbox mailbox;
 
     /**
-     * The state of the currently active state machine.
+     * The stateMachine of the currently active stateMachine machine.
      */
-    private State state;
+    private StateMachine stateMachine;
 
     /**
      * Handles callbacks from the mailbox.
@@ -260,13 +260,13 @@ abstract public class JLPCActor implements Actor {
      */
     public class SMBuilder extends _StateMachine {
         @Override
-        final protected State getState() {
-            return state;
+        final protected StateMachine getState() {
+            return stateMachine;
         }
 
         @Override
-        final protected void setState(State state) {
-            JLPCActor.this.state = state;
+        final protected void setState(StateMachine stateMachine) {
+            JLPCActor.this.stateMachine = stateMachine;
         }
 
         @Override
