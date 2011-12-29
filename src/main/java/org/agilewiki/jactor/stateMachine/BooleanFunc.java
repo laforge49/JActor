@@ -23,6 +23,13 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
+/**
+ * Returns a boolean.
+ */
 public interface BooleanFunc {
+    /**
+     * Returns a boolean.
+     * @return A boolean.
+     */
     public boolean get();
 }

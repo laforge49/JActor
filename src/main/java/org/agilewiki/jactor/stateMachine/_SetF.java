@@ -26,17 +26,24 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 final public class _SetF extends _Operation {
-    private Func func;
+    private ObjectFunc objectFunc;
     private String resultName;
 
-    public _SetF(Func func, String resultName) {
-        this.func = func;
+    public _SetF(ObjectFunc objectFunc, String resultName) {
+        this.objectFunc = objectFunc;
         this.resultName = resultName;
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object value = func.get();
+        Object value = objectFunc.get();
         if (resultName != null) stateMachine.results.put(resultName, value);
         rp.process(null);
     }

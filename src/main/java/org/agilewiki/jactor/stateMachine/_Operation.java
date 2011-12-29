@@ -25,6 +25,16 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * An operation performed by a state machine.
+ */
 abstract public class _Operation {
-    abstract public void call(StateMachine stateMachine, final ResponseProcessor rp) throws Exception;
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
+    abstract public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception;
 }

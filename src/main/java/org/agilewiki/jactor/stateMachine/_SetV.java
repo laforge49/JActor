@@ -34,6 +34,13 @@ public class _SetV extends _Operation {
         this.resultName = resultName;
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         if (resultName != null) stateMachine.results.put(resultName, value);

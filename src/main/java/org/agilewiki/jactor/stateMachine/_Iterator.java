@@ -35,6 +35,13 @@ public class _Iterator extends _Operation {
         this.resultName = resultName;
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
         iterator.iterate(new ResponseProcessor() {

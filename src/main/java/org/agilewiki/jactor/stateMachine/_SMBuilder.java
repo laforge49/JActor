@@ -37,6 +37,10 @@ abstract public class _SMBuilder {
     final public ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
 
+    final public void add(_Operation operation) {
+        operations.add(operation);
+    }
+
     final public void _send(Actor targetActor, Object request) {
         operations.add(new _SendVV(targetActor, request, null));
     }
@@ -45,19 +49,19 @@ abstract public class _SMBuilder {
         operations.add(new _SendVV(targetActor, request, resultName));
     }
 
-    final public void _send(ActorFunc targetActor, Func request) {
+    final public void _send(ActorFunc targetActor, ObjectFunc request) {
         operations.add(new _SendFF(targetActor, request, null));
     }
 
-    final public void _send(ActorFunc targetActor, Func request, String resultName) {
+    final public void _send(ActorFunc targetActor, ObjectFunc request, String resultName) {
         operations.add(new _SendFF(targetActor, request, resultName));
     }
 
-    final public void _send(Actor targetActor, Func request) {
+    final public void _send(Actor targetActor, ObjectFunc request) {
         operations.add(new _SendVF(targetActor, request, null));
     }
 
-    final public void _send(Actor targetActor, Func request, String resultName) {
+    final public void _send(Actor targetActor, ObjectFunc request, String resultName) {
         operations.add(new _SendVF(targetActor, request, resultName));
     }
 
@@ -73,16 +77,16 @@ abstract public class _SMBuilder {
         operations.add(new _ReturnV(value));
     }
 
-    final public void _return(Func func) {
-        operations.add(new _ReturnF(func));
+    final public void _return(ObjectFunc objectFunc) {
+        operations.add(new _ReturnF(objectFunc));
     }
 
-    final public void _set(Func func) {
-        operations.add(new _SetF(func, null));
+    final public void _set(ObjectFunc objectFunc) {
+        operations.add(new _SetF(objectFunc, null));
     }
 
-    final public void _set(Func func, String resultName) {
-        operations.add(new _SetF(func, resultName));
+    final public void _set(ObjectFunc objectFunc, String resultName) {
+        operations.add(new _SetF(objectFunc, resultName));
     }
 
     final public void _set(Object value) {
@@ -101,28 +105,59 @@ abstract public class _SMBuilder {
         operations.add(new _Iterator(iterator, resultName));
     }
 
+    /**
+     * Assign a label to the location of the next operation to be created.
+     *
+     * @param label The label assigned to the location of the next operation.
+     */
     final public void _label(String label) {
         labels.put(label, new Integer(operations.size()));
     }
 
-    final public void _go(String label) {
-        operations.add(new _Go(label));
+    /**
+     * Create a _Goto.
+     *
+     * @param label The identifier of where to go to.
+     */
+    final public void _goto(String label) {
+        new _Goto(this, label);
     }
 
+    /**
+     * Create an _IfV
+     * @param condition The condition.
+     * @param label The identifier of where to go to.
+     */
     final public void _if(boolean condition, String label) {
-        operations.add(new _IfV(condition, label));
+        new _IfV(this, condition, label);
     }
 
+    /**
+     * Create an _IfF
+     * @param condition The condition.
+     * @param label The identifier of where to go to.
+     */
     final public void _if(BooleanFunc condition, String label) {
-        operations.add(new _IfF(condition, label));
+        new _IfF(this, condition, label);
     }
 
-    final public void _call(_SMBuilder comp) {
-        operations.add(new _Call(comp, null));
+    /**
+     * Create a _Call.
+     *
+     * @param smb The builder of the state machine to be executed.
+     */
+    final public void _call(_SMBuilder smb) {
+        new _Call(this, smb, null);
     }
 
-    final public void _call(_SMBuilder comp, String resultName) {
-        operations.add(new _Call(comp, resultName));
+    /**
+     * Create a _Call.
+     *
+     * @param smb The builder of the state machine to be executed.
+     * @param resultName The name of the result, or null.
+     */
+    final public void _call(_SMBuilder smb, String resultName) {
+        new _Call(this, smb, resultName);
     }
 
     final public void call(ResponseProcessor rp)

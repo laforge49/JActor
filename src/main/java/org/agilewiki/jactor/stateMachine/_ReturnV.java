@@ -33,6 +33,13 @@ final public class _ReturnV extends _Operation {
         this.value = value;
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         Object rv = value;

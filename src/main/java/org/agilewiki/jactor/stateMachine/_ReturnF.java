@@ -27,15 +27,22 @@ import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
 final public class _ReturnF extends _Operation {
-    private Func func;
+    private ObjectFunc objectFunc;
 
-    public _ReturnF(Func func) {
-        this.func = func;
+    public _ReturnF(ObjectFunc objectFunc) {
+        this.objectFunc = objectFunc;
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object rv = func.get();
+        Object rv = objectFunc.get();
         if (rv == null) rv = new JANull();
         rp.process(rv);
     }

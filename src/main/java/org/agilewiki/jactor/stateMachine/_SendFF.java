@@ -27,11 +27,11 @@ import org.agilewiki.jactor.Actor;
 
 public class _SendFF extends _Send {
     private ActorFunc targetActor;
-    private Func request;
+    private ObjectFunc request;
 
     private String resultName;
 
-    public _SendFF(ActorFunc targetActor, Func request, String resultName) {
+    public _SendFF(ActorFunc targetActor, ObjectFunc request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;
         this.resultName = resultName;

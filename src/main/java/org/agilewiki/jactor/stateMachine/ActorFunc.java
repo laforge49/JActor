@@ -25,6 +25,14 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 
+/**
+ * Returns an actor.
+ */
 public interface ActorFunc {
+    /**
+     * Returns an actor.
+     *
+     * @return An actor.
+     */
     public Actor get();
 }

@@ -30,6 +30,13 @@ import org.agilewiki.jactor.ResponseProcessor;
  * Adds a call to send to a _SMBuilder.
  */
 abstract public class _Send extends _Operation {
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
         Actor a = getTargetActor();

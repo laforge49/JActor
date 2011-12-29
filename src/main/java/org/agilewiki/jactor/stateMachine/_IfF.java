@@ -25,14 +25,34 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
-final public class _IfF extends _Go {
+/**
+ * If the condition is true, set the program counter of the state machine.
+ */
+final public class _IfF extends _Goto {
+    /**
+     * The condition.
+     */
     private BooleanFunc condition;
 
-    public _IfF(BooleanFunc condition, String label) {
-        super(label);
+    /**
+     * Create an _IfF
+     * @param parentSMB The parent builder.
+     * @param condition The condition.
+     * @param label The identifier of where to go to.
+     */
+    public _IfF(_SMBuilder parentSMB, BooleanFunc condition, String label) {
+        super(parentSMB, label);
         this.condition = condition;
+        parentSMB.add(this);
     }
 
+    /**
+     * Perform the operation.
+     *
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
+     */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         if (condition.get()) super.call(stateMachine, rp);
