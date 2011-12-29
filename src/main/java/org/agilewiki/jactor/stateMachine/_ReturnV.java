@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
@@ -11,7 +11,7 @@ final public class _ReturnV extends _Operation {
     }
 
     @Override
-    final public void call(_Compose compose, ResponseProcessor rp) throws Exception {
+    final public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         Object rv = value;
         if (rv == null) rv = new JANull();
         rp.process(rv);

@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 /**
  * Composes a series of calls to send.
  */
-abstract public class _Compose {
+abstract public class _StateMachine {
     final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
 
@@ -118,11 +118,11 @@ abstract public class _Compose {
         operations.add(new _IfF(condition, label));
     }
 
-    final public void _call(_Compose comp) {
+    final public void _call(_StateMachine comp) {
         operations.add(new _Call(comp, null));
     }
 
-    final public void _call(_Compose comp, String resultName) {
+    final public void _call(_StateMachine comp, String resultName) {
         operations.add(new _Call(comp, resultName));
     }
 
@@ -138,7 +138,7 @@ abstract public class _Compose {
                 else {
                     final _Operation o = operations.get(programCounter);
                     state.programCounter += 1;
-                    o.call(_Compose.this, rp1);
+                    o.call(_StateMachine.this, rp1);
                 }
             }
         }).iterate(rp);

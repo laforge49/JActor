@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
@@ -11,8 +11,8 @@ final public class _IfF extends _Go {
     }
 
     @Override
-    public void call(_Compose compose, ResponseProcessor rp) throws Exception {
-        if (condition.get()) super.call(compose, rp);
+    public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+        if (condition.get()) super.call(stateMachine, rp);
         else rp.process(null);
     }
 }

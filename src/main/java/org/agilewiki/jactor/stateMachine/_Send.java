@@ -21,10 +21,34 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ResponseProcessor;
 
-public interface ActorFunc {
-    public Actor get();
+/**
+ * Adds a call to send to a _StateMachine.
+ */
+abstract public class _Send extends _Operation {
+    @Override
+    final public void call(final _StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+        Actor a = getTargetActor();
+        Object r = getRequest();
+        final State oldState = stateMachine.getState();
+        stateMachine.send(a, r, new ResponseProcessor() {
+            @Override
+            final public void process(Object response) throws Exception {
+                String rn = getResultName();
+                if (rn != null) oldState.results.put(rn, response);
+                stateMachine.setState(oldState);
+                rp.process(null);
+            }
+        });
+    }
+
+    abstract public Actor getTargetActor();
+
+    abstract public Object getRequest();
+
+    abstract public String getResultName();
 }

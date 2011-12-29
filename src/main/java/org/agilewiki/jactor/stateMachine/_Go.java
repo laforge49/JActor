@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
@@ -10,10 +10,10 @@ public class _Go extends _Operation {
     }
 
     @Override
-    public void call(_Compose compose, ResponseProcessor rp) throws Exception {
-        Integer loc = compose.labels.get(label);
+    public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+        Integer loc = stateMachine.labels.get(label);
         if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
-        compose.getState().programCounter = loc.intValue();
+        stateMachine.getState().programCounter = loc.intValue();
         rp.process(null);
     }
 }

@@ -21,11 +21,8 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
-import java.util.HashMap;
-
-public class State {
-    public int programCounter = 0;
-    final public HashMap<String, Object> results = new HashMap<String, Object>();
+public interface Func {
+    public Object get();
 }

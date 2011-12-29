@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
@@ -12,9 +12,9 @@ final public class _SetF extends _Operation {
     }
 
     @Override
-    public void call(_Compose compose, ResponseProcessor rp) throws Exception {
+    public void call(_StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         Object value = func.get();
-        if (resultName != null) compose.getState().results.put(resultName, value);
+        if (resultName != null) stateMachine.getState().results.put(resultName, value);
         rp.process(null);
     }
 }

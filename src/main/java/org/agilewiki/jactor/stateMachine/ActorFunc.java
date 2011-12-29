@@ -21,34 +21,10 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 
-public class _SendVV extends _Send {
-    private Actor targetActor;
-    private Object request;
-
-    private String resultName;
-
-    public _SendVV(Actor targetActor, Object request, String resultName) {
-        this.targetActor = targetActor;
-        this.request = request;
-        this.resultName = resultName;
-    }
-
-    @Override
-    public Actor getTargetActor() {
-        return targetActor;
-    }
-
-    @Override
-    public Object getRequest() {
-        return request;
-    }
-
-    @Override
-    public String getResultName() {
-        return resultName;
-    }
+public interface ActorFunc {
+    public Actor get();
 }

@@ -21,8 +21,34 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
-public interface BooleanFunc {
-    public boolean get();
+import org.agilewiki.jactor.Actor;
+
+public class _SendFV extends _Send {
+    private ActorFunc targetActor;
+    private Object request;
+
+    private String resultName;
+
+    public _SendFV(ActorFunc targetActor, Object request, String resultName) {
+        this.targetActor = targetActor;
+        this.request = request;
+        this.resultName = resultName;
+    }
+
+    @Override
+    public Actor getTargetActor() {
+        return targetActor.get();
+    }
+
+    @Override
+    public Object getRequest() {
+        return request;
+    }
+
+    @Override
+    public String getResultName() {
+        return resultName;
+    }
 }

@@ -21,10 +21,34 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.Actor;
 
-abstract public class _Operation {
-    abstract public void call(_Compose compose, final ResponseProcessor rp) throws Exception;
+public class _SendFF extends _Send {
+    private ActorFunc targetActor;
+    private Func request;
+
+    private String resultName;
+
+    public _SendFF(ActorFunc targetActor, Func request, String resultName) {
+        this.targetActor = targetActor;
+        this.request = request;
+        this.resultName = resultName;
+    }
+
+    @Override
+    public Actor getTargetActor() {
+        return targetActor.get();
+    }
+
+    @Override
+    public Object getRequest() {
+        return request.get();
+    }
+
+    @Override
+    public String getResultName() {
+        return resultName;
+    }
 }

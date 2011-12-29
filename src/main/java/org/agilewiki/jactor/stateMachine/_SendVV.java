@@ -21,34 +21,34 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
 
-/**
- * Adds a call to send to a _Compose.
- */
-abstract public class _Send extends _Operation {
-    @Override
-    final public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
-        Actor a = getTargetActor();
-        Object r = getRequest();
-        final State oldState = compose.getState();
-        compose.send(a, r, new ResponseProcessor() {
-            @Override
-            final public void process(Object response) throws Exception {
-                String rn = getResultName();
-                if (rn != null) oldState.results.put(rn, response);
-                compose.setState(oldState);
-                rp.process(null);
-            }
-        });
+public class _SendVV extends _Send {
+    private Actor targetActor;
+    private Object request;
+
+    private String resultName;
+
+    public _SendVV(Actor targetActor, Object request, String resultName) {
+        this.targetActor = targetActor;
+        this.request = request;
+        this.resultName = resultName;
     }
 
-    abstract public Actor getTargetActor();
+    @Override
+    public Actor getTargetActor() {
+        return targetActor;
+    }
 
-    abstract public Object getRequest();
+    @Override
+    public Object getRequest() {
+        return request;
+    }
 
-    abstract public String getResultName();
+    @Override
+    public String getResultName() {
+        return resultName;
+    }
 }

@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.compose;
+package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.ResponseProcessor;
@@ -13,13 +13,13 @@ public class _Iterator extends _Operation {
     }
 
     @Override
-    public void call(final _Compose compose, final ResponseProcessor rp) throws Exception {
-        final State oldState = compose.getState();
+    public void call(final _StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+        final State oldState = stateMachine.getState();
         iterator.iterate(new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
                 if (resultName != null) oldState.results.put(resultName, response);
-                compose.setState(oldState);
+                stateMachine.setState(oldState);
                 rp.process(null);
             }
         });

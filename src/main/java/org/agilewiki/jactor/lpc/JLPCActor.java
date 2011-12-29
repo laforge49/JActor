@@ -27,8 +27,8 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.compose.State;
-import org.agilewiki.jactor.compose._Compose;
+import org.agilewiki.jactor.stateMachine.State;
+import org.agilewiki.jactor.stateMachine._StateMachine;
 
 /**
  * A mostly synchronous implementation of Actor.
@@ -251,11 +251,11 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Creates a _Compose.
+     * Creates a _StateMachine.
      *
-     * @return The new _Compose.
+     * @return The new _StateMachine.
      */
-    public class Compose extends _Compose {
+    public class StateMachine extends _StateMachine {
         @Override
         final protected State getState() {
             return state;
