@@ -41,11 +41,6 @@ abstract public class JLPCActor implements Actor {
     private Mailbox mailbox;
 
     /**
-     * The stateMachine of the currently active stateMachine machine.
-     */
-    private StateMachine stateMachine;
-
-    /**
      * Handles callbacks from the mailbox.
      */
     final private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
@@ -259,16 +254,6 @@ abstract public class JLPCActor implements Actor {
      * @return The new _SMBuilder.
      */
     public class SMBuilder extends _SMBuilder {
-        @Override
-        final protected StateMachine getState() {
-            return stateMachine;
-        }
-
-        @Override
-        final protected void setState(StateMachine stateMachine) {
-            JLPCActor.this.stateMachine = stateMachine;
-        }
-
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {

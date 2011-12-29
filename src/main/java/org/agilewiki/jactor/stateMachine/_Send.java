@@ -31,16 +31,14 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 abstract public class _Send extends _Operation {
     @Override
-    final public void call(final _SMBuilder smBuilder, final ResponseProcessor rp) throws Exception {
+    final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
         Actor a = getTargetActor();
         Object r = getRequest();
-        final StateMachine oldStateMachine = smBuilder.getState();
-        smBuilder.send(a, r, new ResponseProcessor() {
+        stateMachine.send(a, r, new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
                 String rn = getResultName();
-                if (rn != null) oldStateMachine.results.put(rn, response);
-                smBuilder.setState(oldStateMachine);
+                if (rn != null) stateMachine.results.put(rn, response);
                 rp.process(null);
             }
         });

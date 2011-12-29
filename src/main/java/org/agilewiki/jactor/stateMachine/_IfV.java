@@ -11,8 +11,8 @@ final public class _IfV extends _Go {
     }
 
     @Override
-    public void call(_SMBuilder smBuilder, ResponseProcessor rp) throws Exception {
-        if (condition) super.call(smBuilder, rp);
+    public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+        if (condition) super.call(stateMachine, rp);
         else rp.process(null);
     }
 }

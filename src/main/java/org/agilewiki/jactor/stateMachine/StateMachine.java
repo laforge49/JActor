@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
@@ -43,7 +44,7 @@ public class StateMachine {
      */
     final public HashMap<String, Object> results = new HashMap<String, Object>();
 
-    public _SMBuilder smBuilder;
+    private _SMBuilder smBuilder;
 
     private JAIterator it = new JAIterator() {
         @Override
@@ -52,7 +53,7 @@ public class StateMachine {
             else {
                 final _Operation o = smBuilder.operations.get(programCounter);
                 programCounter += 1;
-                o.call(smBuilder, rp1);
+                o.call(StateMachine.this, rp1);
             }
         }
     };
@@ -64,5 +65,26 @@ public class StateMachine {
 
     public void execute(ResponseProcessor rp) throws Exception {
         it.iterate(rp);
+    }
+
+    final public Object get(Object resultName) {
+        return results.get(resultName);
+    }
+    
+    final public Integer resolveLabel(String label) {
+        return smBuilder.labels.get(label);
+    }
+
+    /**
+     * Send a request to an actor.
+     *
+     * @param actor   The target actor.
+     * @param request The request.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public void send(Actor actor, Object request, ResponseProcessor rp)
+            throws Exception {
+        smBuilder.send(actor, request, rp);
     }
 }

@@ -128,23 +128,15 @@ abstract public class _SMBuilder {
     final public void call(ResponseProcessor rp)
             throws Exception {
         final StateMachine stateMachine = new StateMachine(this);
-        setState(stateMachine);
         stateMachine.execute(rp);
     }
-
-    final public Object get(String resultName) {
-        return getState().results.get(resultName);
-    }
-
-    abstract protected StateMachine getState();
-
-    abstract protected void setState(StateMachine stateMachine);
 
     /**
      * Send a request to an actor.
      *
      * @param actor   The target actor.
      * @param request The request.
+     * @param rp The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void send(Actor actor, Object request, ResponseProcessor rp) throws Exception;

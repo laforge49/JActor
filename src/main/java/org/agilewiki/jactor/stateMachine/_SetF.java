@@ -12,9 +12,9 @@ final public class _SetF extends _Operation {
     }
 
     @Override
-    public void call(_SMBuilder smBuilder, ResponseProcessor rp) throws Exception {
+    public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         Object value = func.get();
-        if (resultName != null) smBuilder.getState().results.put(resultName, value);
+        if (resultName != null) stateMachine.results.put(resultName, value);
         rp.process(null);
     }
 }

@@ -12,14 +12,12 @@ final public class _Call extends _Operation {
     }
 
     @Override
-    public void call(final _SMBuilder smBuilder, final ResponseProcessor rp)
+    public void call(final StateMachine stateMachine, final ResponseProcessor rp)
             throws Exception {
-        final StateMachine oldStateMachine = smBuilder.getState();
         comp.call(new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
-                if (resultName != null) oldStateMachine.results.put(resultName, response);
-                smBuilder.setState(oldStateMachine);
+                if (resultName != null) stateMachine.results.put(resultName, response);
                 rp.process(null);
             }
         });
