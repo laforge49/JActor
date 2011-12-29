@@ -41,34 +41,86 @@ abstract public class _SMBuilder {
         operations.add(operation);
     }
 
+    /**
+     * Create a _SendVV.
+     *
+     * @param targetActor The actor which is to receive the message.
+     * @param request The request.
+     */
     final public void _send(Actor targetActor, Object request) {
         new _SendVV(this, targetActor, request, null);
     }
 
+    /**
+     * Create a _SendVV.
+     *
+     * @param targetActor The actor which is to receive the message.
+     * @param request The request.
+     * @param resultName The name of the result, or null.
+     */
     final public void _send(Actor targetActor, Object request, String resultName) {
         new _SendVV(this, targetActor, request, resultName);
     }
 
+    /**
+     * Create a _SendFF.
+     *
+     * @param targetActor The (indirect) actor which is to receive the message.
+     * @param request The (indirect) request.
+     */
     final public void _send(ActorFunc targetActor, ObjectFunc request) {
         new _SendFF(this, targetActor, request, null);
     }
 
+    /**
+     * Create a _SendFF.
+     *
+     * @param targetActor The (indirect) actor which is to receive the message.
+     * @param request The (indirect) request.
+     * @param resultName The name of the result, or null.
+     */
     final public void _send(ActorFunc targetActor, ObjectFunc request, String resultName) {
         new _SendFF(this, targetActor, request, resultName);
     }
 
+    /**
+     * Create a _SendVF.
+     *
+     * @param targetActor The actor which is to receive the message.
+     * @param request The (indirect) request.
+     */
     final public void _send(Actor targetActor, ObjectFunc request) {
         new _SendVF(this, targetActor, request, null);
     }
 
+    /**
+     * Create a _SendVF.
+     *
+     * @param targetActor The actor which is to receive the message.
+     * @param request The (indirect) request.
+     * @param resultName The name of the result, or null.
+     */
     final public void _send(Actor targetActor, ObjectFunc request, String resultName) {
         new _SendVF(this, targetActor, request, resultName);
     }
 
+    /**
+     * Create a _SendFV.
+     *
+     * @param targetActor The (indirect) actor which is to receive the message.
+     * @param request The request.
+     */
     final public void _send(ActorFunc targetActor, Object request) {
         new _SendFV(this, targetActor, request, null);
     }
 
+    /**
+     * Create a _SendFV.
+     *
+     * @param targetActor The (indirect) actor which is to receive the message.
+     * @param request The request.
+     * @param resultName The name of the result, or null.
+     */
     final public void _send(ActorFunc targetActor, Object request, String resultName) {
         new _SendFV(this, targetActor, request, resultName);
     }
@@ -76,7 +128,7 @@ abstract public class _SMBuilder {
     /**
      * Create a_ReturnV.
      *
-     * @param result The result.
+     * @param result The result returned.
      */
     final public void _return(Object result) {
         new _ReturnV(this, result);
@@ -85,7 +137,7 @@ abstract public class _SMBuilder {
     /**
      * Create a_ReturnF.
      *
-     * @param result The indirect result.
+     * @param result The indirect result returned.
      */
     final public void _return(ObjectFunc result) {
         new _ReturnF(this, result);
@@ -120,6 +172,7 @@ abstract public class _SMBuilder {
      * Create an _Iterator.
      *
      * @param iterator The iterator to be executed.
+     * @param resultName The name of the result, or null.
      */
     final public void _iterator(JAIterator iterator, String resultName) {
         new _Iterator(this, iterator, resultName);

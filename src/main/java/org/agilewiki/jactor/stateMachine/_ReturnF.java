@@ -31,7 +31,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 final public class _ReturnF extends _Operation {
     /**
-     * The indirect result.
+     * The indirect result returned.
      */
     private ObjectFunc result;
 
@@ -39,7 +39,7 @@ final public class _ReturnF extends _Operation {
      * Create a_ReturnF.
      *
      * @param parentSMB The parent builder.
-     * @param result The indirect result.
+     * @param result The indirect result returned.
      */
     public _ReturnF(_SMBuilder parentSMB, ObjectFunc result) {
         this.result = result;

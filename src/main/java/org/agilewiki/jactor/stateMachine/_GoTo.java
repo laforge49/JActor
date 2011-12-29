@@ -23,69 +23,40 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
-import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Send a request to an actor.
+ * Set the program counter of the state machine.
  */
-final public class _SendVV extends _Send {
+public class _Goto extends _Operation {
     /**
-     * The actor which is to receive the message.
+     * The identifier of where to go to.
      */
-    private Actor targetActor;
+    private String label;
 
     /**
-     * The request.
-     */
-    private Object request;
-
-    /**
-     * The name of the result, or null.
-     */
-    private String resultName;
-
-    /**
-     * Create a _SendVV.
+     * Create a _Goto.
      *
      * @param parentSMB The parent builder.
-     * @param targetActor The actor which is to receive the message.
-     * @param request The request.
-     * @param resultName The name of the result, or null.
+     * @param label The identifier of where to go to.
      */
-    public _SendVV(_SMBuilder parentSMB, Actor targetActor, Object request, String resultName) {
-        this.targetActor = targetActor;
-        this.request = request;
-        this.resultName = resultName;
+    public _Goto(_SMBuilder parentSMB, String label) {
+        this.label = label;
         parentSMB.add(this);
     }
 
     /**
-     * Returns the actor which is to receive the message.
+     * Perform the operation.
      *
-     * @return The actor which is to receive the message.
+     * @param stateMachine   The state machine driving the operation.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    public Actor getTargetActor() {
-        return targetActor;
-    }
-
-    /**
-     * Returns the request.
-     *
-     * @return The request.
-     */
-    @Override
-    public Object getRequest() {
-        return request;
-    }
-
-    /**
-     * Returns the name of the result, or null.
-     *
-     * @return The name of the result, or null.
-     */
-    @Override
-    public String getResultName() {
-        return resultName;
+    public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+        Integer loc = stateMachine.resolveLabel(label);
+        if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
+        stateMachine.programCounter = loc.intValue();
+        rp.process(null);
     }
 }

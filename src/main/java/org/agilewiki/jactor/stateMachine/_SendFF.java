@@ -29,11 +29,29 @@ import org.agilewiki.jactor.Actor;
  * Send a request to an actor.
  */
 final public class _SendFF extends _Send {
+    /**
+     * The (indirect) actor which is to receive the message.
+     */
     private ActorFunc targetActor;
+
+    /**
+     * The (indirect) request.
+     */
     private ObjectFunc request;
 
+    /**
+     * The name of the result, or null.
+     */
     private String resultName;
 
+    /**
+     * Create a _SendFF.
+     *
+     * @param parentSMB The parent builder.
+     * @param targetActor The (indirect) actor which is to receive the message.
+     * @param request The (indirect) request.
+     * @param resultName The name of the result, or null.
+     */
     public _SendFF(_SMBuilder parentSMB, ActorFunc targetActor, ObjectFunc request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;

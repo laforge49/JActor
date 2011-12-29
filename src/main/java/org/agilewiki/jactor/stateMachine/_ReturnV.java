@@ -31,7 +31,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 final public class _ReturnV extends _Operation {
     /**
-     * The result.
+     * The result returned.
      */
     private Object result;
 
@@ -39,7 +39,7 @@ final public class _ReturnV extends _Operation {
      * Create a_ReturnV.
      *
      * @param parentSMB The parent builder.
-     * @param result The result.
+     * @param result The result returned.
      */
     public _ReturnV(_SMBuilder parentSMB, Object result) {
         this.result = result;
