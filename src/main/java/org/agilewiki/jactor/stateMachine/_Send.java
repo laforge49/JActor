@@ -27,7 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Adds a call to send to a _SMBuilder.
+ * Send a request to an actor.
  */
 abstract public class _Send extends _Operation {
     /**
@@ -51,9 +51,24 @@ abstract public class _Send extends _Operation {
         });
     }
 
+    /**
+     * Returns the actor which is to receive the message.
+     *
+     * @return The actor which is to receive the message.
+     */
     abstract public Actor getTargetActor();
 
+    /**
+     * Returns the request.
+     *
+     * @return The request.
+     */
     abstract public Object getRequest();
 
+    /**
+     * Returns the name of the result, or null.
+     *
+     * @return The name of the result, or null.
+     */
     abstract public String getResultName();
 }

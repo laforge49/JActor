@@ -43,7 +43,6 @@ final public class _IfF extends _Goto {
     public _IfF(_SMBuilder parentSMB, BooleanFunc condition, String label) {
         super(parentSMB, label);
         this.condition = condition;
-        parentSMB.add(this);
     }
 
     /**

@@ -26,13 +26,31 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * Execute a JAIterator.
+ */
 public class _Iterator extends _Operation {
+    /**
+     * The iterator to be executed.
+     */
     JAIterator iterator;
+
+    /**
+     * The name of the result, or null.
+     */
     private String resultName;
 
-    public _Iterator(JAIterator iterator, String resultName) {
+    /**
+     * Create an _Iterator.
+     *
+     * @param parentSMB The parent builder.
+     * @param iterator The iterator to be executed.
+     * @param resultName The name of the result, or null.
+     */
+    public _Iterator(_SMBuilder parentSMB, JAIterator iterator, String resultName) {
         this.iterator = iterator;
         this.resultName = resultName;
+        parentSMB.add(this);
     }
 
     /**

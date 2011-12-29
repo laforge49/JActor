@@ -43,7 +43,6 @@ final public class _IfV extends _Goto {
     public _IfV(_SMBuilder parentSMB, boolean condition, String label) {
         super(parentSMB, label);
         this.condition = condition;
-        parentSMB.add(this);
     }
 
     /**

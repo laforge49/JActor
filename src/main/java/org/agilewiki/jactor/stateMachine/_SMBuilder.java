@@ -42,43 +42,53 @@ abstract public class _SMBuilder {
     }
 
     final public void _send(Actor targetActor, Object request) {
-        operations.add(new _SendVV(targetActor, request, null));
+        new _SendVV(this, targetActor, request, null);
     }
 
     final public void _send(Actor targetActor, Object request, String resultName) {
-        operations.add(new _SendVV(targetActor, request, resultName));
+        new _SendVV(this, targetActor, request, resultName);
     }
 
     final public void _send(ActorFunc targetActor, ObjectFunc request) {
-        operations.add(new _SendFF(targetActor, request, null));
+        new _SendFF(this, targetActor, request, null);
     }
 
     final public void _send(ActorFunc targetActor, ObjectFunc request, String resultName) {
-        operations.add(new _SendFF(targetActor, request, resultName));
+        new _SendFF(this, targetActor, request, resultName);
     }
 
     final public void _send(Actor targetActor, ObjectFunc request) {
-        operations.add(new _SendVF(targetActor, request, null));
+        new _SendVF(this, targetActor, request, null);
     }
 
     final public void _send(Actor targetActor, ObjectFunc request, String resultName) {
-        operations.add(new _SendVF(targetActor, request, resultName));
+        new _SendVF(this, targetActor, request, resultName);
     }
 
     final public void _send(ActorFunc targetActor, Object request) {
-        operations.add(new _SendFV(targetActor, request, null));
+        new _SendFV(this, targetActor, request, null);
     }
 
     final public void _send(ActorFunc targetActor, Object request, String resultName) {
-        operations.add(new _SendFV(targetActor, request, resultName));
+        new _SendFV(this, targetActor, request, resultName);
     }
 
-    final public void _return(Object value) {
-        operations.add(new _ReturnV(value));
+    /**
+     * Create a_ReturnV.
+     *
+     * @param result The result.
+     */
+    final public void _return(Object result) {
+        new _ReturnV(this, result);
     }
 
-    final public void _return(ObjectFunc objectFunc) {
-        operations.add(new _ReturnF(objectFunc));
+    /**
+     * Create a_ReturnF.
+     *
+     * @param result The indirect result.
+     */
+    final public void _return(ObjectFunc result) {
+        new _ReturnF(this, result);
     }
 
     final public void _set(ObjectFunc objectFunc) {
@@ -97,12 +107,22 @@ abstract public class _SMBuilder {
         operations.add(new _SetV(value, resultName));
     }
 
+    /**
+     * Create an _Iterator.
+     *
+     * @param iterator The iterator to be executed.
+     */
     final public void _iterator(JAIterator iterator) {
-        operations.add(new _Iterator(iterator, null));
+        new _Iterator(this, iterator, null);
     }
 
+    /**
+     * Create an _Iterator.
+     *
+     * @param iterator The iterator to be executed.
+     */
     final public void _iterator(JAIterator iterator, String resultName) {
-        operations.add(new _Iterator(iterator, resultName));
+        new _Iterator(this, iterator, resultName);
     }
 
     /**

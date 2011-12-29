@@ -26,11 +26,24 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * Exit the state machine with the given result.
+ */
 final public class _ReturnV extends _Operation {
-    private Object value;
+    /**
+     * The result.
+     */
+    private Object result;
 
-    public _ReturnV(Object value) {
-        this.value = value;
+    /**
+     * Create a_ReturnV.
+     *
+     * @param parentSMB The parent builder.
+     * @param result The result.
+     */
+    public _ReturnV(_SMBuilder parentSMB, Object result) {
+        this.result = result;
+        parentSMB.add(this);
     }
 
     /**
@@ -42,7 +55,7 @@ final public class _ReturnV extends _Operation {
      */
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object rv = value;
+        Object rv = result;
         if (rv == null) rv = new JANull();
         rp.process(rv);
     }

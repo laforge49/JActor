@@ -25,28 +25,47 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 
-public class _SendFF extends _Send {
+/**
+ * Send a request to an actor.
+ */
+final public class _SendFF extends _Send {
     private ActorFunc targetActor;
     private ObjectFunc request;
 
     private String resultName;
 
-    public _SendFF(ActorFunc targetActor, ObjectFunc request, String resultName) {
+    public _SendFF(_SMBuilder parentSMB, ActorFunc targetActor, ObjectFunc request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;
         this.resultName = resultName;
+        parentSMB.add(this);
     }
 
+    /**
+     * Returns the actor which is to receive the message.
+     *
+     * @return The actor which is to receive the message.
+     */
     @Override
     public Actor getTargetActor() {
         return targetActor.get();
     }
 
+    /**
+     * Returns the request.
+     *
+     * @return The request.
+     */
     @Override
     public Object getRequest() {
         return request.get();
     }
 
+    /**
+     * Returns the name of the result, or null.
+     *
+     * @return The name of the result, or null.
+     */
     @Override
     public String getResultName() {
         return resultName;

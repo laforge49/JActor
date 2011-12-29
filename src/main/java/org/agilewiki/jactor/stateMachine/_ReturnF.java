@@ -26,11 +26,24 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * Exit the state machine with the given result.
+ */
 final public class _ReturnF extends _Operation {
-    private ObjectFunc objectFunc;
+    /**
+     * The indirect result.
+     */
+    private ObjectFunc result;
 
-    public _ReturnF(ObjectFunc objectFunc) {
-        this.objectFunc = objectFunc;
+    /**
+     * Create a_ReturnF.
+     *
+     * @param parentSMB The parent builder.
+     * @param result The indirect result.
+     */
+    public _ReturnF(_SMBuilder parentSMB, ObjectFunc result) {
+        this.result = result;
+        parentSMB.add(this);
     }
 
     /**
@@ -42,7 +55,7 @@ final public class _ReturnF extends _Operation {
      */
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object rv = objectFunc.get();
+        Object rv = result.get();
         if (rv == null) rv = new JANull();
         rp.process(rv);
     }
