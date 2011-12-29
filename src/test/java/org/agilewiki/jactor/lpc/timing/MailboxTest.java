@@ -2,6 +2,7 @@ package org.agilewiki.jactor.lpc.timing;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.parallel.JAParallel;
 
 public class MailboxTest extends TestCase {
     public void testTiming() {

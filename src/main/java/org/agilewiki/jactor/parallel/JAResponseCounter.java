@@ -1,4 +1,6 @@
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.parallel;
+
+import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * Returns a response only when the expected number of responses are received.

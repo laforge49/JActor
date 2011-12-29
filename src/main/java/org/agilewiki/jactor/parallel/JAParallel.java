@@ -1,5 +1,8 @@
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.parallel;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
