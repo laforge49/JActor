@@ -25,6 +25,25 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * <p>
+ * Assign a partial result.
+ * </p>
+ *  <pre>
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._set("Hello world!", "r1");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    System.out.println(stateMachine.get("r1"));
+ *                    return null;
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Output:
+ *            Hello world!
+ * </pre>
+ */
 public class _SetV extends _Operation {
     /**
      * The result.

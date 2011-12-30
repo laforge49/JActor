@@ -249,8 +249,6 @@ abstract public class JLPCActor implements Actor {
 
     /**
      * Creates a _SMBuilder.
-     *
-     * @return The new _SMBuilder.
      */
     public class SMBuilder extends _SMBuilder {
         @Override

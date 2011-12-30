@@ -27,7 +27,24 @@ import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
+ * <p>
  * Exit the state machine with the given result.
+ * </p>
+ *  <pre>
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._return("Hello world!");
+ *            smb.call(rp);
+ *
+ *            Result:
+ *            Hello world!
+ *
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._return(null);
+ *            smb.call(rp);
+ *
+ *            Result:
+ *            null
+ * </pre>
  */
 final public class _ReturnV extends _Operation {
     /**

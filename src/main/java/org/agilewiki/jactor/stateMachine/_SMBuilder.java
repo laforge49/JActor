@@ -110,7 +110,8 @@ abstract public class _SMBuilder {
      * @param request     The (indirect) request.
      */
     final public void _send(ActorFunc targetActor, ObjectFunc request) {
-        new _SendFF(this, targetActor, request, null);
+        if (request == null) new _SendFV(this, targetActor, null, null);
+        else new _SendFF(this, targetActor, request, null);
     }
 
     /**
@@ -121,7 +122,8 @@ abstract public class _SMBuilder {
      * @param resultName  The name of the result, or null.
      */
     final public void _send(ActorFunc targetActor, ObjectFunc request, String resultName) {
-        new _SendFF(this, targetActor, request, resultName);
+        if (request == null) new _SendFV(this, targetActor, null, resultName);
+        else new _SendFF(this, targetActor, request, resultName);
     }
 
     /**
@@ -131,7 +133,8 @@ abstract public class _SMBuilder {
      * @param request     The (indirect) request.
      */
     final public void _send(Actor targetActor, ObjectFunc request) {
-        new _SendVF(this, targetActor, request, null);
+        if (request == null) new _SendVV(this, targetActor, null, null);
+        else new _SendVF(this, targetActor, request, null);
     }
 
     /**
@@ -142,7 +145,8 @@ abstract public class _SMBuilder {
      * @param resultName  The name of the result, or null.
      */
     final public void _send(Actor targetActor, ObjectFunc request, String resultName) {
-        new _SendVF(this, targetActor, request, resultName);
+        if (request == null) new _SendVV(this, targetActor, null, resultName);
+        else new _SendVF(this, targetActor, request, resultName);
     }
 
     /**
@@ -181,7 +185,8 @@ abstract public class _SMBuilder {
      * @param result The indirect result returned.
      */
     final public void _return(ObjectFunc result) {
-        new _ReturnF(this, result);
+        if (result == null) new _ReturnV(this, null);
+        else new _ReturnF(this, result);
     }
 
     /**
@@ -190,7 +195,8 @@ abstract public class _SMBuilder {
      * @param objectFunc The (indirect) result.
      */
     final public void _set(ObjectFunc objectFunc) {
-        new _SetF(this, objectFunc, null);
+        if (objectFunc == null ) new _SetV(this, null, null);
+        else new _SetF(this, objectFunc, null);
     }
 
     /**
@@ -200,7 +206,8 @@ abstract public class _SMBuilder {
      * @param resultName The name of the result, or null.
      */
     final public void _set(ObjectFunc objectFunc, String resultName) {
-        new _SetF(this, objectFunc, resultName);
+        if (objectFunc == null ) new _SetV(this, null, resultName);
+        else new _SetF(this, objectFunc, resultName);
     }
 
     /**

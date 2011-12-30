@@ -25,6 +25,37 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.ResponseProcessor;
 
+/**
+ * <p>
+ * Assign an (indirect) partial result.
+ * </p>
+ *  <pre>
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    System.out.println("Hello world!");
+ *                    return null;
+ *                }
+ *            });
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    return "42";
+ *                }
+ *            }, "r1");
+ *            smb._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return sm.get("r1");
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Output:
+ *            Hello world!
+ *
+ *            Result:
+ *            42
+ * </pre>
+ */
 final public class _SetF extends _Operation {
     /**
      * The (indirect) result.
