@@ -45,7 +45,7 @@ abstract public class _Send extends _Operation {
             @Override
             final public void process(Object response) throws Exception {
                 String rn = getResultName();
-                if (rn != null) stateMachine.results.put(rn, response);
+                if (rn != null) stateMachine.put(rn, response);
                 rp.process(null);
             }
         });

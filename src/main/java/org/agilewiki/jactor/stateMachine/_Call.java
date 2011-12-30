@@ -65,7 +65,7 @@ final public class _Call extends _Operation {
         smb.call(new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
-                if (resultName != null) stateMachine.results.put(resultName, response);
+                if (resultName != null) stateMachine.put(resultName, response);
                 rp.process(null);
             }
         });

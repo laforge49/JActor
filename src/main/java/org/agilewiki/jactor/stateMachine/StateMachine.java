@@ -42,7 +42,7 @@ public class StateMachine {
     /**
      * A table of partial results.
      */
-    final public HashMap<String, Object> results = new HashMap<String, Object>();
+    final private HashMap<String, Object> results = new HashMap<String, Object>();
 
     /**
      * The state machine builder which defines the operations of this state machine.
@@ -91,6 +91,16 @@ public class StateMachine {
      */
     final public Object get(Object resultName) {
         return results.get(resultName);
+    }
+
+    /**
+     * Save a parial result.
+     *
+     * @param resultName The name of the result.
+     * @param result The result.
+     */
+    final public void put(String resultName, Object result) {
+        results.put(resultName, result);
     }
 
     /**

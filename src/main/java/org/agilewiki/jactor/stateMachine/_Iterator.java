@@ -65,7 +65,7 @@ public class _Iterator extends _Operation {
         iterator.iterate(new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                if (resultName != null) stateMachine.results.put(resultName, response);
+                if (resultName != null) stateMachine.put(resultName, response);
                 rp.process(null);
             }
         });

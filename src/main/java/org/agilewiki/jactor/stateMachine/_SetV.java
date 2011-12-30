@@ -58,7 +58,7 @@ public class _SetV extends _Operation {
      */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        if (resultName != null) stateMachine.results.put(resultName, value);
+        if (resultName != null) stateMachine.put(resultName, value);
         rp.process(null);
     }
 }
