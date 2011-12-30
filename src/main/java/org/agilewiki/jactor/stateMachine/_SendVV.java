@@ -65,7 +65,7 @@ final public class _SendVV extends _Send {
      * @return The actor which is to receive the message.
      */
     @Override
-    public Actor getTargetActor() {
+    public Actor getTargetActor(StateMachine stateMachine) {
         return targetActor;
     }
 
@@ -75,7 +75,7 @@ final public class _SendVV extends _Send {
      * @return The request.
      */
     @Override
-    public Object getRequest() {
+    public Object getRequest(StateMachine stateMachine) {
         return request;
     }
 

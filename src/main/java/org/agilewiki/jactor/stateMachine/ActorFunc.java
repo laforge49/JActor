@@ -32,7 +32,8 @@ public interface ActorFunc {
     /**
      * Returns an actor.
      *
+     * @param sm The state machine.
      * @return An actor.
      */
-    public Actor get();
+    public Actor get(StateMachine sm);
 }

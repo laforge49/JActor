@@ -30,7 +30,8 @@ public interface BooleanFunc {
     /**
      * Returns a boolean.
      *
+     * @param sm The state machine.
      * @return A boolean.
      */
-    public boolean get();
+    public boolean get(StateMachine sm);
 }

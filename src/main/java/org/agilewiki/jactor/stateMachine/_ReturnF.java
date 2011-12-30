@@ -55,7 +55,7 @@ final public class _ReturnF extends _Operation {
      */
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object rv = result.get();
+        Object rv = result.get(stateMachine);
         if (rv == null) rv = new JANull();
         rp.process(rv);
     }

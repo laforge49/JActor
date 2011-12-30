@@ -65,8 +65,8 @@ final public class _SendFF extends _Send {
      * @return The actor which is to receive the message.
      */
     @Override
-    public Actor getTargetActor() {
-        return targetActor.get();
+    public Actor getTargetActor(StateMachine stateMachine) {
+        return targetActor.get(stateMachine);
     }
 
     /**
@@ -75,8 +75,8 @@ final public class _SendFF extends _Send {
      * @return The request.
      */
     @Override
-    public Object getRequest() {
-        return request.get();
+    public Object getRequest(StateMachine stateMachine) {
+        return request.get(stateMachine);
     }
 
     /**

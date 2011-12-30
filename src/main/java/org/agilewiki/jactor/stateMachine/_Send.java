@@ -39,8 +39,8 @@ abstract public class _Send extends _Operation {
      */
     @Override
     final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
-        Actor a = getTargetActor();
-        Object r = getRequest();
+        Actor a = getTargetActor(stateMachine);
+        Object r = getRequest(stateMachine);
         stateMachine.send(a, r, new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
@@ -56,14 +56,14 @@ abstract public class _Send extends _Operation {
      *
      * @return The actor which is to receive the message.
      */
-    abstract public Actor getTargetActor();
+    abstract public Actor getTargetActor(StateMachine stateMachine);
 
     /**
      * Returns the request.
      *
      * @return The request.
      */
-    abstract public Object getRequest();
+    abstract public Object getRequest(StateMachine stateMachine);
 
     /**
      * Returns the name of the result, or null.

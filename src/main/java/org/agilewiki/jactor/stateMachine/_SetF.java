@@ -58,7 +58,7 @@ final public class _SetF extends _Operation {
      */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Object value = objectFunc.get();
+        Object value = objectFunc.get(stateMachine);
         if (resultName != null) stateMachine.put(resultName, value);
         rp.process(null);
     }

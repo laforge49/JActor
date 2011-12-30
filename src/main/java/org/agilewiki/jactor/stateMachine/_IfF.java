@@ -55,7 +55,7 @@ final public class _IfF extends _Goto {
      */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        if (condition.get()) super.call(stateMachine, rp);
+        if (condition.get(stateMachine)) super.call(stateMachine, rp);
         else rp.process(null);
     }
 }

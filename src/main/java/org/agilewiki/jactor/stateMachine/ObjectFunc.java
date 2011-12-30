@@ -30,7 +30,8 @@ public interface ObjectFunc {
     /**
      * Returns an object.
      *
+     * @param sm The state machine.
      * @return An object.
      */
-    public Object get();
+    public Object get(StateMachine sm);
 }
