@@ -68,9 +68,9 @@ public class StateMachine {
         (new JAIterator() {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
-                if (programCounter >= smBuilder.operations.size()) rp1.process(new JANull());
+                if (programCounter >= smBuilder.operationsSize()) rp1.process(new JANull());
                 else {
-                    final _Operation o = smBuilder.operations.get(programCounter);
+                    final _Operation o = smBuilder.getOperation(programCounter);
                     programCounter += 1;
                     o.call(StateMachine.this, rp1);
                 }
@@ -118,7 +118,7 @@ public class StateMachine {
      * @throws IllegalArgumentException Thrown if no value was assigned to the label.
      */
     public void go(String label) throws IllegalArgumentException {
-        Integer loc = smBuilder.labels.get(label);
+        Integer loc = smBuilder.resolve(label);
         if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
         programCounter = loc.intValue();
     }

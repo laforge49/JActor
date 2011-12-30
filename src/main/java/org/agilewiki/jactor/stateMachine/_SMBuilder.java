@@ -37,12 +37,41 @@ abstract public class _SMBuilder {
     /**
      * The operations to be performed by a state machine.
      */
-    final public ArrayList<_Operation> operations = new ArrayList<_Operation>();
+    final private ArrayList<_Operation> operations = new ArrayList<_Operation>();
 
     /**
      * The labels assigned to various indexes into the operations.
      */
-    final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
+    final private HashMap<String, Integer> labels = new HashMap<String, Integer>();
+
+    /**
+     * Returns the location assigned to a label.
+     *
+     * @param label The name assigned to a location,
+     * @return An index, or null.
+     */
+    final public Integer resolve(String label) {
+        return labels.get(label);
+    }
+
+    /**
+     * Returns the number of operations.
+     *
+     * @return The number of operations.
+     */
+    final public int operationsSize() {
+        return operations.size();
+    }
+
+    /**
+     * Returns an operation.
+     *
+     * @param ndx An index.
+     * @return The selected operation.
+     */
+    final public _Operation getOperation(int ndx) {
+        return operations.get(ndx);
+    }
 
     /**
      * Add an _Operation to the operations.
