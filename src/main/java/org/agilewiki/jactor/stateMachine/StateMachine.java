@@ -50,21 +50,6 @@ public class StateMachine {
     private _SMBuilder smBuilder;
 
     /**
-     * An iterator over the operations of the state machine used to execute the state machine.
-     */
-    private JAIterator it = new JAIterator() {
-        @Override
-        protected void process(final ResponseProcessor rp1) throws Exception {
-            if (programCounter >= smBuilder.operations.size()) rp1.process(new JANull());
-            else {
-                final _Operation o = smBuilder.operations.get(programCounter);
-                programCounter += 1;
-                o.call(StateMachine.this, rp1);
-            }
-        }
-    };
-
-    /**
      * Create a StateMachine.
      *
      * @param smBuilder The state machine builder which defines the operations of this state machine.
@@ -80,7 +65,17 @@ public class StateMachine {
      * @throws Exception Any exceptions raised while executing the state machine.
      */
     public void execute(ResponseProcessor rp) throws Exception {
-        it.iterate(rp);
+        (new JAIterator() {
+            @Override
+            protected void process(final ResponseProcessor rp1) throws Exception {
+                if (programCounter >= smBuilder.operations.size()) rp1.process(new JANull());
+                else {
+                    final _Operation o = smBuilder.operations.get(programCounter);
+                    programCounter += 1;
+                    o.call(StateMachine.this, rp1);
+                }
+            }
+        }).iterate(rp);
     }
 
     /**
