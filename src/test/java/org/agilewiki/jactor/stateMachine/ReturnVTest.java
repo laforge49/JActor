@@ -29,7 +29,9 @@ public class ReturnVTest extends TestCase {
         @Override
         protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
-            smb._return("Hello world!");
+            String rv = "Hello world!";
+            smb._return(rv);
+            rv = null;
             smb.call(rp);
             //Output:
             //Hello world!

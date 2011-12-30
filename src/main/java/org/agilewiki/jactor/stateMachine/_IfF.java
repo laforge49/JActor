@@ -26,7 +26,34 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * If the condition is true, set the program counter of the state machine.
+ * <p>
+ * If the (indirect) condition is true, set the program counter of the state machine.
+ * </p>
+ *  <pre>
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._if(new BooleanFunc() {
+ *                public boolean get(StateMachine sm) {
+ *                    return true;
+ *                }
+ *            }, "skip");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    System.out.println("does not print");
+ *                    return null;
+ *                }
+ *            });
+ *            smb._label("skip");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    System.out.println("Hello world!");
+ *                    return null;
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Output:
+ *            Hello world!
+ * </pre>
  */
 final public class _IfF extends _Goto {
     /**

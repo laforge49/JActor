@@ -26,7 +26,30 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
+ * <p>
  * Set the program counter of the state machine.
+ * </p>
+ *  <pre>
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._goto("skip");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    System.out.println("does not print");
+ *                    return null;
+ *                }
+ *            });
+ *            smb._label("skip");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    System.out.println("Hello world!");
+ *                    return null;
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Output:
+ *            Hello world!
+ * </pre>
  */
 public class _Goto extends _Operation {
     /**

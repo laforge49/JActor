@@ -4,11 +4,11 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class SetVTest extends TestCase {
+public class GotoTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new SetV1(mailboxFactory.createMailbox());
+            Actor actor = new Goto(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(future.send(actor, null));
         } catch (Exception e) {
@@ -18,22 +18,28 @@ public class SetVTest extends TestCase {
         }
     }
 
-    class SetV1 extends JLPCActor {
+    class Goto extends JLPCActor {
 
-        SetV1(Mailbox mailbox) {
+        Goto(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
         protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
-            String sv = "Hello world!";
-            smb._set(sv, "r1");
-            sv = null;
+            smb._goto("skip");
+            smb._set(new ObjectFunc() {
+                @Override
+                public Object get(StateMachine sm) {
+                    System.out.println("does not print");
+                    return null;
+                }
+            });
+            smb._label("skip");
             smb._set(new ObjectFunc() {
                 @Override
                 public Object get(StateMachine stateMachine) {
-                    System.out.println(stateMachine.get("r1"));
+                    System.out.println("Hello world!");
                     return null;
                 }
             });

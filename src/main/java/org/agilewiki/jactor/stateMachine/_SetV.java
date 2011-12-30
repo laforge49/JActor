@@ -31,7 +31,9 @@ import org.agilewiki.jactor.ResponseProcessor;
  * </p>
  *  <pre>
  *            SMBuilder smb = new SMBuilder();
- *            smb._set("Hello world!", "r1");
+ *            String sv = "Hello world!";
+ *            smb._set(sv, "r1");
+ *            sv = null;
  *            smb._set(new ObjectFunc() {
  *                public Object get(StateMachine stateMachine) {
  *                    System.out.println(stateMachine.get("r1"));
