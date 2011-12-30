@@ -27,7 +27,36 @@ import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
+ * <p>
  * Execute a JAIterator.
+ * </p>
+ *  <pre>
+ *            final int max = 5;
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._iterator(new JAIterator() {
+ *                int i;
+ *                int r;
+ *
+ *                protected void process(ResponseProcessor rp) throws Exception {
+ *                    if (r == 0) r = 1;
+ *                    if (i >= max) rp.process(new Integer(r));
+ *                    else {
+ *                        i += 1;
+ *                        r = r * i;
+ *                        rp.process(null);
+ *                    }
+ *                }
+ *            }, "rs");
+ *            smb._set(new ObjectFunc() {
+ *                public Object get(StateMachine stateMachine) {
+ *                    System.out.println(stateMachine.get("rs"));
+ *                    return null;
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Output:
+ *            120
  */
 public class _Iterator extends _Operation {
     /**
