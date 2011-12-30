@@ -62,6 +62,7 @@ final public class _SendVV extends _Send {
     /**
      * Returns the actor which is to receive the message.
      *
+     * @param stateMachine The state machine.
      * @return The actor which is to receive the message.
      */
     @Override
@@ -72,6 +73,7 @@ final public class _SendVV extends _Send {
     /**
      * Returns the request.
      *
+     * @param stateMachine The state machine.
      * @return The request.
      */
     @Override

@@ -54,6 +54,7 @@ abstract public class _Send extends _Operation {
     /**
      * Returns the actor which is to receive the message.
      *
+     * @param stateMachine The state machine.
      * @return The actor which is to receive the message.
      */
     abstract public Actor getTargetActor(StateMachine stateMachine);
@@ -61,6 +62,7 @@ abstract public class _Send extends _Operation {
     /**
      * Returns the request.
      *
+     * @param stateMachine The state machine.
      * @return The request.
      */
     abstract public Object getRequest(StateMachine stateMachine);

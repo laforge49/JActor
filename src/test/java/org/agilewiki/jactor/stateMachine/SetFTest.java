@@ -4,11 +4,11 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class SetVTest extends TestCase {
+public class SetFTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new SetV1(mailboxFactory.createMailbox());
+            Actor actor = new SetF1(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(future.send(actor, null));
         } catch (Exception e) {
@@ -18,9 +18,9 @@ public class SetVTest extends TestCase {
         }
     }
     
-    class SetV1 extends JLPCActor {
+    class SetF1 extends JLPCActor {
 
-        SetV1(Mailbox mailbox) {
+        SetF1(Mailbox mailbox) {
             super(mailbox);
         }
 
