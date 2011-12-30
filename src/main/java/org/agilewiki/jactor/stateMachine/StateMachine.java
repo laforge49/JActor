@@ -37,7 +37,7 @@ public class StateMachine {
     /**
      * The next operation to be executed.
      */
-    public int programCounter = 0;
+    private int programCounter = 0;
 
     /**
      * A table of partial results.
@@ -104,16 +104,6 @@ public class StateMachine {
     }
 
     /**
-     * Convert a label to an index into the operations of the state machine.
-     *
-     * @param label A lable assigned to an index into the operations.
-     * @return An index into the operations, or null.
-     */
-    final public Integer resolveLabel(String label) {
-        return smBuilder.labels.get(label);
-    }
-
-    /**
      * Send a request to an actor.
      *
      * @param actor   The target actor.
@@ -124,5 +114,17 @@ public class StateMachine {
     public void send(Actor actor, Object request, ResponseProcessor rp)
             throws Exception {
         smBuilder.send(actor, request, rp);
+    }
+
+    /**
+     * Update the program counter with the index assigned to a label.
+     *
+     * @param label A lable assigned to an index into the operations.
+     * @throws IllegalArgumentException Thrown if no value was assigned to the label.
+     */
+    public void go(String label) throws IllegalArgumentException {
+        Integer loc = smBuilder.labels.get(label);
+        if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
+        programCounter = loc.intValue();
     }
 }

@@ -54,9 +54,7 @@ public class _Goto extends _Operation {
      */
     @Override
     public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
-        Integer loc = stateMachine.resolveLabel(label);
-        if (loc == null) throw new IllegalArgumentException("unknown label: " + label);
-        stateMachine.programCounter = loc.intValue();
+        stateMachine.go(label);
         rp.process(null);
     }
 }
