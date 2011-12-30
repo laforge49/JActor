@@ -26,7 +26,7 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.Actor;
 
 /**
- * Send a request to an actor.
+ * Send a request to an (indirect) actor.
  */
 final public class _SendVF extends _Send {
     /**

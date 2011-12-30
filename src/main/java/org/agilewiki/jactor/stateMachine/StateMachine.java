@@ -31,7 +31,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import java.util.HashMap;
 
 /**
- * The state of a state machine.
+ * A state machine.
  */
 public class StateMachine {
     /**
@@ -44,8 +44,14 @@ public class StateMachine {
      */
     final public HashMap<String, Object> results = new HashMap<String, Object>();
 
+    /**
+     * The state machine builder which defines the operations of this state machine.
+     */
     private _SMBuilder smBuilder;
 
+    /**
+     * An iterator over the operations of the state machine used to execute the state machine.
+     */
     private JAIterator it = new JAIterator() {
         @Override
         protected void process(final ResponseProcessor rp1) throws Exception {
@@ -58,19 +64,41 @@ public class StateMachine {
         }
     };
 
-
+    /**
+     * Create a StateMachine.
+     *
+     * @param smBuilder The state machine builder which defines the operations of this state machine.
+     */
     public StateMachine(_SMBuilder smBuilder) {
         this.smBuilder = smBuilder;
     }
 
+    /**
+     * Executes the state machine.
+     *
+     * @param rp The response processor.
+     * @throws Exception Any exceptions raised while executing the state machine.
+     */
     public void execute(ResponseProcessor rp) throws Exception {
         it.iterate(rp);
     }
 
+    /**
+     * Returns a partial result.
+     *
+     * @param resultName The name of the partial result.
+     * @return A partial result.
+     */
     final public Object get(Object resultName) {
         return results.get(resultName);
     }
 
+    /**
+     * Convert a label to an index into the operations of the state machine.
+     *
+     * @param label A lable assigned to an index into the operations.
+     * @return An index into the operations, or null.
+     */
     final public Integer resolveLabel(String label) {
         return smBuilder.labels.get(label);
     }

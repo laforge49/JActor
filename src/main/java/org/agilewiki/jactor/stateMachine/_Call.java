@@ -26,7 +26,7 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Execute another state machine.
+ * Instantiate and execute a state machine.
  */
 final public class _Call extends _Operation {
     /**

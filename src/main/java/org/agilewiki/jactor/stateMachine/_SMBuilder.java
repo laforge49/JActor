@@ -34,9 +34,21 @@ import java.util.HashMap;
  * Creates and runs a state machine.
  */
 abstract public class _SMBuilder {
+    /**
+     * The operations to be performed by a state machine.
+     */
     final public ArrayList<_Operation> operations = new ArrayList<_Operation>();
+
+    /**
+     * The labels assigned to various indexes into the operations.
+     */
     final public HashMap<String, Integer> labels = new HashMap<String, Integer>();
 
+    /**
+     * Add an _Operation to the operations.
+     *
+     * @param operation An operation performed by a state machine.
+     */
     final public void add(_Operation operation) {
         operations.add(operation);
     }
@@ -257,6 +269,12 @@ abstract public class _SMBuilder {
         new _Call(this, smb, resultName);
     }
 
+    /**
+     * Instantiate and execute a state machine.
+     *
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while executing the state machine.
+     */
     final public void call(ResponseProcessor rp)
             throws Exception {
         final StateMachine stateMachine = new StateMachine(this);
