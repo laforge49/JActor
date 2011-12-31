@@ -22,11 +22,10 @@ public class Factorial extends JLPCActor {
         };
         (new JAIterator() {
             int i;
-            int r;
+            int r = 1;
             Multiplier mp = new Multiplier(getMailbox());
 
             public void process(ResponseProcessor rp) throws Exception {
-                if (r == 0) r = 1;
                 if (i >= max) rp.process(new Integer(r));
                 else {
                     i += 1;

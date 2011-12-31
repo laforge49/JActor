@@ -15,10 +15,9 @@ public class SimpleFactorialTest extends TestCase {
 
         (new JAIterator() {
             int i;
-            int r;
+            int r = 1;
 
             public void process(ResponseProcessor rp) throws Exception {
-                if (r == 0) r = 1;
                 if (i >= max) rp.process(new Integer(r));
                 else {
                     i += 1;

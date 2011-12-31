@@ -58,7 +58,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  *            Output:
  *            120
  */
-public class _Iterator extends _Operation {
+public class _IteratorV extends _Operation {
     /**
      * The iterator to be executed.
      */
@@ -70,13 +70,13 @@ public class _Iterator extends _Operation {
     private String resultName;
 
     /**
-     * Create an _Iterator.
+     * Create an _IteratorV.
      *
      * @param parentSMB  The parent builder.
      * @param iterator   The iterator to be executed.
      * @param resultName The name of the result, or null.
      */
-    public _Iterator(_SMBuilder parentSMB, JAIterator iterator, String resultName) {
+    public _IteratorV(_SMBuilder parentSMB, JAIterator iterator, String resultName) {
         this.iterator = iterator;
         this.resultName = resultName;
         parentSMB.add(this);

@@ -17,10 +17,9 @@ package org.agilewiki.jactor;
  *
  *        (new JAIterator() {
  *            int i;
- *            int r;
+ *            int r = 1;
  *
  *            public void process(ResponseProcessor rp) throws Exception {
- *                if (r == 0) r = 1;
  *                if (i >= max) rp.process(new Integer(r));
  *                else {
  *                    i += 1;
@@ -53,11 +52,10 @@ package org.agilewiki.jactor;
  *         };
  *         (new JAIterator() {
  *             int i;
- *             int r;
+ *             int r = 1;
  *             Multiplier mp = new Multiplier(getMailbox());
  *
- *             public void process(ResponseProcessor rp) throws Exception {
- *                 if (r == 0) r = 1;
+ *             protected void process(ResponseProcessor rp) throws Exception {
  *                 if (i >= max) rp.process(new Integer(r));
  *                 else {
  *                     i += 1;
@@ -117,6 +115,7 @@ abstract public class JAIterator {
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
     public void iterate(ResponseProcessor responseProcessor) throws Exception {
+        init();
         this.responseProcessor = responseProcessor;
         sync = true;
         while (sync) {
@@ -127,6 +126,11 @@ abstract public class JAIterator {
             }
         }
     }
+
+    /**
+     * Initialization as required.
+     */
+    protected void init() {}
 
     /**
      * Perform an iteration.

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class IteratorTest extends TestCase {
+public class IteratorVTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
@@ -30,11 +30,10 @@ public class IteratorTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._iterator(new JAIterator() {
                 int i;
-                int r;
+                int r = 1;
 
                 @Override
                 protected void process(ResponseProcessor rp) throws Exception {
-                    if (r == 0) r = 1;
                     if (i >= max) rp.process(new Integer(r));
                     else {
                         i += 1;
