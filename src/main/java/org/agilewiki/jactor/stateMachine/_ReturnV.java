@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Exit the state machine with the given result.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            String rv = "Hello world!";
  *            smb._return(rv);

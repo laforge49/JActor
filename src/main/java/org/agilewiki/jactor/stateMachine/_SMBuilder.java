@@ -195,7 +195,7 @@ abstract public class _SMBuilder {
      * @param objectFunc The (indirect) result.
      */
     final public void _set(ObjectFunc objectFunc) {
-        if (objectFunc == null ) new _SetV(this, null, null);
+        if (objectFunc == null) new _SetV(this, null, null);
         else new _SetF(this, objectFunc, null);
     }
 
@@ -206,7 +206,7 @@ abstract public class _SMBuilder {
      * @param resultName The name of the result, or null.
      */
     final public void _set(ObjectFunc objectFunc, String resultName) {
-        if (objectFunc == null ) new _SetV(this, null, resultName);
+        if (objectFunc == null) new _SetV(this, null, resultName);
         else new _SetF(this, objectFunc, resultName);
     }
 
@@ -292,17 +292,18 @@ abstract public class _SMBuilder {
      * @param smb The builder of the state machine to be executed.
      */
     final public void _call(_SMBuilder smb) {
-        new _Call(this, smb, null);
+        new _Call(this, smb, null, null);
     }
 
     /**
      * Create a _Call.
      *
      * @param smb        The builder of the state machine to be executed.
+     * @param request    An (indirect) optional argument passed when the state machine is invoked.
      * @param resultName The name of the result, or null.
      */
-    final public void _call(_SMBuilder smb, String resultName) {
-        new _Call(this, smb, resultName);
+    final public void _call(_SMBuilder smb, ObjectFunc request, String resultName) {
+        new _Call(this, smb, request, resultName);
     }
 
     /**
@@ -313,8 +314,20 @@ abstract public class _SMBuilder {
      */
     final public void call(ResponseProcessor rp)
             throws Exception {
+        call(null, rp);
+    }
+
+    /**
+     * Instantiate and execute a state machine.
+     *
+     * @param request An optional argument passed when the state machine is invoked.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while executing the state machine.
+     */
+    final public void call(Object request, ResponseProcessor rp)
+            throws Exception {
         final StateMachine stateMachine = new StateMachine(this);
-        stateMachine.execute(rp);
+        stateMachine.execute(request, rp);
     }
 
     /**

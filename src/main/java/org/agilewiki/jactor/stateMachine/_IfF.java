@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * If the (indirect) condition is true, set the program counter of the state machine.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            smb._if(new BooleanFunc() {
  *                public boolean get(StateMachine sm) {

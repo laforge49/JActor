@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Execute a JAIterator.
  * </p>
- *  <pre>
+ * <pre>
  *            final int max = 5;
  *            SMBuilder smb = new SMBuilder();
  *            smb._iterator(new JAIterator() {

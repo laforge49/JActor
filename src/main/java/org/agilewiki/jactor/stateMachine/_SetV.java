@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Assign a partial result.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            String sv = "Hello world!";
  *            smb._set(sv, "r1");

@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Set the program counter of the state machine.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            smb._goto("skip");
  *            smb._set(new ObjectFunc() {

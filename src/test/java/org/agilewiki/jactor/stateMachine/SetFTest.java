@@ -17,7 +17,7 @@ public class SetFTest extends TestCase {
             mailboxFactory.close();
         }
     }
-    
+
     class SetF1 extends JLPCActor {
 
         SetF1(Mailbox mailbox) {

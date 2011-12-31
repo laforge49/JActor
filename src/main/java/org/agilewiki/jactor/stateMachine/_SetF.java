@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Assign an (indirect) partial result.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            smb._set(new ObjectFunc() {
  *                public Object get(StateMachine stateMachine) {

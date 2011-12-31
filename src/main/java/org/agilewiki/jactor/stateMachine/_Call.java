@@ -30,6 +30,11 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 final public class _Call extends _Operation {
     /**
+     * The (indirect, optional) argument passed when the state machine was invoked.
+     */
+    public ObjectFunc request;
+
+    /**
      * The name of the result, or null.
      */
     private String resultName;
@@ -44,10 +49,12 @@ final public class _Call extends _Operation {
      *
      * @param parentSMB  The parent builder.
      * @param smb        The builder of the state machine to be executed.
+     * @param request    An (indirect) optional argument passed when the state machine is invoked.
      * @param resultName The name of the result, or null.
      */
-    public _Call(_SMBuilder parentSMB, _SMBuilder smb, String resultName) {
+    public _Call(_SMBuilder parentSMB, _SMBuilder smb, ObjectFunc request, String resultName) {
         this.smb = smb;
+        this.request = request;
         this.resultName = resultName;
         parentSMB.add(this);
     }
@@ -62,7 +69,9 @@ final public class _Call extends _Operation {
     @Override
     public void call(final StateMachine stateMachine, final ResponseProcessor rp)
             throws Exception {
-        smb.call(new ResponseProcessor() {
+        Object req = null;
+        if (request != null) req = request.get(stateMachine);
+        smb.call(req, new ResponseProcessor() {
             @Override
             final public void process(Object response) throws Exception {
                 if (resultName != null) stateMachine.put(resultName, response);

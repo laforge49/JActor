@@ -35,6 +35,11 @@ import java.util.HashMap;
  */
 public class StateMachine {
     /**
+     * The (optional) argument passed when the state machine was invoked.
+     */
+    public Object request;
+
+    /**
      * The next operation to be executed.
      */
     private int programCounter = 0;
@@ -61,10 +66,12 @@ public class StateMachine {
     /**
      * Executes the state machine.
      *
-     * @param rp The response processor.
+     * @param request An optional argument passed when the state machine is invoked.
+     * @param rp      The response processor.
      * @throws Exception Any exceptions raised while executing the state machine.
      */
-    public void execute(ResponseProcessor rp) throws Exception {
+    public void execute(Object request, ResponseProcessor rp) throws Exception {
+        this.request = request;
         (new JAIterator() {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
@@ -92,7 +99,7 @@ public class StateMachine {
      * Save a parial result.
      *
      * @param resultName The name of the result.
-     * @param result The result.
+     * @param result     The result.
      */
     final public void put(String resultName, Object result) {
         results.put(resultName, result);

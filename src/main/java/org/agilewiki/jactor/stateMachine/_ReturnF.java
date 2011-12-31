@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * Exit the state machine with the given (indirect) result.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            smb._return(new ObjectFunc() {
  *                public Object get(StateMachine sm) {

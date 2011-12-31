@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * If the condition is true, set the program counter of the state machine.
  * </p>
- *  <pre>
+ * <pre>
  *            SMBuilder smb = new SMBuilder();
  *            boolean condition = true;
  *            smb._if(condition, "skip");
