@@ -76,61 +76,39 @@ package org.agilewiki.jactor;
  * </pre>
  */
 abstract public class JAIterator {
-
-    /**
-     * Set to true when the response has not been received asynchronously.
-     */
-    private boolean sync = false;
-
-    /**
-     * Set to true when the response has not been received synchronously.
-     */
-    private boolean async = false;
-
-    /**
-     * Processes the final, non-null result.
-     */
-    private ResponseProcessor responseProcessor;
-
-    /**
-     * The internal ResponseProcessor which handles the responses from the call to process.
-     */
-    private final ResponseProcessor irp = new ResponseProcessor() {
-        @Override
-        public void process(Object response) throws Exception {
-            if (response == null) {
-                if (!async) {
-                    sync = true;
-                } else {
-                    iterate(responseProcessor); //not recursive
-                }
-            } else if (response instanceof JANull) responseProcessor.process(null);
-            else responseProcessor.process(response);
-        }
-    };
+    abstract class IRP implements ResponseProcessor {
+        public boolean sync;
+        public boolean async;
+    }
 
     /**
      * Iterates over the process method.
      *
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    public void iterate(ResponseProcessor responseProcessor) throws Exception {
-        init();
-        this.responseProcessor = responseProcessor;
-        sync = true;
-        while (sync) {
-            sync = false;
+    public void iterate(final ResponseProcessor responseProcessor) throws Exception {
+        IRP irp = new IRP() {
+            @Override
+            public void process(Object response) throws Exception {
+                if (response == null) {
+                    if (!async) {
+                        sync = true;
+                    } else {
+                        iterate(responseProcessor); //not recursive
+                    }
+                } else if (response instanceof JANull) responseProcessor.process(null);
+                else responseProcessor.process(response);
+            }
+        };
+        irp.sync = true;
+        while (irp.sync) {
+            irp.sync = false;
             process(irp);
-            if (!sync) {
-                async = true;
+            if (!irp.sync) {
+                irp.async = true;
             }
         }
     }
-
-    /**
-     * Initialization as required.
-     */
-    protected void init() {}
 
     /**
      * Perform an iteration.
