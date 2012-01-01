@@ -230,44 +230,6 @@ abstract public class _SMBuilder {
     }
 
     /**
-     * Create an _IteratorV.
-     *
-     * @param iterator The iterator to be executed.
-     */
-    final public void _iterator(JAIterator iterator) {
-        new _IteratorV(this, iterator, null);
-    }
-
-    /**
-     * Create an _IteratorV.
-     *
-     * @param iterator   The iterator to be executed.
-     * @param resultName The name of the result, or null.
-     */
-    final public void _iterator(JAIterator iterator, String resultName) {
-        new _IteratorV(this, iterator, resultName);
-    }
-
-    /**
-     * Create an _IteratorF.
-     *
-     * @param iterator The (indirect) iterator to be executed.
-     */
-    final public void _iterator(IteratorFunc iterator) {
-        new _IteratorF(this, iterator, null);
-    }
-
-    /**
-     * Create an _IteratorF.
-     *
-     * @param iterator   The (indirect) iterator to be executed.
-     * @param resultName The name of the result, or null.
-     */
-    final public void _iterator(IteratorFunc iterator, String resultName) {
-        new _IteratorF(this, iterator, resultName);
-    }
-
-    /**
      * Assign a label to the location of the next operation to be created.
      *
      * @param label The label assigned to the location of the next operation.
