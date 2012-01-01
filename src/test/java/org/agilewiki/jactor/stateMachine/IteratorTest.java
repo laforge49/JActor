@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class OperationTest extends TestCase {
+public class IteratorTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
@@ -27,25 +27,30 @@ public class OperationTest extends TestCase {
         @Override
         protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
-            smb.add(new _Operation() {
-                @Override
-                public void call(final StateMachine sm, ResponseProcessor rp1) throws Exception {
-                    JAIterator it = new JAIterator() {
-                        int i;
-                        int r = 1;
-                        int max = ((Integer) sm.request).intValue();
+            new _Iterator(smb, "rs") {
+                int i;
+                int r = 1;
+                int max;
 
-                        @Override
-                        protected void process(ResponseProcessor rp2) throws Exception {
-                            if (i >= max) rp2.process(new Integer(r));
-                            else {
-                                i += 1;
-                                r = r * i;
-                                rp2.process(null);
-                            }
-                        }
-                    };
-                    it.iterate(rp1);
+                @Override
+                protected void init(StateMachine sm) {
+                    max = ((Integer) sm.request).intValue();
+                }
+
+                @Override
+                protected void process(ResponseProcessor rp2) throws Exception {
+                    if (i >= max) rp2.process(new Integer(r));
+                    else {
+                        i += 1;
+                        r = r * i;
+                        rp2.process(null);
+                    }
+                }
+            };
+            smb._return(new ObjectFunc(){
+                @Override
+                public Object get(StateMachine sm) {
+                    return sm.get("rs");
                 }
             });
             smb.call(5, rp);
