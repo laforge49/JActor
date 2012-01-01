@@ -76,7 +76,7 @@ package org.agilewiki.jactor;
  * </pre>
  */
 abstract public class JAIterator {
-    abstract class IRP implements ResponseProcessor {
+    abstract private class IRP implements ResponseProcessor {
         public boolean sync;
         public boolean async;
     }
