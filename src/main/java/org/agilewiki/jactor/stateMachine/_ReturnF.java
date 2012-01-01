@@ -54,7 +54,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  *            null
  * </pre>
  */
-final public class _ReturnF extends _Operation {
+final public class _ReturnF implements _Operation {
     /**
      * The indirect result returned.
      */

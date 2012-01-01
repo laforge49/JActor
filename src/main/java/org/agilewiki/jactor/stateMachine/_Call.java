@@ -28,7 +28,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 /**
  * Instantiate and execute a state machine.
  */
-final public class _Call extends _Operation {
+final public class _Call implements _Operation {
     /**
      * The (indirect, optional) argument passed when the state machine was invoked.
      */

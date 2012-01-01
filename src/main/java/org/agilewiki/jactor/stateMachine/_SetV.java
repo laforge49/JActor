@@ -46,7 +46,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  *            Hello world!
  * </pre>
  */
-public class _SetV extends _Operation {
+public class _SetV implements _Operation {
     /**
      * The result.
      */

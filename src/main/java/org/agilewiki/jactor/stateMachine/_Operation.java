@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * An operation performed by a state machine.
  * If the result returned is not null, the state machine exits with that result.
  */
-abstract public class _Operation {
+public interface _Operation {
     /**
      * Perform the operation.
      *

@@ -29,7 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 /**
  * Send a request to an actor.
  */
-abstract public class _Send extends _Operation {
+abstract public class _Send implements _Operation {
     /**
      * Perform the operation.
      *

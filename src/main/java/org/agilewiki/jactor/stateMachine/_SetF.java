@@ -56,7 +56,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  *            42
  * </pre>
  */
-final public class _SetF extends _Operation {
+final public class _SetF implements _Operation {
     /**
      * The (indirect) result.
      */

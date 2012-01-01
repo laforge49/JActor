@@ -51,7 +51,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  *            Hello world!
  * </pre>
  */
-public class _Goto extends _Operation {
+public class _Goto implements _Operation {
     /**
      * The identifier of where to go to.
      */
