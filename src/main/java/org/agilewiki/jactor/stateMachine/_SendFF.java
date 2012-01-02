@@ -26,7 +26,31 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.Actor;
 
 /**
+ * <p>
  * Send an (indirect) request to an (indirect) actor.
+ * </p>
+ * <pre>
+ *            Doubler doubler = new Doubler(getMailbox());
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._send(new ActorFunc() {
+ *                public Actor get(StateMachine sm) {
+ *                    return new Doubler(getMailbox());
+ *                }
+ *            }, new ObjectFunc() {
+ *                        public Object get(StateMachine sm) {
+ *                            return 21;
+ *                        }
+ *                    }, "rsp");
+ *            smb._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return sm.get("rsp");
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Response:
+ *            42
+ * </pre>
  */
 final public class _SendFF extends _Send {
     /**
