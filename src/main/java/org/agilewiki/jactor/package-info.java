@@ -67,7 +67,7 @@
  * Bi-Modal Iterator
  * </h4>
  * <p>
- * With 2-way messages loops can be problematic, as iterations typically must wait for the response from the previous
+ * Loops with 2-way messages can be problematic, as iterations typically must wait for the response from the previous
  * iteration. A bi-modal iterator is provided to cover this. Each iteration takes 5 nanoseconds for synchronous
  * responses and 8 nanoseconds when a response is asynchronous.
  * </p>
