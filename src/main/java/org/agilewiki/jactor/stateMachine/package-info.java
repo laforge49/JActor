@@ -23,9 +23,6 @@
  */
 
 /**
- * <p>
- * Sending multiple requests to different actors and waiting for the responses only after all the requests have
- * been sent is the simplest form of parallel processing and is the focus of this package.
- * </p>
+ * State machines are key to writing readable code for actors.
  */
-package org.agilewiki.jactor.parallel;
+package org.agilewiki.jactor.stateMachine;

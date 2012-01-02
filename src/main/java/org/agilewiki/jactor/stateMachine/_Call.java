@@ -26,7 +26,35 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Instantiate and execute a state machine.
+ * <p>
+ * Instantiate and execute a subordinate state machine.
+ * </p>
+ * <pre>
+ *            SMBuilder doubler = new SMBuilder();
+ *            doubler._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    int req = ((Integer) sm.request).intValue();
+ *                    return req * 2;
+ *                }
+ *            });
+ *
+ *            SMBuilder main = new SMBuilder();
+ *            main._call(doubler, new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return sm.request;
+ *                }
+ *            }, "rsp");
+ *            main._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return sm.get("rsp");
+ *                }
+ *            });
+ *
+ *            main.call(3, rp);
+ *
+ *            Response:
+ *            6
+ * </pre>
  */
 final public class _Call implements _Operation {
     /**

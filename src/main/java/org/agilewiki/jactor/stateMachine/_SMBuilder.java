@@ -280,7 +280,7 @@ abstract public class _SMBuilder {
      * Create a _Call.
      *
      * @param smb        The builder of the state machine to be executed.
-     * @param request    An (indirect) optional argument passed when the state machine is invoked.
+     * @param request    An (indirect) optional argument passed when the state machine is invoked, or null.
      * @param resultName The name of the result, or null.
      */
     final public void _call(_SMBuilder smb, ObjectFunc request, String resultName) {
