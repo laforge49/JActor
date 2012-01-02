@@ -26,7 +26,23 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.Actor;
 
 /**
+ * <p>
  * Send a request to an actor.
+ * </p>
+ * <pre>
+ *            Doubler doubler = new Doubler(getMailbox());
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._send(doubler, 21, "rsp");
+ *            smb._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return sm.get("rsp");
+ *                }
+ *            });
+ *            smb.call(rp);
+ *
+ *            Response:
+ *            42
+ * </pre>
  */
 final public class _SendVV extends _Send {
     /**
