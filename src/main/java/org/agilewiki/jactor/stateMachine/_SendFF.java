@@ -30,7 +30,6 @@ import org.agilewiki.jactor.Actor;
  * Send an (indirect) request to an (indirect) actor.
  * </p>
  * <pre>
- *            Doubler doubler = new Doubler(getMailbox());
  *            SMBuilder smb = new SMBuilder();
  *            smb._send(new ActorFunc() {
  *                public Actor get(StateMachine sm) {
