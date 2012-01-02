@@ -87,6 +87,7 @@ abstract public class JAIterator {
     /**
      * Iterates over the process method.
      *
+     * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
     public void iterate(final ResponseProcessor responseProcessor) throws Exception {

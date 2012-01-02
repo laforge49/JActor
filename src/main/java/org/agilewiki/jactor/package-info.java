@@ -33,13 +33,56 @@
  * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
  * </p>
  * <p>
- * Message passing between actors uses 2-way messages (request / response). This makes message passing
- * very much like method calls and most message passing is done synchronously. Mailboxes are used by actors
- * when passing messages between threads and are first class objects. This allows actors to share mailboxes
- * for improved performance.
+ * Message passing between actors uses 2-way messages (request / response). There are several reasons for this:
  * </p>
+ * <ul>
+ * <li>
+ * With 2-way messaging, sending a request is very similar to a method call with a callback. Most requests are
+ * processed synchronously, which is why JActor is so much faster than other actor implementations.
+ * </li>
+ * <li>
+ * Mailboxes are used mostly when passing messages between threads and are first-class objects. As first-class
+ * objects, mailboxes can be used my more than one actor. Passing messages between actors with a common mailbox
+ * is always done synchronously and is very fast.
+ * </li>
+ * <li>
+ * Flow control is implicit to 2-way messaging. Systems with good flow control are generally well-behaved when
+ * operating with a full load.
+ * </li>
+ * <li>
+ * Two-way messaging is so much faster than 1-way messaging that it is practical to use 2-way messages when 1-way
+ * messages are needed.
+ * </li>
+ * </ul>
+ * <h4>
+ * Exception Handling
+ * </h4>
  * <p>
- * When actors share a common mailbox, 847,457,627 messages are passed per second. Otherwise the rate drops to
+ * The extensive use of callbacks complicates control flow, which is only made worse with some callbacks being executed
+ * asynchronously. Exception trapping then can be quite error prone. So exception handling is supported. A default
+ * exception handler is also provided which passes any uncaught exceptions that occurred while processing a request
+ * back to the actor which sent the request, recursively.
+ * </p>
+ * <h4>
+ * Bi-Modal Iterator
+ * </h4>
+ * <p>
+ * With 2-way messages loops can be problematic, as iterations typically must wait for the response from the previous
+ * iteration. A bi-modal iterator is provided to cover this. Each iteration takes 5 nanoseconds for synchronous
+ * responses and 8 nanoseconds when a response is asynchronous.
+ * </p>
+ * <h4>
+ * State Machine
+ * </h4>
+ * <p>
+ * State machines are often used with actors and can add considerable clarity to the code. JActor includes classes for
+ * composing and executing state machines that are compatible with 2-way messages.
+ * </p>
+ * <h2>
+ * Message Passing Benchmarks
+ * </h2>
+ * <p>
+ * When actors share the same mailbox, 847,457,627 messages are passed per second. Otherwise the rate drops to
  * 293,040,293 per second.
  * </p>
  * <p>

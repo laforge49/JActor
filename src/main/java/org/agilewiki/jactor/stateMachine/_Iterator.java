@@ -27,7 +27,6 @@ import org.agilewiki.jactor.ResponseProcessor;
  *                }
  *            };
  *            smb._return(new ObjectFunc(){
- *                @Override
  *                public Object get(StateMachine sm) {
  *                    return sm.get("rs");
  *                }
@@ -71,7 +70,7 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+    final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
         init(stateMachine);
         iterate(new ResponseProcessor() {
             @Override
@@ -82,6 +81,17 @@ abstract public class _Iterator extends JAIterator implements _Operation {
                 rp.process(null);
             }
         });
+    }
+
+    @Override
+    /**
+     * Iterates over the process method.
+     *
+     * @param responseProcessor The response processor.
+     * @throws Exception Any uncaught exceptions raised by the process method.
+     */
+    final public void iterate(final ResponseProcessor responseProcessor) throws Exception {
+        super.iterate(responseProcessor);
     }
 
     /**
