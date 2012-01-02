@@ -23,6 +23,34 @@
  */
 
 /**
+ * <p>
  * State machines are key to writing readable code for actors.
+ * </p>
+ * <p>
+ * The nested class JLPCActor.SMBuilder is a concrete implementation of _SMBuilder
+ * and is used to define, instantiate and execute state machines.
+ * </p>
+ * <pre>
+ *    class ReturnF1 extends JLPCActor {
+ *
+ *        ReturnF1(Mailbox mailbox) {
+ *            super(mailbox);
+ *        }
+ *
+ *        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp)
+ *                throws Exception {
+ *            SMBuilder smb = new SMBuilder();
+ *            smb._return(new ObjectFunc() {
+ *                public Object get(StateMachine sm) {
+ *                    return "Hello world!";
+ *                }
+ *            });
+ *            smb.call(rp);
+ *        }
+ *    }
+ *
+ *            Result:
+ *            Hello world!
+ * </pre>
  */
 package org.agilewiki.jactor.stateMachine;

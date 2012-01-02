@@ -27,7 +27,8 @@ public class ReturnFTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp)
+                throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._return(new ObjectFunc() {
                 @Override
