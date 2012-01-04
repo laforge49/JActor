@@ -142,33 +142,33 @@ abstract public class JLPCActor implements Actor {
      * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
      * @param apcRequestSource The originator of the request.
-     * @param unwrappedRequest The unwrapped request to be sent.
-     * @param rd               The request processor.
+     * @param request          The request to be sent.
+     * @param rp               The request processor.
      */
     @Override
     final public void acceptRequest(final APCRequestSource apcRequestSource,
-                                    final Object unwrappedRequest,
-                                    final ResponseProcessor rd)
+                                    final Object request,
+                                    final ResponseProcessor rp)
             throws Exception {
         final RequestSource requestSource = (RequestSource) apcRequestSource;
         final Mailbox sourceMailbox = requestSource.getMailbox();
         if (sourceMailbox == mailbox) {
-            syncProcess(unwrappedRequest, rd);
+            syncProcess(request, rp);
             return;
         }
         if (mailbox.isAsync() || sourceMailbox == null) {
-            asyncSend(apcRequestSource, unwrappedRequest, rd);
+            asyncSend(requestSource, request, rp);
             return;
         }
         final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
         if (mailbox.getControllingMailbox() == srcControllingMailbox) {
-            syncProcess(unwrappedRequest, rd);
+            syncSend(requestSource, request, rp);
         } else if (!mailbox.acquireControl(srcControllingMailbox)) {
-            asyncSend(apcRequestSource, unwrappedRequest, rd);
+            asyncSend(requestSource, request, rp);
             return;
         } else {
             try {
-                syncProcess(unwrappedRequest, rd);
+                syncSend(requestSource, request, rp);
             } finally {
                 mailbox.relinquishControl();
                 mailbox.dispatchRemaining(srcControllingMailbox);
@@ -179,34 +179,51 @@ abstract public class JLPCActor implements Actor {
     /**
      * Process a request asynchronously.
      *
-     * @param apcRequestSource The source of the request.
-     * @param unwrappedRequest The request.
-     * @param rd               Processes the response.
+     * @param requestSource The source of the request.
+     * @param request       The request.
+     * @param rp            Processes the response.
      */
-    final private void asyncSend(final APCRequestSource apcRequestSource,
-                                 final Object unwrappedRequest,
-                                 final ResponseProcessor rd) {
-        final JARequest japcRequest = new JARequest(apcRequestSource,
-                requestProcessor, unwrappedRequest, rd);
-        apcRequestSource.send(mailbox, japcRequest);
+    final private void asyncSend(final RequestSource requestSource,
+                                 final Object request,
+                                 final ResponseProcessor rp) {
+        final JARequest jaRequest = new JARequest(requestSource,
+                requestProcessor, request, rp);
+        requestSource.send(mailbox, jaRequest);
+    }
+
+    final private void syncSend(final RequestSource requestSource,
+                                final Object request,
+                                final ResponseProcessor rp)
+            throws Exception {
+        syncProcess(request, new ResponseProcessor() {
+            @Override
+            public void process(Object response) throws Exception {
+                Mailbox sourceMailbox = requestSource.getMailbox();
+                Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+                Mailbox controllingMailbox = mailbox.getControllingMailbox();
+                if (srcControllingMailbox != controllingMailbox)
+                    throw new IllegalStateException("unable to return response");
+                rp.process(response);
+            }
+        });
     }
 
     /**
      * Process a request synchronously.
      *
-     * @param unwrappedRequest The request.
-     * @param rd               Processes the response.
+     * @param request The request.
+     * @param rp      Processes the response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final private void syncProcess(final Object unwrappedRequest,
-                                   final ResponseProcessor rd)
+    final private void syncProcess(final Object request,
+                                   final ResponseProcessor rp)
             throws Exception {
         try {
-            processRequest(unwrappedRequest, new ResponseProcessor() {
+            processRequest(request, new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) throws Exception {
                     try {
-                        rd.process(unwrappedResponse);
+                        rp.process(unwrappedResponse);
                     } catch (Exception e) {
                         throw new TransparentException(e);
                     }
