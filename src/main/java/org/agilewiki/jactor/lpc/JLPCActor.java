@@ -170,6 +170,7 @@ abstract public class JLPCActor implements Actor {
             try {
                 syncSend(requestSource, request, rp);
             } finally {
+                mailbox.sendPendingMessages();
                 mailbox.relinquishControl();
                 mailbox.dispatchRemaining(srcControllingMailbox);
             }
@@ -209,8 +210,9 @@ abstract public class JLPCActor implements Actor {
                     Mailbox sourceMailbox = requestSource.getMailbox();
                     Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
                     Mailbox controllingMailbox = mailbox.getControllingMailbox();
-                    if (srcControllingMailbox != controllingMailbox)
-                        throw new IllegalStateException("unable to return response");
+                    if (srcControllingMailbox != controllingMailbox) {
+                        System.err.println(">>> Control Flow Error <<<");
+                    }
                     try {
                         rp.process(response);
                     } catch (Exception e) {
@@ -307,10 +309,10 @@ abstract public class JLPCActor implements Actor {
     /**
      * The application method for processing requests sent to the actor.
      *
-     * @param unwrappedRequest  An unwrapped request.
+     * @param request  A request.
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
+    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
             throws Exception;
 }
