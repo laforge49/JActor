@@ -191,21 +191,41 @@ abstract public class JLPCActor implements Actor {
         requestSource.send(mailbox, jaRequest);
     }
 
+    /**
+     * Process a request from another mailbox synchronously.
+     *
+     * @param requestSource The source of the request.
+     * @param request       The request.
+     * @param rp            Processes the response.
+     */
     final private void syncSend(final RequestSource requestSource,
                                 final Object request,
                                 final ResponseProcessor rp)
             throws Exception {
-        syncProcess(request, new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
-                Mailbox sourceMailbox = requestSource.getMailbox();
-                Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-                Mailbox controllingMailbox = mailbox.getControllingMailbox();
-                if (srcControllingMailbox != controllingMailbox)
-                    throw new IllegalStateException("unable to return response");
-                rp.process(response);
-            }
-        });
+        try {
+            processRequest(request, new ResponseProcessor() {
+                @Override
+                public void process(Object response) throws Exception {
+                    Mailbox sourceMailbox = requestSource.getMailbox();
+                    Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+                    Mailbox controllingMailbox = mailbox.getControllingMailbox();
+                    if (srcControllingMailbox != controllingMailbox)
+                        throw new IllegalStateException("unable to return response");
+                    try {
+                        rp.process(response);
+                    } catch (Exception e) {
+                        throw new TransparentException(e);
+                    }
+                }
+            });
+        } catch (TransparentException t) {
+            final Exception e = (Exception) t.getCause();
+            throw e;
+        } catch (Exception e) {
+            final ExceptionHandler eh = getExceptionHandler();
+            if (eh == null) throw e;
+            eh.process(e);
+        }
     }
 
     /**
@@ -221,9 +241,9 @@ abstract public class JLPCActor implements Actor {
         try {
             processRequest(request, new ResponseProcessor() {
                 @Override
-                public void process(Object unwrappedResponse) throws Exception {
+                public void process(Object response) throws Exception {
                     try {
-                        rp.process(unwrappedResponse);
+                        rp.process(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
                     }
