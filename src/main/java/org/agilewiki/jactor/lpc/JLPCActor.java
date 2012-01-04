@@ -187,8 +187,11 @@ abstract public class JLPCActor implements Actor {
     final private void asyncSend(final RequestSource requestSource,
                                  final Object request,
                                  final ResponseProcessor rp) {
-        final JARequest jaRequest = new JARequest(requestSource,
-                requestProcessor, request, rp);
+        final JARequest jaRequest = new JARequest(
+                requestSource,
+                requestProcessor, 
+                request, 
+                rp);
         requestSource.send(mailbox, jaRequest);
     }
 

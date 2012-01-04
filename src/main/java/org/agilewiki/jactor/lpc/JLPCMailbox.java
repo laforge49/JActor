@@ -93,7 +93,9 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      */
     @Override
     public Mailbox getControllingMailbox() {
-        return atomicControl.get();
+        Mailbox c = atomicControl.get();
+        if (c == null) return this;
+        return c;
     }
 
     /**
