@@ -1,5 +1,7 @@
 package org.agilewiki.jactor;
 
+import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
+
 /**
  * <p>
  * Iterates over its process method and works within any actor which supports 2-way messages.
@@ -77,21 +79,13 @@ package org.agilewiki.jactor;
  */
 abstract public class JAIterator {
     /**
-     * A specialized response processro.
-     */
-    abstract private class IRP implements ResponseProcessor {
-        public boolean sync;
-        public boolean async;
-    }
-
-    /**
      * Iterates over the process method.
      *
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
     public void iterate(final ResponseProcessor responseProcessor) throws Exception {
-        IRP irp = new IRP() {
+        ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
                 if (response == null) {
@@ -104,12 +98,12 @@ abstract public class JAIterator {
                 else responseProcessor.process(response);
             }
         };
-        irp.sync = true;
-        while (irp.sync) {
-            irp.sync = false;
-            process(irp);
-            if (!irp.sync) {
-                irp.async = true;
+        erp.sync = true;
+        while (erp.sync) {
+            erp.sync = false;
+            process(erp);
+            if (!erp.sync) {
+                erp.async = true;
             }
         }
     }

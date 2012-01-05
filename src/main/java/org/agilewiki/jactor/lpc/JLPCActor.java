@@ -286,10 +286,10 @@ abstract public class JLPCActor implements Actor {
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
         ResponseProcessor rp2 = new ResponseProcessor() {
             @Override
-            public void process(final Object unwrappedResponse)
+            public void process(final Object response)
                     throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
-                rp1.process(unwrappedResponse);
+                rp1.process(response);
             }
         };
         actor.acceptRequest(requestSource, unwrappedRequest, rp2);
