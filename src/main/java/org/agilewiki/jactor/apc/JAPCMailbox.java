@@ -79,7 +79,6 @@ public class JAPCMailbox implements APCMailbox {
                     }
                 } else {
                     JAResponse jaResponse = (JAResponse) event;
-                    currentRequest = jaResponse.getOldAPCRequest();
                     try {
                         jaResponse.getResponseProcessor().process(jaResponse.getUnwrappedResponse());
                     } catch (Exception e) {
@@ -172,7 +171,6 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     public void send(BufferedEventsDestination<JAMessage> destination, JARequest request) {
-        request.setOldRequest(currentRequest);
         eventQueue.send(destination, request);
     }
 

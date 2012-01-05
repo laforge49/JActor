@@ -69,15 +69,6 @@ final public class JAResponse extends JAMessage {
     }
 
     /**
-     * Returns the request that will resume processing when this response is returned.
-     *
-     * @return The request that will resume processing when this response is returned.
-     */
-    public JARequest getOldAPCRequest() {
-        return japcRequest.getOldRequest();
-    }
-
-    /**
      * Returns the object which will process the response.
      *
      * @return The object which will process the response.

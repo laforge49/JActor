@@ -55,11 +55,6 @@ final public class JARequest extends JAMessage {
     private ResponseProcessor responseProcessor;
 
     /**
-     * The JARequest that was being processed when this request was created.
-     */
-    private JARequest oldRequest;
-
-    /**
      * Initially true, active is set to false when a response is sent.
      * Used to prevent multiple responses to a request.
      */
@@ -117,27 +112,6 @@ final public class JARequest extends JAMessage {
      */
     final public ResponseProcessor getResponseProcessor() {
         return responseProcessor;
-    }
-
-    /**
-     * Sets oldREquest to the request being processed when this request
-     * was created.
-     *
-     * @param oldRequest The request being processed when this request was created.
-     */
-    final public void setOldRequest(JARequest oldRequest) {
-        this.oldRequest = oldRequest;
-    }
-
-    /**
-     * Returns the request that was being processed when this request
-     * was created.
-     *
-     * @return The request that was being processed when this request
-     *         was created.
-     */
-    final public JARequest getOldRequest() {
-        return oldRequest;
     }
 
     /**
