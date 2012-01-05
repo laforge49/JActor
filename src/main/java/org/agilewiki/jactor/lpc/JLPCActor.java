@@ -269,24 +269,23 @@ abstract public class JLPCActor implements Actor {
      *
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
-     * @param rd1              The response processor.
+     * @param rp1              The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void send(final Actor actor,
                               final Object unwrappedRequest,
-                              final ResponseProcessor rd1)
+                              final ResponseProcessor rp1)
             throws Exception {
-        ResponseProcessor rd2 = rd1;
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
-        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
+        ResponseProcessor rp2 = new ResponseProcessor() {
             @Override
             public void process(final Object unwrappedResponse)
                     throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
-                rd1.process(unwrappedResponse);
+                rp1.process(unwrappedResponse);
             }
         };
-        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
+        actor.acceptRequest(requestSource, unwrappedRequest, rp2);
     }
 
     /**
