@@ -11,18 +11,16 @@ public class SharedMailboxTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        //int c = 40000000;
+        //int c = 10000000;
         //int b = 1;
         //int p = 16;
         //int t = 4;
 
         //burst size of 1
-        //16 parallel runs of 80000000 messages each.
-        //1280000000 messages sent with 4 threads.
-        //msgs per sec = 538720538
-        //1.9 nanoseconds per message test
-        //-.65 nanosecond for JAIterator
-        //= 1.2 nanoseconds per message
+        //16 parallel runs of 20000000 messages each.
+        //320000000 messages sent with 4 threads.
+        //msgs per sec = 197287299
+        //5 nanoseconds per message test
 
         //int c = 2000000;
         //int b = 10;
@@ -32,46 +30,41 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 10
         //16 parallel runs of 40000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 676532769
-        //1.5 nanoseconds per message test
-        //-.1 nanoseconds for JAIterator
-        //-.2 nanoseconds for Sender overhead
-        //=1.2 nanoseconds per message.
+        //msgs per sec = 241327300
+        //4 nanoseconds per message test
 
-        //int c = 80000000;
+        //int c = 40000000;
         //int b = 1;
         //int p = 8;
         //int t = 4;
 
         //burst size of 1
-        //8 parallel runs of 160000000 messages each.
-        //1280000000 messages sent with 4 threads.
-        //msgs per sec = 542143159
-        //1.8 nanoseconds per message test
-        //-.65 nanoseconds for JAIterator
-        //=1.2 nanoseconds per message.
+        //8 parallel runs of 80000000 messages each.
+        //640000000 messages sent with 4 threads.
+        //msgs per sec = 182336182
+        //5.5 nanoseconds per message test
 
-        //int c = 500000;
+        //int c = 100000;
         //int b = 1000;
         //int p = 4;
         //int t = 4;
 
         //burst size of 1000
-        //4 parallel runs of 1000000000 messages each.
-        //4000000000 messages sent with 4 threads.
-        //msgs per sec = 829703381
-        //1.2 nanosecond per message
+        //4 parallel runs of 40000000 messages each.
+        //800000000 messages sent with 4 threads.
+        //msgs per sec = 143240823
+        //7 nanosecond per message
 
-        //int c = 100000;
+        //int c = 20000;
         //int b = 1000;
         //int p = 16;
         //int t = 4;
 
         //burst size of 1000
         //16 parallel runs of 200000000 messages each.
-        //3200000000 messages sent with 4 threads.
-        //msgs per sec = 847457627
-        //1.2 nanoseconds per message
+        //640000000 messages sent with 4 threads.
+        //msgs per sec = 157790927
+        //6.3  nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

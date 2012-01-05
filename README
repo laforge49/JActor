@@ -1,4 +1,4 @@
-The JActor project implements actors in Java that can process .8 Billion messages per second. Project pages can be
+The JActor project implements actors in Java that can process .2 Billion messages per second. Project pages can be
 found here:
     http://sourceforge.net/p/jactor/home/Home/ and
     https://github.com/laforge49/JActor
@@ -40,7 +40,7 @@ composing and executing state machines that are compatible with 2-way messages.
 
 Message Passing Benchmarks
 
-When actors share the same mailbox, 847,457,627 messages are passed per second. Otherwise the rate drops to 293,040,293
+When actors share the same mailbox, 241,327,300 messages are passed per second. Otherwise the rate drops to 293,040,293
 per second.
 
 Asynchronous message passing is also supported, making it easy to use all the available hardware threads for good

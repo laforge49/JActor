@@ -33,7 +33,7 @@
  * </p>
  * <p>
  * LPCMailboxes are now first class objects which can be shared by LPCActors. The result is
- * even better performance (1.2 nanoseconds per message), as procedure calls between LPCActors
+ * even better performance (4 nanoseconds per message), as procedure calls between LPCActors
  * with the same mailbox do not use request or response wrappers.
  * </p>
  * <p>
