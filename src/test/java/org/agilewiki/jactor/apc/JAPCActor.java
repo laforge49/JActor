@@ -116,24 +116,6 @@ abstract public class JAPCActor implements Actor {
     }
 
     /**
-     * Returns the exception handler.
-     *
-     * @return The exception handler.
-     */
-    final protected ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
-    }
-
-    /**
-     * Assign an exception handler.
-     *
-     * @param exceptionHandler The exception handler.
-     */
-    final protected void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        requestProcessor.setExceptionHandler(exceptionHandler);
-    }
-
-    /**
      * Wraps and enqueues an unwrapped request in the requester's outbox.
      *
      * @param requestSource    The originator of the request.
@@ -153,22 +135,13 @@ abstract public class JAPCActor implements Actor {
      *
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
-     * @param rd1              The response processor.
+     * @param rd              The response processor.
      * @throws Exception Any uncaught exceptions thrown while processing the request.
      */
     final protected void send(final Actor actor,
                               final Object unwrappedRequest,
-                              final ResponseProcessor rd1) throws Exception {
-        ResponseProcessor rd2 = rd1;
-        final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
-        if (exceptionHandler != null) rd2 = new ResponseProcessor() {
-            @Override
-            public void process(Object unwrappedResponse) throws Exception {
-                requestProcessor.setExceptionHandler(exceptionHandler);
-                rd1.process(unwrappedResponse);
-            }
-        };
-        actor.acceptRequest(requestSource, unwrappedRequest, rd2);
+                              final ResponseProcessor rd) throws Exception {
+        actor.acceptRequest(requestSource, unwrappedRequest, rd);
     }
 
     /**
