@@ -86,6 +86,7 @@ public class JAPCMailbox implements APCMailbox {
             }
 
             private void processException(Exception ex) {
+                //ex.printStackTrace();
                 ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
                 if (exceptionHandler == null) response(ex);
                 else try {

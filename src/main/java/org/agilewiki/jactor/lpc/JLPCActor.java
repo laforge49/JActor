@@ -178,24 +178,6 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Process a request asynchronously.
-     *
-     * @param requestSource The source of the request.
-     * @param request       The request.
-     * @param rp            Processes the response.
-     */
-    final private void asyncSend(final RequestSource requestSource,
-                                 final Object request,
-                                 final ResponseProcessor rp) {
-        final JARequest jaRequest = new JARequest(
-                requestSource,
-                requestProcessor, 
-                request, 
-                rp);
-        requestSource.send(mailbox, jaRequest);
-    }
-
-    /**
      * Process a request from another mailbox synchronously.
      *
      * @param requestSource The source of the request.
@@ -213,14 +195,21 @@ abstract public class JLPCActor implements Actor {
                     Mailbox sourceMailbox = requestSource.getMailbox();
                     Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
                     Mailbox controllingMailbox = mailbox.getControllingMailbox();
-                    if (srcControllingMailbox != controllingMailbox) {
-                        System.err.println(">>> Control Flow Error <<<");
+                    if (srcControllingMailbox == controllingMailbox) {
+                        try {
+                            rp.process(response);
+                        } catch (Exception e) {
+                            throw new TransparentException(e);
+                        }
+                        return;
                     }
-                    try {
-                        rp.process(response);
-                    } catch (Exception e) {
-                        throw new TransparentException(e);
-                    }
+                    final JARequest jaRequest = new JARequest(
+                            requestSource,
+                            requestProcessor,
+                            request,
+                            rp);
+                    mailbox.setCurrentRequest(jaRequest);
+                    mailbox.response(response);
                 }
             });
         } catch (TransparentException t) {
@@ -262,6 +251,24 @@ abstract public class JLPCActor implements Actor {
             if (eh == null) throw e;
             eh.process(e);
         }
+    }
+
+    /**
+     * Process a request asynchronously.
+     *
+     * @param requestSource The source of the request.
+     * @param request       The request.
+     * @param rp            Processes the response.
+     */
+    final private void asyncSend(final RequestSource requestSource,
+                                 final Object request,
+                                 final ResponseProcessor rp) {
+        final JARequest jaRequest = new JARequest(
+                requestSource,
+                requestProcessor,
+                request,
+                rp);
+        requestSource.send(mailbox, jaRequest);
     }
 
     /**
