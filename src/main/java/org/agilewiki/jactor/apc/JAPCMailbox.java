@@ -72,15 +72,14 @@ public class JAPCMailbox implements APCMailbox {
                         processException(ex);
                     }
                 } else {
-                    JAResponse japcResponse = (JAResponse) event;
-                    currentRequest = japcResponse.getOldAPCRequest();
-                    Object data = japcResponse.getUnwrappedResponse();
-                    if (data != null && data instanceof Exception)
-                        processException((Exception) data);
-                    else try {
-                        japcResponse.getResponseProcessor().process(japcResponse.getUnwrappedResponse());
-                    } catch (Exception ex) {
-                        processException(ex);
+                    JAResponse jaResponse = (JAResponse) event;
+                    currentRequest = jaResponse.getOldAPCRequest();
+                    Object unwrappedResponse = jaResponse.getUnwrappedResponse();
+                    try {
+                        jaResponse.getResponseProcessor().process(jaResponse.getUnwrappedResponse());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new UnsupportedOperationException(e);
                     }
                 }
             }

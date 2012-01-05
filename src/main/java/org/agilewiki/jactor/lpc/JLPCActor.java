@@ -273,15 +273,15 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Send an unwrapped request to another actor.
+     * Send a request to another actor.
      *
-     * @param actor            The target actor.
-     * @param unwrappedRequest The unwrapped request.
-     * @param rp               The response processor.
+     * @param actor   The target actor.
+     * @param request The request.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void send(final Actor actor,
-                              final Object unwrappedRequest,
+                              final Object request,
                               final ResponseProcessor rp)
             throws Exception {
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
@@ -292,14 +292,31 @@ abstract public class JLPCActor implements Actor {
                 requestProcessor.setExceptionHandler(exceptionHandler);
                 if (!async) {
                     sync = true;
+                    if (response != null && response instanceof Exception) throw (Exception) response;
                     rp.process(response);
                 } else {
-                    rp.process(response);
+                    if (response != null && response instanceof Exception) asyncException((Exception) response);
+                    else try {
+                        rp.process(response);
+                    } catch (Exception ex) {
+                        asyncException(ex);
+                    }
                 }
             }
         };
-        actor.acceptRequest(requestSource, unwrappedRequest, erp);
+        actor.acceptRequest(requestSource, request, erp);
         if (!erp.sync) erp.async = true;
+    }
+
+    private void asyncException(Exception ex) {
+        //ex.printStackTrace();
+        ExceptionHandler exceptionHandler = getExceptionHandler();
+        if (exceptionHandler == null) mailbox.response(ex);
+        else try {
+            exceptionHandler.process(ex);
+        } catch (Exception ex2) {
+            mailbox.response(ex2);
+        }
     }
 
     /**
