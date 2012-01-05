@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.ResponseProcessor;
 
 import java.util.ArrayList;

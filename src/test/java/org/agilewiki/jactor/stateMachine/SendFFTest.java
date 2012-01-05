@@ -43,16 +43,17 @@ public class SendFFTest extends TestCase {
                 throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._send(new ActorFunc() {
-                @Override
-                public Actor get(StateMachine sm) {
-                    return new Doubler(getMailbox());
-                }
-            }, new ObjectFunc() {
+                        @Override
+                        public Actor get(StateMachine sm) {
+                            return new Doubler(getMailbox());
+                        }
+                    }, new ObjectFunc() {
                         @Override
                         public Object get(StateMachine sm) {
                             return 21;
                         }
-                    }, "rsp");
+                    }, "rsp"
+            );
             smb._return(new ObjectFunc() {
                 @Override
                 public Object get(StateMachine sm) {

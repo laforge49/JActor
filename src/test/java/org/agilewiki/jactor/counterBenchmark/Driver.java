@@ -37,7 +37,7 @@ final public class Driver extends JLPCActor {
                 });
             }
         });
-       smb._send(counterActor, new GetAndReset());
+        smb._send(counterActor, new GetAndReset());
     }
 
     @Override

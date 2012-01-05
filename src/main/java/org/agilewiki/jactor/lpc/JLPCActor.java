@@ -27,6 +27,7 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 /**
@@ -276,23 +277,29 @@ abstract public class JLPCActor implements Actor {
      *
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
-     * @param rp1              The response processor.
+     * @param rp               The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void send(final Actor actor,
                               final Object unwrappedRequest,
-                              final ResponseProcessor rp1)
+                              final ResponseProcessor rp)
             throws Exception {
         final ExceptionHandler exceptionHandler = requestProcessor.getExceptionHandler();
-        ResponseProcessor rp2 = new ResponseProcessor() {
+        ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(final Object response)
                     throws Exception {
                 requestProcessor.setExceptionHandler(exceptionHandler);
-                rp1.process(response);
+                if (!async) {
+                    sync = true;
+                    rp.process(response);
+                } else {
+                    rp.process(response);
+                }
             }
         };
-        actor.acceptRequest(requestSource, unwrappedRequest, rp2);
+        actor.acceptRequest(requestSource, unwrappedRequest, erp);
+        if (!erp.sync) erp.async = true;
     }
 
     /**
@@ -318,7 +325,7 @@ abstract public class JLPCActor implements Actor {
     /**
      * The application method for processing requests sent to the actor.
      *
-     * @param request  A request.
+     * @param request           A request.
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */

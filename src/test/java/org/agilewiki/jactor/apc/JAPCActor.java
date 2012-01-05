@@ -135,7 +135,7 @@ abstract public class JAPCActor implements Actor {
      *
      * @param actor            The target actor.
      * @param unwrappedRequest The unwrapped request.
-     * @param rd              The response processor.
+     * @param rd               The response processor.
      * @throws Exception Any uncaught exceptions thrown while processing the request.
      */
     final protected void send(final Actor actor,

@@ -7,35 +7,35 @@ import org.agilewiki.jactor.ResponseProcessor;
  * <p>
  * A state machine compatible extension of JAIterator.
  * </p>
- *            SMBuilder smb = new SMBuilder();
- *            new _Iterator(smb, "rs") {
- *                int i;
- *                int r = 1;
- *                int max;
- *
- *                protected void init(StateMachine sm) {
- *                    max = ((Integer) sm.request).intValue();
- *                }
- *
- *                protected void process(ResponseProcessor rp2) throws Exception {
- *                    if (i >= max) rp2.process(new Integer(r));
- *                    else {
- *                        i += 1;
- *                        r = r * i;
- *                        rp2.process(null);
- *                    }
- *                }
- *            };
- *            smb._return(new ObjectFunc(){
- *                public Object get(StateMachine sm) {
- *                    return sm.get("rs");
- *                }
- *            });
- *            smb.call(5, rp);
- *
- *            Response:
- *            120
-*/
+ * SMBuilder smb = new SMBuilder();
+ * new _Iterator(smb, "rs") {
+ * int i;
+ * int r = 1;
+ * int max;
+ * <p/>
+ * protected void init(StateMachine sm) {
+ * max = ((Integer) sm.request).intValue();
+ * }
+ * <p/>
+ * protected void process(ResponseProcessor rp2) throws Exception {
+ * if (i >= max) rp2.process(new Integer(r));
+ * else {
+ * i += 1;
+ * r = r * i;
+ * rp2.process(null);
+ * }
+ * }
+ * };
+ * smb._return(new ObjectFunc(){
+ * public Object get(StateMachine sm) {
+ * return sm.get("rs");
+ * }
+ * });
+ * smb.call(5, rp);
+ * <p/>
+ * Response:
+ * 120
+ */
 abstract public class _Iterator extends JAIterator implements _Operation {
     /**
      * The name of the result, or null.
@@ -54,7 +54,7 @@ abstract public class _Iterator extends JAIterator implements _Operation {
     /**
      * Create an _Iterator
      *
-     * @param smb The state machine builder.
+     * @param smb        The state machine builder.
      * @param resultName The name of the result, or null.
      */
     public _Iterator(_SMBuilder smb, String resultName) {
@@ -99,5 +99,6 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      *
      * @param stateMachine The state machine.
      */
-    protected void init(StateMachine stateMachine) {}
+    protected void init(StateMachine stateMachine) {
+    }
 }

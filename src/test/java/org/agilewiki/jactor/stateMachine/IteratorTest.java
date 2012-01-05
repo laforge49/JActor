@@ -47,7 +47,7 @@ public class IteratorTest extends TestCase {
                     }
                 }
             };
-            smb._return(new ObjectFunc(){
+            smb._return(new ObjectFunc() {
                 @Override
                 public Object get(StateMachine sm) {
                     return sm.get("rs");
