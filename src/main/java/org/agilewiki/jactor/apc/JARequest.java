@@ -34,18 +34,18 @@ final public class JARequest extends JAMessage {
 
     /**
      * The target of the response.
-     * An anonymous object in the JAPCActor or JAPCFuture
+     * An anonymous object in the JLPCActor or JLPCFuture
      * that originated the request. Used in response processing.
      */
     private APCRequestSource requestSource;
 
     /**
-     * An anonymous object in the JAPCActor that is the target of the JARequest.
+     * An anonymous object in the JLPCActor that is the target of the JARequest.
      */
     private APCRequestProcessor apcRequestProcessor;
 
     /**
-     * The unwrapped request that was sent to a JAPCActor.
+     * The unwrapped request that was sent to a JLPCActor.
      */
     private Object unwrappedRequest;
 
@@ -159,7 +159,7 @@ final public class JARequest extends JAMessage {
     /**
      * Enqueue a response to be sent when there are no more incoming messages to be processed.
      *
-     * @param eventQueue        The internal queue used by JAPCMailbox.
+     * @param eventQueue        The internal queue used by JLPCMailbox.
      * @param unwrappedResponse The unwrapped response.
      */
     final public void response(BufferedEventsQueue<JAMessage> eventQueue, Object unwrappedResponse) {
