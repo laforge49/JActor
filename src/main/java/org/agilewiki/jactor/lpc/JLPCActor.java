@@ -193,74 +193,6 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Process a request from another mailbox synchronously.
-     *
-     * @param rs      The source of the request.
-     * @param request The request.
-     * @param rp      Processes the response.
-     * @param sourceExceptionHandler Exception handler of the source actor.
-     */
-    final private void syncSend(final RequestSource rs,
-                                final Object request,
-                                final ResponseProcessor rp,
-                                final ExceptionHandler sourceExceptionHandler)
-            throws Exception {
-        try {
-            final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
-                @Override
-                public void process(final Object response)
-                        throws Exception {
-                    requestSource.setExceptionHandler(sourceExceptionHandler);
-                    if (!async) {
-                        sync = true;
-                        if (response != null && response instanceof Exception) throw (Exception) response;
-                        rp.process(response);
-                    } else {
-                        if (response != null && response instanceof Exception)
-                            asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
-                        else try {
-                            rp.process(response);
-                        } catch (Exception ex) {
-                            asyncException(ex, sourceExceptionHandler, rs.getMailbox());
-                        }
-                    }
-                }
-            };
-            processRequest(request, new ResponseProcessor() {
-                @Override
-                public void process(Object response) throws Exception {
-                    Mailbox sourceMailbox = rs.getMailbox();
-                    Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-                    Mailbox controllingMailbox = mailbox.getControllingMailbox();
-                    if (srcControllingMailbox == controllingMailbox) {
-                        syncResponse(response, erp);
-                    } else if (sourceMailbox.isAsync()) {
-                        asyncResponse(rs, request, response, erp);
-                    } else if (!mailbox.acquireControl(srcControllingMailbox)) {
-                        asyncResponse(rs, request, response, erp);
-                    } else {
-                        try {
-                            syncResponse(response, erp);
-                        } finally {
-                            mailbox.sendPendingMessages();
-                            mailbox.relinquishControl();
-                            mailbox.dispatchRemaining(srcControllingMailbox);
-                        }
-                    }
-                }
-            });
-            if (!erp.sync) erp.async = true;
-        } catch (TransparentException t) {
-            final Exception e = (Exception) t.getCause();
-            throw e;
-        } catch (Exception e) {
-            final ExceptionHandler eh = getExceptionHandler();
-            if (eh == null) throw e;
-            eh.process(e);
-        }
-    }
-
-    /**
      * Process an exception when the response is asynchronous.
      *
      * @param ex            Any exceptions thrown while processing the request or response.
@@ -279,9 +211,9 @@ abstract public class JLPCActor implements Actor {
     /**
      * Process a request asynchronously.
      *
-     * @param rs The source of the request.
-     * @param request       The request.
-     * @param rp            Processes the response.
+     * @param rs                     The source of the request.
+     * @param request                The request.
+     * @param rp                     Processes the response.
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void asyncSend(final RequestSource rs,
@@ -350,17 +282,68 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Respond synchronously to a synchronous request.
+     * Process a request from another mailbox synchronously.
      *
-     * @param response The response.
-     * @param rp       Processes the response.
-     * @throws Exception Any uncaught exceptions occurring while processing the response.
+     * @param rs                     The source of the request.
+     * @param request                The request.
+     * @param rp                     Processes the response.
+     * @param sourceExceptionHandler Exception handler of the source actor.
      */
-    final private void syncResponse(Object response, ResponseProcessor rp) throws Exception {
+    final private void syncSend(final RequestSource rs,
+                                final Object request,
+                                final ResponseProcessor rp,
+                                final ExceptionHandler sourceExceptionHandler)
+            throws Exception {
+        final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
+            @Override
+            public void process(final Object response)
+                    throws Exception {
+                requestSource.setExceptionHandler(sourceExceptionHandler);
+                if (!async) {
+                    sync = true;
+                    try {
+                        rp.process(response);
+                    } catch (Exception e) {
+                        throw new TransparentException(e);
+                    }
+                } else {
+                    if (response != null && response instanceof Exception)
+                        asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
+                    else try {
+                        Mailbox sourceMailbox = rs.getMailbox();
+                        Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+                        Mailbox controllingMailbox = mailbox.getControllingMailbox();
+                        if (srcControllingMailbox == controllingMailbox) {
+                            rp.process(response);
+                        } else if (sourceMailbox.isAsync()) {
+                            asyncResponse(rs, request, response, rp);
+                        } else if (!mailbox.acquireControl(srcControllingMailbox)) {
+                            asyncResponse(rs, request, response, rp);
+                        } else {
+                            try {
+                                rp.process(response);
+                            } finally {
+                                mailbox.sendPendingMessages();
+                                mailbox.relinquishControl();
+                                mailbox.dispatchRemaining(srcControllingMailbox);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                    }
+                }
+            }
+        };
         try {
-            rp.process(response);
+            processRequest(request, erp);
+            if (!erp.sync) erp.async = true;
+        } catch (TransparentException t) {
+            final Exception e = (Exception) t.getCause();
+            throw e;
         } catch (Exception e) {
-            throw new TransparentException(e);
+            final ExceptionHandler eh = getExceptionHandler();
+            if (eh == null) throw e;
+            eh.process(e);
         }
     }
 

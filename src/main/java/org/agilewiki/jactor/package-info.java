@@ -83,12 +83,12 @@
  * </h2>
  * <p>
  * When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise the rate drops to
- * 293,040,293 per second.
+ * 71,095,312 per second.
  * </p>
  * <p>
  * Asynchronous message passing is also supported, making it easy to use all the available hardware threads for
  * good vertical scalability. Request messages sent to an actor with an asynchronous mailbox (and the corresponding
- * responses) are passed asynchronously at a rate of 51,712,992 per second.
+ * responses) are passed asynchronously at a rate of 42,149,631 per second.
  * </p>
  * <p>
  * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
