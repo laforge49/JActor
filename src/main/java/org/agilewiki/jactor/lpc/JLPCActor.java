@@ -167,7 +167,7 @@ abstract public class JLPCActor implements Actor {
         final Mailbox sourceMailbox = requestSource.getMailbox();
         final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
         if (sourceMailbox == mailbox) {
-            syncProcess(request, rp, sourceExceptionHandler);
+            syncProcess(request, rp, sourceExceptionHandler, requestSource);
             return;
         }
         ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
@@ -220,7 +220,8 @@ abstract public class JLPCActor implements Actor {
      */
     final private void syncProcess(final Object request,
                                    final ResponseProcessor rp,
-                                   final ExceptionHandler sourceExceptionHandler)
+                                   final ExceptionHandler sourceExceptionHandler,
+                                   final RequestSource requestSource)
             throws Exception {
         try {
             processRequest(request, new ResponseProcessor() {
@@ -236,14 +237,14 @@ abstract public class JLPCActor implements Actor {
             });
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
-            setExceptionHandler(sourceExceptionHandler);
+            requestSource.setExceptionHandler(sourceExceptionHandler);
             throw e;
         } catch (Exception e) {
-            setExceptionHandler(sourceExceptionHandler);
+            requestSource.setExceptionHandler(sourceExceptionHandler);
             if (sourceExceptionHandler == null) throw e;
             sourceExceptionHandler.process(e);
         }
-        setExceptionHandler(sourceExceptionHandler);
+        requestSource.setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
