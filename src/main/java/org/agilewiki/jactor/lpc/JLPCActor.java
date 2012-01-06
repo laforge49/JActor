@@ -170,6 +170,10 @@ abstract public class JLPCActor implements Actor {
             syncProcess(request, rp, sourceExceptionHandler, requestSource);
             return;
         }
+        if (mailbox.isAsync() || sourceMailbox == null) {
+            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            return;
+        }
         ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(final Object response)
@@ -190,32 +194,83 @@ abstract public class JLPCActor implements Actor {
                 }
             }
         };
-        if (mailbox.isAsync() || sourceMailbox == null) {
-            asyncSend(requestSource, request, erp);
-        } else {
-            final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-            if (mailbox.getControllingMailbox() == srcControllingMailbox) {
-                syncSend(requestSource, request, erp);
-            } else if (!mailbox.acquireControl(srcControllingMailbox)) {
-                asyncSend(requestSource, request, erp);
-            } else {
-                try {
-                    syncSend(requestSource, request, erp);
-                } finally {
-                    mailbox.sendPendingMessages();
-                    mailbox.relinquishControl();
-                    mailbox.dispatchRemaining(srcControllingMailbox);
-                }
-            }
+        final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+        if (mailbox.getControllingMailbox() == srcControllingMailbox) {
+            syncSend(requestSource, request, erp);
+            if (!erp.sync) erp.async = true;
+            return;
+        }
+        if (!mailbox.acquireControl(srcControllingMailbox)) {
+            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            return;
+        }
+        try {
+            syncSend(requestSource, request, erp);
+        } finally {
+            mailbox.sendPendingMessages();
+            mailbox.relinquishControl();
+            mailbox.dispatchRemaining(srcControllingMailbox);
         }
         if (!erp.sync) erp.async = true;
     }
 
     /**
+     * Process an exception when the response is asynchronous.
+     *
+     * @param ex            Any exceptions thrown while processing the request or response.
+     * @param eh            The exception handler
+     * @param sourceMailbox The mailbox of the source actor.
+     */
+    final private void asyncException(Exception ex, ExceptionHandler eh, Mailbox sourceMailbox) {
+        if (eh == null) sourceMailbox.response(ex);
+        else try {
+            eh.process(ex);
+        } catch (Exception ex2) {
+            sourceMailbox.response(ex2);
+        }
+    }
+
+    /**
+     * Process a request asynchronously.
+     *
+     * @param requestSource The source of the request.
+     * @param request       The request.
+     * @param rp            Processes the response.
+     */
+    final private void asyncSend(final RequestSource requestSource,
+                                 final Object request,
+                                 final ResponseProcessor rp,
+                                 final ExceptionHandler sourceExceptionHandler) {
+        final JARequest jaRequest = new JARequest(
+                requestSource,
+                requestProcessor,
+                request,
+                new ResponseProcessor() {
+                    @Override
+                    public void process(Object response) throws Exception {
+                        requestSource.setExceptionHandler(sourceExceptionHandler);
+                        if (response != null && response instanceof Exception) {
+                            asyncException(
+                                    (Exception) response,
+                                    sourceExceptionHandler,
+                                    requestSource.getMailbox());
+                        } else try {
+                            rp.process(response);
+                        } catch (Exception ex) {
+                            asyncException(ex, sourceExceptionHandler, requestSource.getMailbox());
+                        }
+                    }
+                });
+        requestSource.send(mailbox, jaRequest);
+    }
+
+    /**
      * Process a request when the mailbox is shared.
      *
-     * @param request The request.
-     * @param rp      Processes the response.
+     * @param request                The request.
+     * @param rp                     Processes the response.
+     * @param sourceExceptionHandler Exception handler of the source actor.
+     * @param requestSource          The source of the request.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
@@ -245,20 +300,6 @@ abstract public class JLPCActor implements Actor {
             sourceExceptionHandler.process(e);
         }
         requestSource.setExceptionHandler(sourceExceptionHandler);
-    }
-
-    /**
-     * Process an exception when the response is asynchronous.
-     *
-     * @param ex Any exceptions thrown while processing the request or response.
-     */
-    final private void asyncException(Exception ex, ExceptionHandler eh, Mailbox sourceMailbox) {
-        if (eh == null) sourceMailbox.response(ex);
-        else try {
-            eh.process(ex);
-        } catch (Exception ex2) {
-            sourceMailbox.response(ex2);
-        }
     }
 
     /**
@@ -340,24 +381,6 @@ abstract public class JLPCActor implements Actor {
                 rp);
         mailbox.setCurrentRequest(jaRequest);
         mailbox.response(response);
-    }
-
-    /**
-     * Process a request asynchronously.
-     *
-     * @param requestSource The source of the request.
-     * @param request       The request.
-     * @param rp            Processes the response.
-     */
-    final private void asyncSend(final RequestSource requestSource,
-                                 final Object request,
-                                 final ResponseProcessor rp) {
-        final JARequest jaRequest = new JARequest(
-                requestSource,
-                requestProcessor,
-                request,
-                rp);
-        requestSource.send(mailbox, jaRequest);
     }
 
     /**
