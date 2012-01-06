@@ -11,7 +11,7 @@ public class Doer extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(final Object request, final ResponseProcessor rp)
+    public void processRequest(final Object request, final ResponseProcessor rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override

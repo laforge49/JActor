@@ -39,7 +39,7 @@ final public class JAParallel extends JLPCActor {
      * @throws Exception Any uncaught exception thrown when the request is processed.
      */
     @Override
-    protected void processRequest(final Object request, final ResponseProcessor rd1)
+    public void processRequest(final Object request, final ResponseProcessor rd1)
             throws Exception {
         int p = actors.length;
         responseCounter = new JAResponseCounter(p, rd1);

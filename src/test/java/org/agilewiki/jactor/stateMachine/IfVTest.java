@@ -25,7 +25,7 @@ public class IfVTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             boolean condition = true;
             smb._if(condition, "skip");

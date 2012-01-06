@@ -11,7 +11,7 @@ public class Multiplier extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object req, ResponseProcessor rp)
+    public void processRequest(Object req, ResponseProcessor rp)
             throws Exception {
         Multiply m = (Multiply) req;
         rp.process(new Integer(m.a * m.b));

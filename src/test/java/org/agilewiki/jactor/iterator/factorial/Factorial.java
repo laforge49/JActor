@@ -11,7 +11,7 @@ public class Factorial extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object req, final ResponseProcessor rp)
+    public void processRequest(Object req, final ResponseProcessor rp)
             throws Exception {
         final int max = 5;
         ResponseProcessor printResult = new ResponseProcessor() {

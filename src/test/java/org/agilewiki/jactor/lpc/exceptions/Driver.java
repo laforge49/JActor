@@ -15,7 +15,7 @@ public class Driver extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
+    public void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override

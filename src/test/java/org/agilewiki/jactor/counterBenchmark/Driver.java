@@ -41,7 +41,7 @@ final public class Driver extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request,
+    public void processRequest(Object request,
                                   final ResponseProcessor rp)
             throws Exception {
         smb.call(rp);

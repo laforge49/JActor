@@ -25,7 +25,7 @@ public class IteratorTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             new _Iterator(smb, "rs") {
                 int i;

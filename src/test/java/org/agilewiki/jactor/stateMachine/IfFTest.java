@@ -25,7 +25,7 @@ public class IfFTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._if(new BooleanFunc() {
                 @Override

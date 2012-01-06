@@ -25,7 +25,7 @@ public class SendVVTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object request, ResponseProcessor rp)
+        public void processRequest(Object request, ResponseProcessor rp)
                 throws Exception {
             int req = (Integer) request;
             rp.process(req * 2);
@@ -39,7 +39,7 @@ public class SendVVTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object request, ResponseProcessor rp)
+        public void processRequest(Object request, ResponseProcessor rp)
                 throws Exception {
             Doubler doubler = new Doubler(getMailbox());
             SMBuilder smb = new SMBuilder();

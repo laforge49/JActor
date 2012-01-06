@@ -25,7 +25,7 @@ public class SendFVTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object request, ResponseProcessor rp)
+        public void processRequest(Object request, ResponseProcessor rp)
                 throws Exception {
             int req = (Integer) request;
             rp.process(req * 2);
@@ -39,7 +39,7 @@ public class SendFVTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object request, ResponseProcessor rp)
+        public void processRequest(Object request, ResponseProcessor rp)
                 throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._send(new ActorFunc() {

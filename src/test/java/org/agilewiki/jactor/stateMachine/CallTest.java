@@ -25,7 +25,7 @@ public class CallTest extends TestCase {
         }
 
         @Override
-        protected void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
             SMBuilder doubler = new SMBuilder();
             doubler._return(new ObjectFunc() {
                 @Override

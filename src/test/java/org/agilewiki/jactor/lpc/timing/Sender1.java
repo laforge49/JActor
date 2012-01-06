@@ -19,7 +19,7 @@ public class Sender1 extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1)
+    public void processRequest(final Object unwrappedRequest, final ResponseProcessor rd1)
             throws Exception {
         (new JAIterator() {
             int i;

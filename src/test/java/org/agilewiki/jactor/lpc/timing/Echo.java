@@ -11,7 +11,7 @@ final public class Echo extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
+    public void processRequest(Object unwrappedRequest, ResponseProcessor responseProcessor)
             throws Exception {
         responseProcessor.process(null);
     }
