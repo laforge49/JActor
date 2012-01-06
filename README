@@ -10,7 +10,7 @@ This project is a reimplementation of a portion of the AsyncFP Scala project:
 Message passing between actors uses 2-way messages (request / response). There are several reasons for this:
 
     o With 2-way messaging, sending a request is very similar to a method call with a callback. Most requests are processed synchronously, which is why JActor is so much faster than other actor implementations.
-    o Mailboxes are used mostly when passing messages between threads and are first-class objects. As first-class objects, mailboxes can be used my more than one actor. Passing messages between actors with a common mailbox is always done synchronously and is very fast.
+    o Mailboxes are used mostly when passing messages between threads and are first-class objects. As first-class objects, mailboxes can be used by more than one actor. Passing messages between actors with a common mailbox is always done synchronously and is very fast.
     o Flow control is implicit to 2-way messaging. Systems with good flow control are generally well-behaved when operating with a full load.
     o Two-way messaging is so much faster than 1-way messaging that it is practical to use 2-way messages when 1-way messages are needed.
 
