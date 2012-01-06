@@ -70,14 +70,4 @@ public interface Actor {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     public void setInitialBufferCapacity(int initialBufferCapacity);
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request           A request.
-     * @param responseProcessor The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public void processRequest(Object request, ResponseProcessor responseProcessor)
-            throws Exception;
 }

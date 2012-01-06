@@ -143,4 +143,14 @@ abstract public class JAPCActor implements Actor {
                               final ResponseProcessor rp) throws Exception {
         actor.acceptRequest(requestSource, unwrappedRequest, rp);
     }
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request           A request.
+     * @param responseProcessor The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
+            throws Exception;
 }
