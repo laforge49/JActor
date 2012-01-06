@@ -259,24 +259,6 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Process a request asynchronously.
-     *
-     * @param requestSource The source of the request.
-     * @param request       The request.
-     * @param rp            Processes the response.
-     */
-    final private void asyncSend(final RequestSource requestSource,
-                                 final Object request,
-                                 final ResponseProcessor rp) {
-        final JARequest jaRequest = new JARequest(
-                requestSource,
-                requestProcessor,
-                request,
-                rp);
-        requestSource.send(mailbox, jaRequest);
-    }
-
-    /**
      * Process a request synchronously.
      *
      * @param request The request.
@@ -305,6 +287,24 @@ abstract public class JLPCActor implements Actor {
             if (eh == null) throw e;
             eh.process(e);
         }
+    }
+
+    /**
+     * Process a request asynchronously.
+     *
+     * @param requestSource The source of the request.
+     * @param request       The request.
+     * @param rp            Processes the response.
+     */
+    final private void asyncSend(final RequestSource requestSource,
+                                 final Object request,
+                                 final ResponseProcessor rp) {
+        final JARequest jaRequest = new JARequest(
+                requestSource,
+                requestProcessor,
+                request,
+                rp);
+        requestSource.send(mailbox, jaRequest);
     }
 
     /**
@@ -385,6 +385,6 @@ abstract public class JLPCActor implements Actor {
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
+    abstract public void processRequest(Object request, ResponseProcessor responseProcessor)
             throws Exception;
 }
