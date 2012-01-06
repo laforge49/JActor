@@ -14,8 +14,8 @@ public class CounterTest extends TestCase {
         //long runs = 1000000000;
         //[java-shared] Number of runs: 1000000000
         //[java-shared] Count: 100000000000
-        //[java-shared] Test time in seconds: 7.785
-        //[java-shared] Messages per second: 1.2845215157353885E8
+        //[java-shared] Test time in seconds: 10.457
+        //[java-shared] Messages per second: 9.562972171750979E7
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             Mailbox sharedMailbox = mailboxFactory.createMailbox();
@@ -42,8 +42,8 @@ public class CounterTest extends TestCase {
         //long runs = 1000000000;
         //[java-unshared] Number of runs: 1000000000
         //[java-unshared] Count: 100000000000
-        //[java-unshared] Test time in seconds: 35.272
-        //[java-unshared] Messages per second: 2.8351100022680882E7
+        //[java-unshared] Test time in seconds: 52.955
+        //[java-unshared] Messages per second: 1.8883958077613067E7
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             CounterActor counterActor = new CounterActor(mailboxFactory.createMailbox());
