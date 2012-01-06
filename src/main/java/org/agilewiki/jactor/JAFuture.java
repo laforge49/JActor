@@ -77,6 +77,16 @@ final public class JAFuture {
         }
 
         @Override
+        public ExceptionHandler getExceptionHandler() {
+            return null;
+        }
+
+        @Override
+        public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
                                        final JAResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
