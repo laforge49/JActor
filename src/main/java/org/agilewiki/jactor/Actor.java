@@ -53,7 +53,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 public interface Actor {
 
     /**
-     * Wraps and enqueues an unwrapped request in the requester's outbox.
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param requestSource The originator of the request.
      * @param request       The unwrapped request to be sent.

@@ -139,15 +139,7 @@ abstract public class JLPCActor implements Actor {
         requestProcessor.setExceptionHandler(exceptionHandler);
     }
 
-    /**
-     * Wraps and enqueues an unwrapped request in the requester's outbox.
-     *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request to be sent.
-     * @param rp               The request processor.
-     */
-    @Override
-    final public void acceptRequest(final APCRequestSource apcRequestSource,
+    final public void acceptRequest1(final APCRequestSource apcRequestSource,
                                     final Object request,
                                     final ResponseProcessor rp)
             throws Exception {
@@ -175,6 +167,21 @@ abstract public class JLPCActor implements Actor {
                 mailbox.dispatchRemaining(srcControllingMailbox);
             }
         }
+    }
+
+    /**
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request to be sent.
+     * @param rp               The request processor.
+     */
+    @Override
+    final public void acceptRequest(final APCRequestSource apcRequestSource,
+                                    final Object request,
+                                    final ResponseProcessor rp)
+            throws Exception {
+        acceptRequest1(apcRequestSource, request, rp);
     }
 
     /**

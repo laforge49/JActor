@@ -116,7 +116,7 @@ abstract public class JAPCActor implements Actor {
     }
 
     /**
-     * Wraps and enqueues an unwrapped request in the requester's outbox.
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param requestSource    The originator of the request.
      * @param unwrappedRequest The unwrapped request to be sent.
