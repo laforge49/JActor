@@ -165,11 +165,11 @@ abstract public class JLPCActor implements Actor {
             throws Exception {
         final RequestSource requestSource = (RequestSource) apcRequestSource;
         final Mailbox sourceMailbox = requestSource.getMailbox();
+        final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
         if (sourceMailbox == mailbox) {
-            syncProcess(request, rp);
+            syncProcess(request, rp, sourceExceptionHandler);
             return;
         }
-        final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
         ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(final Object response)
@@ -219,7 +219,8 @@ abstract public class JLPCActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
-                                   final ResponseProcessor rp)
+                                   final ResponseProcessor rp,
+                                   final ExceptionHandler sourceExceptionHandler)
             throws Exception {
         try {
             processRequest(request, new ResponseProcessor() {
@@ -229,17 +230,20 @@ abstract public class JLPCActor implements Actor {
                         rp.process(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
+                    } finally {
                     }
                 }
             });
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
+            setExceptionHandler(sourceExceptionHandler);
             throw e;
         } catch (Exception e) {
-            final ExceptionHandler eh = getExceptionHandler();
-            if (eh == null) throw e;
-            eh.process(e);
+            setExceptionHandler(sourceExceptionHandler);
+            if (sourceExceptionHandler == null) throw e;
+            sourceExceptionHandler.process(e);
         }
+        setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
