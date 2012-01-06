@@ -212,7 +212,7 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Process a request synchronously.
+     * Process a request when the mailbox is shared.
      *
      * @param request The request.
      * @param rp      Processes the response.

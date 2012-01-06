@@ -24,7 +24,7 @@
 
 /**
  * <p>
- * The JActor project implements actors in Java that can process .2 Billion messages per second.
+ * The JActor project implements actors in Java that can process 1 Billion messages per second.
  * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
  * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
  * </p>
@@ -82,7 +82,7 @@
  * Message Passing Benchmarks
  * </h2>
  * <p>
- * When actors share the same mailbox, 241,327,300 messages are passed per second. Otherwise the rate drops to
+ * When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise the rate drops to
  * 293,040,293 per second.
  * </p>
  * <p>

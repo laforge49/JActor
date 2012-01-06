@@ -19,8 +19,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //16 parallel runs of 20000000 messages each.
         //320000000 messages sent with 4 threads.
-        //msgs per sec = 197287299
-        //5 nanoseconds per message test
+        //msgs per sec = 518638573
+        //1.9 nanoseconds per message test
 
         //int c = 2000000;
         //int b = 10;
@@ -30,8 +30,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 10
         //16 parallel runs of 40000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 241327300
-        //4 nanoseconds per message test
+        //msgs per sec = 777642770
+        //1.3 nanoseconds per message test
 
         //int c = 40000000;
         //int b = 1;
@@ -41,8 +41,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1
         //8 parallel runs of 80000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 182336182
-        //5.5 nanoseconds per message test
+        //msgs per sec = 506329113
+        //2 nanoseconds per message test
 
         //int c = 100000;
         //int b = 1000;
@@ -52,8 +52,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1000
         //4 parallel runs of 40000000 messages each.
         //800000000 messages sent with 4 threads.
-        //msgs per sec = 143240823
-        //7 nanosecond per message
+        //msgs per sec = 730593607
+        //1.4 nanosecond per message
 
         //int c = 20000;
         //int b = 1000;
@@ -63,8 +63,8 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1000
         //16 parallel runs of 200000000 messages each.
         //640000000 messages sent with 4 threads.
-        //msgs per sec = 157790927
-        //6.3  nanoseconds per message
+        //msgs per sec = 1095890410
+        //1 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
