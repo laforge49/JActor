@@ -26,7 +26,22 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.APCMailbox;
 
 /**
- * Serves as the asynchronous transport for wrapped requests / responses.
+ * <p>
+ * A mailbox is a lightweight thread with an inbox for incoming messages and an outbox for outgoing messages. Every
+ * actor has a mailbox, though any number of actors can share the same mailbox. Actors which share the same mailbox
+ * then always use the same thread and can exchange messages very quickly (about 1 billion messages per second on an
+ * i5).
+ * </p><p>
+ * Actors typically pass messages directly from one actor to another, without having to use an inbox or outbox. But if
+ * the destination actor is busy processing its own incoming messages on another thread, then the source actor puts the
+ * outgoing message in its mailbox's outbox for subsequent processing when the inbox is empty. To maximize throughput,
+ * mailboxes always group outgoing messages by destination actor and then sends all the messages for each destination
+ * as an array list.
+ * </p><p>
+ * Mailboxes can be tagged as synchronous or asynchronous. Asynchronous actors are actors which have a mailbox which
+ * has been tagged as asynchronous. And when an actor has a request for an asynchronous actor, the request and response
+ * are always exchanged asynchronously.
+ * </p>
  */
 public interface Mailbox extends APCMailbox {
 
