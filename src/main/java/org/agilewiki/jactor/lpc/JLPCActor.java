@@ -159,7 +159,7 @@ abstract public class JLPCActor implements Actor {
      * @param rp               The request processor.
      */
     @Override
-    final public void acceptRequest(final APCRequestSource apcRequestSource,
+    public void acceptRequest(final APCRequestSource apcRequestSource,
                                     final Object request,
                                     final ResponseProcessor rp)
             throws Exception {
