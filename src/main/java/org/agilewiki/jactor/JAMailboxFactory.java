@@ -51,6 +51,7 @@ final public class JAMailboxFactory implements MailboxFactory {
     /**
      * Stop all the threads as they complete their tasks.
      */
+    @Override
     public void close() {
         threadManager.close();
     }
