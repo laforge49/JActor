@@ -31,7 +31,30 @@ import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 /**
- * A mostly synchronous implementation of Actor.
+ * <p>
+ * An actor which implements Local Procedure Calls (LPC)
+ * and mostly works synchronously.
+ * Actors need to implement the processRequest method.
+ * </p>
+ * <pre>
+ * public class Multiply {
+ *     public int a;
+ *     public int b;
+ * }
+ *
+ * public class Multiplier extends JLPCActor {
+ *
+ *     public Multiplier(Mailbox mailbox) {
+ *         super(mailbox);
+ *     }
+ *
+ *     protected void processRequest(Object req, ResponseProcessor rp)
+ *             throws Exception {
+ *         Multiply m = (Multiply) req;
+ *         rp.process(new Integer(m.a * m.b));
+ *     }
+ * }
+ * </pre>
  */
 abstract public class JLPCActor implements Actor {
 

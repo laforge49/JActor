@@ -27,28 +27,24 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
  * <p>
- * An actor which implements Local Procedure Calls (LPC).
- * Actors need to implement the processRequest method.
+ * Actors are objects which send messages to each other and which process only one message at a time. Messages are
+ * either requests or responses. When an actor sends a request to another actor, it expects to receive a single
+ * response unless an exception has been thrown.
+ * </p><p>
+ * When an actor sends a message it provides a callback to handle the response. The callback may be invoked either
+ * immediately or later. After sending a message, an actor may send additional messages or return control, at which
+ * point it may receive other requests or pending responses.
+ * </p><p>
+ * An actor typically interleaves the processing of multiple requests. To process a request to completion, an actor may
+ *need to send requests to other actors (in series or parallel) and process the responses to those requests. Actors
+ * process requests and responses as they are received whenever the actor is not busy processing a message. There is no
+ * way to block incoming requests. Actors are thread-safe, but message processing is not atomic.
+ * </p><p>
+ * Some actors are asynchronous. Requests sent to an asynchronous actor are processed on a different thread. Actors which
+ * perform heavy computation or which do I/O should be asynchronous. Asynchronous actors play an important role in
+ * vertical scalability, allowing a program to make effective use of multiple hardware threads. But care should be used,
+ * as asynchronous message passing tends to be slow.
  * </p>
- * <pre>
- * public class Multiply {
- *     public int a;
- *     public int b;
- * }
- *
- * public class Multiplier extends JLPCActor {
- *
- *     public Multiplier(Mailbox mailbox) {
- *         super(mailbox);
- *     }
- *
- *     protected void processRequest(Object req, ResponseProcessor rp)
- *             throws Exception {
- *         Multiply m = (Multiply) req;
- *         rp.process(new Integer(m.a * m.b));
- *     }
- * }
- * </pre>
  */
 public interface Actor {
 
