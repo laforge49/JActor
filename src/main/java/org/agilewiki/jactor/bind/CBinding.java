@@ -6,8 +6,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Binds a request class.
  */
-abstract public class Binding {
-    public JBActor.Internals internals;
+abstract public class CBinding {
+    public JCActor.Internals internals;
 
     /**
      * Process an incoming request.
