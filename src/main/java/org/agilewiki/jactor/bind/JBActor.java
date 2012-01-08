@@ -33,21 +33,21 @@ public class JBActor extends JLPCActor {
     /**
      * Add a binding to the actor.
      *
-     * @param requestClass The class of the request.
+     * @param requestClass The class name of the request.
      * @param binding      The binding.
      */
-    final protected void bind(Class requestClass, Binding binding) {
+    final protected void bind(String requestClass, Binding binding) {
         internals.bind(requestClass, binding);
     }
 
     /**
      * Returns a binding.
      *
-     * @param requestClass The class of the request.
+     * @param request The the request.
      * @return The binding, or null.
      */
-    final Binding getBinding(Class requestClass) {
-        return internals.getBinding(requestClass);
+    final private Binding getBinding(Object request) {
+        return internals.getBinding(request);
     }
 
     /**
@@ -63,9 +63,11 @@ public class JBActor extends JLPCActor {
                                     final Object request,
                                     final ResponseProcessor rp)
             throws Exception {
-        Binding binding = getBinding(request.getClass());
-        if (binding != null)
+        Binding binding = getBinding(request);
+        if (binding != null) {
             binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+            return;
+        }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());
         parent.acceptRequest(apcRequestSource, request, rp);
@@ -96,7 +98,7 @@ public class JBActor extends JLPCActor {
     @Override
     final protected void processRequest(Object request, ResponseProcessor rp)
             throws Exception {
-        MethodBinding mb = (MethodBinding) getBinding(request.getClass());
+        MethodBinding mb = (MethodBinding) getBinding(request);
         mb.processRequest(request, rp);
     }
 
@@ -112,16 +114,16 @@ public class JBActor extends JLPCActor {
         /**
          * The bindings of the actor.
          */
-        final private ConcurrentSkipListMap<Class, Binding> bindings =
-                new ConcurrentSkipListMap<Class, Binding>();
+        final private ConcurrentSkipListMap<String, Binding> bindings =
+                new ConcurrentSkipListMap<String, Binding>();
 
         /**
          * Add a binding to the actor.
          *
-         * @param requestClass The class of the request.
+         * @param requestClass The class name of the request.
          * @param binding      The binding.
          */
-        final public void bind(Class requestClass, Binding binding) {
+        final public void bind(String requestClass, Binding binding) {
             binding.internals = this;
             bindings.put(requestClass, binding);
         }
@@ -129,11 +131,11 @@ public class JBActor extends JLPCActor {
         /**
          * Returns a binding.
          *
-         * @param requestClass The class of the request.
+         * @param request The request.
          * @return The binding, or null.
          */
-        final public Binding getBinding(Class requestClass) {
-            return bindings.get(requestClass);
+        final public Binding getBinding(Object request) {
+            return bindings.get(request.getClass().getName());
         }
 
         /**
@@ -159,7 +161,7 @@ public class JBActor extends JLPCActor {
          * @param rp      The response processor.
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
-        final protected void send(final Actor actor,
+        final public void send(final Actor actor,
                                   final Object request,
                                   final ResponseProcessor rp)
                 throws Exception {
@@ -171,7 +173,7 @@ public class JBActor extends JLPCActor {
          *
          * @return The mailbox factory.
          */
-        final protected MailboxFactory getMailboxFactory() {
+        final public MailboxFactory getMailboxFactory() {
             return JBActor.this.getMailboxFactory();
         }
 
@@ -180,7 +182,7 @@ public class JBActor extends JLPCActor {
          *
          * @return The exception handler.
          */
-        final protected ExceptionHandler getExceptionHandler() {
+        final public ExceptionHandler getExceptionHandler() {
             return JBActor.this.getExceptionHandler();
         }
 
@@ -189,7 +191,7 @@ public class JBActor extends JLPCActor {
          *
          * @param exceptionHandler The exception handler.
          */
-        final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             JBActor.this.setExceptionHandler(exceptionHandler);
         }
     }
