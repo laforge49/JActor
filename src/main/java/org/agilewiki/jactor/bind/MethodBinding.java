@@ -6,7 +6,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Binds a request class to a method.
  */
-abstract public class CMethodBinding extends CBinding {
+abstract public class MethodBinding extends Binding {
     /**
      * Process an incoming request.
      *

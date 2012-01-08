@@ -20,12 +20,12 @@ public class BindTest extends TestCase {
     class Hi {
     }
 
-    class A extends JCActor {
+    class A extends JBActor {
 
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new CMethodBinding() {
+            bind(Hi.class.getName(), new MethodBinding() {
                 protected void processRequest(Object request, ResponseProcessor rp)
                         throws Exception {
                     rp.process("Hello world!");

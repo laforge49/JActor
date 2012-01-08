@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * so you can avoid the overhead when speed is critical.
  * </p>
  */
-public class JCActor implements Actor {
+public class JBActor implements Actor {
     /**
      * The internals of a JBActor.
      */
@@ -81,7 +81,7 @@ public class JCActor implements Actor {
 
         @Override
         final public void processRequest(final JARequest request) throws Exception {
-            JCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
+            JBActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) {
                     mailbox.response(unwrappedResponse);
@@ -127,7 +127,7 @@ public class JCActor implements Actor {
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public JCActor(final Mailbox mailbox) {
+    public JBActor(final Mailbox mailbox) {
         if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
         this.mailbox = mailbox;
     }
@@ -147,7 +147,7 @@ public class JCActor implements Actor {
      * @param requestClass The class name of the request.
      * @param binding      The binding.
      */
-    final protected void bind(String requestClass, CBinding binding) {
+    final protected void bind(String requestClass, Binding binding) {
         internals.bind(requestClass, binding);
     }
 
@@ -157,7 +157,7 @@ public class JCActor implements Actor {
      * @param request The the request.
      * @return The binding, or null.
      */
-    final private CBinding getBinding(Object request) {
+    final private Binding getBinding(Object request) {
         return internals.getBinding(request);
     }
 
@@ -193,7 +193,7 @@ public class JCActor implements Actor {
                                     final Object request,
                                     final ResponseProcessor rp)
             throws Exception {
-        CBinding binding = getBinding(request);
+        Binding binding = getBinding(request);
         if (binding != null) {
             binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
             return;
@@ -401,7 +401,7 @@ public class JCActor implements Actor {
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {
-            JCActor.this.send(actor, request, rp);
+            JBActor.this.send(actor, request, rp);
         }
     }
 
@@ -441,7 +441,7 @@ public class JCActor implements Actor {
      */
     final private void processRequest(Object request, ResponseProcessor rp)
             throws Exception {
-        CMethodBinding mb = (CMethodBinding) getBinding(request);
+        MethodBinding mb = (MethodBinding) getBinding(request);
         mb.processRequest(request, rp);
     }
 
@@ -457,8 +457,8 @@ public class JCActor implements Actor {
         /**
          * The bindings of the actor.
          */
-        final private ConcurrentSkipListMap<String, CBinding> bindings =
-                new ConcurrentSkipListMap<String, CBinding>();
+        final private ConcurrentSkipListMap<String, Binding> bindings =
+                new ConcurrentSkipListMap<String, Binding>();
 
         /**
          * Add a binding to the actor.
@@ -466,7 +466,7 @@ public class JCActor implements Actor {
          * @param requestClass The class name of the request.
          * @param binding      The binding.
          */
-        final public void bind(String requestClass, CBinding binding) {
+        final public void bind(String requestClass, Binding binding) {
             binding.internals = this;
             bindings.put(requestClass, binding);
         }
@@ -477,7 +477,7 @@ public class JCActor implements Actor {
          * @param request The request.
          * @return The binding, or null.
          */
-        final public CBinding getBinding(Object request) {
+        final public Binding getBinding(Object request) {
             return bindings.get(request.getClass().getName());
         }
 
@@ -534,7 +534,7 @@ public class JCActor implements Actor {
                                final Object request,
                                final ResponseProcessor rp)
                 throws Exception {
-            JCActor.this.send(actor, request, rp);
+            JBActor.this.send(actor, request, rp);
         }
 
         /**
@@ -543,7 +543,7 @@ public class JCActor implements Actor {
          * @return The mailbox factory.
          */
         final public MailboxFactory getMailboxFactory() {
-            return JCActor.this.getMailboxFactory();
+            return JBActor.this.getMailboxFactory();
         }
 
         /**
@@ -552,7 +552,7 @@ public class JCActor implements Actor {
          * @return The exception handler.
          */
         final public ExceptionHandler getExceptionHandler() {
-            return JCActor.this.getExceptionHandler();
+            return JBActor.this.getExceptionHandler();
         }
 
         /**
@@ -561,7 +561,7 @@ public class JCActor implements Actor {
          * @param exceptionHandler The exception handler.
          */
         final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-            JCActor.this.setExceptionHandler(exceptionHandler);
+            JBActor.this.setExceptionHandler(exceptionHandler);
         }
     }
 }
