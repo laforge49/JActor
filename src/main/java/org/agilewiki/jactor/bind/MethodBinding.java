@@ -18,7 +18,7 @@ abstract public class MethodBinding extends Binding {
     @Override
     final public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
             throws Exception {
-        internals.acceptRequest(requestSource, request, rp);
+        internals.acceptRequest(requestSource, request, rp, this);
     }
 
     /**

@@ -80,13 +80,15 @@ public class JBActor implements Actor {
         }
 
         @Override
-        final public void processRequest(final JARequest request) throws Exception {
-            JBActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
+        final public void processRequest(final JARequest jaRequest) throws Exception {
+            Object request = jaRequest.getUnwrappedRequest();
+            MethodBinding methodBinding = (MethodBinding) getBinding(request);
+            JBActor.this.processRequest(request, new ResponseProcessor() {
                 @Override
-                public void process(Object unwrappedResponse) {
-                    mailbox.response(unwrappedResponse);
+                public void process(Object response) {
+                    mailbox.response(response);
                 }
-            });
+            }, methodBinding);
         }
     };
 
@@ -261,12 +263,14 @@ public class JBActor implements Actor {
      * @param rp                     Processes the response.
      * @param sourceExceptionHandler Exception handler of the source actor.
      * @param requestSource          The source of the request.
+     * @param methodBinding          Binds a request class to a method.                               
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
                                    final ResponseProcessor rp,
                                    final ExceptionHandler sourceExceptionHandler,
-                                   final RequestSource requestSource)
+                                   final RequestSource requestSource, 
+                                   final MethodBinding methodBinding)
             throws Exception {
         try {
             processRequest(request, new ResponseProcessor() {
@@ -279,7 +283,7 @@ public class JBActor implements Actor {
                     } finally {
                     }
                 }
-            });
+            }, methodBinding);
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
             requestSource.setExceptionHandler(sourceExceptionHandler);
@@ -298,12 +302,14 @@ public class JBActor implements Actor {
      * @param rs                     The source of the request.
      * @param request                The request.
      * @param rp                     Processes the response.
+     * @param methodBinding          Binds a request class to a method.                               
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void syncSend(final RequestSource rs,
                                 final Object request,
                                 final ResponseProcessor rp,
-                                final ExceptionHandler sourceExceptionHandler)
+                                final ExceptionHandler sourceExceptionHandler,
+                                final MethodBinding methodBinding)
             throws Exception {
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
@@ -346,7 +352,7 @@ public class JBActor implements Actor {
             }
         };
         try {
-            processRequest(request, erp);
+            processRequest(request, erp, methodBinding);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
@@ -437,12 +443,12 @@ public class JBActor implements Actor {
      *
      * @param request A request.
      * @param rp      The response processor.
+     * @param methodBinding          Binds a request class to a method.                               
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final private void processRequest(Object request, ResponseProcessor rp)
+    final private void processRequest(Object request, ResponseProcessor rp, MethodBinding methodBinding)
             throws Exception {
-        MethodBinding mb = (MethodBinding) getBinding(request);
-        mb.processRequest(request, rp);
+        methodBinding.processRequest(request, rp);
     }
 
     /**
@@ -484,37 +490,38 @@ public class JBActor implements Actor {
         /**
          * Wraps and enqueues an unwrapped request in the requester's inbox.
          *
-         * @param apcRequestSource The originator of the request.
+         * @param requestSource The originator of the request.
          * @param request          The request to be sent.
          * @param rp               The request processor.
+         * @param methodBinding          Binds a request class to a method.                               
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
-        public void acceptRequest(final APCRequestSource apcRequestSource,
+        public void acceptRequest(final RequestSource requestSource,
                                   final Object request,
-                                  final ResponseProcessor rp)
+                                  final ResponseProcessor rp, 
+                                  final MethodBinding methodBinding)
                 throws Exception {
-            final RequestSource rs = (RequestSource) apcRequestSource;
-            final Mailbox sourceMailbox = rs.getMailbox();
-            final ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
+            final Mailbox sourceMailbox = requestSource.getMailbox();
+            final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
             if (sourceMailbox == mailbox) {
-                syncProcess(request, rp, sourceExceptionHandler, rs);
+                syncProcess(request, rp, sourceExceptionHandler, requestSource, methodBinding);
                 return;
             }
             if (mailbox.isAsync() || sourceMailbox == null) {
-                asyncSend(rs, request, rp, sourceExceptionHandler);
+                asyncSend(requestSource, request, rp, sourceExceptionHandler);
                 return;
             }
             final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
             if (mailbox.getControllingMailbox() == srcControllingMailbox) {
-                syncSend(rs, request, rp, sourceExceptionHandler);
+                syncSend(requestSource, request, rp, sourceExceptionHandler, methodBinding);
                 return;
             }
             if (!mailbox.acquireControl(srcControllingMailbox)) {
-                asyncSend(rs, request, rp, sourceExceptionHandler);
+                asyncSend(requestSource, request, rp, sourceExceptionHandler);
                 return;
             }
             try {
-                syncSend(rs, request, rp, sourceExceptionHandler);
+                syncSend(requestSource, request, rp, sourceExceptionHandler, methodBinding);
             } finally {
                 mailbox.sendPendingMessages();
                 mailbox.relinquishControl();
