@@ -105,15 +105,15 @@ final public class JAFuture {
      * Sends a request and waits for a response.
      *
      * @param actor            The target actor.
-     * @param unwrappedRequest The unwrapped request.
+     * @param request The unwrapped request.
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public Object send(final Actor actor,
-                       final Object unwrappedRequest)
+                       final Object request)
             throws Exception {
         done = new Semaphore(0);
-        actor.acceptRequest(requestSource, unwrappedRequest, null);
+        actor.acceptRequest(requestSource, request, null);
         done.acquire();
         done = null;
         if (result instanceof Exception) throw (Exception) result;

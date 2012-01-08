@@ -82,13 +82,13 @@ public class JBActor implements Actor {
         @Override
         final public void processRequest(final JARequest jaRequest) throws Exception {
             Object request = jaRequest.getUnwrappedRequest();
-            MethodBinding methodBinding = (MethodBinding) getBinding(request);
+            Binding binding = getBinding(request);
             JBActor.this.processRequest(request, new ResponseProcessor() {
                 @Override
                 public void process(Object response) {
                     mailbox.response(response);
                 }
-            }, methodBinding);
+            }, binding);
         }
     };
 
@@ -197,7 +197,8 @@ public class JBActor implements Actor {
             throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
-            binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+            if (rp == null) internals.acceptRequest((RequestSource) apcRequestSource, request, rp, null);
+            else binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
             return;
         }
         if (parent == null)
@@ -443,12 +444,20 @@ public class JBActor implements Actor {
      *
      * @param request A request.
      * @param rp      The response processor.
-     * @param methodBinding          Binds a request class to a method.                               
+     * @param binding          Binds a request class.                               
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final private void processRequest(Object request, ResponseProcessor rp, MethodBinding methodBinding)
+    final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
             throws Exception {
-        methodBinding.processRequest(request, rp);
+        if (binding == null) throw new UnsupportedOperationException(request.getClass().getName());
+        if (binding instanceof MethodBinding) {
+            MethodBinding methodBinding = (MethodBinding) binding;
+            methodBinding.processRequest(request, rp);
+        } else if (binding instanceof DataBinding) {
+            DataBinding dataBinding = (DataBinding) binding;
+            rp.process(dataBinding.get());
+        }
+        else throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**

@@ -29,10 +29,15 @@ public class DataBinding extends Binding {
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public void acceptRequest(RequestSource requestSource,
+    final public void acceptRequest(RequestSource requestSource,
                                        Object request,
                                        ResponseProcessor rp)
             throws Exception {
-        rp.process(internals.data.get(name));
+        System.err.println(rp);
+        rp.process(get());
+    }
+    
+    final public Object get() {
+        return internals.data.get(name);
     }
 }
