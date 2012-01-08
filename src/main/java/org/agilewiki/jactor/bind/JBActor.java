@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * <p>
- * JBActors support concurrent data and request binding,
+ * JBActors support concurrent data, request binding and binding inheritance,
  * but the added overhead makes them a bit slower than JLPCActors.
  * However, JBActors are fully interoperable with JLPCActors
  * so you can avoid the overhead when speed is critical.

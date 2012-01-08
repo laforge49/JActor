@@ -4,13 +4,22 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * Binds a request class.
+ * Binds a request class to a concurrent data item.
  */
-abstract public class Binding {
+public class DataBinding extends Binding {
     /**
-     * Provides access to the JBActor internals.
+     * The name of a concurrent data item.
      */
-    public JBActor.Internals internals;
+    private String name;
+
+    /**
+     * Create a DataBinding.
+     *
+     * @param name The name of a concurrent data item.
+     */
+    public DataBinding(String name) {
+        this.name = name;
+    }
 
     /**
      * Process an incoming request.
@@ -20,8 +29,10 @@ abstract public class Binding {
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void acceptRequest(RequestSource requestSource,
+    public void acceptRequest(RequestSource requestSource,
                                        Object request,
                                        ResponseProcessor rp)
-            throws Exception;
+            throws Exception {
+        rp.process(internals.data.get(name));
+    }
 }
