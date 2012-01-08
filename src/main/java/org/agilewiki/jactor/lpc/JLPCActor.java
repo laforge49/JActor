@@ -157,29 +157,12 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Returns the exception handler.
-     *
-     * @return The exception handler.
-     */
-    final protected ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
-    }
-
-    /**
-     * Assign an exception handler.
-     *
-     * @param exceptionHandler The exception handler.
-     */
-    final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-        requestProcessor.setExceptionHandler(exceptionHandler);
-    }
-
-    /**
      * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request to be sent.
      * @param rp               The request processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
     public void acceptRequest(final APCRequestSource apcRequestSource,
@@ -427,12 +410,30 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
+    final protected ExceptionHandler getExceptionHandler() {
+        return requestProcessor.getExceptionHandler();
+    }
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+        requestProcessor.setExceptionHandler(exceptionHandler);
+    }
+
+    /**
      * The application method for processing requests sent to the actor.
      *
      * @param request           A request.
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void processRequest(Object request, ResponseProcessor responseProcessor)
+    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
             throws Exception;
 }
