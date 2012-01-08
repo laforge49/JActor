@@ -166,8 +166,8 @@ abstract public class JLPCActor implements Actor {
      */
     @Override
     public void acceptRequest(final APCRequestSource apcRequestSource,
-                                    final Object request,
-                                    final ResponseProcessor rp)
+                              final Object request,
+                              final ResponseProcessor rp)
             throws Exception {
         final RequestSource rs = (RequestSource) apcRequestSource;
         final Mailbox sourceMailbox = rs.getMailbox();
@@ -430,10 +430,10 @@ abstract public class JLPCActor implements Actor {
     /**
      * The application method for processing requests sent to the actor.
      *
-     * @param request           A request.
-     * @param responseProcessor The response processor.
+     * @param request A request.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
+    abstract protected void processRequest(Object request, ResponseProcessor rp)
             throws Exception;
 }

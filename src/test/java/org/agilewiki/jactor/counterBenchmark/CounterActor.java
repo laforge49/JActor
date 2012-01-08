@@ -13,7 +13,7 @@ final public class CounterActor extends JLPCActor {
 
     @Override
     public void processRequest(Object request,
-                                  ResponseProcessor rp)
+                               ResponseProcessor rp)
             throws Exception {
         if (request instanceof AddCount) {
             AddCount addCount = (AddCount) request;

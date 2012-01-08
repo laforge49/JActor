@@ -36,7 +36,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
  * point it may receive other requests or pending responses.
  * </p><p>
  * An actor typically interleaves the processing of multiple requests. To process a request to completion, an actor may
- *need to send requests to other actors (in series or parallel) and process the responses to those requests. Actors
+ * need to send requests to other actors (in series or parallel) and process the responses to those requests. Actors
  * process requests and responses as they are received whenever the actor is not busy processing a message. There is no
  * way to block incoming requests. Actors are thread-safe, but message processing is not atomic.
  * </p><p>

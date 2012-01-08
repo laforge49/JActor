@@ -34,7 +34,7 @@ public class JBActor extends JLPCActor {
      * Add a binding to the actor.
      *
      * @param requestClass The class of the request.
-     * @param binding The binding.
+     * @param binding      The binding.
      */
     final protected void bind(Class requestClass, Binding binding) {
         internals.bind(requestClass, binding);
@@ -60,20 +60,23 @@ public class JBActor extends JLPCActor {
      */
     @Override
     final public void acceptRequest(final APCRequestSource apcRequestSource,
-                                      final Object request,
-                                      final ResponseProcessor rp)
+                                    final Object request,
+                                    final ResponseProcessor rp)
             throws Exception {
         Binding binding = getBinding(request.getClass());
-        if (binding == null) throw new UnsupportedOperationException(request.getClass().getName());
-        binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+        if (binding != null)
+            binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+        if (parent == null)
+            throw new UnsupportedOperationException(request.getClass().getName());
+        parent.acceptRequest(apcRequestSource, request, rp);
     }
 
     /**
      * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param requestSource The originator of the request.
-     * @param request          The request to be sent.
-     * @param rp               The request processor.
+     * @param request       The request to be sent.
+     * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void _acceptRequest(final RequestSource requestSource,
@@ -86,14 +89,15 @@ public class JBActor extends JLPCActor {
     /**
      * The application method for processing requests sent to the actor.
      *
-     * @param request           A request.
-     * @param responseProcessor The response processor.
+     * @param request A request.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final protected void processRequest(Object request, ResponseProcessor responseProcessor)
+    final protected void processRequest(Object request, ResponseProcessor rp)
             throws Exception {
-
+        MethodBinding mb = (MethodBinding) getBinding(request.getClass());
+        mb.processRequest(request, rp);
     }
 
     /**
@@ -115,7 +119,7 @@ public class JBActor extends JLPCActor {
          * Add a binding to the actor.
          *
          * @param requestClass The class of the request.
-         * @param binding The binding.
+         * @param binding      The binding.
          */
         final public void bind(Class requestClass, Binding binding) {
             binding.internals = this;
@@ -136,13 +140,13 @@ public class JBActor extends JLPCActor {
          * Wraps and enqueues an unwrapped request in the requester's inbox.
          *
          * @param requestSource The originator of the request.
-         * @param request          The request to be sent.
-         * @param rp               The request processor.
+         * @param request       The request to be sent.
+         * @param rp            The request processor.
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         final public void acceptRequest(final RequestSource requestSource,
-                                  final Object request,
-                                  final ResponseProcessor rp)
+                                        final Object request,
+                                        final ResponseProcessor rp)
                 throws Exception {
             _acceptRequest(requestSource, request, rp);
         }

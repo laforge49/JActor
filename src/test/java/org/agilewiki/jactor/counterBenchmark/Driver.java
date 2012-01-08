@@ -42,7 +42,7 @@ final public class Driver extends JLPCActor {
 
     @Override
     public void processRequest(Object request,
-                                  final ResponseProcessor rp)
+                               final ResponseProcessor rp)
             throws Exception {
         smb.call(rp);
     }
