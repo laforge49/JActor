@@ -29,15 +29,25 @@ public class DataBinding extends Binding {
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
+    @Override
     final public void acceptRequest(RequestSource requestSource,
                                        Object request,
                                        ResponseProcessor rp)
             throws Exception {
-        System.err.println(rp);
-        rp.process(get());
+        processRequest(request, rp);
     }
-    
-    final public Object get() {
-        return internals.data.get(name);
+
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request           A request.
+     * @param rp The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    final protected void processRequest(Object request, ResponseProcessor rp)
+            throws Exception {
+        rp.process(internals.data.get(name));
     }
 }

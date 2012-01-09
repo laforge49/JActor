@@ -450,14 +450,7 @@ public class JBActor implements Actor {
     final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
             throws Exception {
         if (binding == null) throw new UnsupportedOperationException(request.getClass().getName());
-        if (binding instanceof MethodBinding) {
-            MethodBinding methodBinding = (MethodBinding) binding;
-            methodBinding.processRequest(request, rp);
-        } else if (binding instanceof DataBinding) {
-            DataBinding dataBinding = (DataBinding) binding;
-            rp.process(dataBinding.get());
-        }
-        else throw new UnsupportedOperationException(request.getClass().getName());
+        binding.processRequest(request, rp);
     }
 
     /**

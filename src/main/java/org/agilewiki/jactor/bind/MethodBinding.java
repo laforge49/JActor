@@ -20,14 +20,4 @@ abstract public class MethodBinding extends Binding {
             throws Exception {
         internals.acceptRequest(requestSource, request, rp, this);
     }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request           A request.
-     * @param rp The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    abstract protected void processRequest(Object request, ResponseProcessor rp)
-            throws Exception;
 }
