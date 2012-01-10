@@ -148,16 +148,6 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Add a binding to the actor.
-     *
-     * @param requestClass The class name of the request.
-     * @param binding      The binding.
-     */
-    final protected void bind(String requestClass, Binding binding) {
-        internals.bind(requestClass, binding);
-    }
-
-    /**
      * Returns a binding.
      *
      * @param request The the request.
@@ -391,6 +381,42 @@ public class JBActor implements Actor {
     }
 
     /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @param binding          Binds a request class.                               
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
+            throws Exception {
+        if (binding != null) {
+            binding.processRequest(request, rp);
+            return;
+        }
+        throw new UnsupportedOperationException(request.getClass().getName());
+    }
+
+    /**
+     * Returns the concurrent data of the actor.
+     *
+     * @return The concurrent data of the actor.
+     */
+    final protected ConcurrentSkipListMap<String, Object> getData() {
+        return internals.data;
+    }
+
+    /**
+     * Add a binding to the actor.
+     *
+     * @param requestClass The class name of the request.
+     * @param binding      The binding.
+     */
+    final protected void bind(String requestClass, Binding binding) {
+        internals.bind(requestClass, binding);
+    }
+
+    /**
      * Send a request to another actor.
      *
      * @param actor   The target actor.
@@ -403,17 +429,6 @@ public class JBActor implements Actor {
                               final ResponseProcessor rp)
             throws Exception {
         actor.acceptRequest(requestSource, request, rp);
-    }
-
-    /**
-     * Creates a _SMBuilder.
-     */
-    public class SMBuilder extends _SMBuilder {
-        @Override
-        final public void send(Actor actor, Object request, ResponseProcessor rp)
-                throws Exception {
-            JBActor.this.send(actor, request, rp);
-        }
     }
 
     /**
@@ -441,23 +456,6 @@ public class JBActor implements Actor {
      */
     final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
         requestProcessor.setExceptionHandler(exceptionHandler);
-    }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @param binding          Binds a request class.                               
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
-            throws Exception {
-        if (binding != null) {
-            binding.processRequest(request, rp);
-            return;
-        }
-        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**
@@ -578,6 +576,17 @@ public class JBActor implements Actor {
          */
         final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             JBActor.this.setExceptionHandler(exceptionHandler);
+        }
+    }
+
+    /**
+     * Creates a _SMBuilder.
+     */
+    public class SMBuilder extends _SMBuilder {
+        @Override
+        final public void send(Actor actor, Object request, ResponseProcessor rp)
+                throws Exception {
+            JBActor.this.send(actor, request, rp);
         }
     }
 }
