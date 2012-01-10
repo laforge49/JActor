@@ -49,6 +49,7 @@ final public class JCActor extends JBActor {
         ConcurrentSkipListMap<String, Object> data = getData();
         if (data.containsKey(className)) return;
         Object o = clazz.newInstance();
+        data.put(className, o);
         if (!(o instanceof Component)) return;
         Component c = (Component) o;
         ArrayList<Class> includes = c.includes();

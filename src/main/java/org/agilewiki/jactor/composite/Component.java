@@ -18,7 +18,7 @@ public class Component {
     /**
      * The JBActor's internals.
      */
-    private JBActor.Internals internals;
+    protected JBActor.Internals internals;
 
     /**
      * Returns a list of classes for inclusion in the actor.
