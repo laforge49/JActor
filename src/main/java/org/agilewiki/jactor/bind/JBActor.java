@@ -41,6 +41,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * However, JBActors are fully interoperable with JLPCActors
  * so you can avoid the overhead when speed is critical.
  * </p>
+ * <p>
+ * A JBActor can also be assigned a parent actor
+ * to which unrecognized requests are forwarded.
+ * </p>
  */
 public class JBActor implements Actor {
     /**
@@ -49,7 +53,7 @@ public class JBActor implements Actor {
     final protected Internals internals = new Internals();
 
     /**
-     * The parent actor.
+     * The parent actor to which unrecognized requests are forwarded.
      */
     private Actor parent;
 
@@ -137,7 +141,7 @@ public class JBActor implements Actor {
     /**
      * Assign the parent actor.
      *
-     * @param parent The parent actor.
+     * @param parent The parent actor to which unrecognized requests are forwarded.
      */
     public void setParent(Actor parent) {
         this.parent = parent;

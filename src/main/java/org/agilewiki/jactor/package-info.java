@@ -79,6 +79,14 @@
  * composing and executing state machines that are compatible with 2-way messages.
  * </p>
  * <h2>
+ * Request Delegation
+ * </h2>
+ * <p>
+ * If an actor receives a request of a type that it does not recognize
+ * and that actor has been assigned a parent actor,
+ * then the request is immediately forwarded to the parent actor.
+ * </p>
+ * <h2>
  * Message Passing Benchmarks
  * </h2>
  * <p>
