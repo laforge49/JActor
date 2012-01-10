@@ -9,7 +9,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * <p>
- * Application logic is added to composite actors by including components.
+ * Application logic is added to a JCActor by including components rather than by subclassing.
+ * </p>
+ * <p>
+ * JCActors are fully interoperable with JLPCActors and JBActors.
  * </p>
  */
 final public class JCActor extends JBActor {

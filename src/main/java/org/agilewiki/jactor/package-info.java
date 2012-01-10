@@ -24,15 +24,6 @@
 
 /**
  * <p>
- * The JActor project implements actors in Java that can process 1 Billion messages per second.
- * Project pages can be found on <a href="http://sourceforge.net/p/jactor/home/Home/">Sourceforge</a>
- * and <a href="https://github.com/laforge49/JActor">GitHub</a>.
- * </p>
- * <p>
- * This project is a reimplementation of a portion of the Scala project,
- * <a href="https://github.com/laforge49/Asynchronous-Functional-Programming/wiki">AsyncFP</a>.
- * </p>
- * <p>
  * Message passing between actors uses 2-way messages (request / response). There are several reasons for this:
  * </p>
  * <ul>
