@@ -5,6 +5,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * Binds a request class to a concurrent data item.
+ * Requests are processed immediately,
+ * even if the actor has an asynchronous mailbox.
  */
 public class DataBinding extends Binding {
     /**
@@ -22,7 +24,9 @@ public class DataBinding extends Binding {
     }
 
     /**
-     * Process an incoming request.
+     * <p>
+     * The result returned is the concurrent data item named in the constructor, or null.
+     * </p>
      *
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
@@ -39,7 +43,7 @@ public class DataBinding extends Binding {
 
 
     /**
-     * The application method for processing requests sent to the actor.
+     * The result returned is the concurrent data item named in the constructor, or null.
      *
      * @param request           A request.
      * @param rp The response processor.

@@ -4,7 +4,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * Binds a request class.
+ * Provides customization of request message processing.
  */
 abstract public class Binding {
     /**
@@ -13,7 +13,12 @@ abstract public class Binding {
     public JBActor.Internals internals;
 
     /**
+     * <p>
      * Process an incoming request.
+     * </p><p>
+     * This method is called when one actor sends a request to another,
+     * but is not called when a JAFuture is used.
+     * </p>
      *
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.

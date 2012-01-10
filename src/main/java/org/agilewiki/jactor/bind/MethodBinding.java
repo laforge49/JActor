@@ -8,7 +8,9 @@ import org.agilewiki.jactor.lpc.RequestSource;
  */
 abstract public class MethodBinding extends Binding {
     /**
-     * Process an incoming request.
+     * <p>
+     * Routes an incoming request by calling internals.acceptRequest.
+     * </p>
      *
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
