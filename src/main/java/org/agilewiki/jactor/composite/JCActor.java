@@ -28,9 +28,9 @@ final public class JCActor extends JBActor {
     }
 
     /**
-     * Returns the class name of the first included component.
+     * Returns the class name of the first include.
      *
-     * @return The class name of the first included component.
+     * @return The class name of the first include.
      */
     public String getFirstIncludedClassName() {
         return firstIncludedClassName;
