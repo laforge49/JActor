@@ -19,7 +19,7 @@ final public class JCActor extends JBActor {
     private String firstIncludedClassName;
     
     /**
-     * Create a JCActor
+     * Create a JCActor.
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
