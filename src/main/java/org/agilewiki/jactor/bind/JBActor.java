@@ -129,7 +129,7 @@ public class JBActor implements Actor {
     };
 
     /**
-     * Create a JLPCActor
+     * Create a JBActor
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */

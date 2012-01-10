@@ -21,27 +21,29 @@ public class Component {
     private JBActor.Internals internals;
 
     /**
-     * Returns a list of component classes for inclusion in the actor.
+     * Returns a list of classes for inclusion in the actor.
      *
-     * @return A list of component classes for inclusion in the actor.
+     * @return A list of classes for inclusion in the actor.
      */
     public ArrayList<Class> includes() {
         return null;
     }
 
     /**
-     * Initialize the component.
+     * Initialize the component after all its includes have been processed.
      *
      * @param internals The JBActor's internals.
+     * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(JBActor.Internals internals) {
+    public void open(JBActor.Internals internals)
+            throws Exception {
         this.internals = internals;
     }
 
     /**
      * Close any files or sockets opened by the component.
      *
-     * @throws Exception Any exceptions thrown will be ignored.
+     * @throws Exception All exceptions thrown will be ignored.
      */
     public void close() throws Exception {}
 
