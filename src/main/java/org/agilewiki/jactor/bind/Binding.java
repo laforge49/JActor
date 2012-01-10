@@ -15,9 +15,6 @@ abstract public class Binding {
     /**
      * <p>
      * Process an incoming request.
-     * </p><p>
-     * This method is called when one actor sends a request to another,
-     * but is not called when a JAFuture is used.
      * </p>
      *
      * @param requestSource The originator of the request.

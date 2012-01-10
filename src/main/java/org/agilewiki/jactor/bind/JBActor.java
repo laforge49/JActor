@@ -453,8 +453,11 @@ public class JBActor implements Actor {
      */
     final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
             throws Exception {
-        if (binding == null) throw new UnsupportedOperationException(request.getClass().getName());
-        binding.processRequest(request, rp);
+        if (binding != null) {
+            binding.processRequest(request, rp);
+            return;
+        }
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**
