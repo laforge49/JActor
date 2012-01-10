@@ -78,6 +78,13 @@
  * then the request is immediately forwarded to the parent actor.
  * </p>
  * <h2>
+ * Request Message Binding and Actor Composition
+ * </h2>
+ * <p>
+ * Actors can be composed from one or more components, where each component maps the request classes
+ * that it handles to the logic for processing those requests.
+ * </p>
+ * <h2>
  * Message Passing Benchmarks
  * </h2>
  * <p>

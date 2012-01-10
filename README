@@ -49,6 +49,11 @@ Request Delegation
 If an actor receives a request of a type that it does not recognize and that actor has been
 assigned a parent actor, then the request is immediately forwarded to the parent actor.
 
+Request Message Binding and Actor Composition
+
+Actors can be composed from one or more components, where each component maps the request classes
+that it handles to the logic for processing those requests.
+
 Message Passing Benchmarks
 
 When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise the
