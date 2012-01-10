@@ -14,12 +14,51 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 final public class JCActor extends JBActor {
     /**
+     * The class name of the first included component.
+     */
+    private String firstIncludedClassName;
+    
+    /**
      * Create a JCActor
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
+    }
+
+    /**
+     * Returns the class name of the first included component.
+     *
+     * @return The class name of the first included component.
+     */
+    public String getFirstIncludedClassName() {
+        return firstIncludedClassName;
+    }
+
+    /**
+     * Instantiate and add an object to the composite unless already present.
+     * And if the object is a component, process its includes and then open it.
+     * 
+     * @param clazz A class.
+     */
+    public void include(Class clazz) throws Exception {
+        String className = clazz.getName();
+        if (firstIncludedClassName != null)
+            firstIncludedClassName = className;
+        ConcurrentSkipListMap<String, Object> data = getData();
+        if (data.containsKey(className)) return;
+        Object o = clazz.newInstance();
+        if (!(o instanceof Component)) return;
+        Component c = (Component) o;
+        ArrayList<Class> includes = c.includes();
+        if (includes != null) {
+            Iterator<Class> it = includes.iterator();
+            while (it.hasNext()) {
+                include(it.next());
+            }
+        }
+        c.open(internals);
     }
 
     /**
@@ -37,28 +76,5 @@ final public class JCActor extends JBActor {
                 } catch(Exception e) {}
             }
         }
-    }
-
-    /**
-     * Instantiate and add an object to the composite unless already present.
-     * And if the object is a component, process its includes and then open it.
-     * 
-     * @param clazz A class.
-     */
-    public void include(Class clazz) throws Exception {
-        String className = clazz.getName();
-        ConcurrentSkipListMap<String, Object> data = getData();
-        if (data.containsKey(className)) return;
-        Object o = clazz.newInstance();
-        if (!(o instanceof Component)) return;
-        Component c = (Component) o;
-        ArrayList<Class> includes = c.includes();
-        if (includes != null) {
-            Iterator<Class> it = includes.iterator();
-            while (it.hasNext()) {
-                include(it.next());
-            }
-        }
-        c.open(internals);
     }
 }
