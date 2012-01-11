@@ -20,7 +20,7 @@ final public class SetActorName {
 
     /**
      * Returns the name of an actor.
-     * 
+     *
      * @return The name to be assigned to the actor.
      */
     public String getName() {

@@ -32,9 +32,9 @@ public class ActorName extends Component {
                         rp1.process(null);
                     }
                 });
-                
+
                 bind(GetActorName.class.getName(), new DataBinding("ActorName"));
-                
+
                 rp.process(null);
             }
         });

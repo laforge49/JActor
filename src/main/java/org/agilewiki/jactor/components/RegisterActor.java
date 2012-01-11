@@ -1,23 +1,24 @@
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.composite.JCActor;
 
 /**
- * Sent to an actor with an ActorRegister component to register an actor
- * which has been assigned an actor name.
+ * <p></p>Sent to an actor with an ActorRegistry component to register an actor
+ * which has been assigned an actor name.</p>
+ * <p>Only one actor can be registered for a given name.</p>
  */
 final public class RegisterActor {
     /**
      * The actor to be registered.
      */
-    private Actor actor;
+    private JCActor actor;
 
     /**
      * Create a RegisterActor request.
      *
      * @param actor The actor to be registered.
      */
-    public RegisterActor(Actor actor) {
+    public RegisterActor(JCActor actor) {
         this.actor = actor;
     }
 
@@ -26,7 +27,7 @@ final public class RegisterActor {
      *
      * @return The actor to be registered.
      */
-    public Actor getActor() {
+    public JCActor getActor() {
         return actor;
     }
 }
