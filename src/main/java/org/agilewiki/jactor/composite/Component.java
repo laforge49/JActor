@@ -130,4 +130,13 @@ public class Component {
     final protected Actor getParent() {
         return internals.getParent();
     }
+
+    /**
+     * Returns this actor.
+     *
+     * @return This actor.
+     */
+    final protected JBActor getThisActor() {
+        return getThisActor();
+    }
 }

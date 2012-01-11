@@ -595,6 +595,15 @@ public class JBActor implements Actor {
         final public Actor getParent() {
             return parent;
         }
+
+        /**
+         * Returns this actor.
+         *
+         * @return This actor.
+         */
+        final public JBActor getThisActor() {
+            return JBActor.this;
+        }
     }
 
     /**
