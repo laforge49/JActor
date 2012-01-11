@@ -60,6 +60,7 @@ public class ActorRegistry extends Component {
                         UnregisterActor unregisterActor = (UnregisterActor) request;
                         final String name = unregisterActor.getName();
                         registry.remove(name);
+                        rp1.process(null);
                     }
                 });
 
