@@ -104,7 +104,7 @@ final public class JAFuture {
     /**
      * Sends a request and waits for a response.
      *
-     * @param actor            The target actor.
+     * @param actor   The target actor.
      * @param request The unwrapped request.
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.

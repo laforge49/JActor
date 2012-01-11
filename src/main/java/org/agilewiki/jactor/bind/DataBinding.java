@@ -35,8 +35,8 @@ public class DataBinding extends Binding {
      */
     @Override
     final public void acceptRequest(RequestSource requestSource,
-                                       Object request,
-                                       ResponseProcessor rp)
+                                    Object request,
+                                    ResponseProcessor rp)
             throws Exception {
         processRequest(request, rp);
     }
@@ -45,8 +45,8 @@ public class DataBinding extends Binding {
     /**
      * The result returned is the concurrent data item named in the constructor, or null.
      *
-     * @param request           A request.
-     * @param rp The response processor.
+     * @param request A request.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override

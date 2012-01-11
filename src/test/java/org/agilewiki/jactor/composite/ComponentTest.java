@@ -5,17 +5,14 @@ import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 
-import java.util.ArrayList;
-
 public class ComponentTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
-            a.include(C2.class);
             JAFuture future = new JAFuture();
+            JCActor a = new JCActor(mailboxFactory.createMailbox());
+            future.send(a, new Include(C2.class));
             System.err.println(future.send(a, new Hi()));
-            a.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

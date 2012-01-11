@@ -258,13 +258,13 @@ public class JBActor implements Actor {
      * @param rp                     Processes the response.
      * @param sourceExceptionHandler Exception handler of the source actor.
      * @param requestSource          The source of the request.
-     * @param methodBinding          Binds a request class to a method.                               
+     * @param methodBinding          Binds a request class to a method.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
                                    final ResponseProcessor rp,
                                    final ExceptionHandler sourceExceptionHandler,
-                                   final RequestSource requestSource, 
+                                   final RequestSource requestSource,
                                    final MethodBinding methodBinding)
             throws Exception {
         try {
@@ -297,7 +297,7 @@ public class JBActor implements Actor {
      * @param rs                     The source of the request.
      * @param request                The request.
      * @param rp                     Processes the response.
-     * @param methodBinding          Binds a request class to a method.                               
+     * @param methodBinding          Binds a request class to a method.
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void syncSend(final RequestSource rs,
@@ -385,7 +385,7 @@ public class JBActor implements Actor {
      *
      * @param request A request.
      * @param rp      The response processor.
-     * @param binding          Binds a request class.                               
+     * @param binding Binds a request class.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
@@ -409,11 +409,11 @@ public class JBActor implements Actor {
     /**
      * Add a binding to the actor.
      *
-     * @param requestClass The class name of the request.
-     * @param binding      The binding.
+     * @param requestClassName The class name of the request.
+     * @param binding          The binding.
      */
-    final protected void bind(String requestClass, Binding binding) {
-        internals.bind(requestClass, binding);
+    final protected void bind(String requestClassName, Binding binding) {
+        internals.bind(requestClassName, binding);
     }
 
     /**
@@ -485,12 +485,12 @@ public class JBActor implements Actor {
         /**
          * Add a binding to the actor.
          *
-         * @param requestClass The class name of the request.
-         * @param binding      The binding.
+         * @param requestClassName The class name of the request.
+         * @param binding          The binding.
          */
-        final public void bind(String requestClass, Binding binding) {
+        final public void bind(String requestClassName, Binding binding) {
             binding.internals = this;
-            bindings.put(requestClass, binding);
+            bindings.put(requestClassName, binding);
         }
 
         /**
@@ -507,14 +507,14 @@ public class JBActor implements Actor {
          * Wraps and enqueues an unwrapped request in the requester's inbox.
          *
          * @param requestSource The originator of the request.
-         * @param request          The request to be sent.
-         * @param rp               The request processor.
-         * @param methodBinding          Binds a request class to a method.                               
+         * @param request       The request to be sent.
+         * @param rp            The request processor.
+         * @param methodBinding Binds a request class to a method.
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         public void acceptRequest(final RequestSource requestSource,
                                   final Object request,
-                                  final ResponseProcessor rp, 
+                                  final ResponseProcessor rp,
                                   final MethodBinding methodBinding)
                 throws Exception {
             final Mailbox sourceMailbox = requestSource.getMailbox();

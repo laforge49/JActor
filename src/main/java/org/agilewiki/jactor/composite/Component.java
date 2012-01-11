@@ -21,23 +21,25 @@ public class Component {
     protected JBActor.Internals internals;
 
     /**
-     * Returns a list of classes for inclusion in the actor.
+     * Returns a list of Includes for inclusion in the actor.
      *
      * @return A list of classes for inclusion in the actor.
      */
-    public ArrayList<Class> includes() {
+    public ArrayList<Include> includes() {
         return null;
     }
 
     /**
      * Initialize the component after all its includes have been processed.
+     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(JBActor.Internals internals)
+    public void open(JBActor.Internals internals, ResponseProcessor rp)
             throws Exception {
         this.internals = internals;
+        rp.process(null);
     }
 
     /**
@@ -45,7 +47,8 @@ public class Component {
      *
      * @throws Exception All exceptions thrown will be ignored.
      */
-    public void close() throws Exception {}
+    public void close() throws Exception {
+    }
 
     /**
      * Returns the concurrent data of the actor.
@@ -59,11 +62,11 @@ public class Component {
     /**
      * Add a binding to the actor.
      *
-     * @param requestClass The class name of the request.
-     * @param binding      The binding.
+     * @param requestClassName The class name of the request.
+     * @param binding          The binding.
      */
-    final protected void bind(String requestClass, Binding binding) {
-        internals.bind(requestClass, binding);
+    final protected void bind(String requestClassName, Binding binding) {
+        internals.bind(requestClassName, binding);
     }
 
     /**

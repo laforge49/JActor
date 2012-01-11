@@ -1,7 +1,11 @@
 package org.agilewiki.jactor.composite;
 
+import org.agilewiki.jactor.JAIterator;
+import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.JBActor;
+import org.agilewiki.jactor.bind.MethodBinding;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +24,7 @@ final public class JCActor extends JBActor {
      * The class name of the first included component.
      */
     private String firstIncludedClassName;
-    
+
     /**
      * Create a JCActor.
      *
@@ -28,6 +32,54 @@ final public class JCActor extends JBActor {
      */
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
+
+        bind(Include.class.getName(), new MethodBinding() {
+            @Override
+            protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+                processInclude(request, rp);
+            }
+        });
+    }
+
+    private void processInclude(Object request, ResponseProcessor rp) throws Exception {
+        Include include = (Include) request;
+        Class clazz = include.getClazz();
+        final String className = clazz.getName();
+        if (firstIncludedClassName != null)
+            firstIncludedClassName = className;
+        ConcurrentSkipListMap<String, Object> data = getData();
+        if (data.containsKey(className)) {
+            rp.process(null);
+            return;
+        }
+        Object o = clazz.newInstance();
+        data.put(className, o);
+        if (!(o instanceof Component)) {
+            rp.process(null);
+            return;
+        }
+        final Component c = (Component) o;
+        ArrayList<Include> includes = c.includes();
+        if (includes == null) {
+            c.open(internals, rp);
+            return;
+        }
+        final Iterator<Include> it = includes.iterator();
+        (new JAIterator() {
+            @Override
+            protected void process(final ResponseProcessor rp1) throws Exception {
+                if (it.hasNext()) {
+                    processInclude(it.next(), rp1);
+                } else {
+                    c.open(internals, new ResponseProcessor() {
+                        @Override
+                        public void process(Object response) throws Exception {
+                            rp1.process(new JANull());
+                        }
+                    });
+                }
+            }
+        }).iterate(rp);
     }
 
     /**
@@ -37,32 +89,6 @@ final public class JCActor extends JBActor {
      */
     public String getFirstIncludedClassName() {
         return firstIncludedClassName;
-    }
-
-    /**
-     * Instantiate and add an object to the composite unless already present.
-     * And if the object is a component, process its includes and then open it.
-     * 
-     * @param clazz A class.
-     */
-    public void include(Class clazz) throws Exception {
-        String className = clazz.getName();
-        if (firstIncludedClassName != null)
-            firstIncludedClassName = className;
-        ConcurrentSkipListMap<String, Object> data = getData();
-        if (data.containsKey(className)) return;
-        Object o = clazz.newInstance();
-        data.put(className, o);
-        if (!(o instanceof Component)) return;
-        Component c = (Component) o;
-        ArrayList<Class> includes = c.includes();
-        if (includes != null) {
-            Iterator<Class> it = includes.iterator();
-            while (it.hasNext()) {
-                include(it.next());
-            }
-        }
-        c.open(internals);
     }
 
     /**
@@ -77,7 +103,8 @@ final public class JCActor extends JBActor {
                 Component c = (Component) o;
                 try {
                     c.close();
-                } catch(Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }
     }
