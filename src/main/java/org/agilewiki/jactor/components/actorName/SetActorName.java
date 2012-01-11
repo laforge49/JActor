@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components;
+package org.agilewiki.jactor.components.actorName;
 
 /**
  * Assigns an immutable name to an actor when sent to an actor with an ActorName component.

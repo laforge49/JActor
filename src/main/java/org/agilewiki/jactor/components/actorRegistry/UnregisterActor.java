@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components;
+package org.agilewiki.jactor.components.actorRegistry;
 
 /**
  * Sent to an actor with a ActorRegistry to unregister an actor.

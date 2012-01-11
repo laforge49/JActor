@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components;
+package org.agilewiki.jactor.components.actorRegistry;
 
 /**
  * Sent to an actor with an ActorRegistry component to fetch a registered actor by name.

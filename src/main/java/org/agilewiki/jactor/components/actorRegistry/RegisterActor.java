@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components;
+package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.composite.JCActor;
 

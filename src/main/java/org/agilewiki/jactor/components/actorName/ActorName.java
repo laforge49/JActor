@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components;
+package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.DataBinding;
