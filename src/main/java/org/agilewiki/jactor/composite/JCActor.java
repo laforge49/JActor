@@ -25,6 +25,8 @@ final public class JCActor extends JBActor {
      */
     private String firstIncludedClassName;
 
+    private boolean oneInclude;
+
     /**
      * Create a JCActor.
      *
@@ -36,6 +38,7 @@ final public class JCActor extends JBActor {
         bind(Include.class.getName(), new MethodBinding() {
             @Override
             protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+                oneInclude = false;
                 processInclude(request, rp);
             }
         });
@@ -52,8 +55,10 @@ final public class JCActor extends JBActor {
         Include include = (Include) request;
         Class clazz = include.getClazz();
         final String className = clazz.getName();
-        if (firstIncludedClassName != null)
+        if (firstIncludedClassName != null) {
+            oneInclude = true;
             firstIncludedClassName = className;
+        }
         ConcurrentSkipListMap<String, Object> data = getData();
         if (data.containsKey(className)) {
             rp.process(null);
@@ -96,6 +101,15 @@ final public class JCActor extends JBActor {
      */
     public String getFirstIncludedClassName() {
         return firstIncludedClassName;
+    }
+
+    /**
+     * Returns true when there has been exactly one include.
+     *
+     * @return True when there has been exactly one include.
+     */
+    public boolean hasOneInclude() {
+        return oneInclude;
     }
 
     /**
