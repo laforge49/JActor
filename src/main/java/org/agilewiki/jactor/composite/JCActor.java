@@ -41,6 +41,13 @@ final public class JCActor extends JBActor {
         });
     }
 
+    /**
+     * Process an include.
+     *
+     * @param request The include request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions from calls to the component open methods.
+     */
     private void processInclude(Object request, ResponseProcessor rp) throws Exception {
         Include include = (Include) request;
         Class clazz = include.getClazz();
