@@ -5,7 +5,7 @@ package org.agilewiki.jactor.composite;
  * And if the object is a component, process its includes and then open it.
  * The response is always null.
  */
-public class Include {
+final public class Include {
     private Class clazz;
 
     /**
