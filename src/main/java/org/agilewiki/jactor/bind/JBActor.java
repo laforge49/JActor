@@ -459,6 +459,15 @@ public class JBActor implements Actor {
     }
 
     /**
+     * Returns the actor's parent.
+     *
+     * @return The actor's parent, or null.
+     */
+    final protected Actor getParent() {
+        return parent;
+    }
+
+    /**
      * JBActor internals.
      */
     final public class Internals {
@@ -576,6 +585,15 @@ public class JBActor implements Actor {
          */
         final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             JBActor.this.setExceptionHandler(exceptionHandler);
+        }
+
+        /**
+         * Returns the actor's parent.
+         *
+         * @return The actor's parent, or null.
+         */
+        final public Actor getParent() {
+            return parent;
         }
     }
 

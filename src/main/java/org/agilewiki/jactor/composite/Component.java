@@ -118,4 +118,13 @@ public class Component {
             send(actor, request, rp);
         }
     }
+
+    /**
+     * Returns the actor's parent.
+     *
+     * @return The actor's parent, or null.
+     */
+    final protected Actor getParent() {
+        return internals.getParent();
+    }
 }
