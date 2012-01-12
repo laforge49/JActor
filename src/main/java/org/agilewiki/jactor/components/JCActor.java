@@ -6,8 +6,6 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.Include;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,9 +23,7 @@ final public class JCActor extends JBActor {
     /**
      * The class name of the first included component.
      */
-    private String firstIncludedClassName;
-
-    private boolean oneInclude;
+    private String rootComponentName;
 
     /**
      * Create a JCActor.
@@ -40,7 +36,6 @@ final public class JCActor extends JBActor {
         bind(Include.class.getName(), new MethodBinding() {
             @Override
             protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
-                oneInclude = false;
                 processInclude(request, rp);
             }
         });
@@ -57,10 +52,6 @@ final public class JCActor extends JBActor {
         Include include = (Include) request;
         Class clazz = include.getClazz();
         final String className = clazz.getName();
-        if (firstIncludedClassName != null) {
-            oneInclude = true;
-            firstIncludedClassName = className;
-        }
         ConcurrentSkipListMap<String, Object> data = getData();
         if (data.containsKey(className)) {
             rp.process(null);
@@ -97,24 +88,6 @@ final public class JCActor extends JBActor {
     }
 
     /**
-     * Returns the class name of the first include.
-     *
-     * @return The class name of the first include.
-     */
-    public String getFirstIncludedClassName() {
-        return firstIncludedClassName;
-    }
-
-    /**
-     * Returns true when there has been exactly one include.
-     *
-     * @return True when there has been exactly one include.
-     */
-    public boolean hasOneInclude() {
-        return oneInclude;
-    }
-
-    /**
      * Call close on all the components, ignoring any exceptions that are thrown.
      * The order in which close is called on the components is not defined.
      */
@@ -130,5 +103,26 @@ final public class JCActor extends JBActor {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the root component name.
+     *
+     * @return The root component name.
+     */
+    public String getRootComponentName() {
+        return rootComponentName;
+    }
+
+    /**
+     * Assigns the rootComponentName.
+     * Once assigned, it can not be changed.
+     *
+     * @param rootComponentName The root component name.
+     */
+    public void setRootComponentName(String rootComponentName) {
+        if (this.rootComponentName != null)
+            throw new UnsupportedOperationException("The rootComponentName can not be changed");
+        this.rootComponentName = rootComponentName;
     }
 }

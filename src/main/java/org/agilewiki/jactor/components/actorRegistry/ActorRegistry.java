@@ -82,7 +82,7 @@ public class ActorRegistry extends Component {
                     protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
-                        JCActor actor = registry.get(name); 
+                        JCActor actor = registry.get(name);
                         if (actor != null) {
                             rp1.process(actor);
                             return;

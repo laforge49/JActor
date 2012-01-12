@@ -32,7 +32,7 @@ public class ActorRegistryTest extends TestCase {
             mailboxFactory.close();
         }
     }
-    
+
     public void test2() {
         System.err.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
