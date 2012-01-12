@@ -414,6 +414,16 @@ public class JBActor implements Actor {
      */
     final public boolean hasDataItem(String name) {
         if (getData().containsKey(name)) return true;
+        return parentHasDataItem(name);
+    }
+
+    /**
+     * Returns true when the concurrent data of the parent contains the named data item.
+     *
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the parent contains the named data item.
+     */
+    final public boolean parentHasDataItem(String name) {
         if (parent == null) return false;
         return parent.hasDataItem(name);
     }

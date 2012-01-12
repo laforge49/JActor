@@ -84,13 +84,8 @@ public class ActorRegistry extends Component {
                             rp1.process(actor);
                             return;
                         }
-                        Actor parent = getParent();
-                        if (parent == null) {
-                            rp1.process(null);
-                            return;
-                        }
-                        if (parent.hasDataItem(getClass().getName()))
-                            send(parent, request, rp1);
+                        if (parentHasDataItem(getClass().getName()))
+                            send(getParent(), request, rp1);
                         rp1.process(null);
                     }
                 });

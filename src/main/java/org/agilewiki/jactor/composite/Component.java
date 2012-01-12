@@ -70,6 +70,16 @@ public class Component {
     }
 
     /**
+     * Returns true when the concurrent data of the parent contains the named data item.
+     *
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the parent contains the named data item.
+     */
+    final public boolean parentHasDataItem(String name) {
+        return getThisActor().parentHasDataItem(name);
+    }
+
+    /**
      * Add a binding to the actor.
      *
      * @param requestClassName The class name of the request.
@@ -147,6 +157,6 @@ public class Component {
      * @return This actor.
      */
     final protected JBActor getThisActor() {
-        return getThisActor();
+        return internals.getThisActor();
     }
 }
