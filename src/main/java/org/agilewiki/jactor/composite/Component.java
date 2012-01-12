@@ -60,13 +60,13 @@ public class Component {
     }
 
     /**
-     * Returns true when the concurrent data of the actor contains the named data item.
+     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
      *
      * @param name The key for the data item.
-     * @return True when the concurrent data of the actor contains the named data item.
+     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
      */
     final public boolean hasDataItem(String name) {
-        return getData().containsKey(name);
+        return getThisActor().hasDataItem(name);
     }
 
     /**
