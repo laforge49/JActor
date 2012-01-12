@@ -103,8 +103,10 @@ public class ActorRegistry extends Component {
                             rp1.process(actor);
                             return;
                         }
-                        if (parentHasSameComponent())
+                        if (parentHasSameComponent()) {
                             send(getParent(), request, rp1);
+                            return;
+                        }
                         rp1.process(null);
                     }
                 });

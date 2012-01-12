@@ -23,10 +23,7 @@
  */
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
@@ -89,7 +86,7 @@ public class Component {
      * @return True when the concurrent data of the actor, or its parent, contains the named data item.
      */
     final protected boolean hasDataItem(String name) {
-        return getThisActor().hasDataItem(name);
+        return getActor().hasDataItem(name);
     }
 
     /**
@@ -188,7 +185,15 @@ public class Component {
      *
      * @return This actor.
      */
-    final protected JBActor getThisActor() {
+    final protected JBActor getActor() {
         return internals.getThisActor();
+    }
+    /**
+     * Returns the actor's mailbox.
+     *
+     * @return The actor's mailbox.
+     */
+    final protected Mailbox getMailbox() {
+        return internals.getMailbox();
     }
 }

@@ -639,6 +639,15 @@ public class JBActor implements Actor {
         final public boolean parentHasDataItem(String name) {
             return getThisActor().parentHasDataItem(name);
         }
+
+        /**
+         * Returns the actor's mailbox.
+         *
+         * @return The actor's mailbox.
+         */
+        final public Mailbox getMailbox() {
+            return JBActor.this.getMailbox();
+        }
     }
 
     /**

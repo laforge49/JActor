@@ -23,10 +23,16 @@
  */
 package org.agilewiki.jactor.components.factory;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.JBActor;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.components.actorName.SetActorName;
+import org.agilewiki.jactor.components.actorRegistry.RegisterActor;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -52,10 +58,66 @@ public class Factory extends Component {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                bind(DefineActorType.class.getName(), new SyncBinding() {
-                    @Override
-                    protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
+
+                bind(DefineActorType.class.getName(), new MethodBinding() {
+                    protected void processRequest(Object request, final ResponseProcessor rp1)
+                            throws Exception {
+                        DefineActorType defineActorType = (DefineActorType) request;
+                        String actorType = defineActorType.getActorType();
+                        if (types.containsKey(actorType))
+                            throw new IllegalArgumentException("Actor type is already defined: "+actorType);
+                        Class rootComponentClass = defineActorType.getRootComponentClass();
+                        types.put(actorType, rootComponentClass);
                         rp1.process(null);
+                    }
+                });
+
+                bind(NewActor.class.getName(), new SyncBinding() {
+                    @Override
+                    protected void processRequest(Object request, final ResponseProcessor rp1) 
+                            throws Exception {
+                        NewActor newActor = (NewActor) request;
+                        String actorType = newActor.getActorType();
+                        if (!types.containsKey(actorType)) {
+                            if (parentHasSameComponent()) {
+                                if (newActor.getParent() != null) {
+                                    send(getParent(), request, rp1);
+                                    return;
+                                } else {
+                                    Mailbox mailbox = newActor.getMailbox();
+                                    if (mailbox == null) mailbox = getMailbox();
+                                    NewActor newRequest =
+                                            new NewActor(actorType, mailbox, newActor.getActorName(), getActor());
+                                    send(getParent(), newRequest, rp1);
+                                    return;
+                                }
+                            }
+                            throw new IllegalArgumentException("Unknown actor type: "+actorType);
+                        }
+                        Mailbox mailbox = newActor.getMailbox();
+                        if (mailbox == null) mailbox = getMailbox();
+                        String actorName = newActor.getActorName();
+                        Actor parent = newActor.getParent();
+                        if (parent == null) parent = getActor();
+                        final JCActor actor = new JCActor(mailbox);
+                        actor.setParent(parent);
+                        if (actorName == null) {
+                            rp1.process(actor);
+                            return;
+                        }
+                        SetActorName setActorName = new SetActorName(actorName);
+                        send(actor, setActorName, new ResponseProcessor() {
+                            @Override
+                            public void process(Object response) throws Exception {
+                                RegisterActor registerActor = new RegisterActor(actor);
+                                send(getActor(), registerActor, new ResponseProcessor() {
+                                    @Override
+                                    public void process(Object response) throws Exception {
+                                        rp1.process(actor);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
                 rp.process(null);

@@ -27,7 +27,11 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 
 /**
- * NewActor is a request to create and configure an actor.
+ * <p>NewActor is a request to create and configure an actor.</p>
+ * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
+ * And if no parent is specified, the actor processing the request is used.</p>
+ * <p>If an actor name is given, it is assigned to the new actor
+ * and the actor is added to the actor registry.</p>
  */
 public class NewActor {
     /**
