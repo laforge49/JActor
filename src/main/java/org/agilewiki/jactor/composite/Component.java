@@ -80,6 +80,15 @@ public class Component {
     }
 
     /**
+     * Returns true when the parent has the same component.
+     *
+     * @return True when the parent has the same component.
+     */
+    final public boolean parentHasSameComponent() {
+        return parentHasDataItem(getClass().getName());
+    }
+
+    /**
      * Add a binding to the actor.
      *
      * @param requestClassName The class name of the request.

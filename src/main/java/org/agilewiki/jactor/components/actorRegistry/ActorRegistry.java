@@ -84,7 +84,7 @@ public class ActorRegistry extends Component {
                             rp1.process(actor);
                             return;
                         }
-                        if (parentHasDataItem(getClass().getName()))
+                        if (parentHasSameComponent())
                             send(getParent(), request, rp1);
                         rp1.process(null);
                     }
