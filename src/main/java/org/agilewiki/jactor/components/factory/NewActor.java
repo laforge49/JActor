@@ -63,7 +63,7 @@ public class NewActor {
      * Create a NewActor request.
      *
      * @param actorType An actor type name.
-     * @param mailbox A mailbox which may be shared with other actors, or null.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
      */
     public NewActor(String actorType, Mailbox mailbox) {
         this.actorType = actorType;
@@ -74,7 +74,7 @@ public class NewActor {
      * Create a NewActor request.
      *
      * @param actorType An actor type name.
-     * @param mailbox A mailbox which may be shared with other actors, or null.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
      * @param actorName The name to be assigned to the actor, or null.
      */
     public NewActor(String actorType, Mailbox mailbox, String actorName) {
@@ -87,9 +87,9 @@ public class NewActor {
      * Create a NewActor request.
      *
      * @param actorType An actor type name.
-     * @param mailbox A mailbox which may be shared with other actors, or null.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
      * @param actorName The name to be assigned to the actor, or null.
-     * @param parent The parent actor to which unrecognized requests are forwarded, or null.
+     * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
      */
     public NewActor(String actorType, Mailbox mailbox, String actorName, Actor parent) {
         this.actorType = actorType;

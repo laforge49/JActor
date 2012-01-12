@@ -41,7 +41,7 @@ final public class DefineActorType {
     /**
      * Create a DefineActorType request.
      *
-     * @param actorType An actor type name.
+     * @param actorType          An actor type name.
      * @param rootComponentClass The class used to configure an actor.
      */
     public DefineActorType(String actorType, Class rootComponentClass) {

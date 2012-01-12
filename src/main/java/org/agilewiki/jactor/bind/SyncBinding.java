@@ -24,37 +24,28 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * Binds a request class to a concurrent data item.
- * Requests are processed immediately,
- * even if the actor has an asynchronous mailbox.
+ * A binding for processing requests synchronously.
  */
-public class DataBinding extends SyncBinding {
-    /**
-     * The name of a concurrent data item.
-     */
-    private String name;
+abstract public class SyncBinding extends Binding {
 
     /**
-     * Create a DataBinding.
-     *
-     * @param name The name of a concurrent data item.
-     */
-    public DataBinding(String name) {
-        this.name = name;
-    }
-
-    /**
+     * <p>
      * The result returned is the concurrent data item named in the constructor, or null.
+     * </p>
      *
-     * @param request A request.
-     * @param rp      The response processor.
+     * @param requestSource The originator of the request.
+     * @param request       The request to be sent.
+     * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final protected void processRequest(Object request, ResponseProcessor rp)
+    final public void acceptRequest(RequestSource requestSource,
+                                    Object request,
+                                    ResponseProcessor rp)
             throws Exception {
-        rp.process(internals.data.get(name));
+        processRequest(request, rp);
     }
 }

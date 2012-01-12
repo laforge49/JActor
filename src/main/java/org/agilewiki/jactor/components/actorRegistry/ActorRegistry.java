@@ -24,13 +24,12 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -94,13 +93,7 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                bind(GetRegisteredActor.class.getName(), new Binding() {
-                    @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp1)
-                            throws Exception {
-                        processRequest(request, rp1);
-                    }
-
+                bind(GetRegisteredActor.class.getName(), new SyncBinding() {
                     @Override
                     protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
