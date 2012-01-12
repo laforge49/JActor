@@ -641,7 +641,7 @@ public class JBActor implements Actor {
     /**
      * Creates a _SMBuilder.
      */
-    public class SMBuilder extends _SMBuilder {
+    final protected class SMBuilder extends _SMBuilder {
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {

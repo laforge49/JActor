@@ -65,7 +65,7 @@ public class Component {
      * @param name The key for the data item.
      * @return True when the concurrent data of the actor, or its parent, contains the named data item.
      */
-    final public boolean hasDataItem(String name) {
+    final protected boolean hasDataItem(String name) {
         return getThisActor().hasDataItem(name);
     }
 
@@ -75,7 +75,7 @@ public class Component {
      * @param name The key for the data item.
      * @return True when the concurrent data of the parent contains the named data item.
      */
-    final public boolean parentHasDataItem(String name) {
+    final protected boolean parentHasDataItem(String name) {
         return internals.parentHasDataItem(name);
     }
 
@@ -84,7 +84,7 @@ public class Component {
      *
      * @return True when the parent has the same component.
      */
-    final public boolean parentHasSameComponent() {
+    final protected boolean parentHasSameComponent() {
         return parentHasDataItem(getClass().getName());
     }
 
@@ -143,7 +143,7 @@ public class Component {
     /**
      * Creates a _SMBuilder.
      */
-    public class SMBuilder extends _SMBuilder {
+    final protected class SMBuilder extends _SMBuilder {
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {
