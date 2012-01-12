@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
-import org.agilewiki.jactor.composite.JCActor;
+import org.agilewiki.jactor.components.JCActor;
 
 /**
  * <p></p>Sent to an actor with an ActorRegistry component to register an actor

@@ -4,9 +4,9 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
-import org.agilewiki.jactor.composite.Component;
-import org.agilewiki.jactor.composite.JCActor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.Iterator;

@@ -1,5 +1,8 @@
 package org.agilewiki.jactor.composite;
 
+import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.components.Include;
+
 import java.util.ArrayList;
 
 public class C2 extends Component {

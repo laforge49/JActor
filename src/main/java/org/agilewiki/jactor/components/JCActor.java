@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.composite;
+package org.agilewiki.jactor.components;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
@@ -6,6 +6,8 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.components.Include;
 
 import java.util.ArrayList;
 import java.util.Iterator;

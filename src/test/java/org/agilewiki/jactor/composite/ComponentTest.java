@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.components.Include;
+import org.agilewiki.jactor.components.JCActor;
 
 public class ComponentTest extends TestCase {
     public void test() {

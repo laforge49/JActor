@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.composite;
+package org.agilewiki.jactor.components;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;

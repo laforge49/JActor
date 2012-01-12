@@ -3,6 +3,7 @@ package org.agilewiki.jactor.composite;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.components.Component;
 
 public class C1 extends Component {
     @Override

@@ -4,7 +4,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.DataBinding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.composite.Component;
+import org.agilewiki.jactor.components.Component;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 

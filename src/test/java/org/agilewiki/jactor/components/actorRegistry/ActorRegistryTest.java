@@ -4,11 +4,10 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.components.Include;
+import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.ActorName;
-import org.agilewiki.jactor.components.actorName.GetActorName;
 import org.agilewiki.jactor.components.actorName.SetActorName;
-import org.agilewiki.jactor.composite.Include;
-import org.agilewiki.jactor.composite.JCActor;
 
 public class ActorRegistryTest extends TestCase {
     public void test1() {
