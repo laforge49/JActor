@@ -70,7 +70,7 @@
  * composing and executing state machines that are compatible with 2-way messages.
  * </p>
  * <h2>
- * Request Delegation
+ * Dependency Injection
  * </h2>
  * <p>
  * If an actor receives a request of a type that it does not recognize
