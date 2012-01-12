@@ -21,9 +21,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 final public class JCActor extends JBActor {
     /**
-     * The class name of the first included component.
+     * The type of actor.
      */
-    private String rootComponentName;
+    private String actorType;
 
     /**
      * Create a JCActor.
@@ -106,23 +106,23 @@ final public class JCActor extends JBActor {
     }
 
     /**
-     * Returns the root component name.
+     * Returns the actor type.
      *
-     * @return The root component name.
+     * @return The actor type.
      */
-    public String getRootComponentName() {
-        return rootComponentName;
+    public String getActorType() {
+        return actorType;
     }
 
     /**
-     * Assigns the rootComponentName.
+     * Assigns the actorType.
      * Once assigned, it can not be changed.
      *
-     * @param rootComponentName The root component name.
+     * @param actorType The actor type.
      */
-    public void setRootComponentName(String rootComponentName) {
-        if (this.rootComponentName != null)
-            throw new UnsupportedOperationException("The rootComponentName can not be changed");
-        this.rootComponentName = rootComponentName;
+    public void setActorType(String actorType) {
+        if (this.actorType != null)
+            throw new UnsupportedOperationException("The actorType can not be changed");
+        this.actorType = actorType;
     }
 }
