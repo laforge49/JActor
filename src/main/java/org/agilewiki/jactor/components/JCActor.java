@@ -108,7 +108,7 @@ final public class JCActor extends JBActor {
     /**
      * Returns the actor type.
      *
-     * @return The actor type.
+     * @return The actor type, or null.
      */
     public String getActorType() {
         return actorType;

@@ -1,10 +1,10 @@
 package org.agilewiki.jactor.components.factory;
 
 /**
- * DefineActorType is a request to regesister a component that can be used
+ * DefineActorType is a request to register a component that can be used
  * to create and configure new types of actors.
  */
-public class DefineActorType {
+final public class DefineActorType {
     /**
      * An actor type name.
      */

@@ -140,10 +140,13 @@ public class JBActor implements Actor {
 
     /**
      * Assign the parent actor.
+     * Once assigned, it can not be changed.
      *
      * @param parent The parent actor to which unrecognized requests are forwarded.
      */
     public void setParent(Actor parent) {
+        if (this.parent != null)
+            throw new UnsupportedOperationException("The parent can not be changed.");
         this.parent = parent;
     }
 
