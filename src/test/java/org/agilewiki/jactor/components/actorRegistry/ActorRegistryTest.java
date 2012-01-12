@@ -11,7 +11,8 @@ import org.agilewiki.jactor.composite.Include;
 import org.agilewiki.jactor.composite.JCActor;
 
 public class ActorRegistryTest extends TestCase {
-    public void test() {
+    public void test1() {
+        System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JAFuture future = new JAFuture();
@@ -24,6 +25,34 @@ public class ActorRegistryTest extends TestCase {
             System.err.println(future.send(r, new GetRegisteredActor("abe")));
             System.err.println(future.send(r, new GetRegisteredActor("foo")));
             future.send(r, new UnregisterActor("foo"));
+            System.err.println(future.send(r, new GetRegisteredActor("foo")));
+            r.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mailboxFactory.close();
+        }
+    }
+    
+    public void test2() {
+        System.err.println("test2");
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        try {
+            JAFuture future = new JAFuture();
+            JCActor pr = new JCActor(mailboxFactory.createMailbox());
+            future.send(pr, new Include(ActorRegistry.class));
+            JCActor a = new JCActor(mailboxFactory.createMailbox());
+            future.send(a, new Include(ActorName.class));
+            future.send(a, new SetActorName("foo"));
+            future.send(pr, new RegisterActor(a));
+            JCActor r = new JCActor(mailboxFactory.createMailbox());
+            r.setParent(pr);
+            future.send(r, new Include(ActorRegistry.class));
+            System.err.println(future.send(r, new GetRegisteredActor("abe")));
+            System.err.println(future.send(r, new GetRegisteredActor("foo")));
+            future.send(r, new UnregisterActor("foo"));
+            System.err.println(future.send(r, new GetRegisteredActor("foo")));
+            future.send(pr, new UnregisterActor("foo"));
             System.err.println(future.send(r, new GetRegisteredActor("foo")));
             r.close();
         } catch (Exception e) {
