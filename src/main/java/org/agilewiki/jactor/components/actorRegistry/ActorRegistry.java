@@ -1,5 +1,6 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
@@ -21,6 +22,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * </p>
  */
 public class ActorRegistry extends Component {
+    /**
+     * Table of registered actors.
+     */
     private ConcurrentSkipListMap<String, JCActor> registry = new ConcurrentSkipListMap<String, JCActor>();
 
     /**
@@ -74,7 +78,20 @@ public class ActorRegistry extends Component {
                     protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
-                        rp1.process(registry.get(name));
+                        JCActor actor = registry.get(name); 
+                        if (actor != null) {
+                            rp1.process(actor);
+                            return;
+                        }
+                        Actor parent = getParent();
+                        if (parent == null || !(parent instanceof JBActor)) {
+                            rp1.process(null);
+                            return;
+                        }
+                        JBActor jbParent = (JBActor) parent;
+                        if (jbParent.hasDataItem(getClass().getName()))
+                            send(jbParent, request, rp1);
+                        rp1.process(null);
                     }
                 });
 
