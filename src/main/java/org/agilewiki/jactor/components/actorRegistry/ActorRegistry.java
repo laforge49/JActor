@@ -70,7 +70,8 @@ public class ActorRegistry extends Component {
 
                 bind(GetRegisteredActor.class.getName(), new Binding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp1) throws Exception {
+                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp1)
+                            throws Exception {
                         processRequest(request, rp1);
                     }
 
@@ -84,13 +85,12 @@ public class ActorRegistry extends Component {
                             return;
                         }
                         Actor parent = getParent();
-                        if (parent == null || !(parent instanceof JBActor)) {
+                        if (parent == null) {
                             rp1.process(null);
                             return;
                         }
-                        JBActor jbParent = (JBActor) parent;
-                        if (jbParent.hasDataItem(getClass().getName()))
-                            send(jbParent, request, rp1);
+                        if (parent.hasDataItem(getClass().getName()))
+                            send(parent, request, rp1);
                         rp1.process(null);
                     }
                 });

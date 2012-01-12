@@ -15,4 +15,15 @@ final public class Echo extends JAPCActor {
             throws Exception {
         responseProcessor.process(null);
     }
+
+    /**
+     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
+     *
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
+     */
+    @Override
+    public boolean hasDataItem(String name) {
+        return false;
+    }
 }

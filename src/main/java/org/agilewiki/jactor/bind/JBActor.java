@@ -415,9 +415,7 @@ public class JBActor implements Actor {
     final public boolean hasDataItem(String name) {
         if (getData().containsKey(name)) return true;
         if (parent == null) return false;
-        if (!(parent instanceof JBActor)) return false;
-        JBActor jbParent = (JBActor) parent;
-        return jbParent.hasDataItem(name);
+        return parent.hasDataItem(name);
     }
 
     /**
