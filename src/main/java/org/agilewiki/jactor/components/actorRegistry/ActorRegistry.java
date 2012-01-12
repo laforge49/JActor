@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
@@ -17,6 +16,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * <p>
  * Implements a register of actors which have the ActorName component.
  * Supported request messages: RegisterActor, UnregisterActor and GetRegisteredActor.
+ * </p><p>
+ * GetRegisteredActor first checks the component's own registry. If the actor is not
+ * found and its parent also has an ActorRegistry, then the request is passed up to
+ * the parent.
  * </p><p>
  * When the ActorRegistry is closed, close is called on all the registered actors.
  * </p>
