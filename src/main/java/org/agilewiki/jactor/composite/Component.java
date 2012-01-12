@@ -76,7 +76,7 @@ public class Component {
      * @return True when the concurrent data of the parent contains the named data item.
      */
     final public boolean parentHasDataItem(String name) {
-        return getThisActor().parentHasDataItem(name);
+        return internals.parentHasDataItem(name);
     }
 
     /**
