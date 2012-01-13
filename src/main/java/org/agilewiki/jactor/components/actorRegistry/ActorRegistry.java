@@ -106,8 +106,7 @@ public class ActorRegistry extends Component {
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }
-                        if (rp == null) internals.acceptRequest(requestSource, request, null, null);
-                        else processRequest(request, rp);
+                        processRequest(request, rp);
                     }
 
                     @Override

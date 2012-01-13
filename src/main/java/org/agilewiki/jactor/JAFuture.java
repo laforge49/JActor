@@ -113,7 +113,13 @@ final public class JAFuture {
                        final Object request)
             throws Exception {
         done = new Semaphore(0);
-        actor.acceptRequest(requestSource, request, null);
+        actor.acceptRequest(requestSource, request, new ResponseProcessor() {
+            @Override
+            public void process(Object response) throws Exception {
+                result = response;
+                done.release();
+            }
+        });
         done.acquire();
         done = null;
         if (result instanceof Exception) throw (Exception) result;

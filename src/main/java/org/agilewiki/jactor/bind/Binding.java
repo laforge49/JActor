@@ -42,7 +42,7 @@ abstract public class Binding {
      *
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
-     * @param rp            The request processor, or null.
+     * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void acceptRequest(RequestSource requestSource,

@@ -46,7 +46,6 @@ abstract public class SyncBinding extends Binding {
                                     Object request,
                                     ResponseProcessor rp)
             throws Exception {
-        if (rp == null) internals.acceptRequest(requestSource, request, null, null);
-        else processRequest(request, rp);
+        processRequest(request, rp);
     }
 }
