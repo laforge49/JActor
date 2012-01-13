@@ -28,6 +28,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
@@ -95,9 +96,10 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                bind(GetRegisteredActor.class.getName(), new Binding() {
+                bind(GetRegisteredActor.class.getName(), new SyncBinding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
+                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+                            throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
                         JCActor actor = registry.get(name);
@@ -106,15 +108,7 @@ public class ActorRegistry extends Component {
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }
-                        processRequest(request, rp);
-                    }
-
-                    @Override
-                    protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
-                        GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
-                        String name = getRegisteredActor.getName();
-                        JCActor actor = registry.get(name);
-                        rp1.process(actor);
+                        rp.process(actor);
                     }
                 });
 

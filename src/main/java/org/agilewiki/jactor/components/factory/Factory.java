@@ -77,7 +77,14 @@ public class Factory extends Component {
                 bind(NewActor.class.getName(), new Binding() {
                     @Override
                     public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
-
+                        NewActor newActor = (NewActor) request;
+                        String actorType = newActor.getActorType();
+                        if (!types.containsKey(actorType) && parentHasSameComponent()) {
+                            Actor parent = getParent();
+                            parent.acceptRequest(requestSource, request, rp);
+                            return;
+                        }
+                        processRequest(request, rp);
                     }
 
                     @Override
