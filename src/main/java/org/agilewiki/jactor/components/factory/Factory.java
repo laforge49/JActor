@@ -30,6 +30,7 @@ import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.SetActorName;
 import org.agilewiki.jactor.components.actorRegistry.RegisterActor;
@@ -78,49 +79,48 @@ public class Factory extends Component {
                     public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
+                        Mailbox mailbox = newActor.getMailbox();
+                        Actor parent = newActor.getParent();
+                        if (mailbox == null || parent == null) {
+                            if (mailbox == null) mailbox = getMailbox();
+                            if (parent == null) parent = getActor();
+                            newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
+                        }
                         if (types.containsKey(actorType)) {
-                            internals.acceptRequest(requestSource, request, rp, this);
+                            internals.acceptRequest(requestSource, newActor, rp, this);
                             return;
                         }
                         if (parentHasSameComponent()) {
-                            Actor parent = getParent();
-                            parent.acceptRequest(requestSource, request, rp);
+                            getParent().acceptRequest(requestSource, newActor, rp);
                             return;
                         }
                         throw new IllegalArgumentException("Unknown actor type: " + actorType);
                     }
 
                     @Override
-                    protected void processRequest(Object request, final ResponseProcessor rp1)
+                    protected void processRequest(Object request, final ResponseProcessor rp)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
+                        Class componentClass = types.get(actorType);
+                        Include include = new Include(componentClass);
                         Mailbox mailbox = newActor.getMailbox();
-                        if (mailbox == null) mailbox = getMailbox();
                         String actorName = newActor.getActorName();
                         Actor parent = newActor.getParent();
-                        if (parent == null) parent = getActor();
-                        final JCActor actor = new JCActor(mailbox);
+                        JCActor actor = new JCActor(mailbox);
                         actor.setParent(parent);
-                        if (actorName == null) {
-                            rp1.process(actor);
-                            return;
-                        }
-                        SetActorName setActorName = new SetActorName(actorName);
-                        send(actor, setActorName, new ResponseProcessor() {
-                            @Override
-                            public void process(Object response) throws Exception {
-                                RegisterActor registerActor = new RegisterActor(actor);
-                                send(getActor(), registerActor, new ResponseProcessor() {
-                                    @Override
-                                    public void process(Object response) throws Exception {
-                                        rp1.process(actor);
-                                    }
-                                });
-                            }
-                        });
+
+                        SMBuilder smb = new SMBuilder();
+                        smb._if(actorName == null, "fin");
+                        smb._send(actor, new SetActorName(actorName));
+                        smb._send(getActor(), new RegisterActor(actor));
+                        smb._label("fin");
+                        smb._send(actor, include);
+                        smb._return(actor);
+                        smb.call(rp);
                     }
                 });
+
                 rp.process(null);
             }
         });
