@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * Binds a request class to a concurrent data item.
@@ -46,15 +47,17 @@ public class DataBinding extends SyncBinding {
     }
 
     /**
-     * The result returned is the concurrent data item named in the constructor, or null.
+     * <p>
+     * Process an incoming request.
+     * </p>
      *
-     * @param request A request.
-     * @param rp      The response processor.
+     * @param requestSource The originator of the request.
+     * @param request       The request to be sent.
+     * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final protected void processRequest(Object request, ResponseProcessor rp)
-            throws Exception {
+    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
         rp.process(internals.data.get(name));
     }
 }

@@ -27,25 +27,18 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * A binding for processing requests synchronously, except when the source is a future.
+ * A binding for processing requests synchronously, even if the actor has an asynchronous mailbox.
  */
 abstract public class SyncBinding extends Binding {
-
     /**
-     * <p>
      * The result returned is the concurrent data item named in the constructor, or null.
-     * </p>
      *
-     * @param requestSource The originator of the request.
-     * @param request       The request to be sent.
-     * @param rp            The request processor.
+     * @param request A request.
+     * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(RequestSource requestSource,
-                                    Object request,
-                                    ResponseProcessor rp)
-            throws Exception {
-        processRequest(request, rp);
+    final protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+        throw new UnsupportedOperationException();
     }
 }

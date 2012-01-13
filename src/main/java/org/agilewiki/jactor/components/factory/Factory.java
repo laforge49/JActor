@@ -26,6 +26,7 @@ package org.agilewiki.jactor.components.factory;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.SyncBinding;
@@ -33,6 +34,7 @@ import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.SetActorName;
 import org.agilewiki.jactor.components.actorRegistry.RegisterActor;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -72,7 +74,12 @@ public class Factory extends Component {
                     }
                 });
 
-                bind(NewActor.class.getName(), new SyncBinding() {
+                bind(NewActor.class.getName(), new Binding() {
+                    @Override
+                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
+
+                    }
+
                     @Override
                     protected void processRequest(Object request, final ResponseProcessor rp1)
                             throws Exception {
