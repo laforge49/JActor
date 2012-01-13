@@ -29,7 +29,6 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.SetActorName;
@@ -79,12 +78,16 @@ public class Factory extends Component {
                     public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
-                        if (!types.containsKey(actorType) && parentHasSameComponent()) {
+                        if (types.containsKey(actorType)) {
+                            internals.acceptRequest(requestSource, request, rp, this);
+                            return;
+                        }
+                        if (parentHasSameComponent()) {
                             Actor parent = getParent();
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }
-                        processRequest(request, rp);
+                        throw new IllegalArgumentException("Unknown actor type: " + actorType);
                     }
 
                     @Override
@@ -92,22 +95,6 @@ public class Factory extends Component {
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
-                        if (!types.containsKey(actorType)) {
-                            if (parentHasSameComponent()) {
-                                if (newActor.getParent() != null) {
-                                    send(getParent(), request, rp1);
-                                    return;
-                                } else {
-                                    Mailbox mailbox = newActor.getMailbox();
-                                    if (mailbox == null) mailbox = getMailbox();
-                                    NewActor newRequest =
-                                            new NewActor(actorType, mailbox, newActor.getActorName(), getActor());
-                                    send(getParent(), newRequest, rp1);
-                                    return;
-                                }
-                            }
-                            throw new IllegalArgumentException("Unknown actor type: " + actorType);
-                        }
                         Mailbox mailbox = newActor.getMailbox();
                         if (mailbox == null) mailbox = getMailbox();
                         String actorName = newActor.getActorName();

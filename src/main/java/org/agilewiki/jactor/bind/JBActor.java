@@ -260,14 +260,14 @@ public class JBActor implements Actor {
      * @param rp                     Processes the response.
      * @param sourceExceptionHandler Exception handler of the source actor.
      * @param requestSource          The source of the request.
-     * @param methodBinding          Binds a request class to a method.
+     * @param binding                Binds a request class.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
                                    final ResponseProcessor rp,
                                    final ExceptionHandler sourceExceptionHandler,
                                    final RequestSource requestSource,
-                                   final MethodBinding methodBinding)
+                                   final Binding binding)
             throws Exception {
         try {
             processRequest(request, new ResponseProcessor() {
@@ -280,7 +280,7 @@ public class JBActor implements Actor {
                     } finally {
                     }
                 }
-            }, methodBinding);
+            }, binding);
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
             requestSource.setExceptionHandler(sourceExceptionHandler);
@@ -299,14 +299,14 @@ public class JBActor implements Actor {
      * @param rs                     The source of the request.
      * @param request                The request.
      * @param rp                     Processes the response.
-     * @param methodBinding          Binds a request class to a method.
+     * @param binding                Binds a request class.
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void syncSend(final RequestSource rs,
                                 final Object request,
                                 final ResponseProcessor rp,
                                 final ExceptionHandler sourceExceptionHandler,
-                                final MethodBinding methodBinding)
+                                final Binding binding)
             throws Exception {
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
@@ -349,7 +349,7 @@ public class JBActor implements Actor {
             }
         };
         try {
-            processRequest(request, erp, methodBinding);
+            processRequest(request, erp, binding);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
@@ -533,18 +533,18 @@ public class JBActor implements Actor {
          * @param requestSource The originator of the request.
          * @param request       The request to be sent.
          * @param rp            The request processor.
-         * @param methodBinding Binds a request class to a method.
+         * @param binding       Binds a request class.
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         public void acceptRequest(final RequestSource requestSource,
                                   final Object request,
                                   final ResponseProcessor rp,
-                                  final MethodBinding methodBinding)
+                                  final Binding binding)
                 throws Exception {
             final Mailbox sourceMailbox = requestSource.getMailbox();
             final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
             if (sourceMailbox == mailbox) {
-                syncProcess(request, rp, sourceExceptionHandler, requestSource, methodBinding);
+                syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
                 return;
             }
             if (mailbox.isAsync() || sourceMailbox == null) {
@@ -553,7 +553,7 @@ public class JBActor implements Actor {
             }
             final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
             if (mailbox.getControllingMailbox() == srcControllingMailbox) {
-                syncSend(requestSource, request, rp, sourceExceptionHandler, methodBinding);
+                syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
                 return;
             }
             if (!mailbox.acquireControl(srcControllingMailbox)) {
@@ -561,7 +561,7 @@ public class JBActor implements Actor {
                 return;
             }
             try {
-                syncSend(requestSource, request, rp, sourceExceptionHandler, methodBinding);
+                syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             } finally {
                 mailbox.sendPendingMessages();
                 mailbox.relinquishControl();

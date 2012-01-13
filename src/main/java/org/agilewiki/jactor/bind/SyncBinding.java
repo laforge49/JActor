@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * A binding for processing requests synchronously, even if the actor has an asynchronous mailbox.
