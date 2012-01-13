@@ -1,5 +1,6 @@
-package org.agilewiki.jactor.composite;
+package org.agilewiki.jactor.components;
 
+import org.agilewiki.jactor.components.C1;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 

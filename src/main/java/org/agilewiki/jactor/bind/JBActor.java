@@ -194,8 +194,7 @@ public class JBActor implements Actor {
             throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
-            if (rp == null) internals.acceptRequest((RequestSource) apcRequestSource, request, rp, null);
-            else binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+            binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
             return;
         }
         if (parent == null)

@@ -1,9 +1,11 @@
-package org.agilewiki.jactor.composite;
+package org.agilewiki.jactor.components;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.components.C2;
+import org.agilewiki.jactor.components.Hi;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 

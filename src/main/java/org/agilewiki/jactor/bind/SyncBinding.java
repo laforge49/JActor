@@ -27,7 +27,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * A binding for processing requests synchronously.
+ * A binding for processing requests synchronously, except when the source is a future.
  */
 abstract public class SyncBinding extends Binding {
 
@@ -46,6 +46,7 @@ abstract public class SyncBinding extends Binding {
                                     Object request,
                                     ResponseProcessor rp)
             throws Exception {
-        processRequest(request, rp);
+        if (rp == null) internals.acceptRequest(requestSource, request, null, null);
+        else processRequest(request, rp);
     }
 }

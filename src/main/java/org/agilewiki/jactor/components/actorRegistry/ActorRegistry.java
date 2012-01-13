@@ -23,13 +23,15 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -93,21 +95,27 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                bind(GetRegisteredActor.class.getName(), new SyncBinding() {
+                bind(GetRegisteredActor.class.getName(), new Binding() {
+                    @Override
+                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
+                        GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
+                        String name = getRegisteredActor.getName();
+                        JCActor actor = registry.get(name);
+                        if (actor == null && parentHasSameComponent()) {
+                            Actor parent = getParent();
+                            parent.acceptRequest(requestSource, request, rp);
+                            return;
+                        }
+                        if (rp == null) internals.acceptRequest(requestSource, request, null, null);
+                        else processRequest(request, rp);
+                    }
+
                     @Override
                     protected void processRequest(Object request, ResponseProcessor rp1) throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
                         JCActor actor = registry.get(name);
-                        if (actor != null) {
-                            rp1.process(actor);
-                            return;
-                        }
-                        if (parentHasSameComponent()) {
-                            send(getParent(), request, rp1);
-                            return;
-                        }
-                        rp1.process(null);
+                        rp1.process(actor);
                     }
                 });
 

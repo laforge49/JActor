@@ -65,7 +65,7 @@ public class Factory extends Component {
                         DefineActorType defineActorType = (DefineActorType) request;
                         String actorType = defineActorType.getActorType();
                         if (types.containsKey(actorType))
-                            throw new IllegalArgumentException("Actor type is already defined: "+actorType);
+                            throw new IllegalArgumentException("Actor type is already defined: " + actorType);
                         Class rootComponentClass = defineActorType.getRootComponentClass();
                         types.put(actorType, rootComponentClass);
                         rp1.process(null);
@@ -74,7 +74,7 @@ public class Factory extends Component {
 
                 bind(NewActor.class.getName(), new SyncBinding() {
                     @Override
-                    protected void processRequest(Object request, final ResponseProcessor rp1) 
+                    protected void processRequest(Object request, final ResponseProcessor rp1)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
@@ -92,7 +92,7 @@ public class Factory extends Component {
                                     return;
                                 }
                             }
-                            throw new IllegalArgumentException("Unknown actor type: "+actorType);
+                            throw new IllegalArgumentException("Unknown actor type: " + actorType);
                         }
                         Mailbox mailbox = newActor.getMailbox();
                         if (mailbox == null) mailbox = getMailbox();

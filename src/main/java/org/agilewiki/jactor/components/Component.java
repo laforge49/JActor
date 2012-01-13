@@ -188,6 +188,7 @@ public class Component {
     final protected JBActor getActor() {
         return internals.getThisActor();
     }
+
     /**
      * Returns the actor's mailbox.
      *

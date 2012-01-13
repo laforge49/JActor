@@ -53,11 +53,11 @@ public interface Actor {
      *
      * @param requestSource The originator of the request.
      * @param request       The unwrapped request to be sent.
-     * @param rd            The request processor.
+     * @param rp            The request processor.
      */
     void acceptRequest(APCRequestSource requestSource,
                        Object request,
-                       ResponseProcessor rd)
+                       ResponseProcessor rp)
             throws Exception;
 
     /**
