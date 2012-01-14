@@ -167,7 +167,7 @@ public class Component {
         @Override
         final public void send(Actor actor, Object request, ResponseProcessor rp)
                 throws Exception {
-            send(actor, request, rp);
+            internals.send(actor, request, rp);
         }
     }
 
