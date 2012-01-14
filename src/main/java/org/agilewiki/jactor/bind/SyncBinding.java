@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 abstract public class SyncBinding extends Binding {
     /**
-     * The result returned is the concurrent data item named in the constructor, or null.
+     * Unused.
      *
      * @param request A request.
      * @param rp      The response processor.

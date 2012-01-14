@@ -48,7 +48,7 @@ public class DataBinding extends SyncBinding {
 
     /**
      * <p>
-     * Process an incoming request.
+     * The result returned is the data item named in the constructor, or null.
      * </p>
      *
      * @param requestSource The originator of the request.

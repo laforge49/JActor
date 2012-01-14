@@ -38,6 +38,13 @@ abstract public class Binding {
     /**
      * <p>
      * Process an incoming request.
+     * Operates in the sender's thread, so only concurrent data structures can be updated safely.
+     * </p><p>
+     * The Binding.processRequest should be invoked indirectly, by calling Binding.internals.acceptRequest.
+     * The acceptRequest method will then be safely invoked under the appropriate thread.
+     * </p><p>
+     * The send method is also not safe, but you can call Actor.acceptRequest to forward a
+     * request to another actor.
      * </p>
      *
      * @param requestSource The originator of the request.
@@ -51,7 +58,7 @@ abstract public class Binding {
             throws Exception;
 
     /**
-     * The application method for processing requests sent to the actor.
+     * A safe method for processing requests sent to the actor.
      *
      * @param request A request.
      * @param rp      The response processor.
