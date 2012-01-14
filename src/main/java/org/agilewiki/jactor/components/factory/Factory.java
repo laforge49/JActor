@@ -112,11 +112,11 @@ public class Factory extends Component {
                         actor.setParent(parent);
 
                         SMBuilder smb = new SMBuilder();
+                        smb._send(actor, include);
                         smb._if(actorName == null, "fin");
                         smb._send(actor, new SetActorName(actorName));
                         smb._send(getActor(), new RegisterActor(actor));
                         smb._label("fin");
-                        smb._send(actor, include);
                         smb._return(actor);
                         smb.call(rp);
                     }
