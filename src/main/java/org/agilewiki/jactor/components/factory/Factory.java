@@ -108,6 +108,7 @@ public class Factory extends Component {
                         String actorName = newActor.getActorName();
                         Actor parent = newActor.getParent();
                         JCActor actor = new JCActor(mailbox);
+                        actor.setActorType(actorType);
                         actor.setParent(parent);
 
                         SMBuilder smb = new SMBuilder();
