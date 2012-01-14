@@ -31,17 +31,19 @@ public class FactoryTest extends TestCase {
     public void test2() {
         System.err.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        JCActor f = null;
         try {
             JAFuture future = new JAFuture();
-            JCActor f = new JCActor(mailboxFactory.createMailbox());
+            f = new JCActor(mailboxFactory.createMailbox());
             future.send(f, new Include(Factory.class));
             future.send(f, new Include(ActorRegistry.class));
             future.send(f, new DefineActorType("Bar", Bar.class));
-            Actor a = (Actor) future.send(f, new NewActor("Bar", mailboxFactory.createMailbox(), "Bloop"));
+            Actor a = (Actor) future.send(f, new NewActor("Bar", null, "Bloop"));
             future.send(a, new Hi());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            f.close();
             mailboxFactory.close();
         }
     }

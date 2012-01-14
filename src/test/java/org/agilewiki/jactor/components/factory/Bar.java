@@ -11,6 +11,8 @@ import org.agilewiki.jactor.components.actorName.GetActorName;
 import java.util.ArrayList;
 
 public class Bar extends Component {
+    private String myName;
+    
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
@@ -29,14 +31,21 @@ public class Bar extends Component {
                         send(getActor(), new GetActorName(), new ResponseProcessor() {
                             @Override
                             public void process(Object response) throws Exception {
-                                System.err.println("Hello world! --"+response);
+                                myName = (String) response;
+                                System.err.println("Hello world! --" + myName);
                                 rp1.process(null);
                             }
                         });
                     }
                 });
+
                 rp.process(null);
             }
         });
+    }
+
+    @Override
+    public void close() throws Exception {
+        System.err.println("Bye! --" + myName);
     }
 }
