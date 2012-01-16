@@ -85,6 +85,15 @@
  * that it handles to the logic for processing those requests.
  * </p>
  * <h2>
+ * Components
+ * </h2>
+ * <p>Several components are provided:</p>
+ * <ul>
+ * <li><b>ActorName</b> - Used to assign a name to an actor.</li>
+ * <li><b>ActorRegistry</b> - Locates actors by name and closes them when the registry is closed.</li>
+ * <li><b>Factory</b> - For creating actors with a single component include.</li>
+ * </ul>
+ * <h2>
  * Message Passing Benchmarks
  * </h2>
  * <p>

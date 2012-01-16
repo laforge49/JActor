@@ -56,6 +56,14 @@ Request Message Binding and Actor Composition
 Actors can be composed from one or more components, where each component maps the request
 classes that it handles to the logic for processing those requests.
 
+Components
+
+Several components are provided:
+
+    ActorName - Used to assign a name to an actor.
+    ActorRegistry - Locates actors by name and closes them when the registry is closed.
+    Factory - For creating actors with a single component include.
+
 Message Passing Benchmarks
 
 When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise
