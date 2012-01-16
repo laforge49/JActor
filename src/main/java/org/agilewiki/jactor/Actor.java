@@ -74,4 +74,11 @@ public interface Actor {
      * @return True when the concurrent data of the actor, or its parent, contains the named data item.
      */
     public boolean hasDataItem(String name);
+
+    /**
+     * Returns the actor's mailbox.
+     *
+     * @return The actor's mailbox.
+     */
+    public Mailbox getMailbox();
 }

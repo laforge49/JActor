@@ -142,7 +142,7 @@ abstract public class JLPCActor implements Actor {
      *
      * @return The actor's mailbox.
      */
-    protected Mailbox getMailbox() {
+    public Mailbox getMailbox() {
         return mailbox;
     }
 

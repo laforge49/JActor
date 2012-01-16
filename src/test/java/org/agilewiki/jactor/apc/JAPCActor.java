@@ -25,6 +25,7 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
@@ -153,4 +154,9 @@ abstract public class JAPCActor implements Actor {
      */
     abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
             throws Exception;
+
+    @Override
+    public Mailbox getMailbox() {
+        throw new UnsupportedOperationException();
+    }
 }
