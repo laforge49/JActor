@@ -92,6 +92,7 @@
  * <li><b>ActorName</b> - Used to assign a name to an actor.</li>
  * <li><b>ActorRegistry</b> - Locates actors by name and closes them when the registry is closed.</li>
  * <li><b>Factory</b> - For creating actors with a single component include.</li>
+ * <li><b>Properties</b> - For creating a table of name/value pairs.</li>
  * </ul>
  * <h2>
  * Message Passing Benchmarks

@@ -63,6 +63,7 @@ Several components are provided:
     ActorName - Used to assign a name to an actor.
     ActorRegistry - Locates actors by name and closes them when the registry is closed.
     Factory - For creating actors with a single component include.
+    Properties - For creating a table of name/value pairs.
 
 Message Passing Benchmarks
 
