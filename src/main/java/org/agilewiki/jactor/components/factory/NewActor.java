@@ -31,7 +31,8 @@ import org.agilewiki.jactor.Mailbox;
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
  * <p>If an actor name is given, it is assigned to the new actor
- * and the actor is added to the actor registry.</p>
+ * and the actor is added to the actor registry.
+ * However, the actor must include the ActorName component.</p>
  */
 public class NewActor {
     /**
