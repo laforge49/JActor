@@ -86,7 +86,9 @@ abstract public class JLPCActor implements Actor {
 
         @Override
         final public void processRequest(final JARequest request) throws Exception {
-            JLPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
+            if (request.isEvent())
+                JLPCActor.this.processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
+            else JLPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
                 @Override
                 public void process(Object unwrappedResponse) {
                     mailbox.response(unwrappedResponse);
@@ -226,26 +228,28 @@ abstract public class JLPCActor implements Actor {
                                  final Object request,
                                  final ResponseProcessor rp,
                                  final ExceptionHandler sourceExceptionHandler) {
+        ResponseProcessor rp1 = rp;
+        if (!rp.isEvent()) rp1 = new ResponseProcessor() {
+            @Override
+            public void process(Object response) throws Exception {
+                rs.setExceptionHandler(sourceExceptionHandler);
+                if (response != null && response instanceof Exception) {
+                    asyncException(
+                            (Exception) response,
+                            sourceExceptionHandler,
+                            rs.getMailbox());
+                } else try {
+                    rp.process(response);
+                } catch (Exception ex) {
+                    asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                }
+            }
+        };
         final JARequest jaRequest = new JARequest(
                 rs,
                 requestProcessor,
                 request,
-                new ResponseProcessor() {
-                    @Override
-                    public void process(Object response) throws Exception {
-                        rs.setExceptionHandler(sourceExceptionHandler);
-                        if (response != null && response instanceof Exception) {
-                            asyncException(
-                                    (Exception) response,
-                                    sourceExceptionHandler,
-                                    rs.getMailbox());
-                        } else try {
-                            rp.process(response);
-                        } catch (Exception ex) {
-                            asyncException(ex, sourceExceptionHandler, rs.getMailbox());
-                        }
-                    }
-                });
+                rp1);
         rs.send(mailbox, jaRequest);
     }
 
@@ -263,18 +267,24 @@ abstract public class JLPCActor implements Actor {
                                    final ExceptionHandler sourceExceptionHandler,
                                    final RequestSource requestSource)
             throws Exception {
+        if (rp.isEvent()) {
+            try {
+                processRequest(request, rp);
+            } catch (Exception ex) {}
+            return;
+        }
         try {
-            processRequest(request, new ResponseProcessor() {
+            ResponseProcessor rp1 = new ResponseProcessor() {
                 @Override
                 public void process(Object response) throws Exception {
                     try {
                         rp.process(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
-                    } finally {
                     }
                 }
-            });
+            };
+            processRequest(request, rp1);
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
             requestSource.setExceptionHandler(sourceExceptionHandler);
@@ -300,6 +310,12 @@ abstract public class JLPCActor implements Actor {
                                 final ResponseProcessor rp,
                                 final ExceptionHandler sourceExceptionHandler)
             throws Exception {
+        if (rp.isEvent()) {
+            try {
+                processRequest(request, rp);
+            } catch (Exception ex) {}
+            return;
+        }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(final Object response)

@@ -273,16 +273,20 @@ public class JBActor implements Actor {
                                    final RequestSource requestSource,
                                    final Binding binding)
             throws Exception {
+        if (rp.isEvent()) {
+            try {
+                processRequest(request, rp, binding);
+            } catch (Exception ex) {}
+            return;
+        }
         try {
-            ResponseProcessor rp1 = rp;
-            if (!rp.isEvent()) rp1 = new ResponseProcessor() {
+            ResponseProcessor rp1 = new ResponseProcessor() {
                 @Override
                 public void process(Object response) throws Exception {
                     try {
                         rp.process(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
-                    } finally {
                     }
                 }
             };
