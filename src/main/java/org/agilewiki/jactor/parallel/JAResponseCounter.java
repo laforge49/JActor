@@ -28,7 +28,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 /**
  * Returns a response only when the expected number of responses are received.
  */
-final public class JAResponseCounter implements ResponseProcessor {
+final public class JAResponseCounter extends ResponseProcessor {
     /**
      * Number of responses expected.
      */

@@ -21,32 +21,27 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.properties;
+package org.agilewiki.jactor;
 
 /**
- * The result of this request is the property value, or null.
+ * Used with on-way messages (Events) to signal that no response is required.
  */
-public class GetProperty {
+public class JANoResponse extends ResponseProcessor {
     /**
-     * The name of the property.
+     * Receives and ignores a response.
+     *
+     * @param response The response.
+     * @throws Exception Any uncaught exceptions raised when processing the response.
      */
-    private String propertyName;
+    @Override
+    public void process(Object response) throws Exception {}
 
     /**
-     * Create a GetProperty request.
+     * Returns true when no response is expected.
      *
-     * @param propertyName The name of the property.
+     * @return True.
      */
-    public GetProperty(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    /**
-     * Returns the property name.
-     *
-     * @return The property name.
-     */
-    public String getPropertyName() {
-        return propertyName;
+    final public boolean isEvent() {
+        return true;
     }
 }

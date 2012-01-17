@@ -26,12 +26,21 @@ package org.agilewiki.jactor;
 /**
  * Processes a response.
  */
-public interface ResponseProcessor {
+abstract public class ResponseProcessor {
     /**
      * Receives and processes a response.
      *
      * @param response The response.
      * @throws Exception Any uncaught exceptions raised when processing the response.
      */
-    public void process(Object response) throws Exception;
+    abstract public void process(Object response) throws Exception;
+
+    /**
+     * Returns true when no response is expected.
+     *
+     * @return True when no response is expected.
+     */
+    public boolean isEvent() {
+        return false;
+    }
 }
