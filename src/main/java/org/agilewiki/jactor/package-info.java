@@ -40,11 +40,12 @@
  * Flow control is implicit to 2-way messaging. Systems with good flow control are generally well-behaved when
  * operating with a full load.
  * </li>
- * <li>
- * Two-way messaging is so much faster than 1-way messaging that it is practical to use 2-way messages when 1-way
- * messages are needed.
- * </li>
  * </ul>
+ * <p>
+ * Two-way messaging is so much faster than 1-way messaging that it is practical to use 2-way messages when only 1-way
+ * messages are needed. There is however one case where you shouldn't use 2-way messages: when events from non-actor
+ * code need to be sent to an actor. The JAEvent class is used to do this.
+ * </p>
  * <h4>
  * Exception Handling
  * </h4>

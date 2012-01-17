@@ -22,8 +22,11 @@ reasons for this:
       fast.
     o Flow control is implicit to 2-way messaging. Systems with good flow control are
       generally well-behaved when operating with a full load.
-    o Two-way messaging is so much faster than 1-way messaging that it is practical to use
-      2-way messages when 1-way messages are needed.
+
+Two-way messaging is so much faster than 1-way messaging that it is practical to use
+2-way messages when only 1-way messages are needed. There is however one case where you
+shouldn't use 2-way messages: when events from non-actor code need to be sent to an actor.
+The JAEvent class is used to do this.
 
 Exception Handling
 
