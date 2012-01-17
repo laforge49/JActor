@@ -115,6 +115,15 @@ final public class JARequest extends JAMessage {
     }
 
     /**
+     * Returns true when no response is expected.
+     *
+     * @return True when no response is expected.
+     */
+    final public boolean isEvent() {
+        return responseProcessor.isEvent();
+    }
+
+    /**
      * Returns true if no response has been returned.
      *
      * @return Is true when no response has been returned.
