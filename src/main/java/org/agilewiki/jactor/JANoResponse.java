@@ -26,7 +26,7 @@ package org.agilewiki.jactor;
 /**
  * Used with on-way messages (Events) to signal that no response is required.
  */
-public class JANoResponse extends ResponseProcessor {
+final public class JANoResponse extends ResponseProcessor {
     /**
      * Receives and ignores a response.
      *
@@ -41,7 +41,7 @@ public class JANoResponse extends ResponseProcessor {
      *
      * @return True.
      */
-    final public boolean isEvent() {
+    public boolean isEvent() {
         return true;
     }
 }
