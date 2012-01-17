@@ -21,9 +21,8 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.stateMachine;
+package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
