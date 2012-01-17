@@ -23,10 +23,7 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
@@ -90,10 +87,7 @@ public class JAEvent {
     /**
      * Discards a synchronous response.
      */
-    private ResponseProcessor rp = new ResponseProcessor() {
-        @Override
-        public void process(Object response) throws Exception {}
-    };
+    private JANoResponse rp = new JANoResponse();
 
     /**
      * Sends a request without having to wait for a response.
