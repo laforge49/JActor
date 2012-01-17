@@ -87,7 +87,9 @@ public class JBActor implements Actor {
         final public void processRequest(final JARequest jaRequest) throws Exception {
             Object request = jaRequest.getUnwrappedRequest();
             Binding binding = getBinding(request);
-            JBActor.this.processRequest(request, new ResponseProcessor() {
+            if (jaRequest.isEvent())
+                JBActor.this.processRequest(request, jaRequest.getResponseProcessor(), binding);
+            else JBActor.this.processRequest(request, new ResponseProcessor() {
                 @Override
                 public void process(Object response) {
                     mailbox.response(response);
@@ -230,26 +232,28 @@ public class JBActor implements Actor {
                                  final Object request,
                                  final ResponseProcessor rp,
                                  final ExceptionHandler sourceExceptionHandler) {
+        ResponseProcessor rp1 = rp;
+        if (!rp.isEvent()) rp1 = new ResponseProcessor() {
+            @Override
+            public void process(Object response) throws Exception {
+                rs.setExceptionHandler(sourceExceptionHandler);
+                if (response != null && response instanceof Exception) {
+                    asyncException(
+                            (Exception) response,
+                            sourceExceptionHandler,
+                            rs.getMailbox());
+                } else try {
+                    rp.process(response);
+                } catch (Exception ex) {
+                    asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                }
+            }
+        };
         final JARequest jaRequest = new JARequest(
                 rs,
                 requestProcessor,
                 request,
-                new ResponseProcessor() {
-                    @Override
-                    public void process(Object response) throws Exception {
-                        rs.setExceptionHandler(sourceExceptionHandler);
-                        if (response != null && response instanceof Exception) {
-                            asyncException(
-                                    (Exception) response,
-                                    sourceExceptionHandler,
-                                    rs.getMailbox());
-                        } else try {
-                            rp.process(response);
-                        } catch (Exception ex) {
-                            asyncException(ex, sourceExceptionHandler, rs.getMailbox());
-                        }
-                    }
-                });
+                rp1);
         rs.send(mailbox, jaRequest);
     }
 
@@ -270,7 +274,8 @@ public class JBActor implements Actor {
                                    final Binding binding)
             throws Exception {
         try {
-            processRequest(request, new ResponseProcessor() {
+            ResponseProcessor rp1 = rp;
+            if (!rp.isEvent()) rp1 = new ResponseProcessor() {
                 @Override
                 public void process(Object response) throws Exception {
                     try {
@@ -280,7 +285,8 @@ public class JBActor implements Actor {
                     } finally {
                     }
                 }
-            }, binding);
+            };
+            processRequest(request, rp1, binding);
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
             requestSource.setExceptionHandler(sourceExceptionHandler);
@@ -308,6 +314,12 @@ public class JBActor implements Actor {
                                 final ExceptionHandler sourceExceptionHandler,
                                 final Binding binding)
             throws Exception {
+        if (rp.isEvent()) {
+            try {
+                processRequest(request, rp, binding);
+            } catch (Exception ex) {}
+            return;
+        }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void process(final Object response)
