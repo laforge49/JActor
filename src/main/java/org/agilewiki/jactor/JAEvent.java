@@ -39,16 +39,6 @@ import java.util.ArrayList;
  * </p>
  */
 public class JAEvent {
-
-    /**
-     * Receives the response as a bufferedEvent and discards it.
-     */
-    private BufferedEventsDestination<JAMessage> bufferedEventsDestination =
-            new BufferedEventsDestination<JAMessage>() {
-                @Override
-                public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {}
-            };
-
     /**
      * Serves as the originator of a request.
      */
@@ -71,7 +61,7 @@ public class JAEvent {
         @Override
         final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
                                        final JAResponse japcResponse) {
-            eventQueue.send(bufferedEventsDestination, japcResponse);
+            throw new UnsupportedOperationException();
         }
 
         @Override
