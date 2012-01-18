@@ -32,6 +32,9 @@ final public class JANoResponse extends ResponseProcessor {
      */
     public final static JANoResponse nrp = new JANoResponse();
 
+    /**
+     * Create a JANoResponse.
+     */
     private JANoResponse() {}
     
     /**
