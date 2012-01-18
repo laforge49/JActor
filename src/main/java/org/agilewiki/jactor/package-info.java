@@ -189,6 +189,41 @@
  *         .
  *     }
  * </pre>
+ *
+ * <h2>JAIterator and JANull</h2>
+ * <p>
+ *     Writing a loop when a callback is involved is difficult, especially if the number of iterations is so large that
+ *     a recursive approach results in stack overflow. One answer is to use JAIterator. The JAIterator class has two
+ *     methods, iterate and process, where the iterate method calls the process method repeatedly until the process
+ *     returns a result that is non-null--which is then returned as iterate's result.
+ * </p>
+ * <pre>
+ *     final int max = 5;
+ *     ResponseProcessor printResult = new ResponseProcessor() {
+ *         public void process(Object rsp) {
+ *             System.out.println(rsp);
+ *         }
+ *     };
+ *
+ *     (new JAIterator() {
+ *         int i;
+ *         int r = 1;
+ *
+ *         public void process(ResponseProcessor rp) throws Exception {
+ *             if (i >= max) rp.process(new Integer(r));
+ *             else {
+ *                 i += 1;
+ *                 r = r * i;
+ *                 rp.process(null);
+ *             }
+ *         }
+ *     }).iterate(printResult);
+ * </pre>
+ * <p>
+ *     Sometimes however we want iterate to return a null result. To do this, we just have the process method return
+ *     a JANull object, which the iterate method recognizes as being non-null but which it converts to a null when
+ *     returning the result.
+ * </p>
  */
 
 package org.agilewiki.jactor;
