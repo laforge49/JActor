@@ -112,6 +112,30 @@
  *     Mailbox mailbox = mailboxFactory.createMailbox();
  *     Mailbox asyncMailbox = mailboxFactory.createAsyncMailbox();
  * </pre>
+ *
+ * <h2>JAFuture and JAEvent</h2>
+ * <p>
+ *     To send a request message (an Object) to an actor from non-actor code, you can use either JAFuture or JAEvent.
+ *     The JAFuture.send method sends the request, waits for and then returns a result. And if there was an exception
+ *     while processing the request, even if it occurred on another thread, the exception is rethrown. JAFuture is
+ *     used mostly in testing, or to start up a top-level actor, as it ties up a thread until a response is received.
+ * </p>
+ * <pre>
+ *     JAFuture future = new JAFuture();
+ *     Object result = future.send(actor, request);
+ * </pre>
+ * <p>
+ *     In contrast, JAEvent.send is used to send a request message without waiting for a response. Any response or
+ *     exception resulting from the processing of the request message is discarded. JAEvent can be used by asynchronous
+ *     code, e.g. in a CometD application, to pass events to an actor for processing.
+ * </p>
+ * <pre>
+ *     JAEvent jaEvent = new JAEvent();
+ *     jaEvent.send(actor, request);
+ * </pre>
+ * <p>
+ *     The application logic for processing a 1-way or 2-way request is the same.
+ * </p>
  */
 
 package org.agilewiki.jactor;

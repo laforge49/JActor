@@ -134,6 +134,20 @@ public class Component {
     }
 
     /**
+     * Send a request to another actor and discard any response.
+     *
+     * @param actor   The target actor.
+     * @param request The request.
+     */
+    final protected void send(Actor actor, Object request) {
+        try {
+            send(actor, request, JANoResponse.nrp);
+        } catch (Exception ex) {
+            throw new UnsupportedOperationException("Unexpected exception", ex);
+        }
+    }
+
+    /**
      * Returns the mailbox factory.
      *
      * @return The mailbox factory.
