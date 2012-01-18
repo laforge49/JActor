@@ -23,95 +23,95 @@
  */
 
 /**
+ * <h2>Introduction</h2>
  * <p>
- * Message passing between actors uses 2-way messages (request / response). There are several reasons for this:
- * </p>
- * <ul>
- * <li>
- * With 2-way messaging, sending a request is very similar to a method call with a callback. Most requests are
- * processed synchronously, which is why JActor is so much faster than other actor implementations.
- * </li>
- * <li>
- * Mailboxes are used mostly when passing messages between threads and are first-class objects. As first-class
- * objects, mailboxes can be used my more than one actor. Passing messages between actors with a common mailbox
- * is always done synchronously and is very fast.
- * </li>
- * <li>
- * Flow control is implicit to 2-way messaging. Systems with good flow control are generally well-behaved when
- * operating with a full load.
- * </li>
- * </ul>
- * <p>
- * Two-way messaging is so much faster than 1-way messaging that it is practical to use 2-way messages when only 1-way
- * messages are needed. There is however one case where you shouldn't use 2-way messages: when events from non-actor
- * code need to be sent to an actor. The JAEvent class is used to do this.
- * </p>
- * <h4>
- * Exception Handling
- * </h4>
- * <p>
- * The extensive use of callbacks complicates control flow, which is only made worse with some callbacks being executed
- * asynchronously. Exception trapping then can be quite error prone. So exception handling is supported. A default
- * exception handler is also provided which passes any uncaught exceptions that occurred while processing a request
- * back to the actor which sent the request, recursively.
- * </p>
- * <h4>
- * Bi-Modal Iterator
- * </h4>
- * <p>
- * Loops with 2-way messages can be problematic, as iterations typically must wait for the response from the previous
- * iteration. A bi-modal iterator is provided to cover this. Each iteration takes 5 nanoseconds for synchronous
- * responses and 8 nanoseconds when a response is asynchronous.
- * </p>
- * <h4>
- * State Machine
- * </h4>
- * <p>
- * State machines are often used with actors and can add considerable clarity to the code. JActor includes classes for
- * composing and executing state machines that are compatible with 2-way messages.
- * </p>
- * <h2>
- * Dependency Injection
- * </h2>
- * <p>
- * If an actor receives a request of a type that it does not recognize
- * and that actor has been assigned a parent actor,
- * then the request is immediately forwarded to the parent actor.
- * </p>
- * <h2>
- * Request Message Binding and Actor Composition
- * </h2>
- * <p>
- * Actors can be composed from one or more components, where each component maps the request classes
- * that it handles to the logic for processing those requests.
- * </p>
- * <h2>
- * Components
- * </h2>
- * <p>Several components are provided:</p>
- * <ul>
- * <li><b>ActorName</b> - Used to assign a name to an actor.</li>
- * <li><b>ActorRegistry</b> - Locates actors by name and closes them when the registry is closed.</li>
- * <li><b>Factory</b> - For creating actors with a single component include.</li>
- * <li><b>Properties</b> - For creating a table of name/value pairs.</li>
- * </ul>
- * <h2>
- * Message Passing Benchmarks
- * </h2>
- * <p>
- * When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise the rate drops to
- * 71,095,312 per second.
+ *     JActor is blazing fast, passing messages at a rate of up to 1 billion messages per second. It achieves this
+ *     by using synchronous operations whenever possible. Indeed, JActor is fast enough that you can use actors
+ *     everywhere.
  * </p>
  * <p>
- * Asynchronous message passing is also supported, making it easy to use all the available hardware threads for
- * good vertical scalability. Request messages sent to an actor with an asynchronous mailbox (and the corresponding
- * responses) are passed asynchronously at a rate of 42,149,631 per second.
+ *     On the other hand, it is easy enough to force an actor to operate asynchronously--without changing how messages
+ *     are sent to it. So I/O and computations taking longer than a microsecond can execute on a different thread.
+ *     Jactor is entirely free of locks and parallel operations are easy to code, making JActor ideal for applications
+ *     that need to scale vertically.
+ * </p>
+ *
+ * <h2>The Mailbox Factory</h2>
+ * <p>
+ *     Every program needs a MailboxFactory. It allocates the threads used by JActor and creates the mailboxes used
+ *     by the actors. The MailboxFactory.newMailboxFactory method takes one argument--the number of threads to be
+ *     allocated. This should be at least as large as the number of hardware threads on your computer, but add
+ *     additional threads to support parallel I/O operations.
+ * </p>
+ * <pre>
+ *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
+ * </pre>
+ * <p>
+ *     The MailboxFactory.close method is used to halt the threads as they become idle. A call to this method is not
+ *     required unless you are running a series of tests, where each test creates a new mailbox factory.
+ * </p>
+ * <pre>
+ *     mailboxFactory.close();
+ * </pre>
+ *
+ * <h2>Mailboxes</h2>
+ * <p>
+ *     Mailboxes are light-weight threads.
  * </p>
  * <p>
- * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads.
- * The times reported were best run in 5. Only standard switch settings were used--there was
- * NO compiler optimization.
+ *     Every actor needs a mailbox. It is used for passing messages between actors. But actors can share a common
+ *     mailbox and when they do, all messages passed between them are handled synchronously. Actors which exchange a lot
+ *     of messages should, whenever possible, share the same mailbox.
  * </p>
+ * <p>
+ *     A mailbox is created by calling the MailboxFactory.createMailbox method.
+ * </p>
+ * <pre>
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ * </pre>
+ * <p>
+ *     Mailboxes have a getMailboxFactory method, so if you have one mailbox you can easily create another.
+ * </p>
+ * <pre>
+ *     Mailbox mailbox2 = mailbox.getMailboxFactory().createMailbox();
+ * </pre>
+ *
+ * <h2>Asynchronous Mailboxes</h2>
+ * <p>
+ *     An actor with an asynchronous mailbox operates on a separate thread, which is to say that it does not
+ *     synchronously process messages from other actors. Unlike regular mailboxes, asynchronous mailboxes should not be
+ *     shared--every asynchronous actor should have its own asynchronous mailbox.
+ * </p>
+ * <p>
+ *     The createAsyncMailbox method on MailboxFactory creates an asynchronous mailbox.
+ * </p>
+ * <pre>
+ *     Mailbox asyncMailbox = mailboxFactory.createAsyncMailbox();
+ * </pre>
+ * <p>
+ *     The isAsync method on mailbox can be used to see if a mailbox is asynchronous.
+ * </p>
+ * <pre>
+ *     boolean async = mailbox.isAsync();
+ * </pre>
+ *
+ * <h2>Actors</h2>
+ * <p>
+ *     Actors are thread-safe objects which exchange request and response messages. Most message passing is 2-way, and
+ *     an actor expects a response, or an exception, when a request is sent.
+ * </p>
+ * <p>
+ *     There are three types of actors: JLPCActor, JBActor and JCActor. They all implement the Actor interface and take
+ *     a single argument, a mailbox, in their constructors.
+ * </p>
+ * <p>
+ *     Actors have a getMailbox method, so if you have an actor you can create a mailbox or an asynchronous mailbox.
+ * </p>
+ * <pre>
+ *     MailboxFactory mailboxFactory = actor.getMailbox().getMailboxFactory();
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ *     Mailbox asyncMailbox = mailboxFactory.createAsyncMailbox();
+ * </pre>
  */
 
 package org.agilewiki.jactor;
