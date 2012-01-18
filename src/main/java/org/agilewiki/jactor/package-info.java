@@ -134,8 +134,61 @@
  *     jaEvent.send(actor, request);
  * </pre>
  * <p>
- *     The application logic for processing a 1-way or 2-way request is the same.
+ *     The application logic for processing a request need not distinguish between 1-way and 2-way requests.
  * </p>
+ *
+ * <h2>The ResponseProcessor</h2>
+ * <p>
+ *     When an actor receives a request object, it is also given an accompanying ResponseProcessor object. The process
+ *     method on the ResponseProcessor handles the transport and/or processing of the response.
+ * </p>
+ * <pre>
+ *     protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *         rp.process(request); //echo back the request
+ *     }
+ * </pre>
+ * <p>
+ *     ResponseProcessor does have a second method, isEvent, which can be used to detect 1-way messaging. When isEvent
+ *     returns true, a call to the process method does nothing.
+ * </p>
+ * <pre>
+ *     boolean event = rp.isEvent();
+ * </pre>
+ * <p>
+ *     The send method of an actor is used to send a request to another actor. In the case of 2-way messages, the send
+ *     method has a 3rd parameter--a ResponseProcessor object. But the ResponseProcessor object sent by one actor is
+ *     often not the same object that is received by the other actor. The JActor code does a lot of intermediation with
+ *     ResponseProcessor objects.
+ * </p>
+ * <pre>
+ *     send(anotherActor, someRequest, new ResponseProcessor() {
+ *         public void process(Object response) {
+ *             System.out.println("sent " + someRequest + " and got back " + response);
+ *         }
+ *     });
+ * </pre>
+ *
+ * <h2>The ExceptionHandler</h2>
+ * <p>
+ *     Trapping exceptions using try/catch when there are a lot of callbacks like ResponseProcessor can be tedious and
+ *     error prone. So instead we use an ExceptionHandler. The ExceptionHandler interface defines one method, process,
+ *     for processing an exception. Calling the setExceptionHandler method of an actor result in all exceptions being
+ *     passed to the application's own exception handler. If an actor does not have an exception handler, exceptions
+ *     which occur while processing a request message are passed back to the actor which sent the request, recursively.
+ * </p>
+ * <pre>
+ *     protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *         setExceptionHandler(new ExceptionHandler(){
+ *             public void process(Exception ex) {
+ *                 System.err.println("exception occurred while processing request " + request):
+ *                 pr.process(null);
+ *             }
+ *         });
+ *         .
+ *         .
+ *         .
+ *     }
+ * </pre>
  */
 
 package org.agilewiki.jactor;
