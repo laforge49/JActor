@@ -28,6 +28,13 @@ package org.agilewiki.jactor;
  */
 final public class JANoResponse extends ResponseProcessor {
     /**
+     * An immutable instance of JANoResponse.
+     */
+    public final static JANoResponse nrp = new JANoResponse();
+
+    private JANoResponse() {}
+    
+    /**
      * Receives and ignores a response.
      *
      * @param response The response.

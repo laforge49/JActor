@@ -74,11 +74,6 @@ public class JAEvent {
     };
 
     /**
-     * Discards a synchronous response.
-     */
-    private JANoResponse rp = new JANoResponse();
-
-    /**
      * Sends a request without having to wait for a response.
      *
      * @param actor   The target actor.
@@ -87,6 +82,6 @@ public class JAEvent {
     public void send(final Actor actor,
                        final Object request)
             throws Exception {
-        actor.acceptRequest(requestSource, request, rp);
+        actor.acceptRequest(requestSource, request, JANoResponse.nrp);
     }
 }
