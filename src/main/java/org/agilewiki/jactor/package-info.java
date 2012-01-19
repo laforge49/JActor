@@ -224,6 +224,29 @@
  *     a JANull object, which the iterate method recognizes as being non-null but which it converts to a null when
  *     returning the result.
  * </p>
+ *
+ * <h2>SMBuilder</h2>
+ * <p>
+ *     The SMBuilder class builds and runs a state machine, and can be very helpful when the application logic gets a
+ *     bit complex and the resulting mess of code becomes unreadable. State machines are quite commonly used with
+ *     actors. They let you focus on the application logic and avoid having to deal with low-level control flow.
+ * </p>
+ * <p>
+ *     A good example of this can be found in the
+ *     <a target="_blank"
+ * href="https://github.com/laforge49/JActor/blob/master/src/main/java/org/agilewiki/jactor/components/factory/Factory.java"
+ * >Factory</a> class, though it only makes limited use of SMBuilder's capabilities.
+ * </p>
+ * <pre>
+ *     SMBuilder smb = new SMBuilder();
+ *     smb._send(actor, include);
+ *     smb._if(actorName == null, "fin");
+ *     smb._send(actor, new SetActorName(actorName));
+ *     smb._send(getActor(), new RegisterActor(actor));
+ *     smb._label("fin");
+ *     smb._return(actor);
+ *     smb.call(rp);
+ * </pre>
  */
 
 package org.agilewiki.jactor;
