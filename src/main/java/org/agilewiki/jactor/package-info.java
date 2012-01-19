@@ -23,7 +23,7 @@
  */
 
 /**
- * <h2>Introduction</h2>
+ * <h2>Introduction to JActor</h2>
  * <p>
  *     JActor is blazing fast, passing messages at a rate of up to 1 billion messages per second. It achieves this
  *     by using synchronous operations whenever possible. Indeed, JActor is fast enough that you can use actors
@@ -79,8 +79,7 @@
  * <h2>Asynchronous Mailboxes</h2>
  * <p>
  *     An actor with an asynchronous mailbox operates on a separate thread, which is to say that it does not
- *     synchronously process messages from other actors. Unlike regular mailboxes, asynchronous mailboxes should not be
- *     shared--every asynchronous actor should have its own asynchronous mailbox.
+ *     synchronously process messages from other actors.
  * </p>
  * <p>
  *     The createAsyncMailbox method on MailboxFactory creates an asynchronous mailbox.

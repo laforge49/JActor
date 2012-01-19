@@ -23,30 +23,234 @@
  */
 
 /**
+ * <h2>Introduction to JLPCActor--the Basic Actor</h2>
  * <p>
- * The lpc package implements Local Procedure Calls (LPC), which are similar to APCs, except
- * that they mostly operate synchronously. The effect is higher performance, especially when
- * calls are made one at a time rather than in bursts--which is typical of general programming.
- * But the big news is that LPCs are fast enough that an "actors everywhere" approach becomes
- * reasonable, and it is now relatively easy to develop software that can fully utilize any
- * number of hardware threads.
+ *     The JLPCActor supports 1-way and 2-way messaging and works with either a mailbox or an asynchronous mailbox.
+ *     It also supports exception handlers, JAIterator and SMBuilder. On the other hand, it supports neither message
+ *     binding nor actor composition--these are handled by JBActor and JCActor.
  * </p>
+ *
+ * <h2>A Simple Calculator</h2>
  * <p>
- * LPCMailboxes are now first class objects which can be shared by LPCActors. The result is
- * even better performance (4 nanoseconds per message), as procedure calls between LPCActors
- * with the same mailbox do not use request or response wrappers.
+ *     We will implement a simple calculator to show how to build an actor. First, we need some classes that we can
+ *     use as requests that can be sent to the calculator.
  * </p>
+ * <pre>
+ *     public class Clear {}
+ *
+ *     public class Get {}
+ *
+ *     public class Set {
+ *         public Set(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ *
+ *     public class Add {
+ *         public Add(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ *
+ *     public class Subtract {
+ *         public Subtract(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ *
+ *     public class Multiply {
+ *         public Multiply(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ *
+ *     public class Divide {
+ *         public Divide(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ * </pre>
  * <p>
- * When LPCActors use different mailboxes messages are still passed synchronously, except when
- * the target mailbox is busy. The results are still very good (3.4 nanoseconds per message),
- * as the same procedure calls between actors are used.
+ *     The Calculator class extends JLPCActor and implements one method, processRequest, which must handle all
+ *     incoming request messages. For each type of request, the appropriate operation is performed and the value
+ *     of the accumulator is returned.
  * </p>
+ * <pre>
+ *     public class Calculator extends JLPCActor {
+ *         private int accumulator;
+ *
+ *         public Calculator(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *             if (request instanceof Clear) clear((Clear) request, rp);
+ *             else if (request instanceof Get) get((Get) request, rp);
+ *             else if (request instanceof Set) set((Set) request, rp);
+ *             else if (request instanceof Add) add((Add) request, rp);
+ *             else if (request instanceof Subtract) subtract((Subtract) request, rp);
+ *             else if (request instanceof Multiply) multiply((Multiply) request, rp);
+ *             else if (request instanceof Divide) divide((Divide) request, rp);
+ *             else throw new UnsupportedOperationException(request.getClass().getName());
+ *         }
+ *
+ *         private void clear(Clear request, ResponseProcessor rp) throws Exception {
+ *             accumulator = 0;
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void get(Get request, ResponseProcessor rp) throws Exception {
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void set(Set request, ResponseProcessor rp) throws Exception {
+ *             accumulator = request.getValue();
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void add(Add request, ResponseProcessor rp) throws Exception {
+ *             accumulator = accumulator + request.getValue();
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void subtract(Subtract request, ResponseProcessor rp) throws Exception {
+ *             accumulator = accumulator - request.getValue();
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void multiply(Multiply request, ResponseProcessor rp) throws Exception {
+ *             accumulator = accumulator * request.getValue();
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *
+ *         private void divide(Divide request, ResponseProcessor rp) throws Exception {
+ *             accumulator = accumulator / request.getValue();
+ *             rp.process(new Integer(accumulator));
+ *         }
+ *     }
+ * </pre>
  * <p>
- * Now there are times when, to be able to make good use of the available hardware threads,
- * asynchronous procedure calls are needed. This is achieved by flagging a Mailbox as
- * asynchronous. Procedure calls to an actor with an asynchronous mailbox are always asynchronous--
- * except when both actors share the same mailbox. Performance remains reasonable (193 nanoseconds per message).
+ *     To test our calculator, we need to create a MailboxFactory, a Mailbox, a Calculator and a JAFuture.
+ *     We then use the JAFuture object to set the calculator to 1, to add 2 and then multiply by 3. The result returned from the
+ *     add is 9.
  * </p>
- */
+ * <pre>
+ *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ *     Actor calculator = new Calculator(mailbox);
+ *     JAFuture future = new JAFuture();
+ *     future.send(calculator, new Set(1));
+ *     future.send(calculator, new Add(2));
+ *     System.err.println(future.send(calculator, new Multiply(3)));
+ * </pre>
+ * <p>
+ *     We should see how we can perform these same operations from within another actor using 2-way messages. It gets a
+ *     little messy.
+ * </p>
+ * <pre>
+ *     public class Driver1 extends JLPCActor {
+ *         public Driver1(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(Object request, final ResponseProcessor rp) throws Exception {
+ *             final Actor calculator = new Calculator(getMailbox());
+ *             send(calculator, new Set(1), new ResponseProcessor() {
+ *                 public void process(Object response) throws Exception {
+ *                     send(calculator, new Add(2), new ResponseProcessor() {
+ *                         public void process(Object response) throws Exception {
+ *                             send(calculator, new Multiply(3), rp);
+ *                         }
+ *                     });
+ *                 }
+ *             });
+ *         }
+ *     }
+ * </pre>
+ * <p>
+ *     And here is the test code, which produces the same result as before: 9.
+ * </p>
+ * <pre>
+ *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ *     Actor driver = new Driver1(mailbox);
+ *     JAFuture future = new JAFuture();
+ *     System.err.println(future.send(driver, null));
+ * </pre>
+ * <p>
+ *     Sometimes we can use 1-way messages to simplify our code. Again, this code
+ *     produces the same results as above.
+ * </p>
+ * <pre>
+ *     public class Driver2 extends JLPCActor {
+ *         public Driver2(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(Object request, final ResponseProcessor rp)
+ *                      throws Exception {
+ *             final Actor calculator = new Calculator(getMailbox());
+ *             send(calculator, new Set(1));
+ *             send(calculator, new Add(2));
+ *             send(calculator, new Multiply(3), rp);
+ *         }
+ *     }
+ * </pre>
+ * <p>
+ *     A more general solution is of course to use a state machine.
+ * </p>
+ * <pre>
+ *     public class Driver3 extends JLPCActor {
+ *         public Driver3(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(Object request, final ResponseProcessor rp)
+ *                 throws Exception {
+ *             final Actor calculator = new Calculator(getMailbox());
+ *             final SMBuilder smb = new SMBuilder();
+ *             smb._send(calculator, new Set(1));
+ *             smb._send(calculator, new Add(2));
+ *             smb._send(calculator, new Multiply(3), "result");
+ *             smb._return(new ObjectFunc() {
+ *                 public Object get(StateMachine sm) {
+ *                     return sm.get("result");
+ *                 }
+ *             });
+ *             smb.call(rp);
+ *         }
+ *     }
+ * </pre>
+*/
 
 package org.agilewiki.jactor.lpc;
