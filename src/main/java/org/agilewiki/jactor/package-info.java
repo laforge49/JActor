@@ -247,6 +247,19 @@
  *     smb._return(actor);
  *     smb.call(rp);
  * </pre>
+ *
+ * <h2>Parallel Processing</h2>
+ * <p>
+ *     Parallel processing is not at all difficult. You create some asynchronous actors and then do a series of calls to
+ *     send, aggregating the responses. The aggregated response can then be returned as a result once the last response
+ *     has been received.
+ * </p>
+ * <p>
+ *     Benchmarks for parallelism are probably the simplest of all, as the responses do not need to be aggregated. The
+ *     JAParallel class was developed specifically to support this,
+ *     <a target="_blank"
+ * href="https://github.com/laforge49/JActor/blob/master/src/test/java/org/agilewiki/jactor/lpc/timing/SharedMailboxTest.java"
+ * >SharedMailboxTest</a> being a good case in point.
  */
 
 package org.agilewiki.jactor;
