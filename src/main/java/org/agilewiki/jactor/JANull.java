@@ -3,5 +3,14 @@ package org.agilewiki.jactor;
 /**
  * Represents a null when exiting JAIterator.iterate.
  */
-public class JANull {
+final public class JANull {
+    /**
+     * The JANull singleton.
+     */
+    public final static JANull jan = new JANull();
+
+    /**
+     * Create a JANull.
+     */
+    private JANull() {}
 }

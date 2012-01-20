@@ -102,7 +102,7 @@ final public class JCActor extends JBActor {
                     c.open(internals, new ResponseProcessor() {
                         @Override
                         public void process(Object response) throws Exception {
-                            rp1.process(new JANull());
+                            rp1.process(JANull.jan);
                         }
                     });
                 }

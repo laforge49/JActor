@@ -81,7 +81,7 @@ final public class _ReturnF implements _Operation {
     @Override
     final public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
         Object rv = result.get(stateMachine);
-        if (rv == null) rv = new JANull();
+        if (rv == null) rv = JANull.jan;
         rp.process(rv);
     }
 }
