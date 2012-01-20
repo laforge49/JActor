@@ -65,4 +65,22 @@ public class CalculatorTest extends TestCase {
             mailboxFactory.close();
         }
     }
+
+    public void test5() {
+        System.err.println("test 5");
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        try{
+            Mailbox mailbox = mailboxFactory.createMailbox();
+            Actor calculator = new PrintingCalculator(mailbox);
+            JAFuture future = new JAFuture();
+            future.send(calculator, new Set(1));
+            future.send(calculator, new Add(2));
+            future.send(calculator, new Multiply(3));
+            future.send(calculator, new Divide(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mailboxFactory.close();
+        }
+    }
 }

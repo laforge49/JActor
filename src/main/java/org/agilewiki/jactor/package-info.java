@@ -31,7 +31,7 @@
  * </p>
  * <p>
  *     On the other hand, it is easy enough to force an actor to operate asynchronously--without changing how messages
- *     are sent to it. So I/O and computations taking longer than a microsecond can execute on a different thread.
+ *     are sent to it. So I/O and computations taking longer than a few microseconds can execute on a different thread.
  *     Jactor is entirely free of locks and parallel operations are easy to code, making JActor ideal for applications
  *     that need to scale vertically.
  * </p>
