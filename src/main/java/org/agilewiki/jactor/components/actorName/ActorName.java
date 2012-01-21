@@ -36,6 +36,14 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * Supported request messages: SetActorName and GetActorName.
  */
 public class ActorName extends Component {
+
+    /**
+     * Initialize the component after all its includes have been processed.
+     * The response must always be null;
+     *
+     * @param internals The JBActor's internals.
+     * @throws Exception Any exceptions thrown during the open.
+     */
     @Override
     public void open(JBActor.Internals internals, final ResponseProcessor rp)
             throws Exception {
