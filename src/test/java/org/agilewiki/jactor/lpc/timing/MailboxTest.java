@@ -21,6 +21,7 @@ public class MailboxTest extends TestCase {
         //320000000 messages sent with 4 threads.
         //msgs per sec = 71095312
         //14 nanoseconds per message test
+        //response time 56 namoseconds
 
         //int c = 10000;
         //int b = 1000;

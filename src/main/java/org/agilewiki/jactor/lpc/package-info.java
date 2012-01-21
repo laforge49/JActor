@@ -30,6 +30,27 @@
  *     binding nor actor composition--these are handled by JBActor and JCActor.
  * </p>
  *
+ * <h2>Message Passing Benchmarks</h2>
+ * <p>
+ * When actors share the same mailbox, 1,095,890,410 messages are passed per second. With a
+ * response time of 7.6 nanoseconds.
+ * </p>
+ * <p>
+ * When different mailboxes are used, the rate drops to 71,095,312 per second and the response
+ * time becomes 56 nanoseconds.
+ * </p>
+ * <p>
+ * Asynchronous message passing is also supported, making it easy to use all the available
+ * hardware threads for good vertical scalability. Messages sent to an actor with an
+ * asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second. The
+ * response time is 996 nanoseconds.
+ * </p>
+ * <p>
+ * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
+ * times reported were best run in 5. Only standard switch settings were used--there was NO
+ * compiler optimization.
+ * </p>
+ *
  * <h2>A Simple Calculator</h2>
  * <p>
  *     We will implement a simple calculator to show how to build an actor. First, we need some classes that we can

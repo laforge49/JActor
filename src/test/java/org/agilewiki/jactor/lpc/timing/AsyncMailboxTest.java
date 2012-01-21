@@ -6,10 +6,22 @@ import org.agilewiki.jactor.parallel.JAParallel;
 
 public class AsyncMailboxTest extends TestCase {
     public void testTiming() {
-        int c = 2;
-        int b = 3;
-        int p = 1;
-        int t = 1;
+        //int c = 2;
+        //int b = 3;
+        //int p = 1;
+        //int t = 1;
+
+        int c = 1000000;
+        int b = 1;
+        int p = 4;
+        int t = 4;
+
+        //burst size of 1
+        //4 parallel runs of 2000000 messages each.
+        //8000000 messages sent with 4 threads.
+        //msgs per sec = 4020100
+        //249 nanoseconds per message
+        //response time 996
 
         //int c = 10000;
         //int b = 1000;

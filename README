@@ -10,7 +10,7 @@ Be sure to follow the project blog: https://sourceforge.net/p/jactor/blog/
 This project is a reimplementation of a portion of the AsyncFP Scala project:
     https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
 
-Message passing between actors uses 2-way messages (request / response). There are several
+Message passing between actors mostly uses 2-way messages (request / response). There are several
 reasons for this:
 
     o With 2-way messaging, sending a request is very similar to a method call with a
@@ -70,12 +70,16 @@ Several components are provided:
 
 Message Passing Benchmarks
 
-When actors share the same mailbox, 1,095,890,410 messages are passed per second. Otherwise
-the rate drops to 71,095,312 per second.
+When actors share the same mailbox, 1,095,890,410 messages are passed per second. With a
+response time of 7.6 nanoseconds.
+
+When different mailboxes are used, the rate drops to 71,095,312 per second and the response
+time becomes 56 nanoseconds.
 
 Asynchronous message passing is also supported, making it easy to use all the available
 hardware threads for good vertical scalability. Messages sent to an actor with an
-asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second.
+asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second. The
+response time is 996 nanoseconds.
 
 Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
 times reported were best run in 5. Only standard switch settings were used--there was NO

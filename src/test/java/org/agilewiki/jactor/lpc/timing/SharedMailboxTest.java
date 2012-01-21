@@ -21,6 +21,7 @@ public class SharedMailboxTest extends TestCase {
         //320000000 messages sent with 4 threads.
         //msgs per sec = 518638573
         //1.9 nanoseconds per message test
+        //response time of 7.6 nanoseconds
 
         //int c = 2000000;
         //int b = 10;
