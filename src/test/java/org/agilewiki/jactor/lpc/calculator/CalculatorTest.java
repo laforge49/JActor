@@ -83,4 +83,19 @@ public class CalculatorTest extends TestCase {
             mailboxFactory.close();
         }
     }
+
+    public void test6() {
+        System.err.println("test 6");
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        try{
+            Mailbox mailbox = mailboxFactory.createMailbox();
+            Actor calculator = new FactorialCalculation(mailbox);
+            JAFuture future = new JAFuture();
+            System.err.println(future.send(calculator, new Factorial(5)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mailboxFactory.close();
+        }
+    }
 }
