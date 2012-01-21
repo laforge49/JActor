@@ -408,6 +408,77 @@
  *     + 2 => 3
  *     * 3 => 9
  *     / 0 => java.lang.ArithmeticException: / by zero * </pre>
+ *
+ * <h2>Iterator</h2>
+ * <p>
+ *     We can use JAIterator and Calculator together to calculate factorials.
+ * </p>
+ * <p>
+ *     First we need a factorial request.
+ * </p>
+ * <pre>
+ *     final public class Factorial {
+ *         public Factorial(int value) {
+ *             this.value = value;
+ *         }
+ *
+ *         public int getValue() {
+ *             return value;
+ *         }
+ *
+ *         private int value;
+ *     }
+ * </pre>
+ * <p>
+ *     Now we need an actor to perform the factorial.
+ * </p>
+ * <pre>
+ *     public class FactorialCalculation extends JLPCActor {
+ *         public FactorialCalculation(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(final Object request, final ResponseProcessor rp)
+ *                 throws Exception {
+ *             final Calculator calculator = new Calculator(getMailbox());
+ *             send(calculator, new Set(1), new ResponseProcessor() {
+ *                 public void process(Object response) throws Exception {
+ *                     JAIterator it = new JAIterator() {
+ *                         Factorial factorial = (Factorial) request;
+ *                         int max = factorial.getValue();
+ *                         int count = 0;
+ *                         protected void process(final ResponseProcessor rp1) throws Exception {
+ *                             if (count == max) {
+ *                                 send(calculator, new Get(), rp1);
+ *                                 return;
+ *                             }
+ *                             count += 1;
+ *                             send(calculator, new Multiply(count), new ResponseProcessor() {
+ *                                 public void process(Object response) throws Exception {
+ *                                     rp1.process(null);
+ *                                 }
+ *                             });
+ *                         }
+ *                     };
+ *                     it.iterate(rp);
+ *                 }
+ *             });
+ *         }
+ *     }
+ * </pre>
+ * <p>
+ *     And then some test code.
+ * </p>
+ * <pre>
+ *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ *     Actor calculator = new FactorialCalculation(mailbox);
+ *     JAFuture future = new JAFuture();
+ *     System.err.println(future.send(calculator, new Factorial(5)));
+ * </pre>
+ * <p>
+ *     The result is 120.
+ * </p>
 */
 
 package org.agilewiki.jactor.lpc;

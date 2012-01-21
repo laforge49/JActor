@@ -4,8 +4,6 @@ import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.stateMachine.ObjectFunc;
-import org.agilewiki.jactor.stateMachine.StateMachine;
 
 public class FactorialCalculation extends JLPCActor {
     public FactorialCalculation(Mailbox mailbox) {
@@ -13,7 +11,8 @@ public class FactorialCalculation extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(final Object request, final ResponseProcessor rp) throws Exception {
+    protected void processRequest(final Object request, final ResponseProcessor rp)
+            throws Exception {
         final Calculator calculator = new Calculator(getMailbox());
         send(calculator, new Set(1), new ResponseProcessor() {
             @Override

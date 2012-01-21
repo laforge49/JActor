@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.lpc.calculator;
 
-public class Factorial {
+final public class Factorial {
     public Factorial(int value) {
         this.value = value;
     }
