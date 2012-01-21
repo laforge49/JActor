@@ -12,10 +12,10 @@ public class EventTest extends TestCase {
             JAEvent event = new JAEvent();
             JAFuture future = new JAFuture();
             Hi hi = new Hi();
-            event.send(a, hi);
+            event.sendEvent(a, hi);
             future.send(a, hi);
             Ho ho = new Ho();
-            event.send(a, ho);
+            event.sendEvent(a, ho);
             future.send(a, ho);
         } catch (Exception e) {
             e.printStackTrace();

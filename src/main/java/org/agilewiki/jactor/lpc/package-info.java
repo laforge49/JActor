@@ -241,8 +241,8 @@
  *         protected void processRequest(Object request, final ResponseProcessor rp)
  *                      throws Exception {
  *             final Actor calculator = new Calculator(getMailbox());
- *             send(calculator, new Set(1));
- *             send(calculator, new Add(2));
+ *             sendEvent(calculator, new Set(1));
+ *             sendEvent(calculator, new Add(2));
  *             send(calculator, new Multiply(3), rp);
  *         }
  *     }

@@ -130,7 +130,7 @@
  * </p>
  * <pre>
  *     JAEvent jaEvent = new JAEvent();
- *     jaEvent.send(actor, request);
+ *     jaEvent.sendEvent(actor, request);
  * </pre>
  * <p>
  *     The application logic for processing a request need not distinguish between 1-way and 2-way requests.
@@ -154,10 +154,9 @@
  *     boolean event = rp.isEvent();
  * </pre>
  * <p>
- *     The send method of an actor is used to send a request to another actor. In the case of 2-way messages, the send
- *     method has a 3rd parameter--a ResponseProcessor object. But the ResponseProcessor object sent by one actor is
- *     often not the same object that is received by the other actor. The JActor code does a lot of intermediation with
- *     ResponseProcessor objects.
+ *     The send method of an actor is used to send a request to another actor. And the 3rd parameter is a
+ *     ResponseProcessor object. But the ResponseProcessor object sent by one actor is often not the same object that
+ *     is received by the other actor. The JActor code does a lot of intermediation with ResponseProcessor objects.
  * </p>
  * <pre>
  *     send(anotherActor, someRequest, new ResponseProcessor() {

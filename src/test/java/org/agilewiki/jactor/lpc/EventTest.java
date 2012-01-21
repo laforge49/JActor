@@ -11,7 +11,7 @@ public class EventTest extends TestCase {
             Actor a = new A(mailboxFactory.createMailbox());
             JAEvent event = new JAEvent();
             JAFuture future = new JAFuture();
-            event.send(a, null);
+            event.sendEvent(a, null);
             future.send(a, null);
         } catch (Exception e) {
             e.printStackTrace();

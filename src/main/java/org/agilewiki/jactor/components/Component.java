@@ -139,7 +139,7 @@ public class Component {
      * @param actor   The target actor.
      * @param request The request.
      */
-    final protected void send(Actor actor, Object request) {
+    final protected void sendEvent(Actor actor, Object request) {
         try {
             send(actor, request, JANoResponse.nrp);
         } catch (Exception ex) {
