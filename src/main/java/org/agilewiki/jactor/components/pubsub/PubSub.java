@@ -29,8 +29,10 @@ import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implements publish/subscribe.
@@ -39,7 +41,7 @@ public class PubSub extends Component {
     /**
      * The subscribing actors.
      */
-    private ConcurrentSkipListSet<Actor> subscribers = new ConcurrentSkipListSet<Actor>();
+    private Set<Actor> subscribers = Collections.newSetFromMap(new ConcurrentHashMap<Actor, Boolean>());
 
     /**
      * Initialize the component after all its includes have been processed.

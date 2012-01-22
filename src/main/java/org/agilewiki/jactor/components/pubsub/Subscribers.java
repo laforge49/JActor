@@ -25,7 +25,6 @@ package org.agilewiki.jactor.components.pubsub;
 
 /**
  * A request for the set of subscribing actors.
- * The result is the ConcurrentSkipListSet<Actor> containing the subscribing actors.
+ * The result is a concurrent set containing the subscribing actors.
  */
-public class Subscribers {
-}
+public class Subscribers {}
