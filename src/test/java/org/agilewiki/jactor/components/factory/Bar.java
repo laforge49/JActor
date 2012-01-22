@@ -27,7 +27,7 @@ public class Bar extends Component {
             public void process(Object response) throws Exception {
                 bind(Hi.class.getName(), new MethodBinding() {
                     @Override
-                    protected void processRequest(Object request, final ResponseProcessor rp1) throws Exception {
+                    public void processRequest(Object request, final ResponseProcessor rp1) throws Exception {
                         send(getActor(), new GetActorName(), new ResponseProcessor() {
                             @Override
                             public void process(Object response) throws Exception {

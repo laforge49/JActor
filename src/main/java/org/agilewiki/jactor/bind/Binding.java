@@ -64,6 +64,6 @@ abstract public class Binding {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object request, ResponseProcessor rp)
+    abstract public void processRequest(Object request, ResponseProcessor rp)
             throws Exception;
 }

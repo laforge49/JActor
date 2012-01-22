@@ -37,7 +37,7 @@ abstract public class SyncBinding extends Binding {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+    final public void processRequest(Object request, ResponseProcessor rp) throws Exception {
         throw new UnsupportedOperationException();
     }
 }

@@ -62,7 +62,7 @@ public class Factory extends Component {
             public void process(Object response) throws Exception {
 
                 bind(DefineActorType.class.getName(), new MethodBinding() {
-                    protected void processRequest(Object request, final ResponseProcessor rp1)
+                    public void processRequest(Object request, final ResponseProcessor rp1)
                             throws Exception {
                         DefineActorType defineActorType = (DefineActorType) request;
                         String actorType = defineActorType.getActorType();
@@ -98,7 +98,7 @@ public class Factory extends Component {
                     }
 
                     @Override
-                    protected void processRequest(Object request, final ResponseProcessor rp)
+                    public void processRequest(Object request, final ResponseProcessor rp)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();

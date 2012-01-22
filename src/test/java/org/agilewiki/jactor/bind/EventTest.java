@@ -36,7 +36,7 @@ public class EventTest extends TestCase {
             super(mailbox);
 
             bind(Hi.class.getName(), new MethodBinding() {
-                protected void processRequest(Object request, ResponseProcessor rp)
+                public void processRequest(Object request, ResponseProcessor rp)
                         throws Exception {
                     System.err.println("A got request");
                     rp.process("Hello world!");

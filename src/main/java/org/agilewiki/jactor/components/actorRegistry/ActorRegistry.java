@@ -68,7 +68,7 @@ public class ActorRegistry extends Component {
             public void process(Object response) throws Exception {
 
                 bind(RegisterActor.class.getName(), new MethodBinding() {
-                    protected void processRequest(Object request, final ResponseProcessor rp1)
+                    public void processRequest(Object request, final ResponseProcessor rp1)
                             throws Exception {
                         RegisterActor registerActor = (RegisterActor) request;
                         final JCActor actor = registerActor.getActor();
@@ -86,7 +86,7 @@ public class ActorRegistry extends Component {
                 });
 
                 bind(UnregisterActor.class.getName(), new MethodBinding() {
-                    protected void processRequest(Object request, final ResponseProcessor rp1)
+                    public void processRequest(Object request, final ResponseProcessor rp1)
                             throws Exception {
                         UnregisterActor unregisterActor = (UnregisterActor) request;
                         final String name = unregisterActor.getName();
