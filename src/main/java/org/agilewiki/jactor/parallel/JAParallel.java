@@ -80,22 +80,4 @@ final public class JAParallel extends JLPCActor {
             i += 1;
         }
     }
-
-    /**
-     * Returns the response to be sent.
-     *
-     * @return The response to be sent.
-     */
-    public Object getResponse() {
-        return responseCounter.getResponse();
-    }
-
-    /**
-     * Assign the response to be sent.
-     *
-     * @param response The response to be sent.
-     */
-    public void setResponse(Object response) {
-        responseCounter.setResponse(response);
-    }
 }

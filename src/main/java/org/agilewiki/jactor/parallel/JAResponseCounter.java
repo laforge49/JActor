@@ -71,22 +71,4 @@ final public class JAResponseCounter extends ResponseProcessor {
         c += 1;
         if (c == max) rp.process(null);
     }
-
-    /**
-     * Returns the response to be sent.
-     *
-     * @return The response to be sent.
-     */
-    public Object getResponse() {
-        return response;
-    }
-
-    /**
-     * Assign the response to be sent.
-     *
-     * @param response The response to be sent.
-     */
-    public void setResponse(Object response) {
-        this.response = response;
-    }
 }
