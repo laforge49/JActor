@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.pubsub.Publish;
+import org.agilewiki.jactor.pubsub.Subscribe;
+import org.agilewiki.jactor.pubsub.Unsubscribe;
 
 public class PubSubComponentTest extends TestCase {
     public void test() {

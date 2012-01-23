@@ -28,6 +28,7 @@ import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
+import org.agilewiki.jactor.pubsub.*;
 
 import java.util.Collections;
 import java.util.Iterator;

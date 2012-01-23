@@ -21,10 +21,35 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.pubsub;
+
+import org.agilewiki.jactor.Actor;
 
 /**
- * A request for the set of subscribing actors.
- * The result is a concurrent set containing the subscribing actors.
+ * Unsubscribe from a publisher.
+ * The result is true when a subscriber has been unsubscribed.
  */
-public class Subscribers {}
+public class Unsubscribe {
+    /**
+     * The subscribing actor.
+     */
+    private Actor subscriber;
+
+    /**
+     * Create an unsubscribe request.
+     *
+     * @param subscriber The subscribing actor.
+     */
+    public Unsubscribe(Actor subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    /**
+     * Returns the subscribing actor.
+     *
+     * @return The subscribing actor.
+     */
+    public Actor getSubscriber() {
+        return subscriber;
+    }
+}

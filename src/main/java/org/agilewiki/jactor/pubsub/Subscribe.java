@@ -21,26 +21,26 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.pubsub;
 
 import org.agilewiki.jactor.Actor;
 
 /**
- * Unsubscribe from a publisher.
- * The result is true when a subscriber has been unsubscribed.
+ * Subscribe to a publisher
+ * The result returned is true when a new subscriber has been added.
  */
-public class Unsubscribe {
+public class Subscribe {
     /**
      * The subscribing actor.
      */
     private Actor subscriber;
 
     /**
-     * Create an unsubscribe request.
+     * Create a Subscribe request.
      *
      * @param subscriber The subscribing actor.
      */
-    public Unsubscribe(Actor subscriber) {
+    public Subscribe(Actor subscriber) {
         this.subscriber = subscriber;
     }
 
