@@ -10,11 +10,37 @@ import org.agilewiki.jactor.parallel.JAParallel;
 public class TimingTest extends TestCase {
     public void test() {
 
-        int c = 10;
-        int b = 1;
-        int s = 1000;
-        int p = 1;
+        //int c = 10;
+        //int b = 1;
+        //int s = 1000;
+        //int p = 1;
+        //int t = 4;
+
+        //int c = 1000000;
+        //int b = 1;
+        //int s = 10;
+        //int p = 4;
+        //int t = 4;
+        //4 parallel runs of 1000000 bursts of 1 requests sent to 10 subscribers
+        //publications per sec = 18867924
+        //response time 21 nanoseconds
+
+        //int c = 10000;
+        //int b = 1;
+        //int s = 1000;
+        //int p = 4;
+        //int t = 4;
+        //4 parallel runs of 10000 bursts of 1 requests sent to 1000 subscribers
+        //publications per sec = 23852116
+        //response time 17 nanoseconds
+
+        int c = 1000;
+        int b = 1000;
+        int s = 10;
+        int p = 4;
         int t = 4;
+        //4 parallel runs of 1000 bursts of 1000 requests sent to 10 subscribers
+        //publications per sec = 17841213
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

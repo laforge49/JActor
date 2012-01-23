@@ -10,14 +10,29 @@ import org.agilewiki.jactor.parallel.JAParallel;
 public class AsyncTimingTest extends TestCase {
     public void test() {
 
-        int c = 100000;
+        int c = 1;
         int b = 1;
         int s = 10;
         int p = 4;
         int t = 4;
+
+        //int c = 100000;
+        //int b = 1;
+        //int s = 10;
+        //int p = 4;
+        //int t = 4;
         //4 parallel runs of 100000 bursts of 1 requests sent to 10 subscribers
         //publications per sec = 2751031
         //response time 1.5 microseconds
+
+        //int c = 1000;
+        //int b = 1;
+        //int s = 1000;
+        //int p = 4;
+        //int t = 4;
+        //4 parallel runs of 1000 bursts of 1 requests sent to 1000 subscribers
+        //publications per sec = 1642036
+        //response time 2.4 microseconds
 
         //int c = 1000;
         //int b = 1000;

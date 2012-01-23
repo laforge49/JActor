@@ -33,6 +33,15 @@ public class SharedTimingTest extends TestCase {
         //publications per sec = 81799591
         //response time 49 nanoseconds
 
+        //int c = 1000000;
+        //int s = 10;
+        //int p = 8;
+        //int t = 4;
+
+        //8 parallel runs of 1000000 requests sent to 10 subscribers
+        //publications per sec = 46457607
+        //response time 86 nanoseconds
+
         //int c = 10000;
         //int s = 1000;
         //int p = 16;
