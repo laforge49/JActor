@@ -23,12 +23,11 @@
  */
 package org.agilewiki.jactor.pubsub;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -58,11 +57,28 @@ public class PubSub extends JLPCActor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+    protected void processRequest(final Object request, final ResponseProcessor rp) throws Exception {
         if (request instanceof Publish) {
-            Publish publish = (Publish) request;
+            final Iterator<Actor> sit = subscribers.iterator();
+            JAIterator jaIterator = new JAIterator() {
+                Publish publish = (Publish) request;
+                Object broadcastRequest = publish.getRequest();
+                final PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
 
-            rp.process(subscribers);
+                @Override
+                protected void process(ResponseProcessor rp1) throws Exception {
+                    if (!sit.hasNext()) {
+                        psrp.finished();
+                        rp1.process(JANull.jan);
+                        return;
+                    }
+                    Actor subscriber = sit.next();
+                    psrp.sent += 1;
+                    send(subscriber, broadcastRequest, psrp);
+                    rp1.process(null);
+                }
+            };
+            jaIterator.iterate(JANoResponse.nrp);
             return;
         }
         if (request instanceof Subscribe) {
