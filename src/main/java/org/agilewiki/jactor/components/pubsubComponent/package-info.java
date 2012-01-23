@@ -1,6 +1,6 @@
 /**
  * <p>
- *     One possible implementat of publish/subscribe.
+ *     One possible implementation of publish/subscribe.
  * </p>
  * <p>
  *     This package uses 2-way messaging, with the advantage that a publish

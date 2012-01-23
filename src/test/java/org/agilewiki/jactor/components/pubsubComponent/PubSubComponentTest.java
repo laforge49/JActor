@@ -5,14 +5,14 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 
-public class PubSubTest extends TestCase {
+public class PubSubComponentTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
-            future.send(publisher, new Include(PubSub.class));
+            future.send(publisher, new Include(PubSubComponent.class));
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
             future.send(publisher, new Subscribe(subscriber1));

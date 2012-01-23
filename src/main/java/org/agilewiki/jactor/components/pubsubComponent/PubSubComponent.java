@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Implements publish/subscribe.
  */
-public class PubSub extends Component {
+public class PubSubComponent extends Component {
     /**
      * The subscribing actors.
      */

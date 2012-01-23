@@ -7,7 +7,7 @@ import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.pubsubComponent.PubSub;
+import org.agilewiki.jactor.components.pubsubComponent.PubSubComponent;
 import org.agilewiki.jactor.components.pubsubComponent.Publish;
 import org.agilewiki.jactor.parallel.JAResponseCounter;
 
@@ -17,7 +17,7 @@ public class Driver extends Component {
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
-        rv.add(new Include(PubSub.class));
+        rv.add(new Include(PubSubComponent.class));
         return rv;
     }
 
