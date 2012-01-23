@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsubComponent.timing;
+package org.agilewiki.jactor.pubsub.timing;
 
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;

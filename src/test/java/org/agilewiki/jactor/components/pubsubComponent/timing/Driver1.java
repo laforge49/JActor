@@ -12,7 +12,7 @@ import org.agilewiki.jactor.pubsub.Publish;
 
 import java.util.ArrayList;
 
-public class Driver1 extends Component {
+final public class Driver1 extends Component {
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
