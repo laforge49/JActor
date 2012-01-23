@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsub;
+package org.agilewiki.jactor.components.pubsubComponent;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;

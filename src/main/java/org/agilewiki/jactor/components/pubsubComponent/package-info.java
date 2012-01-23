@@ -12,4 +12,4 @@
  *     And like JAParallel, requests are published in parallel.
  * </p>
  */
-package org.agilewiki.jactor.components.pubsub;
+package org.agilewiki.jactor.components.pubsubComponent;

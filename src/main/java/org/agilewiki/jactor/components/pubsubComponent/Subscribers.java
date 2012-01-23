@@ -21,32 +21,10 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsub;
+package org.agilewiki.jactor.components.pubsubComponent;
 
 /**
- * Broadcast a request to all subscribers.
- * The response is the number of subscribers to which the request was broadcast.
+ * A request for the set of subscribing actors.
+ * The result is a concurrent set containing the subscribing actors.
  */
-public class Publish {
-    /**
-     * The request to be broadcast.
-     */
-    private Object request;
-
-    /**
-     * Create a publish request.
-     * @param request The request to be broadcast.
-     */
-    public Publish(Object request) {
-        this.request = request;
-    }
-
-    /**
-     * Returns the request to be broadcast.
-     *
-     * @return The request to be broadcast.
-     */
-    public Object getRequest() {
-        return request;
-    }
-}
+public class Subscribers {}

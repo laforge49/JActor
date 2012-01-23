@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsubComponent.timing;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
@@ -7,13 +7,13 @@ import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.pubsub.PubSub;
-import org.agilewiki.jactor.components.pubsub.Publish;
+import org.agilewiki.jactor.components.pubsubComponent.PubSub;
+import org.agilewiki.jactor.components.pubsubComponent.Publish;
+import org.agilewiki.jactor.parallel.JAResponseCounter;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 
-public class Driver1 extends Component {
+public class Driver extends Component {
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
@@ -31,6 +31,7 @@ public class Driver1 extends Component {
                     public void processRequest(Object request, ResponseProcessor rp) throws Exception {
                         Timing timing = (Timing) request;
                         final int count = timing.getCount();
+                        final int burst = timing.getBurst();
                         JAIterator jaIterator = new JAIterator() {
                             int i = 0;
                             Publish publish = new Publish(new NullRequest());
@@ -42,12 +43,12 @@ public class Driver1 extends Component {
                                     return;
                                 }
                                 i += 1;
-                                send(getActor(), publish, new ResponseProcessor() {
-                                    @Override
-                                    public void process(Object response) throws Exception {
-                                        rp1.process(null);
-                                    }
-                                });
+                                ResponseProcessor rp2 = new JAResponseCounter(burst, rp1);
+                                int j = 0;
+                                while (j < burst) {
+                                    send(getActor(), publish, rp2);
+                                    j += 1;
+                                }
                             }
                         };
                         jaIterator.iterate(rp);

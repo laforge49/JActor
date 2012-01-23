@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsubComponent.timing;
 
 public class Timing {
     private int count;

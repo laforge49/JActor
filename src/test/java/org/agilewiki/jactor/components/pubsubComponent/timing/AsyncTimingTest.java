@@ -1,10 +1,10 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsubComponent.timing;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.pubsub.Subscribe;
+import org.agilewiki.jactor.components.pubsubComponent.Subscribe;
 import org.agilewiki.jactor.parallel.JAParallel;
 
 public class AsyncTimingTest extends TestCase {
