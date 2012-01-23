@@ -36,7 +36,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Implements publish/subscribe.
+ * Implements publish/subscribe over Component.
  */
 public class PubSubComponent extends Component {
     /**
@@ -81,7 +81,7 @@ public class PubSubComponent extends Component {
                 });
 
                 bind(Publish.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestSource requestSource,
+                    public void acceptRequest(final RequestSource requestSource,
                                               final Object request,
                                               final ResponseProcessor rp)
                             throws Exception {
@@ -100,7 +100,7 @@ public class PubSubComponent extends Component {
                                 }
                                 Actor subscriber = sit.next();
                                 psrp.sent += 1;
-                                send(subscriber, broadcastRequest, psrp);
+                                subscriber.acceptRequest(requestSource, broadcastRequest, psrp);
                                 rp1.process(null);
                             }
                         };
