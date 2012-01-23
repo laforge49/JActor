@@ -67,6 +67,7 @@ Several components are provided:
     ActorRegistry - Locates actors by name and closes them when the registry is closed.
     Factory - For creating actors with a single component include.
     Properties - For creating a table of name/value pairs.
+    PubSub - Publish and subscribe.
 
 Message Passing Benchmarks
 
@@ -80,6 +81,19 @@ Asynchronous message passing is also supported, making it easy to use all the av
 hardware threads for good vertical scalability. Messages sent to an actor with an
 asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second. The
 response time is 996 nanoseconds.
+
+PubSub Component Benchmarks
+
+For shared mailboxes, 81,799,591 publications per second
+and a response time of 49 nanoseconds.
+
+With different mailboxes, 23,852,116 publications per second
+and a response time of 168 nanoseconds.
+
+And with asynchronous mailboxes, 10,083,186 publications per second
+and a response time of 1.5 microseconds.
+
+Test Environment
 
 Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
 times reported were best run in 5. Only standard switch settings were used--there was NO
