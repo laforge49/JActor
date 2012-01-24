@@ -258,6 +258,23 @@
  *     <a target="_blank"
  * href="https://github.com/laforge49/JActor/blob/master/src/test/java/org/agilewiki/jactor/lpc/timing/SharedMailboxTest.java"
  * >SharedMailboxTest</a> being a good case in point.
+ * </p>
+ *
+ * <h2>Publish/Subscribe</h2>
+ * <p>
+ *     An actor that implements publish/subscribe provides a means of broadcasting events. Subscribers are actors which
+ *     have been "signed up" to recieve the published requests. Requests then are broadcast by wrapping them in a
+ *     publish request and sending them to the publish/subscribe actor.
+ * </p>
+ * <p>
+ *     Implemented using 2-way messages, the response of a publish request holds the count of the number of subscribers
+ *     which have received and processed the request.
+ * </p>
+ * <p>
+ *     There is no particular order in which subscribers receive requests. And the request is sent to all subscribers
+ *     at once without waiting for a response. Only the response to the publish request is delayed until all subscribers
+ *     have responded.
+ * </p>
  */
 
 package org.agilewiki.jactor;

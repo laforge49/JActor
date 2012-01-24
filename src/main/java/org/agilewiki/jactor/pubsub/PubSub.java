@@ -33,7 +33,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Implements publish/subscribe over JLPCActor.
+ * Implements publish/subscribe directly over Actor.
+ * But PubSubComponent is faster.
  */
 final public class PubSub implements Actor {
     /**
