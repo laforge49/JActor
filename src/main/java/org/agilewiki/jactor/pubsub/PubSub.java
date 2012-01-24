@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.pubsub;
 
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.Collections;
@@ -34,30 +35,21 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Implements publish/subscribe over JLPCActor.
  */
-public class PubSub extends JLPCActor {
+final public class PubSub implements Actor {
     /**
      * The subscribing actors.
      */
     private Set<Actor> subscribers = Collections.newSetFromMap(new ConcurrentHashMap<Actor, Boolean>());
 
     /**
-     * Create a PubSub actor.
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
-     * @param mailbox The mailbox.
-     */
-    public PubSub(Mailbox mailbox) {
-        super(mailbox);
-    }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
+     * @param requestSource The originator of the request.
+     * @param request       The unwrapped request to be sent.
+     * @param rp            The request processor.
      */
     @Override
-    protected void processRequest(final Object request, final ResponseProcessor rp) throws Exception {
+    public void acceptRequest(final APCRequestSource requestSource, final Object request, final ResponseProcessor rp) throws Exception {
         if (request instanceof Publish) {
             final Iterator<Actor> sit = subscribers.iterator();
             JAIterator jaIterator = new JAIterator() {
@@ -74,7 +66,7 @@ public class PubSub extends JLPCActor {
                     }
                     Actor subscriber = sit.next();
                     psrp.sent += 1;
-                    send(subscriber, broadcastRequest, psrp);
+                    subscriber.acceptRequest(requestSource, broadcastRequest, psrp);
                     rp1.process(null);
                 }
             };
@@ -98,5 +90,34 @@ public class PubSub extends JLPCActor {
             return;
         }
         throw new UnsupportedOperationException(request.getClass().getName());
+    }
+
+    /**
+     * Set the initial capacity for buffered outgoing messages.
+     *
+     * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
+     */
+    @Override
+    public void setInitialBufferCapacity(int initialBufferCapacity) {}
+
+    /**
+     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
+     *
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
+     */
+    @Override
+    public boolean hasDataItem(String name) {
+        return false;
+    }
+
+    /**
+     * Returns the actor's mailbox.
+     *
+     * @return The actor's mailbox.
+     */
+    @Override
+    public Mailbox getMailbox() {
+        throw new UnsupportedOperationException("PubSub has no mailbox");
     }
 }

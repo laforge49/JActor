@@ -10,7 +10,7 @@ final public class Driver1 extends JLPCActor {
 
     public Driver1(Mailbox mailbox) {
         super(mailbox);
-        pubsub = new PubSub(mailbox);
+        pubsub = new PubSub();
     }
 
     @Override

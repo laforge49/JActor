@@ -8,10 +8,10 @@ import org.agilewiki.jactor.pubsub.Subscribe;
 public class SharedTimingTest extends TestCase {
     public void test() {
 
-        //int c = 10;
-        //int s = 1000;
-        //int p = 1;
-        //int t = 4;
+        int c = 10;
+        int s = 1000;
+        int p = 1;
+        int t = 4;
 
         //int c = 50000;
         //int s = 1000;
@@ -19,8 +19,8 @@ public class SharedTimingTest extends TestCase {
         //int t = 4;
 
         //4 parallel runs of 50000 requests sent to 1000 subscribers
-        //publications per sec = 34470872
-        //response time 116 nanoseconds
+        //publications per sec = 47058823
+        //response time 85 nanoseconds
 
         //int c = 10000;
         //int s = 1000;
@@ -28,8 +28,8 @@ public class SharedTimingTest extends TestCase {
         //int t = 4;
 
         //8 parallel runs of 10000 requests sent to 1000 subscribers
-        //publications per sec = 29293299
-        //response time 137 nanoseconds
+        //publications per sec = 49844236
+        //response time 80 nanoseconds
 
         //int c = 1000000;
         //int s = 10;
@@ -37,17 +37,17 @@ public class SharedTimingTest extends TestCase {
         //int t = 4;
 
         //8 parallel runs of 1000000 requests sent to 10 subscribers
-        //publications per sec = 18939393
-        //response time 211 nanoseconds
+        //publications per sec = 37330844
+        //response time 107 nanoseconds
 
-        int c = 10000;
-        int s = 1000;
-        int p = 16;
-        int t = 4;
+        //int c = 10000;
+        //int s = 1000;
+        //int p = 16;
+        //int t = 4;
 
         //16 parallel runs of 10000 requests sent to 1000 subscribers
-        //publications per sec = 31904287
-        //response time 53 nanoseconds
+        //publications per sec = 40660736
+        //response time 98 nanoseconds
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
