@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Bar extends Component {
     private String myName;
-    
+
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();

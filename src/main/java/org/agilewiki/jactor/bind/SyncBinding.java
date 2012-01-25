@@ -30,11 +30,11 @@ import org.agilewiki.jactor.ResponseProcessor;
  */
 abstract public class SyncBinding extends Binding {
     /**
-     * Unused.
+     * Unsupported.
      *
      * @param internals The internal API of JBActor.
-     * @param request A request.
-     * @param rp      The response processor.
+     * @param request   A request.
+     * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override

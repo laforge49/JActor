@@ -12,5 +12,6 @@ final public class JANull {
     /**
      * Create a JANull.
      */
-    private JANull() {}
+    private JANull() {
+    }
 }

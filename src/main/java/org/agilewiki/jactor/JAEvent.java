@@ -80,7 +80,7 @@ public class JAEvent {
      * @param request The request.
      */
     public void sendEvent(final Actor actor,
-                       final Object request)
+                          final Object request)
             throws Exception {
         actor.acceptRequest(requestSource, request, JANoResponse.nrp);
     }

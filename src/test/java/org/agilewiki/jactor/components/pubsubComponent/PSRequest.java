@@ -1,3 +1,4 @@
 package org.agilewiki.jactor.components.pubsubComponent;
 
-final public class PSRequest {}
+final public class PSRequest {
+}

@@ -270,7 +270,8 @@ abstract public class JLPCActor implements Actor {
         if (rp.isEvent()) {
             try {
                 processRequest(request, rp);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
             return;
         }
         try {
@@ -313,7 +314,8 @@ abstract public class JLPCActor implements Actor {
         if (rp.isEvent()) {
             try {
                 processRequest(request, rp);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
             return;
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {

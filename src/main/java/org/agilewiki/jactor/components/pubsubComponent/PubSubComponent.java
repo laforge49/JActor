@@ -59,7 +59,8 @@ public class PubSubComponent extends Component {
             public void process(Object response) throws Exception {
 
                 bind(Subscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestSource requestSource,
+                    public void acceptRequest(JBActor actor,
+                                              RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
                             throws Exception {
@@ -70,7 +71,8 @@ public class PubSubComponent extends Component {
                 });
 
                 bind(Unsubscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestSource requestSource,
+                    public void acceptRequest(JBActor actor,
+                                              RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
                             throws Exception {
@@ -81,7 +83,8 @@ public class PubSubComponent extends Component {
                 });
 
                 bind(Publish.class.getName(), new SyncBinding() {
-                    public void acceptRequest(final RequestSource requestSource,
+                    public void acceptRequest(JBActor actor,
+                                              final RequestSource requestSource,
                                               final Object request,
                                               final ResponseProcessor rp)
                             throws Exception {
@@ -108,10 +111,11 @@ public class PubSubComponent extends Component {
                     }
                 });
 
-                bind(Subscribers.class.getName(), new SyncBinding(){
-                    public void acceptRequest(RequestSource requestSource,
-                                                       Object request,
-                                                       ResponseProcessor rp)
+                bind(Subscribers.class.getName(), new SyncBinding() {
+                    public void acceptRequest(JBActor actor,
+                                              RequestSource requestSource,
+                                              Object request,
+                                              ResponseProcessor rp)
                             throws Exception {
                         rp.process(subscribers);
                     }

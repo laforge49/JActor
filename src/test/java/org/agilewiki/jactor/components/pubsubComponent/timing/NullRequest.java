@@ -1,3 +1,4 @@
 package org.agilewiki.jactor.components.pubsubComponent.timing;
 
-final public class NullRequest {}
+final public class NullRequest {
+}

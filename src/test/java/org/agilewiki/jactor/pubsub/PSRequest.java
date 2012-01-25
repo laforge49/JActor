@@ -1,3 +1,4 @@
 package org.agilewiki.jactor.pubsub;
 
-final public class PSRequest {}
+final public class PSRequest {
+}

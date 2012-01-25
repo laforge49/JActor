@@ -31,11 +31,6 @@ import org.agilewiki.jactor.lpc.RequestSource;
  */
 abstract public class Binding {
     /**
-     * Provides access to the JBActor internals.
-     */
-    public JBActor.Internals internals;
-
-    /**
      * <p>
      * Process an incoming request.
      * Operates in the sender's thread, so only concurrent data structures can be updated safely.
@@ -47,12 +42,14 @@ abstract public class Binding {
      * request to another actor.
      * </p>
      *
+     * @param actor         The receiving actor.
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void acceptRequest(RequestSource requestSource,
+    abstract public void acceptRequest(JBActor actor,
+                                       RequestSource requestSource,
                                        Object request,
                                        ResponseProcessor rp)
             throws Exception;
@@ -60,9 +57,9 @@ abstract public class Binding {
     /**
      * A safe method for processing requests sent to the actor.
      *
-     * @param internals The internal API of JBActor.
-     * @param request A request.
-     * @param rp      The response processor.
+     * @param internals The internal API of the receiving actor.
+     * @param request   A request.
+     * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)

@@ -76,7 +76,10 @@ public class Factory extends Component {
 
                 bind(NewActor.class.getName(), new Binding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+                    public void acceptRequest(JBActor actor,
+                                              RequestSource requestSource,
+                                              Object request,
+                                              ResponseProcessor rp)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
@@ -88,7 +91,7 @@ public class Factory extends Component {
                             newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
                         }
                         if (types.containsKey(actorType)) {
-                            internals.acceptRequest(requestSource, newActor, rp, this);
+                            actor.routeRequest(requestSource, newActor, rp, this);
                             return;
                         }
                         if (parentHasSameComponent()) {

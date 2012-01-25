@@ -25,7 +25,6 @@ package org.agilewiki.jactor.pubsub;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -99,7 +98,8 @@ final public class PubSub implements Actor {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
-    public void setInitialBufferCapacity(int initialBufferCapacity) {}
+    public void setInitialBufferCapacity(int initialBufferCapacity) {
+    }
 
     /**
      * Returns true when the concurrent data of the actor, or its parent, contains the named data item.

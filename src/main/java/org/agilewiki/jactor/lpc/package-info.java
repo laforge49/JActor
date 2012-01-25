@@ -23,7 +23,7 @@
  */
 
 /**
- * <h2>Introduction to JLPCActor--the Basic Actor</h2>
+ * <h2>Introducing JLPCActor--the Basic Actor</h2>
  * <p>
  *     The JLPCActor supports 1-way and 2-way messaging and works with either a mailbox or an asynchronous mailbox.
  *     It also supports exception handlers, JAIterator and SMBuilder. On the other hand, it supports neither message
@@ -500,6 +500,6 @@
  * <p>
  *     The result is 120.
  * </p>
-*/
+ */
 
 package org.agilewiki.jactor.lpc;

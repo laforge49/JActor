@@ -69,8 +69,8 @@ final public class JCActor extends JBActor {
      * Process an include.
      *
      * @param internals The internal API of JBActor.
-     * @param request The include request.
-     * @param rp      The response processor.
+     * @param request   The include request.
+     * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions from calls to the component open methods.
      */
     private void processInclude(final JBActor.Internals internals, Object request, ResponseProcessor rp)

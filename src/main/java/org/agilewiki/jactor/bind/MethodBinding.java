@@ -32,17 +32,18 @@ import org.agilewiki.jactor.lpc.RequestSource;
 abstract public class MethodBinding extends Binding {
     /**
      * <p>
-     * Routes an incoming request by calling internals.acceptRequest.
+     * Routes an incoming request by calling internals.routeRequest.
      * </p>
      *
+     * @param actor         The receiving actor.
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+    final public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
             throws Exception {
-        internals.acceptRequest(requestSource, request, rp, this);
+        actor.routeRequest(requestSource, request, rp, this);
     }
 }

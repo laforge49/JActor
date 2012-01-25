@@ -70,7 +70,7 @@ public class Properties extends Component {
 
                 bind(GetProperty.class.getName(), new SyncBinding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+                    public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
                             throws Exception {
                         GetProperty getProperty = (GetProperty) request;
                         String name = getProperty.getPropertyName();

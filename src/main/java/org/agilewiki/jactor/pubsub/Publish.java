@@ -35,6 +35,7 @@ public class Publish {
 
     /**
      * Create a publish request.
+     *
      * @param request The request to be broadcast.
      */
     public Publish(Object request) {

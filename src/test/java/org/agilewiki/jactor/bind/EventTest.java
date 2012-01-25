@@ -45,7 +45,11 @@ public class EventTest extends TestCase {
 
             bind(Ho.class.getName(), new SyncBinding() {
                 @Override
-                public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
+                public void acceptRequest(JBActor actor,
+                                          RequestSource requestSource,
+                                          Object request,
+                                          ResponseProcessor rp)
+                        throws Exception {
                     System.err.println("A got request");
                     rp.process("Hello world!");
                 }

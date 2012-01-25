@@ -40,8 +40,8 @@ public class SetProperty {
     /**
      * Create a SetProperty request.
      *
-     * @param propertyName The name of the property.
-     * @param propertyValue  The value of the property.
+     * @param propertyName  The name of the property.
+     * @param propertyValue The value of the property.
      */
     public SetProperty(String propertyName, Object propertyValue) {
         this.propertyName = propertyName;

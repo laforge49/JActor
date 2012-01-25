@@ -35,8 +35,9 @@ final public class JANoResponse extends ResponseProcessor {
     /**
      * Create a JANoResponse.
      */
-    private JANoResponse() {}
-    
+    private JANoResponse() {
+    }
+
     /**
      * Receives and ignores a response.
      *
@@ -44,7 +45,8 @@ final public class JANoResponse extends ResponseProcessor {
      * @throws Exception Any uncaught exceptions raised when processing the response.
      */
     @Override
-    public void process(Object response) throws Exception {}
+    public void process(Object response) throws Exception {
+    }
 
     /**
      * Returns true when no response is expected.

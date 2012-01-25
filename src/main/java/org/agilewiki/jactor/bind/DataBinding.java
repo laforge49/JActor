@@ -51,13 +51,15 @@ public class DataBinding extends SyncBinding {
      * The result returned is the data item named in the constructor, or null.
      * </p>
      *
+     * @param actor         The receiving actor.
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
      * @param rp            The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
-        rp.process(internals.data.get(name));
+    public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
+            throws Exception {
+        rp.process(actor.getData().get(name));
     }
 }

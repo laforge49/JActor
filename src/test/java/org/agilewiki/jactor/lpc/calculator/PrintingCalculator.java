@@ -7,7 +7,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class PrintingCalculator extends JLPCActor {
     private Calculator calculator;
-    
+
     public PrintingCalculator(Mailbox mailbox) {
         super(mailbox);
         calculator = new Calculator(mailbox);

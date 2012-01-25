@@ -196,12 +196,54 @@ public class JBActor implements Actor {
             throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
-            binding.acceptRequest((RequestSource) apcRequestSource, request, rp);
+            binding.acceptRequest(this, (RequestSource) apcRequestSource, request, rp);
             return;
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());
         parent.acceptRequest(apcRequestSource, request, rp);
+    }
+
+    /**
+     * Ensures that the request is processed on the appropriate thread.
+     *
+     * @param requestSource The originator of the request.
+     * @param request       The request to be sent.
+     * @param rp            The request processor.
+     * @param binding       Binds a request class.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void routeRequest(final RequestSource requestSource,
+                             final Object request,
+                             final ResponseProcessor rp,
+                             final Binding binding)
+            throws Exception {
+        final Mailbox sourceMailbox = requestSource.getMailbox();
+        final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
+        if (sourceMailbox == mailbox) {
+            syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
+            return;
+        }
+        if (mailbox.isAsync() || sourceMailbox == null) {
+            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            return;
+        }
+        final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
+        if (mailbox.getControllingMailbox() == srcControllingMailbox) {
+            syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
+            return;
+        }
+        if (!mailbox.acquireControl(srcControllingMailbox)) {
+            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            return;
+        }
+        try {
+            syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
+        } finally {
+            mailbox.sendPendingMessages();
+            mailbox.relinquishControl();
+            mailbox.dispatchRemaining(srcControllingMailbox);
+        }
     }
 
     /**
@@ -276,7 +318,8 @@ public class JBActor implements Actor {
         if (rp.isEvent()) {
             try {
                 processRequest(request, rp, binding);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
             return;
         }
         try {
@@ -321,7 +364,8 @@ public class JBActor implements Actor {
         if (rp.isEvent()) {
             try {
                 processRequest(request, rp, binding);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
             return;
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
@@ -465,8 +509,8 @@ public class JBActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void send(final Actor actor,
-                              final Object request,
-                              final ResponseProcessor rp)
+                            final Object request,
+                            final ResponseProcessor rp)
             throws Exception {
         actor.acceptRequest(requestSource, request, rp);
     }
@@ -522,7 +566,7 @@ public class JBActor implements Actor {
     }
 
     /**
-     * JBActor internals.
+     * JBActor internals, for use within the context of the actor.
      */
     final public class Internals {
         /**
@@ -543,7 +587,6 @@ public class JBActor implements Actor {
          * @param binding          The binding.
          */
         final public void bind(String requestClassName, Binding binding) {
-            binding.internals = this;
             bindings.put(requestClassName, binding);
         }
 
@@ -555,48 +598,6 @@ public class JBActor implements Actor {
          */
         final public Binding getBinding(Object request) {
             return bindings.get(request.getClass().getName());
-        }
-
-        /**
-         * Wraps and enqueues an unwrapped request in the requester's inbox.
-         *
-         * @param requestSource The originator of the request.
-         * @param request       The request to be sent.
-         * @param rp            The request processor.
-         * @param binding       Binds a request class.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        public void acceptRequest(final RequestSource requestSource,
-                                  final Object request,
-                                  final ResponseProcessor rp,
-                                  final Binding binding)
-                throws Exception {
-            final Mailbox sourceMailbox = requestSource.getMailbox();
-            final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
-            if (sourceMailbox == mailbox) {
-                syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
-                return;
-            }
-            if (mailbox.isAsync() || sourceMailbox == null) {
-                asyncSend(requestSource, request, rp, sourceExceptionHandler);
-                return;
-            }
-            final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-            if (mailbox.getControllingMailbox() == srcControllingMailbox) {
-                syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
-                return;
-            }
-            if (!mailbox.acquireControl(srcControllingMailbox)) {
-                asyncSend(requestSource, request, rp, sourceExceptionHandler);
-                return;
-            }
-            try {
-                syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
-            } finally {
-                mailbox.sendPendingMessages();
-                mailbox.relinquishControl();
-                mailbox.dispatchRemaining(srcControllingMailbox);
-            }
         }
 
         /**

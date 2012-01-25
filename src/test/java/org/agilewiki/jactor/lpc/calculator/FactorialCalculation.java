@@ -21,6 +21,7 @@ public class FactorialCalculation extends JLPCActor {
                     Factorial factorial = (Factorial) request;
                     int max = factorial.getValue();
                     int count = 0;
+
                     @Override
                     protected void process(final ResponseProcessor rp1) throws Exception {
                         if (count == max) {

@@ -97,17 +97,20 @@ public class ActorRegistry extends Component {
 
                 bind(GetRegisteredActor.class.getName(), new SyncBinding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+                    public void acceptRequest(JBActor actor,
+                                              RequestSource requestSource,
+                                              Object request,
+                                              ResponseProcessor rp)
                             throws Exception {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
-                        JCActor actor = registry.get(name);
-                        if (actor == null && parentHasSameComponent()) {
+                        JCActor registeredActor = registry.get(name);
+                        if (registeredActor == null && parentHasSameComponent()) {
                             Actor parent = getParent();
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }
-                        rp.process(actor);
+                        rp.process(registeredActor);
                     }
                 });
 
