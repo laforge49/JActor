@@ -75,8 +75,8 @@ public class Properties extends Component {
                         GetProperty getProperty = (GetProperty) request;
                         String name = getProperty.getPropertyName();
                         Object value = properties.get(name);
-                        if (value == null && parentHasSameComponent()) {
-                            Actor parent = getParent();
+                        if (value == null && parentHasSameComponent(actor)) {
+                            Actor parent = getParent(actor);
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }

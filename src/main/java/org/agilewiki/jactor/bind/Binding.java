@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -40,6 +41,37 @@ abstract public class Binding {
      */
     final protected ConcurrentSkipListMap<String, Object> getData(JBActor actor) {
         return actor.getData();
+    }
+
+    /**
+     * Returns an actor's parent.
+     *
+     * @param actor The receiving actor.
+     * @return The actor's parent, or null.
+     */
+    final protected Actor getParent(JBActor actor) {
+        return actor.getParent();
+    }
+
+    /**
+     * Returns true when the concurrent data of the parent contains the named data item.
+     *
+     * @param actor The receiving actor.
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the parent contains the named data item.
+     */
+    final protected boolean parentHasDataItem(JBActor actor, String name) {
+        return actor.parentHasDataItem(name);
+    }
+
+    /**
+     * Returns true when the parent has the same component.
+     *
+     * @param actor The receiving actor.
+     * @return True when the parent has the same component.
+     */
+    final protected boolean parentHasSameComponent(JBActor actor) {
+        return parentHasDataItem(actor, getClass().getName());
     }
 
     /**

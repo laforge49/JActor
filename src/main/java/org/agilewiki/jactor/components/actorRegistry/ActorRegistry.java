@@ -105,8 +105,8 @@ public class ActorRegistry extends Component {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
                         JCActor registeredActor = registry.get(name);
-                        if (registeredActor == null && parentHasSameComponent()) {
-                            Actor parent = getParent();
+                        if (registeredActor == null && parentHasSameComponent(actor)) {
+                            Actor parent = getParent(actor);
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }

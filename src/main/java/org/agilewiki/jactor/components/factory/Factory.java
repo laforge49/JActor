@@ -86,7 +86,7 @@ public class Factory extends Component {
                         Mailbox mailbox = newActor.getMailbox();
                         Actor parent = newActor.getParent();
                         if (mailbox == null || parent == null) {
-                            if (mailbox == null) mailbox = getMailbox();
+                            if (mailbox == null) mailbox = actor.getMailbox();
                             if (parent == null) parent = getActor();
                             newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
                         }
@@ -94,8 +94,8 @@ public class Factory extends Component {
                             routeRequest(actor, requestSource, newActor, rp);
                             return;
                         }
-                        if (parentHasSameComponent()) {
-                            getParent().acceptRequest(requestSource, newActor, rp);
+                        if (parentHasSameComponent(actor)) {
+                            getParent(actor).acceptRequest(requestSource, newActor, rp);
                             return;
                         }
                         throw new IllegalArgumentException("Unknown actor type: " + actorType);

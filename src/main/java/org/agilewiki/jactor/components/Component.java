@@ -71,44 +71,6 @@ public class Component {
     }
 
     /**
-     * Returns the concurrent data of the actor.
-     *
-     * @return The concurrent data of the actor.
-     */
-    final protected ConcurrentSkipListMap<String, Object> getData() {
-        return internals.data;
-    }
-
-    /**
-     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
-     */
-    final protected boolean hasDataItem(String name) {
-        return getActor().hasDataItem(name);
-    }
-
-    /**
-     * Returns true when the concurrent data of the parent contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the parent contains the named data item.
-     */
-    final protected boolean parentHasDataItem(String name) {
-        return internals.parentHasDataItem(name);
-    }
-
-    /**
-     * Returns true when the parent has the same component.
-     *
-     * @return True when the parent has the same component.
-     */
-    final protected boolean parentHasSameComponent() {
-        return parentHasDataItem(getClass().getName());
-    }
-
-    /**
      * Add a binding to the actor.
      *
      * @param requestClassName The class name of the request.
@@ -116,33 +78,6 @@ public class Component {
      */
     final protected void bind(String requestClassName, Binding binding) {
         internals.bind(requestClassName, binding);
-    }
-
-    /**
-     * Returns the mailbox factory.
-     *
-     * @return The mailbox factory.
-     */
-    final protected MailboxFactory getMailboxFactory() {
-        return internals.getMailboxFactory();
-    }
-
-    /**
-     * Returns the exception handler.
-     *
-     * @return The exception handler.
-     */
-    final protected ExceptionHandler getExceptionHandler() {
-        return internals.getExceptionHandler();
-    }
-
-    /**
-     * Assign an exception handler.
-     *
-     * @param exceptionHandler The exception handler.
-     */
-    final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-        internals.setExceptionHandler(exceptionHandler);
     }
 
     /**
@@ -157,29 +92,11 @@ public class Component {
     }
 
     /**
-     * Returns the actor's parent.
-     *
-     * @return The actor's parent, or null.
-     */
-    final protected Actor getParent() {
-        return internals.getParent();
-    }
-
-    /**
      * Returns this actor.
      *
      * @return This actor.
      */
     final protected JBActor getActor() {
         return internals.getThisActor();
-    }
-
-    /**
-     * Returns the actor's mailbox.
-     *
-     * @return The actor's mailbox.
-     */
-    final protected Mailbox getMailbox() {
-        return internals.getMailbox();
     }
 }
