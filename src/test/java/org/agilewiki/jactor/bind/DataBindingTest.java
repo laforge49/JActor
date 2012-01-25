@@ -42,7 +42,7 @@ public class DataBindingTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            internals.data.put("greeting", "Hello world!");
+            getData().put("greeting", "Hello world!");
 
             bind(Hi.class.getName(), new DataBinding("greeting"));
         }

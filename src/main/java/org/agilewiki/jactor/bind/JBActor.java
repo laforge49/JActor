@@ -464,7 +464,7 @@ public class JBActor implements Actor {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final protected void send(final Actor actor,
+    final private void send(final Actor actor,
                               final Object request,
                               final ResponseProcessor rp)
             throws Exception {
@@ -477,7 +477,7 @@ public class JBActor implements Actor {
      * @param actor   The target actor.
      * @param request The request.
      */
-    final protected void sendEvent(Actor actor, Object request) {
+    final private void sendEvent(Actor actor, Object request) {
         try {
             send(actor, request, JANoResponse.nrp);
         } catch (Exception ex) {
