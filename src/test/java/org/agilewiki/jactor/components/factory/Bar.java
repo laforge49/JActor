@@ -29,7 +29,7 @@ public class Bar extends Component {
                     @Override
                     public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
-                        send(getActor(), new GetActorName(), new ResponseProcessor() {
+                        internals.send(getActor(), new GetActorName(), new ResponseProcessor() {
                             @Override
                             public void process(Object response) throws Exception {
                                 myName = (String) response;

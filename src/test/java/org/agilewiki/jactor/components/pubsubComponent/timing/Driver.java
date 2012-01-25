@@ -28,7 +28,7 @@ public class Driver extends Component {
             public void process(Object response) throws Exception {
                 bind(Timing.class.getName(), new MethodBinding() {
                     @Override
-                    public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+                    public void processRequest(final JBActor.Internals internals, Object request, ResponseProcessor rp)
                             throws Exception {
                         Timing timing = (Timing) request;
                         final int count = timing.getCount();
@@ -47,7 +47,7 @@ public class Driver extends Component {
                                 ResponseProcessor rp2 = new JAResponseCounter(burst, rp1);
                                 int j = 0;
                                 while (j < burst) {
-                                    send(getActor(), publish, rp2);
+                                    internals.send(getActor(), publish, rp2);
                                     j += 1;
                                 }
                             }

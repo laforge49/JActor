@@ -72,7 +72,7 @@ public class ActorRegistry extends Component {
                             throws Exception {
                         RegisterActor registerActor = (RegisterActor) request;
                         final JCActor actor = registerActor.getActor();
-                        send(actor, new GetActorName(), new ResponseProcessor() {
+                        internals.send(actor, new GetActorName(), new ResponseProcessor() {
                             @Override
                             public void process(Object response) throws Exception {
                                 String name = (String) response;

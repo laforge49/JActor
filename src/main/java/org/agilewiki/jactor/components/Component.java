@@ -119,35 +119,6 @@ public class Component {
     }
 
     /**
-     * Send a request to another actor.
-     *
-     * @param actor   The target actor.
-     * @param request The request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final protected void send(final Actor actor,
-                              final Object request,
-                              final ResponseProcessor rp)
-            throws Exception {
-        internals.send(actor, request, rp);
-    }
-
-    /**
-     * Send a request to another actor and discard any response.
-     *
-     * @param actor   The target actor.
-     * @param request The request.
-     */
-    final protected void sendEvent(Actor actor, Object request) {
-        try {
-            send(actor, request, JANoResponse.nrp);
-        } catch (Exception ex) {
-            throw new UnsupportedOperationException("Unexpected exception", ex);
-        }
-    }
-
-    /**
      * Returns the mailbox factory.
      *
      * @return The mailbox factory.

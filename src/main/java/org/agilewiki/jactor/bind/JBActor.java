@@ -615,6 +615,16 @@ public class JBActor implements Actor {
         }
 
         /**
+         * Send a request to another actor and discard any response.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         */
+        final protected void sendEvent(Actor actor, Object request) {
+            JBActor.this.sendEvent(actor, request);
+        }
+
+        /**
          * Returns the mailbox factory.
          *
          * @return The mailbox factory.
