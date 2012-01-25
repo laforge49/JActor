@@ -22,11 +22,11 @@ public class Driver extends Component {
     }
 
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                bind(Timing.class.getName(), new MethodBinding() {
+                internals.bind(Timing.class.getName(), new MethodBinding() {
                     @Override
                     public void processRequest(final JBActor.Internals internals, Object request, ResponseProcessor rp)
                             throws Exception {
@@ -47,7 +47,7 @@ public class Driver extends Component {
                                 ResponseProcessor rp2 = new JAResponseCounter(burst, rp1);
                                 int j = 0;
                                 while (j < burst) {
-                                    internals.send(getActor(), publish, rp2);
+                                    internals.send(internals.getThisActor(), publish, rp2);
                                     j += 1;
                                 }
                             }

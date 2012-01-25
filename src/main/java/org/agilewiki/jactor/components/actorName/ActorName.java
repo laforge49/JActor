@@ -45,13 +45,13 @@ public class ActorName extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp)
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp)
             throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
-                bind(SetActorName.class.getName(), new MethodBinding() {
+                internals.bind(SetActorName.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {
                         ConcurrentSkipListMap<String, Object> data = internals.data;
@@ -64,7 +64,7 @@ public class ActorName extends Component {
                     }
                 });
 
-                bind(GetActorName.class.getName(), new DataBinding("ActorName"));
+                internals.bind(GetActorName.class.getName(), new DataBinding("ActorName"));
 
                 rp.process(null);
             }

@@ -62,12 +62,12 @@ public class ActorRegistry extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
-                bind(RegisterActor.class.getName(), new MethodBinding() {
+                internals.bind(RegisterActor.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         RegisterActor registerActor = (RegisterActor) request;
@@ -85,7 +85,7 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                bind(UnregisterActor.class.getName(), new MethodBinding() {
+                internals.bind(UnregisterActor.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         UnregisterActor unregisterActor = (UnregisterActor) request;
@@ -95,7 +95,7 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                bind(GetRegisteredActor.class.getName(), new SyncBinding() {
+                internals.bind(GetRegisteredActor.class.getName(), new SyncBinding() {
                     @Override
                     public void acceptRequest(JBActor actor,
                                               RequestSource requestSource,

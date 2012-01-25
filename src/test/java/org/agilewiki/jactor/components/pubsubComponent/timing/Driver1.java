@@ -21,11 +21,11 @@ final public class Driver1 extends Component {
     }
 
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                bind(Timing.class.getName(), new MethodBinding() {
+                internals.bind(Timing.class.getName(), new MethodBinding() {
                     @Override
                     public void processRequest(final JBActor.Internals internals, Object request, ResponseProcessor rp)
                             throws Exception {
@@ -42,7 +42,7 @@ final public class Driver1 extends Component {
                                     return;
                                 }
                                 i += 1;
-                                internals.send(getActor(), publish, new ResponseProcessor() {
+                                internals.send(internals.getThisActor(), publish, new ResponseProcessor() {
                                     @Override
                                     public void process(Object response) throws Exception {
                                         rp1.process(null);

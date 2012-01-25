@@ -52,12 +52,12 @@ public class Properties extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
-                bind(SetProperty.class.getName(), new MethodBinding() {
+                internals.bind(SetProperty.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         SetProperty setProperty = (SetProperty) request;
@@ -68,7 +68,7 @@ public class Properties extends Component {
                     }
                 });
 
-                bind(GetProperty.class.getName(), new SyncBinding() {
+                internals.bind(GetProperty.class.getName(), new SyncBinding() {
                     @Override
                     public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
                             throws Exception {

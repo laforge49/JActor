@@ -52,13 +52,13 @@ public class PubSubComponent extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp)
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp)
             throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
-                bind(Subscribe.class.getName(), new SyncBinding() {
+                internals.bind(Subscribe.class.getName(), new SyncBinding() {
                     public void acceptRequest(JBActor actor,
                                               RequestSource requestSource,
                                               Object request,
@@ -70,7 +70,7 @@ public class PubSubComponent extends Component {
                     }
                 });
 
-                bind(Unsubscribe.class.getName(), new SyncBinding() {
+                internals.bind(Unsubscribe.class.getName(), new SyncBinding() {
                     public void acceptRequest(JBActor actor,
                                               RequestSource requestSource,
                                               Object request,
@@ -82,7 +82,7 @@ public class PubSubComponent extends Component {
                     }
                 });
 
-                bind(Publish.class.getName(), new SyncBinding() {
+                internals.bind(Publish.class.getName(), new SyncBinding() {
                     public void acceptRequest(JBActor actor,
                                               final RequestSource requestSource,
                                               final Object request,
@@ -111,7 +111,7 @@ public class PubSubComponent extends Component {
                     }
                 });
 
-                bind(Subscribers.class.getName(), new SyncBinding() {
+                internals.bind(Subscribers.class.getName(), new SyncBinding() {
                     public void acceptRequest(JBActor actor,
                                               RequestSource requestSource,
                                               Object request,

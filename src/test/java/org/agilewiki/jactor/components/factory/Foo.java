@@ -7,11 +7,11 @@ import org.agilewiki.jactor.components.Component;
 
 public class Foo extends Component {
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                bind(Hi.class.getName(), new MethodBinding() {
+                internals.bind(Hi.class.getName(), new MethodBinding() {
                     @Override
                     public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {

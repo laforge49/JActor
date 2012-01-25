@@ -36,11 +36,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class Component {
     /**
-     * The JBActor's internals.
-     */
-    protected JBActor.Internals internals;
-
-    /**
      * Returns a list of Includes for inclusion in the actor.
      *
      * @return A list of classes for inclusion in the actor.
@@ -58,7 +53,6 @@ public class Component {
      */
     public void open(JBActor.Internals internals, ResponseProcessor rp)
             throws Exception {
-        this.internals = internals;
         rp.process(null);
     }
 
@@ -68,24 +62,5 @@ public class Component {
      * @throws Exception All exceptions thrown will be ignored.
      */
     public void close() throws Exception {
-    }
-
-    /**
-     * Add a binding to the actor.
-     *
-     * @param requestClassName The class name of the request.
-     * @param binding          The binding.
-     */
-    final protected void bind(String requestClassName, Binding binding) {
-        internals.bind(requestClassName, binding);
-    }
-
-    /**
-     * Returns this actor.
-     *
-     * @return This actor.
-     */
-    final protected JBActor getActor() {
-        return internals.getThisActor();
     }
 }

@@ -57,12 +57,12 @@ public class Factory extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
-                bind(DefineActorType.class.getName(), new MethodBinding() {
+                internals.bind(DefineActorType.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         DefineActorType defineActorType = (DefineActorType) request;
@@ -75,7 +75,7 @@ public class Factory extends Component {
                     }
                 });
 
-                bind(NewActor.class.getName(), new Binding() {
+                internals.bind(NewActor.class.getName(), new Binding() {
                     @Override
                     public void acceptRequest(JBActor actor,
                                               RequestSource requestSource,
@@ -88,7 +88,7 @@ public class Factory extends Component {
                         Actor parent = newActor.getParent();
                         if (mailbox == null || parent == null) {
                             if (mailbox == null) mailbox = actor.getMailbox();
-                            if (parent == null) parent = getActor();
+                            if (parent == null) parent = actor;
                             newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
                         }
                         if (types.containsKey(actorType)) {
@@ -120,7 +120,7 @@ public class Factory extends Component {
                         smb._send(actor, include);
                         smb._if(actorName == null, "fin");
                         smb._send(actor, new SetActorName(actorName));
-                        smb._send(getActor(), new RegisterActor(actor));
+                        smb._send(internals.getThisActor(), new RegisterActor(actor));
                         smb._label("fin");
                         smb._return(actor);
                         smb.call(rp);
