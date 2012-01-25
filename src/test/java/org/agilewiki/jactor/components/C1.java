@@ -12,7 +12,7 @@ public class C1 extends Component {
             @Override
             public void process(Object response) throws Exception {
                 bind(Hi.class.getName(), new MethodBinding() {
-                    public void processRequest(Object request, ResponseProcessor rp1)
+                    public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {
                         rp1.process("Hello world!");
                     }

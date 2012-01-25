@@ -13,7 +13,8 @@ public class Foo extends Component {
             public void process(Object response) throws Exception {
                 bind(Hi.class.getName(), new MethodBinding() {
                     @Override
-                    public void processRequest(Object request, ResponseProcessor rp1) throws Exception {
+                    public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
+                            throws Exception {
                         System.err.println("Hello world!");
                         rp1.process(null);
                     }

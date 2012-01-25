@@ -32,12 +32,14 @@ abstract public class SyncBinding extends Binding {
     /**
      * Unused.
      *
+     * @param internals The internal API of JBActor.
      * @param request A request.
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Object request, ResponseProcessor rp) throws Exception {
+    final public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+            throws Exception {
         throw new UnsupportedOperationException();
     }
 }

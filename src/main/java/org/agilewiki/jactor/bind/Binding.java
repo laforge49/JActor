@@ -60,10 +60,11 @@ abstract public class Binding {
     /**
      * A safe method for processing requests sent to the actor.
      *
+     * @param internals The internal API of JBActor.
      * @param request A request.
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void processRequest(Object request, ResponseProcessor rp)
+    abstract public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
             throws Exception;
 }

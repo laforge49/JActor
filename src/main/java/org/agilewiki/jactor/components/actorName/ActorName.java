@@ -52,7 +52,7 @@ public class ActorName extends Component {
             public void process(Object response) throws Exception {
 
                 bind(SetActorName.class.getName(), new MethodBinding() {
-                    public void processRequest(Object request, ResponseProcessor rp1)
+                    public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {
                         ConcurrentSkipListMap<String, Object> data = getData();
                         if (data.get("ActorName") != null)

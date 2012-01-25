@@ -58,7 +58,7 @@ public class Properties extends Component {
             public void process(Object response) throws Exception {
 
                 bind(SetProperty.class.getName(), new MethodBinding() {
-                    public void processRequest(Object request, final ResponseProcessor rp1)
+                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         SetProperty setProperty = (SetProperty) request;
                         String propertyName = setProperty.getPropertyName();

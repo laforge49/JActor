@@ -27,7 +27,8 @@ final public class Driver1 extends Component {
             public void process(Object response) throws Exception {
                 bind(Timing.class.getName(), new MethodBinding() {
                     @Override
-                    public void processRequest(Object request, ResponseProcessor rp) throws Exception {
+                    public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+                            throws Exception {
                         Timing timing = (Timing) request;
                         final int count = timing.getCount();
                         JAIterator jaIterator = new JAIterator() {

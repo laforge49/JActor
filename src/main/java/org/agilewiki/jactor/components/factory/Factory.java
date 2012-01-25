@@ -62,7 +62,7 @@ public class Factory extends Component {
             public void process(Object response) throws Exception {
 
                 bind(DefineActorType.class.getName(), new MethodBinding() {
-                    public void processRequest(Object request, final ResponseProcessor rp1)
+                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         DefineActorType defineActorType = (DefineActorType) request;
                         String actorType = defineActorType.getActorType();
@@ -76,7 +76,8 @@ public class Factory extends Component {
 
                 bind(NewActor.class.getName(), new Binding() {
                     @Override
-                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp) throws Exception {
+                    public void acceptRequest(RequestSource requestSource, Object request, ResponseProcessor rp)
+                            throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
                         Mailbox mailbox = newActor.getMailbox();
@@ -98,7 +99,7 @@ public class Factory extends Component {
                     }
 
                     @Override
-                    public void processRequest(Object request, final ResponseProcessor rp)
+                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
