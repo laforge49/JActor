@@ -26,10 +26,39 @@ package org.agilewiki.jactor.bind;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
+import java.util.concurrent.ConcurrentSkipListMap;
+
 /**
  * Provides customization of request message processing.
  */
 abstract public class Binding {
+    /**
+     * Returns the concurrent data of the actor.
+     *
+     * @param actor The receiving actor.
+     * @return The concurrent data of the actor.
+     */
+    final protected ConcurrentSkipListMap<String, Object> getData(JBActor actor) {
+        return actor.getData();
+    }
+
+    /**
+     * Ensures that the request is processed on the appropriate thread.
+     *
+     * @param actor The receiving actor.
+     * @param requestSource The originator of the request.
+     * @param request       The request to be sent.
+     * @param rp            The request processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void routeRequest(JBActor actor,
+                                   final RequestSource requestSource,
+                                   final Object request,
+                                   final ResponseProcessor rp)
+            throws Exception {
+        actor.routeRequest(requestSource, request, rp, this);
+    }
+
     /**
      * <p>
      * Process an incoming request.

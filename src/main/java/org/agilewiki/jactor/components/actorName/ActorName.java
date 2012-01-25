@@ -54,7 +54,7 @@ public class ActorName extends Component {
                 bind(SetActorName.class.getName(), new MethodBinding() {
                     public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {
-                        ConcurrentSkipListMap<String, Object> data = getData();
+                        ConcurrentSkipListMap<String, Object> data = internals.data;
                         if (data.get("ActorName") != null)
                             throw new UnsupportedOperationException("Already named");
                         SetActorName setActorName = (SetActorName) request;

@@ -44,6 +44,6 @@ abstract public class MethodBinding extends Binding {
     @Override
     final public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
             throws Exception {
-        actor.routeRequest(requestSource, request, rp, this);
+        routeRequest(actor, requestSource, request, rp);
     }
 }

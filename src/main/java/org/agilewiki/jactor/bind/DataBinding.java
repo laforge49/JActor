@@ -60,6 +60,6 @@ public class DataBinding extends SyncBinding {
     @Override
     public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
             throws Exception {
-        rp.process(actor.getData().get(name));
+        rp.process(getData(actor).get(name));
     }
 }

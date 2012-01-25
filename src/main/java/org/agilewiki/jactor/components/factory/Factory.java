@@ -91,7 +91,7 @@ public class Factory extends Component {
                             newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
                         }
                         if (types.containsKey(actorType)) {
-                            actor.routeRequest(requestSource, newActor, rp, this);
+                            routeRequest(actor, requestSource, newActor, rp);
                             return;
                         }
                         if (parentHasSameComponent()) {

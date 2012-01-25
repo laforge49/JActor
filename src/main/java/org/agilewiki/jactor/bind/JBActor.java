@@ -213,7 +213,7 @@ public class JBActor implements Actor {
      * @param binding       Binds a request class.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public void routeRequest(final RequestSource requestSource,
+    final protected void routeRequest(final RequestSource requestSource,
                              final Object request,
                              final ResponseProcessor rp,
                              final Binding binding)
