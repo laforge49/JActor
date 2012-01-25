@@ -50,7 +50,7 @@ public class JBActor implements Actor {
     /**
      * The internals of a JBActor.
      */
-    final protected Internals internals = new Internals();
+    final private Internals internals = new Internals();
 
     /**
      * The parent actor to which unrecognized requests are forwarded.

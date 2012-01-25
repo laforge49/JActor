@@ -60,7 +60,7 @@ final public class JCActor extends JBActor {
             @Override
             public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
                     throws Exception {
-                processInclude(request, rp);
+                processInclude(internals, request, rp);
             }
         });
     }
@@ -68,11 +68,13 @@ final public class JCActor extends JBActor {
     /**
      * Process an include.
      *
+     * @param internals The internal API of JBActor.
      * @param request The include request.
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions from calls to the component open methods.
      */
-    private void processInclude(Object request, ResponseProcessor rp) throws Exception {
+    private void processInclude(final JBActor.Internals internals, Object request, ResponseProcessor rp)
+            throws Exception {
         Include include = (Include) request;
         Class clazz = include.getClazz();
         final String className = clazz.getName();
@@ -98,7 +100,7 @@ final public class JCActor extends JBActor {
             @Override
             protected void process(final ResponseProcessor rp1) throws Exception {
                 if (it.hasNext()) {
-                    processInclude(it.next(), rp1);
+                    processInclude(internals, it.next(), rp1);
                 } else {
                     c.open(internals, new ResponseProcessor() {
                         @Override
