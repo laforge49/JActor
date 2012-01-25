@@ -81,17 +81,6 @@ public class Component {
     }
 
     /**
-     * Creates a _SMBuilder.
-     */
-    final public class SMBuilder extends _SMBuilder {
-        @Override
-        final public void send(Actor actor, Object request, ResponseProcessor rp)
-                throws Exception {
-            internals.send(actor, request, rp);
-        }
-    }
-
-    /**
      * Returns this actor.
      *
      * @return This actor.

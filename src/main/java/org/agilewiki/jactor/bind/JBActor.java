@@ -689,15 +689,4 @@ public class JBActor implements Actor {
             return JBActor.this.getMailbox();
         }
     }
-
-    /**
-     * Creates a _SMBuilder.
-     */
-    final protected class SMBuilder extends _SMBuilder {
-        @Override
-        final public void send(Actor actor, Object request, ResponseProcessor rp)
-                throws Exception {
-            JBActor.this.send(actor, request, rp);
-        }
-    }
 }

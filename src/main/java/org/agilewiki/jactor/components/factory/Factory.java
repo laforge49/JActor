@@ -29,6 +29,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.SMBuilder;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
@@ -115,7 +116,7 @@ public class Factory extends Component {
                         actor.setActorType(actorType);
                         actor.setParent(parent);
 
-                        SMBuilder smb = new SMBuilder();
+                        SMBuilder smb = new SMBuilder(internals);
                         smb._send(actor, include);
                         smb._if(actorName == null, "fin");
                         smb._send(actor, new SetActorName(actorName));
