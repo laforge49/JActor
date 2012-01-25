@@ -12,6 +12,12 @@
     <description>Lock-free Java Actors</description>
     <url>https://github.com/laforge49/JActor</url>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <licenses>
         <license>
             <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
