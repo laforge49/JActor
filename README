@@ -5,6 +5,8 @@ Project pages can be found here:
 
 API: http://jactor.sourceforge.net/
 
+Download snapshot and release artifacts from group https://oss.sonatype.org/content/groups/public
+
 Be sure to follow the project blog: https://sourceforge.net/p/jactor/blog/
 
 This project is a reimplementation of a portion of the AsyncFP Scala project:
