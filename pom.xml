@@ -27,8 +27,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/laforge49/JActor</url>
-        <connection>scm:git://github.com/laforge49/JActor.git</connection>
+        <connection>scm:git:git@github.com:laforge49/JActor.git</connection>
+        <developerConnection>scm:git:git@github.com:laforge49/JActor.git</developerConnection>
+        <url>git@github.com:laforge49/JActor.git</url>
     </scm>
 
     <developers>
