@@ -67,7 +67,7 @@ public class JAPCMailbox implements APCMailbox {
                 if (event instanceof JARequest) {
                     currentRequest = (JARequest) event;
                     try {
-                        currentRequest.getApcRequestProcessor().processRequest(currentRequest);
+                        currentRequest.getRequestProcessor().processRequest(currentRequest);
                     } catch (Exception ex) {
                         ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
                         if (exceptionHandler == null) response(ex);

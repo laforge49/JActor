@@ -66,7 +66,7 @@ abstract public class JLPCActor implements Actor {
     /**
      * Handles callbacks from the mailbox.
      */
-    final private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
+    final private RequestProcessor requestProcessor = new RequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
         @Override

@@ -28,7 +28,7 @@ import org.agilewiki.jactor.ExceptionHandler;
 /**
  * Processes events and manages events and an exception handler.
  */
-public interface APCRequestProcessor {
+public interface RequestProcessor {
     /**
      * A notification that there are incoming requests and responses that are ready for processing.
      */

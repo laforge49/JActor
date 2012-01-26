@@ -33,7 +33,39 @@
  *     of dependency injection.)
  * </p>
  * <p>
- *     The Binding
+ *     A JBActor also has a ConcurrentSkipListMap of application data (Objects). This
+ *     map is used primarily by the JCActor to hold its Components, though its use
+ *     is not restricted to Components.
+ * </p>
+ * <p>
+ *     Like JLPCActor, JBActor partitions much of its API into interfaces, including the
+ *     RequestProcessor and RequestSource. JBActor introduces 2 additional Interfaces:
+ *     Internals and RequestProcessor. This was done partly for clarity, the API being
+ *     organized by usage, and partly for thread safety--many of the method of the Internals
+ *     interface are unsafe to call except from a thread which has "control" of the actor.
+ * </p>
+ * <h2>
+ *     The Binding Class
+ * </h2>
+ * <p>
+ *     The Binding class is key to understanding how JBActor works. Request messages which can be
+ *     handled by a JBActor have been bound by the name of the class of the request to a
+ *     Binding object provided by the application logic. The Binding class has two methods:
+ *     acceptRequest and processRequest.
+ * </p>
+ * <p>
+ *     The Binding.acceptRequest method is called when a request message is sent to a JBActor,
+ *     and executes on the same thread as the code which sent the message--which limits what
+ *     can be done safely. Sometimes the request can be processed immediately using only
+ *     immutable or concurrent data. Sometimes the the request can be forwarded to another actor
+ *     by calling the acceptRequest method of that other actor. Otherwise the RequestReceiver.routeRequest
+ *     method is called, which then ensures that an appropriate thread is used to call Binding.processRequest.
+ * </p>
+ * <p>
+ *     The Binding.processRequest method, like JLPCActor.processRequest, is always called using a
+ *     thread which has exclusive control of the actor. But unlike JLPCActor.processRequest, the Binding.processRequest
+ *     method is always called with the same class of request message. And, depending on the logic of the
+ *     Binding.acceptRequest method, the Binding.processRequest method may not be called for some types of requests.
  * </p>
  */
 package org.agilewiki.jactor.bind;

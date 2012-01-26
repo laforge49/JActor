@@ -42,7 +42,7 @@ final public class JARequest extends JAMessage {
     /**
      * An anonymous object in the JLPCActor that is the target of the JARequest.
      */
-    private APCRequestProcessor apcRequestProcessor;
+    private RequestProcessor requestProcessor;
 
     /**
      * The unwrapped request that was sent to a JLPCActor.
@@ -64,27 +64,27 @@ final public class JARequest extends JAMessage {
      * Create an JARequest.
      *
      * @param requestSource       The target of the response.
-     * @param apcRequestProcessor The target of the request.
+     * @param requestProcessor The target of the request.
      * @param unwrappedRequest    The wrapped request.
      * @param responseProcessor   Processes the response.
      */
     public JARequest(APCRequestSource requestSource,
-                     APCRequestProcessor apcRequestProcessor,
+                     RequestProcessor requestProcessor,
                      Object unwrappedRequest,
                      ResponseProcessor responseProcessor) {
         this.requestSource = requestSource;
-        this.apcRequestProcessor = apcRequestProcessor;
+        this.requestProcessor = requestProcessor;
         this.unwrappedRequest = unwrappedRequest;
         this.responseProcessor = responseProcessor;
     }
 
     /**
-     * Returns the apcRequestProcessor.
+     * Returns the requestProcessor.
      *
-     * @return The apcRequestProcessor.
+     * @return The requestProcessor.
      */
-    final public APCRequestProcessor getApcRequestProcessor() {
-        return apcRequestProcessor;
+    final public RequestProcessor getRequestProcessor() {
+        return requestProcessor;
     }
 
     /**
@@ -93,7 +93,7 @@ final public class JARequest extends JAMessage {
      * @return The exceptionHandler.
      */
     final public ExceptionHandler getExceptionHandler() {
-        return apcRequestProcessor.getExceptionHandler();
+        return requestProcessor.getExceptionHandler();
     }
 
     /**

@@ -44,7 +44,7 @@ abstract public class JAPCActor implements Actor {
     /**
      * Handles callbacks from the mailbox.
      */
-    private APCRequestProcessor requestProcessor = new APCRequestProcessor() {
+    private RequestProcessor requestProcessor = new RequestProcessor() {
         private ExceptionHandler exceptionHandler;
 
         public ExceptionHandler getExceptionHandler() {
