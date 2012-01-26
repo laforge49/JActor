@@ -43,7 +43,7 @@ public class MethodBindingTest extends TestCase {
             super(mailbox);
 
             bind(Hi.class.getName(), new MethodBinding() {
-                public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+                public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                         throws Exception {
                     rp.process("Hello world!");
                 }

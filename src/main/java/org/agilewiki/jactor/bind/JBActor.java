@@ -50,7 +50,136 @@ public class JBActor implements Actor {
     /**
      * The internals of a JBActor.
      */
-    final private Internals internals = new Internals();
+    final private Internals internals = new Internals() {
+        /**
+         * Internal concurrent data of the actor.
+         */
+        final private ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
+
+        /**
+         * The bindings of the actor.
+         */
+        final private ConcurrentSkipListMap<String, Binding> bindings =
+                new ConcurrentSkipListMap<String, Binding>();
+
+        /**
+         * Returns the concurrent data.
+         * 
+         * @return The concurrent data.
+         */
+        final public ConcurrentSkipListMap<String, Object> getData() {
+            return data;
+        }
+
+        /**
+         * Add a binding to the actor.
+         *
+         * @param requestClassName The class name of the request.
+         * @param binding          The binding.
+         */
+        final public void bind(String requestClassName, Binding binding) {
+            bindings.put(requestClassName, binding);
+        }
+
+        /**
+         * Returns a binding.
+         *
+         * @param request The request.
+         * @return The binding, or null.
+         */
+        final public Binding getBinding(Object request) {
+            return bindings.get(request.getClass().getName());
+        }
+
+        /**
+         * Send a request to another actor.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         * @param rp      The response processor.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        final public void send(final Actor actor,
+                               final Object request,
+                               final ResponseProcessor rp)
+                throws Exception {
+            JBActor.this.send(actor, request, rp);
+        }
+
+        /**
+         * Send a request to another actor and discard any response.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         */
+        final public void sendEvent(Actor actor, Object request) {
+            JBActor.this.sendEvent(actor, request);
+        }
+
+        /**
+         * Returns the mailbox factory.
+         *
+         * @return The mailbox factory.
+         */
+        final public MailboxFactory getMailboxFactory() {
+            return JBActor.this.getMailboxFactory();
+        }
+
+        /**
+         * Returns the exception handler.
+         *
+         * @return The exception handler.
+         */
+        final public ExceptionHandler getExceptionHandler() {
+            return JBActor.this.getExceptionHandler();
+        }
+
+        /**
+         * Assign an exception handler.
+         *
+         * @param exceptionHandler The exception handler.
+         */
+        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+            JBActor.this.setExceptionHandler(exceptionHandler);
+        }
+
+        /**
+         * Returns the actor's parent.
+         *
+         * @return The actor's parent, or null.
+         */
+        final public Actor getParent() {
+            return parent;
+        }
+
+        /**
+         * Returns this actor.
+         *
+         * @return This actor.
+         */
+        final public JBActor getThisActor() {
+            return JBActor.this;
+        }
+
+        /**
+         * Returns true when the concurrent data of the parent contains the named data item.
+         *
+         * @param name The key for the data item.
+         * @return True when the concurrent data of the parent contains the named data item.
+         */
+        final public boolean parentHasDataItem(String name) {
+            return getThisActor().parentHasDataItem(name);
+        }
+
+        /**
+         * Returns the actor's mailbox.
+         *
+         * @return The actor's mailbox.
+         */
+        final public Mailbox getMailbox() {
+            return JBActor.this.getMailbox();
+        }
+    };
 
     /**
      * The parent actor to which unrecognized requests are forwarded.
@@ -465,7 +594,7 @@ public class JBActor implements Actor {
      * @return The concurrent data of the actor.
      */
     final protected ConcurrentSkipListMap<String, Object> getData() {
-        return internals.data;
+        return internals.getData();
     }
 
     /**
@@ -563,130 +692,5 @@ public class JBActor implements Actor {
      */
     final protected Actor getParent() {
         return parent;
-    }
-
-    /**
-     * JBActor internals, for use within the context of the actor.
-     */
-    final public class Internals {
-        /**
-         * Internal concurrent data of the actor.
-         */
-        final public ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
-
-        /**
-         * The bindings of the actor.
-         */
-        final private ConcurrentSkipListMap<String, Binding> bindings =
-                new ConcurrentSkipListMap<String, Binding>();
-
-        /**
-         * Add a binding to the actor.
-         *
-         * @param requestClassName The class name of the request.
-         * @param binding          The binding.
-         */
-        final public void bind(String requestClassName, Binding binding) {
-            bindings.put(requestClassName, binding);
-        }
-
-        /**
-         * Returns a binding.
-         *
-         * @param request The request.
-         * @return The binding, or null.
-         */
-        final public Binding getBinding(Object request) {
-            return bindings.get(request.getClass().getName());
-        }
-
-        /**
-         * Send a request to another actor.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         * @param rp      The response processor.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        final public void send(final Actor actor,
-                               final Object request,
-                               final ResponseProcessor rp)
-                throws Exception {
-            JBActor.this.send(actor, request, rp);
-        }
-
-        /**
-         * Send a request to another actor and discard any response.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         */
-        final protected void sendEvent(Actor actor, Object request) {
-            JBActor.this.sendEvent(actor, request);
-        }
-
-        /**
-         * Returns the mailbox factory.
-         *
-         * @return The mailbox factory.
-         */
-        final public MailboxFactory getMailboxFactory() {
-            return JBActor.this.getMailboxFactory();
-        }
-
-        /**
-         * Returns the exception handler.
-         *
-         * @return The exception handler.
-         */
-        final public ExceptionHandler getExceptionHandler() {
-            return JBActor.this.getExceptionHandler();
-        }
-
-        /**
-         * Assign an exception handler.
-         *
-         * @param exceptionHandler The exception handler.
-         */
-        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-            JBActor.this.setExceptionHandler(exceptionHandler);
-        }
-
-        /**
-         * Returns the actor's parent.
-         *
-         * @return The actor's parent, or null.
-         */
-        final public Actor getParent() {
-            return parent;
-        }
-
-        /**
-         * Returns this actor.
-         *
-         * @return This actor.
-         */
-        final public JBActor getThisActor() {
-            return JBActor.this;
-        }
-
-        /**
-         * Returns true when the concurrent data of the parent contains the named data item.
-         *
-         * @param name The key for the data item.
-         * @return True when the concurrent data of the parent contains the named data item.
-         */
-        final public boolean parentHasDataItem(String name) {
-            return getThisActor().parentHasDataItem(name);
-        }
-
-        /**
-         * Returns the actor's mailbox.
-         *
-         * @return The actor's mailbox.
-         */
-        final public Mailbox getMailbox() {
-            return JBActor.this.getMailbox();
-        }
     }
 }

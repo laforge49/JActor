@@ -31,14 +31,14 @@ import org.agilewiki.jactor.stateMachine._SMBuilder;
  * Implements _SMBuilder.
  */
 final public class SMBuilder extends _SMBuilder {
-    private JBActor.Internals internals;
+    private Internals internals;
 
     /**
      * Create a SMBuilder.
      *
      * @param internals An actor's internals.
      */
-    public SMBuilder(JBActor.Internals internals) {
+    public SMBuilder(Internals internals) {
         this.internals = internals;
     }
 

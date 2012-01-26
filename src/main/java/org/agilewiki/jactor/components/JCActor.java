@@ -27,6 +27,7 @@ import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 
@@ -58,7 +59,7 @@ final public class JCActor extends JBActor {
 
         bind(Include.class.getName(), new MethodBinding() {
             @Override
-            public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+            public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                     throws Exception {
                 processInclude(internals, request, rp);
             }
@@ -73,7 +74,7 @@ final public class JCActor extends JBActor {
      * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions from calls to the component open methods.
      */
-    private void processInclude(final JBActor.Internals internals, Object request, ResponseProcessor rp)
+    private void processInclude(final Internals internals, Object request, ResponseProcessor rp)
             throws Exception {
         Include include = (Include) request;
         Class clazz = include.getClazz();

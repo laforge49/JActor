@@ -3,6 +3,7 @@ package org.agilewiki.jactor.components.pubsubComponent.timing;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -22,13 +23,13 @@ public class Driver extends Component {
     }
 
     @Override
-    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
                 internals.bind(Timing.class.getName(), new MethodBinding() {
                     @Override
-                    public void processRequest(final JBActor.Internals internals, Object request, ResponseProcessor rp)
+                    public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
                             throws Exception {
                         Timing timing = (Timing) request;
                         final int count = timing.getCount();

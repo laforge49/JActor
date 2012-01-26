@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.components.pubsubComponent;
 
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
@@ -52,7 +53,7 @@ public class PubSubComponent extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final JBActor.Internals internals, final ResponseProcessor rp)
+    public void open(final Internals internals, final ResponseProcessor rp)
             throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override

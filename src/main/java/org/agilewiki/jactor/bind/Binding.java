@@ -123,6 +123,6 @@ abstract public class Binding {
      * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void processRequest(JBActor.Internals internals, Object request, ResponseProcessor rp)
+    abstract public void processRequest(Internals internals, Object request, ResponseProcessor rp)
             throws Exception;
 }

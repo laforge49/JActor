@@ -25,6 +25,7 @@ package org.agilewiki.jactor.components.properties;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.SyncBinding;
@@ -52,13 +53,13 @@ public class Properties extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
                 internals.bind(SetProperty.class.getName(), new MethodBinding() {
-                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
+                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         SetProperty setProperty = (SetProperty) request;
                         String propertyName = setProperty.getPropertyName();

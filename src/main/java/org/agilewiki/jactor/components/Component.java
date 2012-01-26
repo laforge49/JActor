@@ -25,6 +25,7 @@ package org.agilewiki.jactor.components;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.Binding;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
@@ -51,7 +52,7 @@ public class Component {
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(JBActor.Internals internals, ResponseProcessor rp)
+    public void open(Internals internals, ResponseProcessor rp)
             throws Exception {
         rp.process(null);
     }

@@ -26,10 +26,7 @@ package org.agilewiki.jactor.components.factory;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Binding;
-import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SMBuilder;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
@@ -57,13 +54,13 @@ public class Factory extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final JBActor.Internals internals, final ResponseProcessor rp) throws Exception {
+    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
 
                 internals.bind(DefineActorType.class.getName(), new MethodBinding() {
-                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp1)
+                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         DefineActorType defineActorType = (DefineActorType) request;
                         String actorType = defineActorType.getActorType();
@@ -103,7 +100,7 @@ public class Factory extends Component {
                     }
 
                     @Override
-                    public void processRequest(JBActor.Internals internals, Object request, final ResponseProcessor rp)
+                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp)
                             throws Exception {
                         NewActor newActor = (NewActor) request;
                         String actorType = newActor.getActorType();
