@@ -23,74 +23,13 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
-
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Provides customization of request message processing.
  */
 abstract public class Binding {
-    /**
-     * Returns the concurrent data of the actor.
-     *
-     * @param actor The receiving actor.
-     * @return The concurrent data of the actor.
-     */
-    final protected ConcurrentSkipListMap<String, Object> getData(JBActor actor) {
-        return actor.getData();
-    }
-
-    /**
-     * Returns an actor's parent.
-     *
-     * @param actor The receiving actor.
-     * @return The actor's parent, or null.
-     */
-    final protected Actor getParent(JBActor actor) {
-        return actor.getParent();
-    }
-
-    /**
-     * Returns true when the concurrent data of the parent contains the named data item.
-     *
-     * @param actor The receiving actor.
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the parent contains the named data item.
-     */
-    final protected boolean parentHasDataItem(JBActor actor, String name) {
-        return actor.parentHasDataItem(name);
-    }
-
-    /**
-     * Returns true when the parent has the same component.
-     *
-     * @param actor The receiving actor.
-     * @return True when the parent has the same component.
-     */
-    final protected boolean parentHasSameComponent(JBActor actor) {
-        return parentHasDataItem(actor, getClass().getName());
-    }
-
-    /**
-     * Ensures that the request is processed on the appropriate thread.
-     *
-     * @param actor The receiving actor.
-     * @param requestSource The originator of the request.
-     * @param request       The request to be sent.
-     * @param rp            The request processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void routeRequest(JBActor actor,
-                                   final RequestSource requestSource,
-                                   final Object request,
-                                   final ResponseProcessor rp)
-            throws Exception {
-        actor.routeRequest(requestSource, request, rp, this);
-    }
-
     /**
      * <p>
      * Process an incoming request.
@@ -103,13 +42,13 @@ abstract public class Binding {
      * request to another actor.
      * </p>
      *
-     * @param actor         The receiving actor.
-     * @param requestSource The originator of the request.
-     * @param request       The request to be sent.
-     * @param rp            The request processor.
+     * @param requestReceiver The API used when a request is received.
+     * @param requestSource   The originator of the request.
+     * @param request         The request to be sent.
+     * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void acceptRequest(JBActor actor,
+    abstract public void acceptRequest(RequestReceiver requestReceiver,
                                        RequestSource requestSource,
                                        Object request,
                                        ResponseProcessor rp)

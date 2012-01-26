@@ -74,7 +74,7 @@ public class Factory extends Component {
 
                 internals.bind(NewActor.class.getName(), new Binding() {
                     @Override
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
@@ -84,16 +84,16 @@ public class Factory extends Component {
                         Mailbox mailbox = newActor.getMailbox();
                         Actor parent = newActor.getParent();
                         if (mailbox == null || parent == null) {
-                            if (mailbox == null) mailbox = actor.getMailbox();
-                            if (parent == null) parent = actor;
+                            if (mailbox == null) mailbox = requestReceiver.getMailbox();
+                            if (parent == null) parent = requestReceiver.getThisActor();
                             newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
                         }
                         if (types.containsKey(actorType)) {
-                            routeRequest(actor, requestSource, newActor, rp);
+                            requestReceiver.routeRequest(requestSource, newActor, rp, this);
                             return;
                         }
-                        if (parentHasSameComponent(actor)) {
-                            getParent(actor).acceptRequest(requestSource, newActor, rp);
+                        if (requestReceiver.parentHasSameComponent()) {
+                            requestReceiver.getParent().acceptRequest(requestSource, newActor, rp);
                             return;
                         }
                         throw new IllegalArgumentException("Unknown actor type: " + actorType);

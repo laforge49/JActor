@@ -25,10 +25,7 @@ package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SyncBinding;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
@@ -98,7 +95,7 @@ public class ActorRegistry extends Component {
 
                 internals.bind(GetRegisteredActor.class.getName(), new SyncBinding() {
                     @Override
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
@@ -106,8 +103,8 @@ public class ActorRegistry extends Component {
                         GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
                         String name = getRegisteredActor.getName();
                         JCActor registeredActor = registry.get(name);
-                        if (registeredActor == null && parentHasSameComponent(actor)) {
-                            Actor parent = getParent(actor);
+                        if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
+                            Actor parent = requestReceiver.getParent();
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }

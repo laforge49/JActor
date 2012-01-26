@@ -26,7 +26,6 @@ package org.agilewiki.jactor.components.actorName;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.DataBinding;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 

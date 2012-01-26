@@ -45,7 +45,7 @@ public class EventTest extends TestCase {
 
             bind(Ho.class.getName(), new SyncBinding() {
                 @Override
-                public void acceptRequest(JBActor actor,
+                public void acceptRequest(RequestReceiver requestReceiver,
                                           RequestSource requestSource,
                                           Object request,
                                           ResponseProcessor rp)

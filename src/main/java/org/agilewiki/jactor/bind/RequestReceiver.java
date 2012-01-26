@@ -23,46 +23,73 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
+import java.util.concurrent.ConcurrentSkipListMap;
+
 /**
- * Binds a request class to a concurrent data item.
- * Requests are processed immediately,
- * even if the actor has an asynchronous mailbox.
+ * The API used when a request is received.
  */
-public class DataBinding extends SyncBinding {
+public interface RequestReceiver {
     /**
-     * The name of a concurrent data item.
+     * Returns the concurrent data of the actor.
+     *
+     * @return The concurrent data of the actor.
      */
-    private String name;
+    ConcurrentSkipListMap<String, Object> getData();
 
     /**
-     * Create a DataBinding.
+     * Returns an actor's parent.
      *
-     * @param name The name of a concurrent data item.
+     * @return The actor's parent, or null.
      */
-    public DataBinding(String name) {
-        this.name = name;
-    }
+    Actor getParent();
 
     /**
-     * <p>
-     * The result returned is the data item named in the constructor, or null.
-     * </p>
+     * Returns true when the concurrent data of the parent contains the named data item.
      *
-     * @param requestReceiver The API used when a request is received.
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the parent contains the named data item.
+     */
+    boolean parentHasDataItem(String name);
+
+    /**
+     * Returns true when the parent has the same component.
+     *
+     * @return True when the parent has the same component.
+     */
+    boolean parentHasSameComponent();
+
+    /**
+     * Ensures that the request is processed on the appropriate thread.
+     *
      * @param requestSource The originator of the request.
      * @param request       The request to be sent.
      * @param rp            The request processor.
+     * @param binding       The object bound to the request class.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
-    public void acceptRequest(RequestReceiver requestReceiver,
-                              RequestSource requestSource,
-                              Object request,
-                              ResponseProcessor rp)
-            throws Exception {
-        rp.process(requestReceiver.getData().get(name));
-    }
+    void routeRequest(final RequestSource requestSource,
+                      final Object request,
+                      final ResponseProcessor rp,
+                      Binding binding)
+            throws Exception;
+
+    /**
+     * Returns the receiving actor's mailbox.
+     *
+     * @return The receiving actor's mailbox.
+     */
+    public Mailbox getMailbox();
+
+    /**
+     * Returns this actor.
+     *
+     * @return This actor.
+     */
+    public JBActor getThisActor();
 }

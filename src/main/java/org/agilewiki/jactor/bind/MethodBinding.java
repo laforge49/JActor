@@ -35,15 +35,18 @@ abstract public class MethodBinding extends Binding {
      * Routes an incoming request by calling internals.routeRequest.
      * </p>
      *
-     * @param actor         The receiving actor.
-     * @param requestSource The originator of the request.
-     * @param request       The request to be sent.
-     * @param rp            The request processor.
+     * @param requestReceiver The API used when a request is received.
+     * @param requestSource   The originator of the request.
+     * @param request         The request to be sent.
+     * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
+    final public void acceptRequest(RequestReceiver requestReceiver,
+                                    RequestSource requestSource,
+                                    Object request,
+                                    ResponseProcessor rp)
             throws Exception {
-        routeRequest(actor, requestSource, request, rp);
+        requestReceiver.routeRequest(requestSource, request, rp, this);
     }
 }

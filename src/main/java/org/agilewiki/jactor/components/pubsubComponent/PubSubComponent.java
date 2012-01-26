@@ -26,6 +26,7 @@ package org.agilewiki.jactor.components.pubsubComponent;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
+import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
@@ -60,7 +61,7 @@ public class PubSubComponent extends Component {
             public void process(Object response) throws Exception {
 
                 internals.bind(Subscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
@@ -72,7 +73,7 @@ public class PubSubComponent extends Component {
                 });
 
                 internals.bind(Unsubscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)
@@ -84,7 +85,7 @@ public class PubSubComponent extends Component {
                 });
 
                 internals.bind(Publish.class.getName(), new SyncBinding() {
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               final RequestSource requestSource,
                                               final Object request,
                                               final ResponseProcessor rp)
@@ -113,7 +114,7 @@ public class PubSubComponent extends Component {
                 });
 
                 internals.bind(Subscribers.class.getName(), new SyncBinding() {
-                    public void acceptRequest(JBActor actor,
+                    public void acceptRequest(RequestReceiver requestReceiver,
                                               RequestSource requestSource,
                                               Object request,
                                               ResponseProcessor rp)

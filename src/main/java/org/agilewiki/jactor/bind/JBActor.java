@@ -30,7 +30,6 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.lpc.RequestSource;
 import org.agilewiki.jactor.lpc.TransparentException;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
-import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -48,6 +47,89 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class JBActor implements Actor {
     /**
+     * The API used when a request is received.
+     */
+    final private RequestReceiver requestReceiver = new RequestReceiver() {
+        /**
+         * Returns the concurrent data of the actor.
+         *
+         * @return The concurrent data of the actor.
+         */
+        @Override
+        final public ConcurrentSkipListMap<String, Object> getData() {
+            return JBActor.this.getData();
+        }
+
+        /**
+         * Returns an actor's parent.
+         *
+         * @return The actor's parent, or null.
+         */
+        @Override
+        final public Actor getParent() {
+            return JBActor.this.getParent();
+        }
+
+        /**
+         * Returns true when the concurrent data of the parent contains the named data item.
+         *
+         * @param name  The key for the data item.
+         * @return True when the concurrent data of the parent contains the named data item.
+         */
+        @Override
+        final public boolean parentHasDataItem(String name) {
+            return JBActor.this.parentHasDataItem(name);
+        }
+
+        /**
+         * Returns true when the parent has the same component.
+         *
+         * @return True when the parent has the same component.
+         */
+        @Override
+        final public boolean parentHasSameComponent() {
+            return parentHasDataItem(getClass().getName());
+        }
+
+        /**
+         * Ensures that the request is processed on the appropriate thread.
+         *
+         * @param requestSource The originator of the request.
+         * @param request       The request to be sent.
+         * @param rp            The request processor.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        @Override
+        final public void routeRequest(final RequestSource requestSource,
+                                       final Object request,
+                                       final ResponseProcessor rp,
+                                       Binding binding)
+                throws Exception {
+            JBActor.this.routeRequest(requestSource, request, rp, binding);
+        }
+
+        /**
+         * Returns the actor's mailbox.
+         *
+         * @return The actor's mailbox.
+         */
+        @Override
+        final public Mailbox getMailbox() {
+            return JBActor.this.getMailbox();
+        }
+
+        /**
+         * Returns this actor.
+         *
+         * @return This actor.
+         */
+        @Override
+        final public JBActor getThisActor() {
+            return JBActor.this;
+        }
+    };
+
+    /**
      * The internals of a JBActor.
      */
     final private Internals internals = new Internals() {
@@ -64,9 +146,10 @@ public class JBActor implements Actor {
 
         /**
          * Returns the concurrent data.
-         * 
+         *
          * @return The concurrent data.
          */
+        @Override
         final public ConcurrentSkipListMap<String, Object> getData() {
             return data;
         }
@@ -77,6 +160,7 @@ public class JBActor implements Actor {
          * @param requestClassName The class name of the request.
          * @param binding          The binding.
          */
+        @Override
         final public void bind(String requestClassName, Binding binding) {
             bindings.put(requestClassName, binding);
         }
@@ -87,6 +171,7 @@ public class JBActor implements Actor {
          * @param request The request.
          * @return The binding, or null.
          */
+        @Override
         final public Binding getBinding(Object request) {
             return bindings.get(request.getClass().getName());
         }
@@ -99,6 +184,7 @@ public class JBActor implements Actor {
          * @param rp      The response processor.
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
+        @Override
         final public void send(final Actor actor,
                                final Object request,
                                final ResponseProcessor rp)
@@ -112,6 +198,7 @@ public class JBActor implements Actor {
          * @param actor   The target actor.
          * @param request The request.
          */
+        @Override
         final public void sendEvent(Actor actor, Object request) {
             JBActor.this.sendEvent(actor, request);
         }
@@ -121,6 +208,7 @@ public class JBActor implements Actor {
          *
          * @return The mailbox factory.
          */
+        @Override
         final public MailboxFactory getMailboxFactory() {
             return JBActor.this.getMailboxFactory();
         }
@@ -130,6 +218,7 @@ public class JBActor implements Actor {
          *
          * @return The exception handler.
          */
+        @Override
         final public ExceptionHandler getExceptionHandler() {
             return JBActor.this.getExceptionHandler();
         }
@@ -139,6 +228,7 @@ public class JBActor implements Actor {
          *
          * @param exceptionHandler The exception handler.
          */
+        @Override
         final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             JBActor.this.setExceptionHandler(exceptionHandler);
         }
@@ -148,6 +238,7 @@ public class JBActor implements Actor {
          *
          * @return The actor's parent, or null.
          */
+        @Override
         final public Actor getParent() {
             return parent;
         }
@@ -157,6 +248,7 @@ public class JBActor implements Actor {
          *
          * @return This actor.
          */
+        @Override
         final public JBActor getThisActor() {
             return JBActor.this;
         }
@@ -167,6 +259,7 @@ public class JBActor implements Actor {
          * @param name The key for the data item.
          * @return True when the concurrent data of the parent contains the named data item.
          */
+        @Override
         final public boolean parentHasDataItem(String name) {
             return getThisActor().parentHasDataItem(name);
         }
@@ -176,6 +269,7 @@ public class JBActor implements Actor {
          *
          * @return The actor's mailbox.
          */
+        @Override
         final public Mailbox getMailbox() {
             return JBActor.this.getMailbox();
         }
@@ -325,7 +419,7 @@ public class JBActor implements Actor {
             throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
-            binding.acceptRequest(this, (RequestSource) apcRequestSource, request, rp);
+            binding.acceptRequest(requestReceiver, (RequestSource) apcRequestSource, request, rp);
             return;
         }
         if (parent == null)
@@ -343,9 +437,9 @@ public class JBActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void routeRequest(final RequestSource requestSource,
-                             final Object request,
-                             final ResponseProcessor rp,
-                             final Binding binding)
+                                      final Object request,
+                                      final ResponseProcessor rp,
+                                      final Binding binding)
             throws Exception {
         final Mailbox sourceMailbox = requestSource.getMailbox();
         final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();

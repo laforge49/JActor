@@ -23,14 +23,10 @@
  */
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.bind.Binding;
+import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Part of a composite actor.

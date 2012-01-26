@@ -61,8 +61,8 @@ public interface Internals {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public void send(final Actor actor,
-                           final Object request,
-                           final ResponseProcessor rp)
+                     final Object request,
+                     final ResponseProcessor rp)
             throws Exception;
 
     /**

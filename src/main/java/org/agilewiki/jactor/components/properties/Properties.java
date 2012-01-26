@@ -25,10 +25,7 @@ package org.agilewiki.jactor.components.properties;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SyncBinding;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -71,13 +68,13 @@ public class Properties extends Component {
 
                 internals.bind(GetProperty.class.getName(), new SyncBinding() {
                     @Override
-                    public void acceptRequest(JBActor actor, RequestSource requestSource, Object request, ResponseProcessor rp)
+                    public void acceptRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request, ResponseProcessor rp)
                             throws Exception {
                         GetProperty getProperty = (GetProperty) request;
                         String name = getProperty.getPropertyName();
                         Object value = properties.get(name);
-                        if (value == null && parentHasSameComponent(actor)) {
-                            Actor parent = getParent(actor);
+                        if (value == null && requestReceiver.parentHasSameComponent()) {
+                            Actor parent = requestReceiver.getParent();
                             parent.acceptRequest(requestSource, request, rp);
                             return;
                         }
