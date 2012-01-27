@@ -5,7 +5,7 @@ Project pages can be found here:
 
 API: http://jactor.sourceforge.net/
 
-Download snapshot and release artifacts from group https://oss.sonatype.org/content/groups/public
+Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|g%3A%22org.agilewiki.jactor%22
 
 Be sure to follow the project blog: https://sourceforge.net/p/jactor/blog/
 
