@@ -12,6 +12,7 @@ So you just need to add this to your POM file:
       <artifactId>jactor</artifactId>
       <version>1.4.0</version>
     </dependency>
+(Be sure to update the version number appropriately, of course.)
 
 Be sure to follow the project blog: https://sourceforge.net/p/jactor/blog/
 
