@@ -5,7 +5,13 @@ Project pages can be found here:
 
 API: http://jactor.sourceforge.net/
 
-Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|g%3A%22org.agilewiki.jactor%22
+Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|g%3A%22org.agilewiki%22
+So you just need to add this to your POM file:
+    <dependency>
+      <groupId>org.agilewiki.jactor</groupId>
+      <artifactId>jactor</artifactId>
+      <version>1.4.0</version>
+    </dependency>
 
 Be sure to follow the project blog: https://sourceforge.net/p/jactor/blog/
 
