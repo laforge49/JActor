@@ -89,10 +89,10 @@ PubSub Component Benchmarks
 For shared mailboxes, 81,799,591 publications per second
 and a response time of 49 nanoseconds.
 
-With different mailboxes, 23,852,116 publications per second
+With different mailboxes, 31,595,576 publications per second
 and a response time of 168 nanoseconds.
 
-And with asynchronous mailboxes, 10,083,186 publications per second
+And with asynchronous mailboxes, 11,305,822 publications per second
 and a response time of 1.5 microseconds.
 
 Test Environment

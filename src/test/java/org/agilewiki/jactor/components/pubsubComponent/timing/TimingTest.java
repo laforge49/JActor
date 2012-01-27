@@ -43,7 +43,7 @@ public class TimingTest extends TestCase {
         //int p = 4;
         //int t = 4;
         //4 parallel runs of 1000 bursts of 1000 requests sent to 10 subscribers
-        //publications per sec = 17841213
+        //publications per sec = 31595576
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -52,11 +52,13 @@ public class TimingTest extends TestCase {
             int i = 0;
             while (i < p) {
                 Actor driver = new JCActor(mailboxFactory.createAsyncMailbox());
+                driver.setInitialBufferCapacity(b + 10);
                 future.send(driver, new Include(Driver.class));
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(mailboxFactory.createMailbox());
+                    subscriber.setInitialBufferCapacity(b + 10);
                     Subscribe subscribe = new Subscribe(subscriber);
                     future.send(driver, subscribe);
                     j += 1;
