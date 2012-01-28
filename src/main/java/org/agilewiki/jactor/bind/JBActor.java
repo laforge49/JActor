@@ -159,9 +159,12 @@ public class JBActor implements Actor {
          *
          * @param requestClassName The class name of the request.
          * @param binding          The binding.
+         * @throws IllegalStateException Thrown if there is already a binding for the class.
          */
         @Override
-        final public void bind(String requestClassName, Binding binding) {
+        final public void bind(String requestClassName, Binding binding) throws IllegalStateException {
+            if (bindings.containsKey(requestClassName))
+                throw new IllegalStateException("Duplicate binding for " + requestClassName);
             bindings.put(requestClassName, binding);
         }
 

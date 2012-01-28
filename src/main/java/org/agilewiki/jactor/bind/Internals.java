@@ -41,8 +41,9 @@ public interface Internals {
      *
      * @param requestClassName The class name of the request.
      * @param binding          The binding.
+     * @throws IllegalStateException Thrown if there is already a binding for the class.
      */
-    void bind(String requestClassName, Binding binding);
+    void bind(String requestClassName, Binding binding) throws IllegalStateException;
 
     /**
      * Returns a binding.
