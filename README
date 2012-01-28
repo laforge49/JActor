@@ -4,9 +4,9 @@ Downloads:     https://sourceforge.net/projects/jactor/files/
 Blog:          https://sourceforge.net/p/jactor/blog/
 API:           http://jactor.sourceforge.net/
 CVS:           https://github.com/laforge49/JActor
-Issues:        https://github.com/laforge49/JActor/issues?sort=created&direction=desc&state=open
+Issues:        https://github.com/laforge49/JActor/issues
 free(code):    http://freecode.com/projects/jactor
-Google groups: http://groups.google.com/group/agilewikidevelopers?hl=en
+Google groups: http://groups.google.com/group/agilewikidevelopers
 
 Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|g%3A%22org.agilewiki%22
 So you just need to add this to your POM file:
