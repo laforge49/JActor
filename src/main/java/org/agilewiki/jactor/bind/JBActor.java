@@ -193,6 +193,7 @@ public class JBActor implements Actor {
                                final ResponseProcessor rp)
                 throws Exception {
             JBActor.this.send(actor, request, rp);
+
         }
 
         /**
