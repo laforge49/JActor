@@ -23,8 +23,8 @@ So you just need to add this to your POM file:
 This project is a reimplementation of a portion of the AsyncFP Scala project:
     https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
 
-Message passing between actors mostly uses 2-way messages (request / response). There are several
-reasons for this:
+Message passing between actors mostly uses 2-way messages (request / response). There are
+several reasons for this:
 
     o With 2-way messaging, sending a request is very similar to a method call with a
       callback. Most requests are processed synchronously, which is why JActor is so much
