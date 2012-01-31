@@ -114,6 +114,6 @@ compiler optimization.
 
 Unreleased Changes
 
- - The bind method now fails if the request class is already bound.
+    - The bind method now fails if the request class is already bound.
 
- - Components now hold a reference to the actor they are a part of.
+    - Components now hold a reference to the actor they are a part of.
