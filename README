@@ -111,3 +111,9 @@ Test Environment
 Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
 times reported were best run in 5. Only standard switch settings were used--there was NO
 compiler optimization.
+
+Unreleased Changes
+
+ - The bind method now fails if the request class is already bound.
+
+ - Components now hold a reference to the actor they are a part of.
