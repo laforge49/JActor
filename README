@@ -2,7 +2,7 @@ The JActor project implements actors in Java that can process 1 Billion messages
 
 Downloads:     https://sourceforge.net/projects/jactor/files/
 Blog:          https://sourceforge.net/p/jactor/blog/
-API:           http://jactor.sourceforge.net/JActor/
+API:           http://jactor.sourceforge.net/
 VCS:           https://github.com/laforge49/JActor/
 Issues:        https://github.com/laforge49/JActor/issues/
 free(code):    http://freecode.com/projects/jactor/
