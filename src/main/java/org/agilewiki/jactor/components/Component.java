@@ -33,6 +33,11 @@ import java.util.ArrayList;
  */
 public class Component {
     /**
+     * The actor of this component.
+     */
+    public JCActor thisActor;
+    
+    /**
      * Returns a list of Includes for inclusion in the actor.
      *
      * @return A list of classes for inclusion in the actor.

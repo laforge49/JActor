@@ -93,6 +93,7 @@ final public class JCActor extends JBActor {
         final Component c = (Component) o;
         ArrayList<Include> includes = c.includes();
         if (includes == null) {
+            c.thisActor = this;
             c.open(internals, rp);
             return;
         }
@@ -103,6 +104,7 @@ final public class JCActor extends JBActor {
                 if (it.hasNext()) {
                     processInclude(internals, it.next(), rp1);
                 } else {
+                    c.thisActor = JCActor.this;
                     c.open(internals, new ResponseProcessor() {
                         @Override
                         public void process(Object response) throws Exception {
