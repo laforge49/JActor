@@ -788,7 +788,7 @@ public class JBActor implements Actor {
      *
      * @return The actor's parent, or null.
      */
-    final protected Actor getParent() {
+    final public Actor getParent() {
         return parent;
     }
 }
