@@ -117,3 +117,5 @@ Unreleased Changes
     - The bind method now fails if the request class is already bound.
 
     - Components now hold a reference to the actor they are a part of.
+
+    - The getParent method in JBActor is now public.
