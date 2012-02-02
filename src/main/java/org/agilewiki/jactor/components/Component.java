@@ -36,7 +36,7 @@ public class Component {
      * The actor of this component.
      */
     public JCActor thisActor;
-    
+
     /**
      * Returns a list of Includes for inclusion in the actor.
      *

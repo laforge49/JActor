@@ -1,8 +1,8 @@
 package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.AsyncMethodBinding;
+import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.components.Component;
 
 public class Foo extends Component {

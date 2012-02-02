@@ -25,7 +25,6 @@ package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 

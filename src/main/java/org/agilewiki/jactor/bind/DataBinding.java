@@ -52,9 +52,9 @@ public class DataBinding extends SyncBinding {
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
-     * @param requestSource The originator of the request.
-     * @param request       The request to be sent.
-     * @param rp            The request processor.
+     * @param requestSource   The originator of the request.
+     * @param request         The request to be sent.
+     * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override

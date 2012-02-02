@@ -25,7 +25,6 @@ package org.agilewiki.jactor.components.pubsubComponent;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;

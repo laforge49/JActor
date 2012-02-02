@@ -27,7 +27,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * Binds a request class to a purely synchronous method.
+ * <p>Binds a request class to a purely synchronous method.</p>
  */
 abstract public class MethodBinding extends SyncBinding {
     /**
@@ -37,9 +37,6 @@ abstract public class MethodBinding extends SyncBinding {
      * </p><p>
      * The Binding.processRequest should be invoked indirectly, by calling Binding.internals.acceptRequest.
      * The acceptRequest method will then be safely invoked under the appropriate thread.
-     * </p><p>
-     * The send method is also not safe, but you can call Actor.acceptRequest to forward a
-     * request to another actor.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
@@ -47,21 +44,28 @@ abstract public class MethodBinding extends SyncBinding {
      * @param request         The request to be sent.
      * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
-    */
+     */
     @Override
     final public void acceptRequest(RequestReceiver requestReceiver,
-                              RequestSource requestSource, 
-                              Object request, 
-                              ResponseProcessor rp) 
+                                    RequestSource requestSource,
+                                    Object request,
+                                    ResponseProcessor rp)
             throws Exception {
         rp.process(method(requestReceiver, requestSource, request));
     }
 
     /**
+     * <p>
      * A purely synchronous method which accesses only concurrent data structures.
+     * </p>
+     * <p>
+     * Actor.acceptRequest and Actor.acceptCall can be used within a method method
+     * for passing requests to other actors.
+     * </p>
      *
      * @param requestReceiver The API used when a request is received.
-     * @param request The request to be processed.
+     * @param requestSource   The originator of the request.
+     * @param request         The request to be processed.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */

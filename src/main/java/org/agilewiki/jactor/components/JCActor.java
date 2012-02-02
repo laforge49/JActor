@@ -27,9 +27,9 @@ import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.AsyncMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.AsyncMethodBinding;
 
 import java.util.ArrayList;
 import java.util.Iterator;

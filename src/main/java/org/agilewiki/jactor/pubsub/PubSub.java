@@ -46,17 +46,17 @@ final public class PubSub implements Actor {
      * An exception will be thrown if the class of the request is not bound to a MethodBinding.
      *
      * @param requestSource The originator of the request.
-     * @param request          The request.
+     * @param request       The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(final APCRequestSource requestSource, final Object request) throws Exception {
+    public Object acceptCall(final APCRequestSource requestSource, final Object request) throws Exception {
         if (request instanceof Publish) {
             final Iterator<Actor> sit = subscribers.iterator();
             while (sit.hasNext()) {
                 Actor subscriber = sit.next();
-                subscriber.call(requestSource, request);
+                subscriber.acceptCall(requestSource, request);
             }
             return null;
         }

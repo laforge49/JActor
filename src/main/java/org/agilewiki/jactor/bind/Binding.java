@@ -37,9 +37,10 @@ abstract public class Binding {
      * </p><p>
      * The Binding.processRequest should be invoked indirectly, by calling Binding.internals.acceptRequest.
      * The acceptRequest method will then be safely invoked under the appropriate thread.
-     * </p><p>
-     * The send method is also not safe, but you can call Actor.acceptRequest to forward a
-     * request to another actor.
+     * </p>
+     * <p>
+     * Actor.acceptRequest and Actor.acceptCall can be used within a method method
+     * for passing requests to other actors.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.

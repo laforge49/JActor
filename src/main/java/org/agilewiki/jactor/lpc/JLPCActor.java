@@ -168,7 +168,7 @@ abstract public class JLPCActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(APCRequestSource apcRequestSource, Object request) throws Exception {
+    public Object acceptCall(APCRequestSource apcRequestSource, Object request) throws Exception {
         throw new UnsupportedOperationException(request.getClass().getName());
     }
 

@@ -190,7 +190,7 @@ public class JBActor implements Actor {
          */
         @Override
         public Object call(Actor actor, Object request) throws Exception {
-            return actor.call(requestSource, request);
+            return actor.acceptCall(requestSource, request);
         }
 
         /**
@@ -427,12 +427,12 @@ public class JBActor implements Actor {
      * An exception will be thrown if the class of the request is not bound to a MethodBinding.
      *
      * @param apcRequestSource The originator of the request.
-     * @param request The request.
+     * @param request          The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public Object call(APCRequestSource apcRequestSource, Object request) throws Exception {
+    final public Object acceptCall(APCRequestSource apcRequestSource, Object request) throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
             if (!(binding instanceof MethodBinding))
@@ -443,7 +443,7 @@ public class JBActor implements Actor {
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());
-        return parent.call(apcRequestSource, request);
+        return parent.acceptCall(apcRequestSource, request);
     }
 
     /**

@@ -63,10 +63,10 @@ final public class JARequest extends JAMessage {
     /**
      * Create an JARequest.
      *
-     * @param requestSource       The target of the response.
-     * @param requestProcessor The target of the request.
-     * @param unwrappedRequest    The wrapped request.
-     * @param responseProcessor   Processes the response.
+     * @param requestSource     The target of the response.
+     * @param requestProcessor  The target of the request.
+     * @param unwrappedRequest  The wrapped request.
+     * @param responseProcessor Processes the response.
      */
     public JARequest(APCRequestSource requestSource,
                      RequestProcessor requestProcessor,
