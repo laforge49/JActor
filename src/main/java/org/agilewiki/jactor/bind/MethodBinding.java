@@ -49,12 +49,12 @@ abstract public class MethodBinding extends SyncBinding {
      * @throws Exception Any uncaught exceptions raised while processing the request.
     */
     @Override
-    public void acceptRequest(RequestReceiver requestReceiver, 
+    final public void acceptRequest(RequestReceiver requestReceiver,
                               RequestSource requestSource, 
                               Object request, 
                               ResponseProcessor rp) 
             throws Exception {
-        rp.process(method(requestReceiver, request));
+        rp.process(method(requestReceiver, requestSource, request));
     }
 
     /**
@@ -65,5 +65,8 @@ abstract public class MethodBinding extends SyncBinding {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public Object method(RequestReceiver requestReceiver, Object request) throws Exception;
+    abstract public Object method(RequestReceiver requestReceiver,
+                                  RequestSource requestSource,
+                                  Object request)
+            throws Exception;
 }
