@@ -59,16 +59,16 @@ public class Factory extends Component {
             @Override
             public void process(Object response) throws Exception {
 
-                internals.bind(DefineActorType.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
-                            throws Exception {
-                        DefineActorType defineActorType = (DefineActorType) request;
-                        String actorType = defineActorType.getActorType();
-                        if (types.containsKey(actorType))
-                            throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-                        Class rootComponentClass = defineActorType.getRootComponentClass();
-                        types.put(actorType, rootComponentClass);
-                        rp1.process(null);
+                internals.bind(DefineActorType.class.getName(), new SyncMethodBinding() {
+                   @Override
+                    public Object method(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
+                       DefineActorType defineActorType = (DefineActorType) request;
+                       String actorType = defineActorType.getActorType();
+                       if (types.containsKey(actorType))
+                           throw new IllegalArgumentException("Actor type is already defined: " + actorType);
+                       Class rootComponentClass = defineActorType.getRootComponentClass();
+                       types.put(actorType, rootComponentClass);
+                        return null;
                     }
                 });
 

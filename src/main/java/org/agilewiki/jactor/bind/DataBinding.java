@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * Requests are processed immediately,
  * even if the actor has an asynchronous mailbox.
  */
-public class DataBinding extends SyncBinding {
+public class DataBinding extends SyncMethodBinding {
     /**
      * The name of a concurrent data item.
      */
@@ -48,21 +48,21 @@ public class DataBinding extends SyncBinding {
 
     /**
      * <p>
-     * The result returned is the data item named in the constructor, or null.
+     * A purely synchronous method which accesses only concurrent data structures.
+     * </p>
+     * <p>
+     * Actor.acceptRequest and Actor.acceptCall can be used within a method method
+     * for passing requests to other actors.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
      * @param requestSource   The originator of the request.
-     * @param request         The request to be sent.
-     * @param rp              The request processor.
+     * @param request         The request to be processed.
+     * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void acceptRequest(RequestReceiver requestReceiver,
-                              RequestSource requestSource,
-                              Object request,
-                              ResponseProcessor rp)
-            throws Exception {
-        rp.process(requestReceiver.getData().get(name));
+    public Object method(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
+        return requestReceiver.getData().get(name);
     }
 }
