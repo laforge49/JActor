@@ -125,3 +125,6 @@ Unreleased Changes
     - Rename: MethodBinding => AsyncMethodBinding.
 
     - Added pure synchronous methods.
+
+    - Component.open is now synchronous--it no longer takes a
+      ResponseProcessor parameter.
