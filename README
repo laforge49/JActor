@@ -23,94 +23,96 @@ So you just need to add this to your POM file:
 This project is a reimplementation of a portion of the AsyncFP Scala project:
     https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
 
-Message passing between actors mostly uses 2-way messages (request / response). There are
-several reasons for this:
+Message passing between actors mostly uses 2-way messages (request / response).
+There are several reasons for this:
 
-    o With 2-way messaging, sending a request is very similar to a method call with a
-      callback. Most requests are processed synchronously, which is why JActor is so much
-      faster than other actor implementations.
-    o Mailboxes are used mostly when passing messages between threads and are first-class
-      objects. As first-class objects, mailboxes can be used by more than one actor. Passing
-      messages between actors with a common mailbox is always done synchronously and is very
-      fast.
-    o Flow control is implicit to 2-way messaging. Systems with good flow control are
-      generally well-behaved when operating with a full load.
+    o With 2-way messaging, sending a request is very similar to a method call with
+      a callback. Most requests are processed synchronously, which is why JActor is
+      so much faster than other actor implementations.
+    o Mailboxes are used mostly when passing messages between threads and are
+      first-class objects. As first-class objects, mailboxes can be used by more
+      than one actor. Passing messages between actors with a common mailbox is
+      always done synchronously and is very fast.
+    o Flow control is implicit to 2-way messaging. Systems with good flow control
+      are generally well-behaved when operating with a full load.
 
 Two-way messaging is so much faster than 1-way messaging that it is practical to use
-2-way messages when only 1-way messages are needed. There is however one case where you
-shouldn't use 2-way messages: when events from non-actor code need to be sent to an actor.
-The JAEvent class is used to do this.
+2-way messages when only 1-way messages are needed. There is however one case where
+you shouldn't use 2-way messages: when events from non-actor code need to be sent to
+an actor. The JAEvent class is used to do this.
 
 Exception Handling
 
-The extensive use of callbacks complicates control flow, which is only made worse with some
-callbacks being executed asynchronously. Exception trapping then can be quite error prone. So
-exception handling is supported. A default exception handler is also provided which passes any
-uncaught exceptions that occurred while processing a request back to the actor which sent the
-request, recursively.
+The extensive use of callbacks complicates control flow, which is only made worse
+with some callbacks being executed asynchronously. Exception trapping then can be
+quite error prone. So exception handling is supported. A default exception handler
+is also provided which passes any uncaught exceptions that occurred while processing
+a request back to the actor which sent the request, recursively.
 
 Bi-Modal Iterator
 
-Loops with 2-way messages can be problematic, as iterations typically must wait for the
-response from the previous iteration. A bi-modal iterator is provided to cover this. Each
-iteration takes 5 nanoseconds for synchronous responses and 8 nanoseconds when a response
-is asynchronous.
+Loops with 2-way messages can be problematic, as iterations typically must wait for
+the response from the previous iteration. A bi-modal iterator is provided to cover
+this. Each iteration takes 5 nanoseconds for synchronous responses and 8 nanoseconds
+when a response is asynchronous.
 
 State Machine
 
-State machines are often used with actors and can add considerable clarity to the code. JActor
-includes classes for composing and executing state machines that are compatible with 2-way
-messages.
+State machines are often used with actors and can add considerable clarity to the
+code. JActor includes classes for composing and executing state machines that are
+compatible with 2-way messages.
 
 Dependency Injection
 
-If an actor receives a request of a type that it does not recognize and that actor has been
-assigned a parent actor, then the request is immediately forwarded to the parent actor.
+If an actor receives a request of a type that it does not recognize and that actor
+has been assigned a parent actor, then the request is immediately forwarded to the
+parent actor.
 
 Request Message Binding and Actor Composition
 
-Actors can be composed from one or more components, where each component maps the request
-classes that it handles to the logic for processing those requests.
+Actors can be composed from one or more components, where each component maps the
+request classes that it handles to the logic for processing those requests.
 
 Components
 
 Several components are provided:
 
     ActorName - Used to assign a name to an actor.
-    ActorRegistry - Locates actors by name and closes them when the registry is closed.
+    ActorRegistry - Locates actors by name and closes them when the registry is
+                    closed.
     Factory - For creating actors with a single component include.
     Properties - For creating a table of name/value pairs.
     PubSub - Publish and subscribe.
 
 Message Passing Benchmarks
 
-When actors share the same mailbox, 1,095,890,410 messages are passed per second. With a
-response time of 7.6 nanoseconds.
+When actors share the same mailbox, 1,095,890,410 messages are passed per second.
+With a response time of 7.6 nanoseconds.
 
-When different mailboxes are used, the rate drops to 71,095,312 per second and the response
-time becomes 56 nanoseconds.
+When different mailboxes are used, the rate drops to 71,095,312 per second and
+the response time becomes 56 nanoseconds.
 
-Asynchronous message passing is also supported, making it easy to use all the available
-hardware threads for good vertical scalability. Messages sent to an actor with an
-asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second. The
-response time is 996 nanoseconds.
+Asynchronous message passing is also supported, making it easy to use all the
+available hardware threads for good vertical scalability. Messages sent to an
+actor with an asynchronous mailbox are passed asynchronously at a rate of
+42,149,631 per second. The response time is 996 nanoseconds.
 
 PubSub Component Benchmarks
 
-For shared mailboxes, 81,799,591 publications per second
-and a response time of 49 nanoseconds.
+For shared mailboxes, 81,799,591 publications per second and a response time of
+49 nanoseconds.
 
-With different mailboxes, 31,595,576 publications per second
-and a response time of 168 nanoseconds.
+With different mailboxes, 31,595,576 publications per second and a response
+time of 168 nanoseconds.
 
 And with asynchronous mailboxes, 11,305,822 publications per second
 and a response time of 1.5 microseconds.
 
 Test Environment
 
-Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
-times reported were best run in 5. Only standard switch settings were used--there was NO
-compiler optimization.
+Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware
+threads. The times reported were best run in 5. Only standard switch settings
+were used--there was NO compiler optimization.
 
 Unreleased Changes
 
