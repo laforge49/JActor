@@ -56,11 +56,8 @@ abstract public class SyncMethodBinding extends SyncBinding {
 
     /**
      * <p>
-     * A purely synchronous method which accesses only concurrent data structures.
-     * </p>
-     * <p>
-     * Actor.acceptRequest and Actor.acceptCall can be used within a method method
-     * for passing requests to other actors.
+     * A pure synchronous method which accesses only concurrent data structures
+     * or calls other pure synchronous methods via Actor.acceptCall.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
