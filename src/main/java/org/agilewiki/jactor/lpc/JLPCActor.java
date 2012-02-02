@@ -25,6 +25,7 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
@@ -168,7 +169,7 @@ abstract public class JLPCActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object acceptCall(APCRequestSource apcRequestSource, Object request) throws Exception {
+    public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request) throws Exception {
         throw new UnsupportedOperationException(request.getClass().getName());
     }
 

@@ -189,7 +189,7 @@ public class JBActor implements Actor {
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         @Override
-        public Object call(Actor actor, Object request) throws Exception {
+        public Object call(Actor actor, ConcurrentRequest request) throws Exception {
             return actor.acceptCall(requestSource, request);
         }
 
@@ -432,14 +432,14 @@ public class JBActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public Object acceptCall(APCRequestSource apcRequestSource, Object request) throws Exception {
+    final public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request) throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
             if (!(binding instanceof ConcurrentMethodBinding))
                 throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
                         request.getClass().getName());
             ConcurrentMethodBinding syncMethodBinding = (ConcurrentMethodBinding) binding;
-            return syncMethodBinding.syncProcessRequest(requestReceiver, (RequestSource) apcRequestSource, request);
+            return syncMethodBinding.concurrentProcessRequest(requestReceiver, (RequestSource) apcRequestSource, request);
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());

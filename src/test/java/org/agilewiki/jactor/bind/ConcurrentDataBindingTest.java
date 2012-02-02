@@ -34,8 +34,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         }
     }
 
-    class Hi {
-    }
+    class Hi extends ConcurrentRequest {}
 
     class A extends JBActor {
 

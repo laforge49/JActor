@@ -58,7 +58,7 @@ public class ConcurrentDataBinding extends ConcurrentMethodBinding {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
+    public Object concurrentProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, ConcurrentRequest request) throws Exception {
         return requestReceiver.getData().get(name);
     }
 }

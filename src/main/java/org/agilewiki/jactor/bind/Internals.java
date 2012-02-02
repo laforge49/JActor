@@ -62,7 +62,7 @@ public interface Internals {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object call(Actor actor, Object request)
+    public Object call(Actor actor, ConcurrentRequest request)
             throws Exception;
 
     /**

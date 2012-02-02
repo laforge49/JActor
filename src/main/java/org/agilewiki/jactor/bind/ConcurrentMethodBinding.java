@@ -51,7 +51,7 @@ abstract public class ConcurrentMethodBinding extends ConcurrentBinding {
                                     Object request,
                                     ResponseProcessor rp)
             throws Exception {
-        rp.process(syncProcessRequest(requestReceiver, requestSource, request));
+        rp.process(concurrentProcessRequest(requestReceiver, requestSource, (ConcurrentRequest) request));
     }
 
     /**
@@ -66,8 +66,8 @@ abstract public class ConcurrentMethodBinding extends ConcurrentBinding {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public Object syncProcessRequest(RequestReceiver requestReceiver,
-                                  RequestSource requestSource,
-                                  Object request)
+    abstract public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                    RequestSource requestSource,
+                                                    ConcurrentRequest request)
             throws Exception;
 }

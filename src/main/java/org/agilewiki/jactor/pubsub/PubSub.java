@@ -25,6 +25,7 @@ package org.agilewiki.jactor.pubsub;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -51,7 +52,7 @@ final public class PubSub implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object acceptCall(final APCRequestSource requestSource, final Object request) throws Exception {
+    public Object acceptCall(final APCRequestSource requestSource, final ConcurrentRequest request) throws Exception {
         if (request instanceof Publish) {
             final Iterator<Actor> sit = subscribers.iterator();
             while (sit.hasNext()) {

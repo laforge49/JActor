@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Bill La Forge
+ * Copyright 2012 Bill La Forge
  *
  * This file is part of AgileWiki and is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,36 +21,9 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.pubsub;
-
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+package org.agilewiki.jactor.bind;
 
 /**
- * Subscribe to a publisher
- * The result returned is true when a new subscriber has been added.
+ * A request which can be processed concurrently.
  */
-public class Subscribe extends ConcurrentRequest {
-    /**
-     * The subscribing actor.
-     */
-    private Actor subscriber;
-
-    /**
-     * Create a Subscribe request.
-     *
-     * @param subscriber The subscribing actor.
-     */
-    public Subscribe(Actor subscriber) {
-        this.subscriber = subscriber;
-    }
-
-    /**
-     * Returns the subscribing actor.
-     *
-     * @return The subscribing actor.
-     */
-    public Actor getSubscriber() {
-        return subscriber;
-    }
-}
+public class ConcurrentRequest {}

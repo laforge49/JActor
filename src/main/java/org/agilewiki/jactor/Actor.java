@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 /**
  * <p>
@@ -56,7 +57,7 @@ public interface Actor {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    Object acceptCall(APCRequestSource apcRequestSource, Object request)
+    Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request)
             throws Exception;
 
     /**

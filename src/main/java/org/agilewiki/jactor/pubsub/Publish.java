@@ -23,11 +23,13 @@
  */
 package org.agilewiki.jactor.pubsub;
 
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+
 /**
  * Broadcast a request to all subscribers.
  * The response is the number of subscribers to which the request was broadcast.
  */
-public class Publish {
+public class Publish extends ConcurrentRequest {
     /**
      * The request to be broadcast.
      */

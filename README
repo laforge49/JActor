@@ -130,3 +130,5 @@ Unreleased Changes
 
     - Component.open is now synchronous--it no longer takes a
       ResponseProcessor parameter.
+
+    - Requests bound to ConcurrentMethodBinding must extend ConcurrentRequest.
