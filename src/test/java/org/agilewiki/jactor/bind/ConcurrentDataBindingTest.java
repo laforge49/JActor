@@ -3,7 +3,7 @@ package org.agilewiki.jactor.bind;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
-public class DataBindingTest extends TestCase {
+public class ConcurrentDataBindingTest extends TestCase {
     public void test1() {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
@@ -44,7 +44,7 @@ public class DataBindingTest extends TestCase {
 
             getData().put("greeting", "Hello world!");
 
-            bind(Hi.class.getName(), new DataBinding("greeting"));
+            bind(Hi.class.getName(), new ConcurrentDataBinding("greeting"));
         }
     }
 }

@@ -25,7 +25,7 @@ package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.DataBinding;
+import org.agilewiki.jactor.bind.ConcurrentDataBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.components.Component;
 
@@ -61,6 +61,6 @@ public class ActorName extends Component {
             }
         });
 
-        internals.bind(GetActorName.class.getName(), new DataBinding("ActorName"));
+        internals.bind(GetActorName.class.getName(), new ConcurrentDataBinding("ActorName"));
     }
 }
