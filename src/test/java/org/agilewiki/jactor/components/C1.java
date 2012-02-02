@@ -6,18 +6,13 @@ import org.agilewiki.jactor.bind.Internals;
 
 public class C1 extends Component {
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp)
+    public void open(final Internals internals)
             throws Exception {
-        super.open(internals, new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
-                internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
-                            throws Exception {
-                        rp1.process("Hello world!");
-                    }
-                });
-                rp.process(null);
+        super.open(internals);
+        internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
+                    throws Exception {
+                rp1.process("Hello world!");
             }
         });
     }

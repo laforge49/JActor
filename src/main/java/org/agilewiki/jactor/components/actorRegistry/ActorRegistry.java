@@ -57,65 +57,59 @@ public class ActorRegistry extends Component {
 
     /**
      * Initialize the component after all its includes have been processed.
-     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
+    public void open(final Internals internals)
+            throws Exception {
+        super.open(internals);
 
-                internals.bind(RegisterActor.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
-                            throws Exception {
-                        RegisterActor registerActor = (RegisterActor) request;
-                        final JCActor actor = registerActor.getActor();
-                        internals.send(actor, new GetActorName(), new ResponseProcessor() {
-                            @Override
-                            public void process(Object response) throws Exception {
-                                String name = (String) response;
-                                if (registry.containsKey(name))
-                                    throw new UnsupportedOperationException("Duplicate actor name.");
-                                registry.put(name, actor);
-                                rp1.process(null);
-                            }
-                        });
-                    }
-                });
-
-                internals.bind(UnregisterActor.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
-                            throws Exception {
-                        UnregisterActor unregisterActor = (UnregisterActor) request;
-                        final String name = unregisterActor.getName();
-                        registry.remove(name);
+        internals.bind(RegisterActor.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+                    throws Exception {
+                RegisterActor registerActor = (RegisterActor) request;
+                final JCActor actor = registerActor.getActor();
+                internals.send(actor, new GetActorName(), new ResponseProcessor() {
+                    @Override
+                    public void process(Object response) throws Exception {
+                        String name = (String) response;
+                        if (registry.containsKey(name))
+                            throw new UnsupportedOperationException("Duplicate actor name.");
+                        registry.put(name, actor);
                         rp1.process(null);
                     }
                 });
+            }
+        });
 
-                internals.bind(GetRegisteredActor.class.getName(), new SyncBinding() {
-                    @Override
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              RequestSource requestSource,
-                                              Object request,
-                                              ResponseProcessor rp)
-                            throws Exception {
-                        GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
-                        String name = getRegisteredActor.getName();
-                        JCActor registeredActor = registry.get(name);
-                        if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
-                            Actor parent = requestReceiver.getParent();
-                            parent.acceptRequest(requestSource, request, rp);
-                            return;
-                        }
-                        rp.process(registeredActor);
-                    }
-                });
+        internals.bind(UnregisterActor.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+                    throws Exception {
+                UnregisterActor unregisterActor = (UnregisterActor) request;
+                final String name = unregisterActor.getName();
+                registry.remove(name);
+                rp1.process(null);
+            }
+        });
 
-                rp.process(null);
+        internals.bind(GetRegisteredActor.class.getName(), new SyncBinding() {
+            @Override
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      RequestSource requestSource,
+                                      Object request,
+                                      ResponseProcessor rp)
+                    throws Exception {
+                GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
+                String name = getRegisteredActor.getName();
+                JCActor registeredActor = registry.get(name);
+                if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
+                    Actor parent = requestReceiver.getParent();
+                    parent.acceptRequest(requestSource, request, rp);
+                    return;
+                }
+                rp.process(registeredActor);
             }
         });
     }

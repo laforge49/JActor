@@ -48,83 +48,76 @@ public class Factory extends Component {
 
     /**
      * Initialize the component after all its includes have been processed.
-     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+
+        internals.bind(DefineActorType.class.getName(), new SyncMethodBinding() {
             @Override
-            public void process(Object response) throws Exception {
+            public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
+                DefineActorType defineActorType = (DefineActorType) request;
+                String actorType = defineActorType.getActorType();
+                if (types.containsKey(actorType))
+                    throw new IllegalArgumentException("Actor type is already defined: " + actorType);
+                Class rootComponentClass = defineActorType.getRootComponentClass();
+                types.put(actorType, rootComponentClass);
+                return null;
+            }
+        });
 
-                internals.bind(DefineActorType.class.getName(), new SyncMethodBinding() {
-                   @Override
-                    public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
-                       DefineActorType defineActorType = (DefineActorType) request;
-                       String actorType = defineActorType.getActorType();
-                       if (types.containsKey(actorType))
-                           throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-                       Class rootComponentClass = defineActorType.getRootComponentClass();
-                       types.put(actorType, rootComponentClass);
-                        return null;
-                    }
-                });
+        internals.bind(NewActor.class.getName(), new Binding() {
+            @Override
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      RequestSource requestSource,
+                                      Object request,
+                                      ResponseProcessor rp)
+                    throws Exception {
+                NewActor newActor = (NewActor) request;
+                String actorType = newActor.getActorType();
+                Mailbox mailbox = newActor.getMailbox();
+                Actor parent = newActor.getParent();
+                if (mailbox == null || parent == null) {
+                    if (mailbox == null) mailbox = requestReceiver.getMailbox();
+                    if (parent == null) parent = requestReceiver.getThisActor();
+                    newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
+                }
+                if (types.containsKey(actorType)) {
+                    requestReceiver.routeRequest(requestSource, newActor, rp, this);
+                    return;
+                }
+                if (requestReceiver.parentHasSameComponent()) {
+                    requestReceiver.getParent().acceptRequest(requestSource, newActor, rp);
+                    return;
+                }
+                throw new IllegalArgumentException("Unknown actor type: " + actorType);
+            }
 
-                internals.bind(NewActor.class.getName(), new Binding() {
-                    @Override
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              RequestSource requestSource,
-                                              Object request,
-                                              ResponseProcessor rp)
-                            throws Exception {
-                        NewActor newActor = (NewActor) request;
-                        String actorType = newActor.getActorType();
-                        Mailbox mailbox = newActor.getMailbox();
-                        Actor parent = newActor.getParent();
-                        if (mailbox == null || parent == null) {
-                            if (mailbox == null) mailbox = requestReceiver.getMailbox();
-                            if (parent == null) parent = requestReceiver.getThisActor();
-                            newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
-                        }
-                        if (types.containsKey(actorType)) {
-                            requestReceiver.routeRequest(requestSource, newActor, rp, this);
-                            return;
-                        }
-                        if (requestReceiver.parentHasSameComponent()) {
-                            requestReceiver.getParent().acceptRequest(requestSource, newActor, rp);
-                            return;
-                        }
-                        throw new IllegalArgumentException("Unknown actor type: " + actorType);
-                    }
+            @Override
+            public void processRequest(Internals internals, Object request, final ResponseProcessor rp)
+                    throws Exception {
+                NewActor newActor = (NewActor) request;
+                String actorType = newActor.getActorType();
+                Class componentClass = types.get(actorType);
+                Include include = new Include(componentClass);
+                Mailbox mailbox = newActor.getMailbox();
+                String actorName = newActor.getActorName();
+                Actor parent = newActor.getParent();
+                JCActor actor = new JCActor(mailbox);
+                actor.setActorType(actorType);
+                actor.setParent(parent);
 
-                    @Override
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp)
-                            throws Exception {
-                        NewActor newActor = (NewActor) request;
-                        String actorType = newActor.getActorType();
-                        Class componentClass = types.get(actorType);
-                        Include include = new Include(componentClass);
-                        Mailbox mailbox = newActor.getMailbox();
-                        String actorName = newActor.getActorName();
-                        Actor parent = newActor.getParent();
-                        JCActor actor = new JCActor(mailbox);
-                        actor.setActorType(actorType);
-                        actor.setParent(parent);
-
-                        SMBuilder smb = new SMBuilder(internals);
-                        smb._send(actor, include);
-                        smb._if(actorName == null, "fin");
-                        smb._send(actor, new SetActorName(actorName));
-                        smb._send(internals.getThisActor(), new RegisterActor(actor));
-                        smb._label("fin");
-                        smb._return(actor);
-                        smb.call(rp);
-                    }
-                });
-
-                rp.process(null);
+                SMBuilder smb = new SMBuilder(internals);
+                smb._send(actor, include);
+                smb._if(actorName == null, "fin");
+                smb._send(actor, new SetActorName(actorName));
+                smb._send(internals.getThisActor(), new RegisterActor(actor));
+                smb._label("fin");
+                smb._return(actor);
+                smb.call(rp);
             }
         });
     }

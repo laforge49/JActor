@@ -22,41 +22,35 @@ public class Driver extends Component {
     }
 
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+        internals.bind(Timing.class.getName(), new AsyncMethodBinding() {
             @Override
-            public void process(Object response) throws Exception {
-                internals.bind(Timing.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
+                    throws Exception {
+                Timing timing = (Timing) request;
+                final int count = timing.getCount();
+                final int burst = timing.getBurst();
+                JAIterator jaIterator = new JAIterator() {
+                    int i = 0;
+                    Publish publish = new Publish(new NullRequest());
+
                     @Override
-                    public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
-                            throws Exception {
-                        Timing timing = (Timing) request;
-                        final int count = timing.getCount();
-                        final int burst = timing.getBurst();
-                        JAIterator jaIterator = new JAIterator() {
-                            int i = 0;
-                            Publish publish = new Publish(new NullRequest());
-
-                            @Override
-                            protected void process(final ResponseProcessor rp1) throws Exception {
-                                if (i == count) {
-                                    rp1.process(JANull.jan);
-                                    return;
-                                }
-                                i += 1;
-                                ResponseProcessor rp2 = new JAResponseCounter(burst, rp1);
-                                int j = 0;
-                                while (j < burst) {
-                                    internals.send(internals.getThisActor(), publish, rp2);
-                                    j += 1;
-                                }
-                            }
-                        };
-                        jaIterator.iterate(rp);
+                    protected void process(final ResponseProcessor rp1) throws Exception {
+                        if (i == count) {
+                            rp1.process(JANull.jan);
+                            return;
+                        }
+                        i += 1;
+                        ResponseProcessor rp2 = new JAResponseCounter(burst, rp1);
+                        int j = 0;
+                        while (j < burst) {
+                            internals.send(internals.getThisActor(), publish, rp2);
+                            j += 1;
+                        }
                     }
-                });
-
-                rp.process(null);
+                };
+                jaIterator.iterate(rp);
             }
         });
     }

@@ -94,7 +94,8 @@ final public class JCActor extends JBActor {
         ArrayList<Include> includes = c.includes();
         if (includes == null) {
             c.thisActor = this;
-            c.open(internals, rp);
+            c.open(internals);
+            rp.process(null);
             return;
         }
         final Iterator<Include> it = includes.iterator();
@@ -105,12 +106,8 @@ final public class JCActor extends JBActor {
                     processInclude(internals, it.next(), rp1);
                 } else {
                     c.thisActor = JCActor.this;
-                    c.open(internals, new ResponseProcessor() {
-                        @Override
-                        public void process(Object response) throws Exception {
-                            rp1.process(JANull.jan);
-                        }
-                    });
+                    c.open(internals);
+                    rp1.process(JANull.jan);
                 }
             }
         }).iterate(rp);

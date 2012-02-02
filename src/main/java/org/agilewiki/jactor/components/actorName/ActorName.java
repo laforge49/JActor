@@ -45,29 +45,22 @@ public class ActorName extends Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp)
+    public void open(final Internals internals)
             throws Exception {
-        super.open(internals, new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
-
-                internals.bind(SetActorName.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
-                            throws Exception {
-                        ConcurrentSkipListMap<String, Object> data = internals.getData();
-                        if (data.get("ActorName") != null)
-                            throw new UnsupportedOperationException("Already named");
-                        SetActorName setActorName = (SetActorName) request;
-                        String name = setActorName.getName();
-                        data.put("ActorName", name);
-                        rp1.process(null);
-                    }
-                });
-
-                internals.bind(GetActorName.class.getName(), new DataBinding("ActorName"));
-
-                rp.process(null);
+        super.open(internals);
+        internals.bind(SetActorName.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
+                    throws Exception {
+                ConcurrentSkipListMap<String, Object> data = internals.getData();
+                if (data.get("ActorName") != null)
+                    throw new UnsupportedOperationException("Already named");
+                SetActorName setActorName = (SetActorName) request;
+                String name = setActorName.getName();
+                data.put("ActorName", name);
+                rp1.process(null);
             }
         });
+
+        internals.bind(GetActorName.class.getName(), new DataBinding("ActorName"));
     }
 }

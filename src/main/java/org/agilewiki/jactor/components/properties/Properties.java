@@ -47,45 +47,38 @@ public class Properties extends Component {
 
     /**
      * Initialize the component after all its includes have been processed.
-     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+
+        internals.bind(SetProperty.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+                    throws Exception {
+                SetProperty setProperty = (SetProperty) request;
+                String propertyName = setProperty.getPropertyName();
+                Object propertyValue = setProperty.getPropertyValue();
+                properties.put(propertyName, propertyValue);
+                rp1.process(null);
+            }
+        });
+
+        internals.bind(GetProperty.class.getName(), new SyncBinding() {
             @Override
-            public void process(Object response) throws Exception {
-
-                internals.bind(SetProperty.class.getName(), new AsyncMethodBinding() {
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
-                            throws Exception {
-                        SetProperty setProperty = (SetProperty) request;
-                        String propertyName = setProperty.getPropertyName();
-                        Object propertyValue = setProperty.getPropertyValue();
-                        properties.put(propertyName, propertyValue);
-                        rp1.process(null);
-                    }
-                });
-
-                internals.bind(GetProperty.class.getName(), new SyncBinding() {
-                    @Override
-                    public void acceptRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request, ResponseProcessor rp)
-                            throws Exception {
-                        GetProperty getProperty = (GetProperty) request;
-                        String name = getProperty.getPropertyName();
-                        Object value = properties.get(name);
-                        if (value == null && requestReceiver.parentHasSameComponent()) {
-                            Actor parent = requestReceiver.getParent();
-                            parent.acceptRequest(requestSource, request, rp);
-                            return;
-                        }
-                        rp.process(value);
-                    }
-                });
-
-                rp.process(null);
+            public void acceptRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request, ResponseProcessor rp)
+                    throws Exception {
+                GetProperty getProperty = (GetProperty) request;
+                String name = getProperty.getPropertyName();
+                Object value = properties.get(name);
+                if (value == null && requestReceiver.parentHasSameComponent()) {
+                    Actor parent = requestReceiver.getParent();
+                    parent.acceptRequest(requestSource, request, rp);
+                    return;
+                }
+                rp.process(value);
             }
         });
     }

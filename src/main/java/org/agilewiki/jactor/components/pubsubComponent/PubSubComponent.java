@@ -47,82 +47,75 @@ public class PubSubComponent extends Component {
 
     /**
      * Initialize the component after all its includes have been processed.
-     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp)
+    public void open(final Internals internals)
             throws Exception {
-        super.open(internals, new ResponseProcessor() {
-            @Override
-            public void process(Object response) throws Exception {
+        super.open(internals);
 
-                internals.bind(Subscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              RequestSource requestSource,
-                                              Object request,
-                                              ResponseProcessor rp)
-                            throws Exception {
-                        Subscribe subscribe = (Subscribe) request;
-                        Actor subscriber = subscribe.getSubscriber();
-                        rp.process(subscribers.add(subscriber));
+        internals.bind(Subscribe.class.getName(), new SyncBinding() {
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      RequestSource requestSource,
+                                      Object request,
+                                      ResponseProcessor rp)
+                    throws Exception {
+                Subscribe subscribe = (Subscribe) request;
+                Actor subscriber = subscribe.getSubscriber();
+                rp.process(subscribers.add(subscriber));
+            }
+        });
+
+        internals.bind(Unsubscribe.class.getName(), new SyncBinding() {
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      RequestSource requestSource,
+                                      Object request,
+                                      ResponseProcessor rp)
+                    throws Exception {
+                Unsubscribe unsubscribe = (Unsubscribe) request;
+                Actor subscriber = unsubscribe.getSubscriber();
+                rp.process(subscribers.remove(subscriber));
+            }
+        });
+
+        internals.bind(Publish.class.getName(), new SyncBinding() {
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      final RequestSource requestSource,
+                                      final Object request,
+                                      final ResponseProcessor rp)
+                    throws Exception {
+                final Iterator<Actor> sit = subscribers.iterator();
+                JAIterator jaIterator = new JAIterator() {
+                    Publish publish = (Publish) request;
+                    Object broadcastRequest = publish.getRequest();
+                    final PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
+
+                    @Override
+                    protected void process(ResponseProcessor rp1) throws Exception {
+                        if (!sit.hasNext()) {
+                            psrp.finished();
+                            rp1.process(JANull.jan);
+                            return;
+                        }
+                        Actor subscriber = sit.next();
+                        psrp.sent += 1;
+                        subscriber.acceptRequest(requestSource, broadcastRequest, psrp);
+                        rp1.process(null);
                     }
-                });
+                };
+                jaIterator.iterate(JANoResponse.nrp);
+            }
+        });
 
-                internals.bind(Unsubscribe.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              RequestSource requestSource,
-                                              Object request,
-                                              ResponseProcessor rp)
-                            throws Exception {
-                        Unsubscribe unsubscribe = (Unsubscribe) request;
-                        Actor subscriber = unsubscribe.getSubscriber();
-                        rp.process(subscribers.remove(subscriber));
-                    }
-                });
-
-                internals.bind(Publish.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              final RequestSource requestSource,
-                                              final Object request,
-                                              final ResponseProcessor rp)
-                            throws Exception {
-                        final Iterator<Actor> sit = subscribers.iterator();
-                        JAIterator jaIterator = new JAIterator() {
-                            Publish publish = (Publish) request;
-                            Object broadcastRequest = publish.getRequest();
-                            final PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
-
-                            @Override
-                            protected void process(ResponseProcessor rp1) throws Exception {
-                                if (!sit.hasNext()) {
-                                    psrp.finished();
-                                    rp1.process(JANull.jan);
-                                    return;
-                                }
-                                Actor subscriber = sit.next();
-                                psrp.sent += 1;
-                                subscriber.acceptRequest(requestSource, broadcastRequest, psrp);
-                                rp1.process(null);
-                            }
-                        };
-                        jaIterator.iterate(JANoResponse.nrp);
-                    }
-                });
-
-                internals.bind(Subscribers.class.getName(), new SyncBinding() {
-                    public void acceptRequest(RequestReceiver requestReceiver,
-                                              RequestSource requestSource,
-                                              Object request,
-                                              ResponseProcessor rp)
-                            throws Exception {
-                        rp.process(subscribers);
-                    }
-                });
-
-                rp.process(null);
+        internals.bind(Subscribers.class.getName(), new SyncBinding() {
+            public void acceptRequest(RequestReceiver requestReceiver,
+                                      RequestSource requestSource,
+                                      Object request,
+                                      ResponseProcessor rp)
+                    throws Exception {
+                rp.process(subscribers);
             }
         });
     }

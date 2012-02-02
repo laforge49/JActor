@@ -48,21 +48,17 @@ public class Component {
 
     /**
      * Initialize the component after all its includes have been processed.
-     * The response must always be null;
      *
      * @param internals The JBActor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(Internals internals, ResponseProcessor rp)
-            throws Exception {
-        rp.process(null);
-    }
+    public void open(Internals internals)
+            throws Exception {}
 
     /**
      * Close any files or sockets opened by the component.
      *
      * @throws Exception All exceptions thrown will be ignored.
      */
-    public void close() throws Exception {
-    }
+    public void close() throws Exception {}
 }

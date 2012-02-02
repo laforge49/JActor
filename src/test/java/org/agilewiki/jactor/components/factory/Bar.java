@@ -21,26 +21,20 @@ public class Bar extends Component {
     }
 
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+        internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
             @Override
-            public void process(Object response) throws Exception {
-                internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+                    throws Exception {
+                internals.send(internals.getThisActor(), new GetActorName(), new ResponseProcessor() {
                     @Override
-                    public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
-                            throws Exception {
-                        internals.send(internals.getThisActor(), new GetActorName(), new ResponseProcessor() {
-                            @Override
-                            public void process(Object response) throws Exception {
-                                myName = (String) response;
-                                System.err.println("Hello world! --" + myName);
-                                rp1.process(null);
-                            }
-                        });
+                    public void process(Object response) throws Exception {
+                        myName = (String) response;
+                        System.err.println("Hello world! --" + myName);
+                        rp1.process(null);
                     }
                 });
-
-                rp.process(null);
             }
         });
     }

@@ -21,40 +21,34 @@ final public class Driver1 extends Component {
     }
 
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+        internals.bind(Timing.class.getName(), new AsyncMethodBinding() {
             @Override
-            public void process(Object response) throws Exception {
-                internals.bind(Timing.class.getName(), new AsyncMethodBinding() {
+            public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
+                    throws Exception {
+                Timing timing = (Timing) request;
+                final int count = timing.getCount();
+                JAIterator jaIterator = new JAIterator() {
+                    int i = 0;
+                    Publish publish = new Publish(new NullRequest());
+
                     @Override
-                    public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
-                            throws Exception {
-                        Timing timing = (Timing) request;
-                        final int count = timing.getCount();
-                        JAIterator jaIterator = new JAIterator() {
-                            int i = 0;
-                            Publish publish = new Publish(new NullRequest());
-
+                    protected void process(final ResponseProcessor rp1) throws Exception {
+                        if (i == count) {
+                            rp1.process(JANull.jan);
+                            return;
+                        }
+                        i += 1;
+                        internals.send(internals.getThisActor(), publish, new ResponseProcessor() {
                             @Override
-                            protected void process(final ResponseProcessor rp1) throws Exception {
-                                if (i == count) {
-                                    rp1.process(JANull.jan);
-                                    return;
-                                }
-                                i += 1;
-                                internals.send(internals.getThisActor(), publish, new ResponseProcessor() {
-                                    @Override
-                                    public void process(Object response) throws Exception {
-                                        rp1.process(null);
-                                    }
-                                });
+                            public void process(Object response) throws Exception {
+                                rp1.process(null);
                             }
-                        };
-                        jaIterator.iterate(rp);
+                        });
                     }
-                });
-
-                rp.process(null);
+                };
+                jaIterator.iterate(rp);
             }
         });
     }

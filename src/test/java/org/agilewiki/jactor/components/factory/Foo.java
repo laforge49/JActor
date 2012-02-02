@@ -7,19 +7,14 @@ import org.agilewiki.jactor.components.Component;
 
 public class Foo extends Component {
     @Override
-    public void open(final Internals internals, final ResponseProcessor rp) throws Exception {
-        super.open(internals, new ResponseProcessor() {
+    public void open(final Internals internals) throws Exception {
+        super.open(internals);
+        internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
             @Override
-            public void process(Object response) throws Exception {
-                internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
-                    @Override
-                    public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
-                            throws Exception {
-                        System.err.println("Hello world!");
-                        rp1.process(null);
-                    }
-                });
-                rp.process(null);
+            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
+                    throws Exception {
+                System.err.println("Hello world!");
+                rp1.process(null);
             }
         });
     }
