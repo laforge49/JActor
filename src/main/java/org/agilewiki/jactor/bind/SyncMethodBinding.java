@@ -51,7 +51,7 @@ abstract public class SyncMethodBinding extends SyncBinding {
                                     Object request,
                                     ResponseProcessor rp)
             throws Exception {
-        rp.process(method(requestReceiver, requestSource, request));
+        rp.process(syncProcessRequest(requestReceiver, requestSource, request));
     }
 
     /**
@@ -66,7 +66,7 @@ abstract public class SyncMethodBinding extends SyncBinding {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public Object method(RequestReceiver requestReceiver,
+    abstract public Object syncProcessRequest(RequestReceiver requestReceiver,
                                   RequestSource requestSource,
                                   Object request)
             throws Exception;

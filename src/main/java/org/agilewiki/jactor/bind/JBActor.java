@@ -439,7 +439,7 @@ public class JBActor implements Actor {
                 throw new UnsupportedOperationException("Request is not bound to a SyncMethodBinding: " +
                         request.getClass().getName());
             SyncMethodBinding syncMethodBinding = (SyncMethodBinding) binding;
-            return syncMethodBinding.method(requestReceiver, (RequestSource) apcRequestSource, request);
+            return syncMethodBinding.syncProcessRequest(requestReceiver, (RequestSource) apcRequestSource, request);
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());

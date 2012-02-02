@@ -48,11 +48,8 @@ public class DataBinding extends SyncMethodBinding {
 
     /**
      * <p>
-     * A purely synchronous method which accesses only concurrent data structures.
-     * </p>
-     * <p>
-     * Actor.acceptRequest and Actor.acceptCall can be used within a method method
-     * for passing requests to other actors.
+     * A pure synchronous method which accesses only concurrent data structures
+     * or calls other pure synchronous methods via Actor.acceptCall.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
@@ -62,7 +59,7 @@ public class DataBinding extends SyncMethodBinding {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object method(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
+    public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
         return requestReceiver.getData().get(name);
     }
 }
