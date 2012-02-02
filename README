@@ -121,3 +121,5 @@ Unreleased Changes
     - The getParent method in JBActor is now public.
 
     - Rename: MethodBinding => AsyncMethodBinding.
+
+    - Added pure synchronous methods.
