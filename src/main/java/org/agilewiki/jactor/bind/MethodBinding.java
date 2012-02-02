@@ -54,15 +54,16 @@ abstract public class MethodBinding extends SyncBinding {
                               Object request, 
                               ResponseProcessor rp) 
             throws Exception {
-        rp.process(method(request));
+        rp.process(method(requestReceiver, request));
     }
 
     /**
      * A purely synchronous method which accesses only concurrent data structures.
      *
+     * @param requestReceiver The API used when a request is received.
      * @param request The request to be processed.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public Object method(Object request) throws Exception;
+    abstract public Object method(RequestReceiver requestReceiver, Object request) throws Exception;
 }

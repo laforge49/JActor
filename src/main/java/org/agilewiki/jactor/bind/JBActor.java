@@ -439,7 +439,7 @@ public class JBActor implements Actor {
                 throw new UnsupportedOperationException("Request is not bound to a MethodBinding: " +
                         request.getClass().getName());
             MethodBinding methodBinding = (MethodBinding) binding;
-            return methodBinding.method(request);
+            return methodBinding.method(requestReceiver, request);
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());
