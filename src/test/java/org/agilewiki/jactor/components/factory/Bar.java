@@ -2,7 +2,7 @@ package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.AsyncMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.actorName.ActorName;
@@ -25,7 +25,7 @@ public class Bar extends Component {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                internals.bind(Hi.class.getName(), new MethodBinding() {
+                internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
                     @Override
                     public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {

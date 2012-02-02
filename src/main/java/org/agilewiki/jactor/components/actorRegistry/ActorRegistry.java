@@ -65,7 +65,7 @@ public class ActorRegistry extends Component {
             @Override
             public void process(Object response) throws Exception {
 
-                internals.bind(RegisterActor.class.getName(), new MethodBinding() {
+                internals.bind(RegisterActor.class.getName(), new AsyncMethodBinding() {
                     public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         RegisterActor registerActor = (RegisterActor) request;
@@ -83,7 +83,7 @@ public class ActorRegistry extends Component {
                     }
                 });
 
-                internals.bind(UnregisterActor.class.getName(), new MethodBinding() {
+                internals.bind(UnregisterActor.class.getName(), new AsyncMethodBinding() {
                     public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         UnregisterActor unregisterActor = (UnregisterActor) request;

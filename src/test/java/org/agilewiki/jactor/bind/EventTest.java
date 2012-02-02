@@ -35,7 +35,7 @@ public class EventTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new MethodBinding() {
+            bind(Hi.class.getName(), new AsyncMethodBinding() {
                 public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                         throws Exception {
                     System.err.println("A got request");

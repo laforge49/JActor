@@ -29,7 +29,7 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.AsyncMethodBinding;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,7 +57,7 @@ final public class JCActor extends JBActor {
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
 
-        bind(Include.class.getName(), new MethodBinding() {
+        bind(Include.class.getName(), new AsyncMethodBinding() {
             @Override
             public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                     throws Exception {

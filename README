@@ -119,3 +119,5 @@ Unreleased Changes
     - Components now hold a reference to the actor they are a part of.
 
     - The getParent method in JBActor is now public.
+
+    - Rename: MethodBinding => AsyncMethodBinding.

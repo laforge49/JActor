@@ -59,7 +59,7 @@ public class Factory extends Component {
             @Override
             public void process(Object response) throws Exception {
 
-                internals.bind(DefineActorType.class.getName(), new MethodBinding() {
+                internals.bind(DefineActorType.class.getName(), new AsyncMethodBinding() {
                     public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         DefineActorType defineActorType = (DefineActorType) request;

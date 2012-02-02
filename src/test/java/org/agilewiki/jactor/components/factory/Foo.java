@@ -2,7 +2,7 @@ package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.AsyncMethodBinding;
 import org.agilewiki.jactor.components.Component;
 
 public class Foo extends Component {
@@ -11,7 +11,7 @@ public class Foo extends Component {
         super.open(internals, new ResponseProcessor() {
             @Override
             public void process(Object response) throws Exception {
-                internals.bind(Hi.class.getName(), new MethodBinding() {
+                internals.bind(Hi.class.getName(), new AsyncMethodBinding() {
                     @Override
                     public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
                             throws Exception {

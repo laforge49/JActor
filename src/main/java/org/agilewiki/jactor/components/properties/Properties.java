@@ -55,7 +55,7 @@ public class Properties extends Component {
             @Override
             public void process(Object response) throws Exception {
 
-                internals.bind(SetProperty.class.getName(), new MethodBinding() {
+                internals.bind(SetProperty.class.getName(), new AsyncMethodBinding() {
                     public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                             throws Exception {
                         SetProperty setProperty = (SetProperty) request;
