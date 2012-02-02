@@ -103,7 +103,7 @@ final public class JAFuture {
 
     /**
      * Send a request to a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
      *
      * @param actor   The target actor.
      * @param request The request.

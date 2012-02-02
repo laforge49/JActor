@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * <p>Binds a request class to a purely synchronous method.</p>
  */
-abstract public class MethodBinding extends SyncBinding {
+abstract public class SyncMethodBinding extends SyncBinding {
     /**
      * <p>
      * Process an incoming request.

@@ -181,7 +181,7 @@ public class JBActor implements Actor {
 
         /**
          * Send a request to a purely synchronous method.
-         * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+         * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
          *
          * @param actor   The target actor.
          * @param request The request.
@@ -424,7 +424,7 @@ public class JBActor implements Actor {
 
     /**
      * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.
@@ -435,11 +435,11 @@ public class JBActor implements Actor {
     final public Object acceptCall(APCRequestSource apcRequestSource, Object request) throws Exception {
         Binding binding = getBinding(request);
         if (binding != null) {
-            if (!(binding instanceof MethodBinding))
-                throw new UnsupportedOperationException("Request is not bound to a MethodBinding: " +
+            if (!(binding instanceof SyncMethodBinding))
+                throw new UnsupportedOperationException("Request is not bound to a SyncMethodBinding: " +
                         request.getClass().getName());
-            MethodBinding methodBinding = (MethodBinding) binding;
-            return methodBinding.method(requestReceiver, (RequestSource) apcRequestSource, request);
+            SyncMethodBinding syncMethodBinding = (SyncMethodBinding) binding;
+            return syncMethodBinding.method(requestReceiver, (RequestSource) apcRequestSource, request);
         }
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());

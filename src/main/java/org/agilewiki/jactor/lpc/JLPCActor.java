@@ -160,7 +160,7 @@ abstract public class JLPCActor implements Actor {
 
     /**
      * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.
