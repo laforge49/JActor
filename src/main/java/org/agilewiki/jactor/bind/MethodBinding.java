@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Bill La Forge
+ * Copyright 2012 Bill La Forge
  *
  * This file is part of AgileWiki and is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,12 +27,19 @@ import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * Binds a request class to a method that supports asynchronous requests.
+ * Binds a request class to a purely synchronous method.
  */
-abstract public class AsyncMethodBinding extends Binding {
+abstract public class MethodBinding extends SyncBinding {
     /**
      * <p>
-     * Routes an incoming request by calling internals.routeRequest.
+     * Process an incoming request.
+     * Operates in the sender's thread, so only concurrent data structures can be updated safely.
+     * </p><p>
+     * The Binding.processRequest should be invoked indirectly, by calling Binding.internals.acceptRequest.
+     * The acceptRequest method will then be safely invoked under the appropriate thread.
+     * </p><p>
+     * The send method is also not safe, but you can call Actor.acceptRequest to forward a
+     * request to another actor.
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
@@ -40,13 +47,22 @@ abstract public class AsyncMethodBinding extends Binding {
      * @param request         The request to be sent.
      * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
+    */
     @Override
-    final public void acceptRequest(RequestReceiver requestReceiver,
-                                    RequestSource requestSource,
-                                    Object request,
-                                    ResponseProcessor rp)
+    public void acceptRequest(RequestReceiver requestReceiver, 
+                              RequestSource requestSource, 
+                              Object request, 
+                              ResponseProcessor rp) 
             throws Exception {
-        requestReceiver.routeRequest(requestSource, request, rp, this);
+        rp.process(method(request));
     }
+
+    /**
+     * A purely synchronous method which accesses only concurrent data structures.
+     *
+     * @param request The request to be processed.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract public Object method(Object request) throws Exception;
 }

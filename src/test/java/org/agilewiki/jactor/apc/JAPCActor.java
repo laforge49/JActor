@@ -117,6 +117,20 @@ abstract public class JAPCActor implements Actor {
     }
 
     /**
+     * Processes a purely synchronous method.
+     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(APCRequestSource apcRequestSource, Object request) throws Exception {
+        throw new UnsupportedOperationException(request.getClass().getName());
+    }
+
+    /**
      * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param requestSource    The originator of the request.

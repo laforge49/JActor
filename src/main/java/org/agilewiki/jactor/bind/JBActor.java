@@ -180,6 +180,20 @@ public class JBActor implements Actor {
         }
 
         /**
+         * Send a request to a purely synchronous method.
+         * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         * @return The response.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        @Override
+        public Object call(Actor actor, Object request) throws Exception {
+            return actor.call(requestSource, request);
+        }
+
+        /**
          * Send a request to another actor.
          *
          * @param actor   The target actor.
@@ -406,6 +420,30 @@ public class JBActor implements Actor {
     @Override
     final public void setInitialBufferCapacity(final int initialBufferCapacity) {
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
+    }
+
+    /**
+     * Processes a purely synchronous method.
+     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    final public Object call(APCRequestSource apcRequestSource, Object request) throws Exception {
+        Binding binding = getBinding(request);
+        if (binding != null) {
+            if (!(binding instanceof MethodBinding))
+                throw new UnsupportedOperationException("Request is not bound to a MethodBinding: " +
+                        request.getClass().getName());
+            MethodBinding methodBinding = (MethodBinding) binding;
+            return methodBinding.method(request);
+        }
+        if (parent == null)
+            throw new UnsupportedOperationException(request.getClass().getName());
+        return parent.call(apcRequestSource, request);
     }
 
     /**

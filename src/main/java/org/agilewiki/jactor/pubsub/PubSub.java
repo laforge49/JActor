@@ -42,6 +42,41 @@ final public class PubSub implements Actor {
     private Set<Actor> subscribers = Collections.newSetFromMap(new ConcurrentHashMap<Actor, Boolean>());
 
     /**
+     * Processes a purely synchronous method.
+     * An exception will be thrown if the class of the request is not bound to a MethodBinding.
+     *
+     * @param requestSource The originator of the request.
+     * @param request          The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(final APCRequestSource requestSource, final Object request) throws Exception {
+        if (request instanceof Publish) {
+            final Iterator<Actor> sit = subscribers.iterator();
+            while (sit.hasNext()) {
+                Actor subscriber = sit.next();
+                subscriber.call(requestSource, request);
+            }
+            return null;
+        }
+        if (request instanceof Subscribe) {
+            Subscribe subscribe = (Subscribe) request;
+            Actor subscriber = subscribe.getSubscriber();
+            return subscribers.add(subscriber);
+        }
+        if (request instanceof Unsubscribe) {
+            Unsubscribe unsubscribe = (Unsubscribe) request;
+            Actor subscriber = unsubscribe.getSubscriber();
+            return subscribers.remove(subscriber);
+        }
+        if (request instanceof Subscribers) {
+            return subscribers;
+        }
+        throw new UnsupportedOperationException(request.getClass().getName());
+    }
+
+    /**
      * Wraps and enqueues an unwrapped request in the requester's inbox.
      *
      * @param requestSource The originator of the request.
