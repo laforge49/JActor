@@ -3,7 +3,7 @@ package org.agilewiki.jactor.bind;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
-public class AsyncMethodBindingTest extends TestCase {
+public class MethodBindingTest extends TestCase {
     public void test1() {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
@@ -42,7 +42,7 @@ public class AsyncMethodBindingTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new AsyncMethodBinding() {
+            bind(Hi.class.getName(), new MethodBinding() {
                 public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                         throws Exception {
                     rp.process("Hello world!");

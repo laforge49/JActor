@@ -25,10 +25,10 @@ package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.AsyncMethodBinding;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
-import org.agilewiki.jactor.bind.SyncBinding;
+import org.agilewiki.jactor.bind.ConcurrentBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
@@ -66,7 +66,7 @@ public class ActorRegistry extends Component {
             throws Exception {
         super.open(internals);
 
-        internals.bind(RegisterActor.class.getName(), new AsyncMethodBinding() {
+        internals.bind(RegisterActor.class.getName(), new MethodBinding() {
             public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                     throws Exception {
                 RegisterActor registerActor = (RegisterActor) request;
@@ -84,7 +84,7 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(UnregisterActor.class.getName(), new AsyncMethodBinding() {
+        internals.bind(UnregisterActor.class.getName(), new MethodBinding() {
             public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                     throws Exception {
                 UnregisterActor unregisterActor = (UnregisterActor) request;
@@ -94,7 +94,7 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(GetRegisteredActor.class.getName(), new SyncBinding() {
+        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentBinding() {
             @Override
             public void acceptRequest(RequestReceiver requestReceiver,
                                       RequestSource requestSource,

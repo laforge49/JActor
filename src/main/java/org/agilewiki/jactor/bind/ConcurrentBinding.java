@@ -23,42 +23,23 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.lpc.RequestSource;
+import org.agilewiki.jactor.ResponseProcessor;
 
 /**
- * Binds a request class to a concurrent data item.
- * Requests are processed immediately,
- * even if the actor has an asynchronous mailbox.
+ * A binding for processing concurrent requests.
  */
-public class DataBinding extends ConcurrentMethodBinding {
+abstract public class ConcurrentBinding extends Binding {
     /**
-     * The name of a concurrent data item.
-     */
-    private String name;
-
-    /**
-     * Create a DataBinding.
+     * Unsupported.
      *
-     * @param name The name of a concurrent data item.
-     */
-    public DataBinding(String name) {
-        this.name = name;
-    }
-
-    /**
-     * <p>
-     * A pure synchronous method which accesses only concurrent data structures
-     * or calls other pure synchronous methods via Actor.acceptCall.
-     * </p>
-     *
-     * @param requestReceiver The API used when a request is received.
-     * @param requestSource   The originator of the request.
-     * @param request         The request to be processed.
-     * @return The response.
+     * @param internals The internal API of JBActor.
+     * @param request   A request.
+     * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
-        return requestReceiver.getData().get(name);
+    final public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+            throws Exception {
+        throw new UnsupportedOperationException();
     }
 }

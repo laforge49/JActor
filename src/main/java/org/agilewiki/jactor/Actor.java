@@ -49,7 +49,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 public interface Actor {
     /**
      * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
+     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.

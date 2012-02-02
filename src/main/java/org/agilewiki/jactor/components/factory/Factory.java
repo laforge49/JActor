@@ -56,7 +56,7 @@ public class Factory extends Component {
     public void open(final Internals internals) throws Exception {
         super.open(internals);
 
-        internals.bind(DefineActorType.class.getName(), new SyncMethodBinding() {
+        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding() {
             @Override
             public Object syncProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request) throws Exception {
                 DefineActorType defineActorType = (DefineActorType) request;

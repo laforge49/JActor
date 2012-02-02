@@ -25,10 +25,10 @@ package org.agilewiki.jactor.components.properties;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.AsyncMethodBinding;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
-import org.agilewiki.jactor.bind.SyncBinding;
+import org.agilewiki.jactor.bind.ConcurrentBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -55,7 +55,7 @@ public class Properties extends Component {
     public void open(final Internals internals) throws Exception {
         super.open(internals);
 
-        internals.bind(SetProperty.class.getName(), new AsyncMethodBinding() {
+        internals.bind(SetProperty.class.getName(), new MethodBinding() {
             public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
                     throws Exception {
                 SetProperty setProperty = (SetProperty) request;
@@ -66,7 +66,7 @@ public class Properties extends Component {
             }
         });
 
-        internals.bind(GetProperty.class.getName(), new SyncBinding() {
+        internals.bind(GetProperty.class.getName(), new ConcurrentBinding() {
             @Override
             public void acceptRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request, ResponseProcessor rp)
                     throws Exception {

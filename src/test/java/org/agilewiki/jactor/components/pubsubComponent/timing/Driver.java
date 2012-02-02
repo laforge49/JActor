@@ -3,7 +3,7 @@ package org.agilewiki.jactor.components.pubsubComponent.timing;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.AsyncMethodBinding;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
@@ -24,7 +24,7 @@ public class Driver extends Component {
     @Override
     public void open(final Internals internals) throws Exception {
         super.open(internals);
-        internals.bind(Timing.class.getName(), new AsyncMethodBinding() {
+        internals.bind(Timing.class.getName(), new MethodBinding() {
             @Override
             public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
                     throws Exception {

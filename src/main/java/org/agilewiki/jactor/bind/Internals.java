@@ -55,7 +55,7 @@ public interface Internals {
 
     /**
      * Send a request to a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a SyncMethodBinding.
+     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
      *
      * @param actor   The target actor.
      * @param request The request.

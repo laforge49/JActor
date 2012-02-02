@@ -35,7 +35,7 @@ public class EventTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new AsyncMethodBinding() {
+            bind(Hi.class.getName(), new MethodBinding() {
                 public void processRequest(Internals internals, Object request, ResponseProcessor rp)
                         throws Exception {
                     System.err.println("A got request");
@@ -43,7 +43,7 @@ public class EventTest extends TestCase {
                 }
             });
 
-            bind(Ho.class.getName(), new SyncBinding() {
+            bind(Ho.class.getName(), new ConcurrentBinding() {
                 @Override
                 public void acceptRequest(RequestReceiver requestReceiver,
                                           RequestSource requestSource,

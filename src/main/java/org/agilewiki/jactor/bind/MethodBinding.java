@@ -24,22 +24,29 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * A binding for processing requests synchronously, even if the actor has an asynchronous mailbox.
+ * Binds a request class to a method that supports asynchronous requests.
  */
-abstract public class SyncBinding extends Binding {
+abstract public class MethodBinding extends Binding {
     /**
-     * Unsupported.
+     * <p>
+     * Routes an incoming request by calling internals.routeRequest.
+     * </p>
      *
-     * @param internals The internal API of JBActor.
-     * @param request   A request.
-     * @param rp        The response processor.
+     * @param requestReceiver The API used when a request is received.
+     * @param requestSource   The originator of the request.
+     * @param request         The request to be sent.
+     * @param rp              The request processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+    final public void acceptRequest(RequestReceiver requestReceiver,
+                                    RequestSource requestSource,
+                                    Object request,
+                                    ResponseProcessor rp)
             throws Exception {
-        throw new UnsupportedOperationException();
+        requestReceiver.routeRequest(requestSource, request, rp, this);
     }
 }

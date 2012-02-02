@@ -24,9 +24,9 @@
 package org.agilewiki.jactor.components.pubsubComponent;
 
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.bind.ConcurrentBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
-import org.agilewiki.jactor.bind.SyncBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 import org.agilewiki.jactor.pubsub.*;
@@ -56,7 +56,7 @@ public class PubSubComponent extends Component {
             throws Exception {
         super.open(internals);
 
-        internals.bind(Subscribe.class.getName(), new SyncBinding() {
+        internals.bind(Subscribe.class.getName(), new ConcurrentBinding() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       RequestSource requestSource,
                                       Object request,
@@ -68,7 +68,7 @@ public class PubSubComponent extends Component {
             }
         });
 
-        internals.bind(Unsubscribe.class.getName(), new SyncBinding() {
+        internals.bind(Unsubscribe.class.getName(), new ConcurrentBinding() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       RequestSource requestSource,
                                       Object request,
@@ -80,7 +80,7 @@ public class PubSubComponent extends Component {
             }
         });
 
-        internals.bind(Publish.class.getName(), new SyncBinding() {
+        internals.bind(Publish.class.getName(), new ConcurrentBinding() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       final RequestSource requestSource,
                                       final Object request,
@@ -109,7 +109,7 @@ public class PubSubComponent extends Component {
             }
         });
 
-        internals.bind(Subscribers.class.getName(), new SyncBinding() {
+        internals.bind(Subscribers.class.getName(), new ConcurrentBinding() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       RequestSource requestSource,
                                       Object request,

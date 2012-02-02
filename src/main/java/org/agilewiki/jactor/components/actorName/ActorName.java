@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.AsyncMethodBinding;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.DataBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.components.Component;
@@ -48,7 +48,7 @@ public class ActorName extends Component {
     public void open(final Internals internals)
             throws Exception {
         super.open(internals);
-        internals.bind(SetActorName.class.getName(), new AsyncMethodBinding() {
+        internals.bind(SetActorName.class.getName(), new MethodBinding() {
             public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
                     throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();
