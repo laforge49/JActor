@@ -28,5 +28,5 @@ package org.agilewiki.jactor.bind;
  * via the Internals.call or Actor.acceptCall methods,
  * but only until a non-initialization request is received.
  */
-public class InitializationRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
+public class InitializationRequest<RESPONSE_TYPE> extends SafeRequest<RESPONSE_TYPE> {
 }

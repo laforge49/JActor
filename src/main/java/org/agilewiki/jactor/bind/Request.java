@@ -33,8 +33,8 @@ public class Request<RESPONSE_TYPE> {
      * Send a request.
      *
      * @param senderInternals The sending actor's internals.
-     * @param targetActor The target actor.
-     * @param rp The response processor.
+     * @param targetActor     The target actor.
+     * @param rp              The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)

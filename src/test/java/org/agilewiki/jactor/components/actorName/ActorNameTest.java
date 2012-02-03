@@ -13,7 +13,7 @@ public class ActorNameTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            future.send(a, new Include(ActorName.class));
+            future.call(a, new Include(ActorName.class));
             System.err.println(future.send(a, new GetActorName()));
             future.send(a, new SetActorName("foo"));
             System.err.println(future.send(a, new GetActorName()));

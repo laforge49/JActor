@@ -15,7 +15,7 @@ public class PubSubComponentTest extends TestCase {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
-            future.send(publisher, new Include(PubSubComponent.class));
+            future.call(publisher, new Include(PubSubComponent.class));
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
             future.send(publisher, new Subscribe(subscriber1));

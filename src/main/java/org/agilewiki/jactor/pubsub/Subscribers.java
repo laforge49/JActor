@@ -32,5 +32,6 @@ import java.util.Set;
  * A request for the set of subscribing actors.
  * The result is a concurrent set containing the subscribing actors.
  */
-public class Subscribers extends ConcurrentRequest<Set<Actor>> {}
+public class Subscribers extends ConcurrentRequest<Set<Actor>> {
+}
 

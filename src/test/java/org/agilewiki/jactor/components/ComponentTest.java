@@ -11,7 +11,7 @@ public class ComponentTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            future.send(a, new Include(C2.class));
+            future.call(a, new Include(C2.class));
             System.err.println(future.send(a, new Hi()));
         } catch (Exception e) {
             e.printStackTrace();

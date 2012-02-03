@@ -23,13 +23,11 @@
  */
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.InitializationMethodBinding;
+import org.agilewiki.jactor.bind.InitializationRequest;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.MethodBinding;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,11 +55,11 @@ final public class JCActor extends JBActor {
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
 
-        bind(Include.class.getName(), new MethodBinding() {
+        bind(Include.class.getName(), new InitializationMethodBinding<Include>() {
             @Override
-            public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+            public Object initializationProcessRequest(Internals internals, Include request)
                     throws Exception {
-                processInclude(internals, request, rp);
+                return processInclude(internals, request);
             }
         });
     }
@@ -70,47 +68,34 @@ final public class JCActor extends JBActor {
      * Process an include.
      *
      * @param internals The internal API of JBActor.
-     * @param request   The include request.
-     * @param rp        The response processor.
+     * @param include   The include request.
      * @throws Exception Any uncaught exceptions from calls to the component open methods.
      */
-    private void processInclude(final Internals internals, Object request, ResponseProcessor rp)
+    private Object processInclude(final Internals internals, Include include)
             throws Exception {
-        Include include = (Include) request;
         Class clazz = include.getClazz();
         final String className = clazz.getName();
         ConcurrentSkipListMap<String, Object> data = getData();
-        if (data.containsKey(className)) {
-            rp.process(null);
-            return;
-        }
+        if (data.containsKey(className))
+            return null;
         Object o = clazz.newInstance();
         data.put(className, o);
-        if (!(o instanceof Component)) {
-            rp.process(null);
-            return;
-        }
+        if (!(o instanceof Component))
+            return null;
         final Component c = (Component) o;
         ArrayList<Include> includes = c.includes();
         if (includes == null) {
             c.thisActor = this;
             c.open(internals);
-            rp.process(null);
-            return;
+            return null;
         }
         final Iterator<Include> it = includes.iterator();
-        (new JAIterator() {
-            @Override
-            protected void process(final ResponseProcessor rp1) throws Exception {
-                if (it.hasNext()) {
-                    processInclude(internals, it.next(), rp1);
-                } else {
-                    c.thisActor = JCActor.this;
-                    c.open(internals);
-                    rp1.process(JANull.jan);
-                }
-            }
-        }).iterate(rp);
+        while (it.hasNext()) {
+            processInclude(internals, it.next());
+        }
+        c.thisActor = JCActor.this;
+        c.open(internals);
+        return null;
     }
 
     /**

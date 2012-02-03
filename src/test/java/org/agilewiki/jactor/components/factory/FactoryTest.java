@@ -16,8 +16,8 @@ public class FactoryTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             JCActor f = new JCActor(mailboxFactory.createMailbox());
-            future.send(f, new Include(Factory.class));
-            future.send(f, new Include(ActorRegistry.class));
+            future.call(f, new Include(Factory.class));
+            future.call(f, new Include(ActorRegistry.class));
             future.send(f, new DefineActorType("Foo", Foo.class));
             Actor a = (Actor) future.send(f, new NewActor("Foo"));
             future.send(a, new Hi());
@@ -35,8 +35,8 @@ public class FactoryTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             f = new JCActor(mailboxFactory.createMailbox());
-            future.send(f, new Include(Factory.class));
-            future.send(f, new Include(ActorRegistry.class));
+            future.call(f, new Include(Factory.class));
+            future.call(f, new Include(ActorRegistry.class));
             future.send(f, new DefineActorType("Bar", Bar.class));
             Actor a = (Actor) future.send(f, new NewActor("Bar", null, "Bloop"));
             future.send(a, new Hi());

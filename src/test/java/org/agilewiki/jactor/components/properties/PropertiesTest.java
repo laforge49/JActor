@@ -13,10 +13,10 @@ public class PropertiesTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             JCActor p1 = new JCActor(mailboxFactory.createMailbox());
-            future.send(p1, new Include(Properties.class));
+            future.call(p1, new Include(Properties.class));
             JCActor p2 = new JCActor(p1.getMailbox());
             p2.setParent(p1);
-            future.send(p2, new Include(Properties.class));
+            future.call(p2, new Include(Properties.class));
             future.send(p1, new SetProperty("a", "foo"));
             future.send(p2, new SetProperty("b", "bar"));
             System.err.println(future.send(p2, new GetProperty("a")));

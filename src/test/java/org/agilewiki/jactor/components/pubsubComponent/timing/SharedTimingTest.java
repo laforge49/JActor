@@ -59,7 +59,7 @@ public class SharedTimingTest extends TestCase {
             while (i < p) {
                 Mailbox sharedMailbox = mailboxFactory.createAsyncMailbox();
                 Actor driver = new JCActor(sharedMailbox);
-                future.send(driver, new Include(Driver1.class));
+                future.call(driver, new Include(Driver1.class));
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {
