@@ -47,6 +47,11 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class JBActor implements Actor {
     /**
+     * True when the first non-initialization request is received.
+     */
+    private boolean active;
+    
+    /**
      * The API used when a request is received.
      */
     final private RequestReceiver requestReceiver = new RequestReceiver() {
@@ -439,6 +444,15 @@ public class JBActor implements Actor {
                 throw new UnsupportedOperationException(request.getClass().getName());
             return parent.acceptCall(requestSource, request);
         }
+        if (request instanceof InitializationRequest) {
+            if (active)
+                throw new UnsupportedOperationException("actor is already active");
+            if (!(binding instanceof InitializationMethodBinding))
+                throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
+                        request.getClass().getName());
+            InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
+            return initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+        } else active = true;
         if (request instanceof ConcurrentRequest) {
             if (!(binding instanceof ConcurrentMethodBinding))
                 throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
@@ -458,7 +472,7 @@ public class JBActor implements Actor {
             SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
             return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
         }
-        throw new UnsupportedOperationException(request.getClass().getName());
+        throw new IllegalArgumentException(request.getClass().getName());
     }
 
     /**
@@ -474,6 +488,10 @@ public class JBActor implements Actor {
                                     final Object request,
                                     final ResponseProcessor rp)
             throws Exception {
+        if (request instanceof InitializationRequest) {
+            if (active)
+                throw new UnsupportedOperationException("actor is already active");
+        } else active = true;
         Binding binding = getBinding(request);
         if (binding != null) {
             binding.acceptRequest(requestReceiver, (RequestSource) apcRequestSource, request, rp);
