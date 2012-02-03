@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.ConcurrentRequest;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**

@@ -54,15 +54,14 @@ public interface Internals {
     public Binding getBinding(Object request);
 
     /**
-     * Send a request to a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+     * Send a constrained request.
      *
-     * @param actor   The target actor.
+     * @param targetActor   The target actor.
      * @param request The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object call(Actor actor, ConcurrentRequest request)
+    public Object call(Actor targetActor, ConstrainedRequest request)
             throws Exception;
 
     /**

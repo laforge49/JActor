@@ -189,7 +189,7 @@ public class JBActor implements Actor {
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         @Override
-        public Object call(Actor actor, ConcurrentRequest request) throws Exception {
+        public Object call(Actor actor, ConstrainedRequest request) throws Exception {
             return actor.acceptCall(requestSource, request);
         }
 
@@ -423,8 +423,7 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+     * Processes a constrained request
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.
@@ -432,18 +431,24 @@ public class JBActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request) throws Exception {
+    final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
         Binding binding = getBinding(request);
-        if (binding != null) {
+        if (binding == null) {
+            if (parent == null)
+                throw new UnsupportedOperationException(request.getClass().getName());
+            return parent.acceptCall(apcRequestSource, request);
+        }
+        if (request instanceof ConcurrentRequest) {
             if (!(binding instanceof ConcurrentMethodBinding))
                 throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
                         request.getClass().getName());
-            ConcurrentMethodBinding syncMethodBinding = (ConcurrentMethodBinding) binding;
-            return syncMethodBinding.concurrentProcessRequest(requestReceiver, (RequestSource) apcRequestSource, request);
+            ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
+            return concurrentMethodBinding.concurrentProcessRequest(
+                    requestReceiver, 
+                    (RequestSource) apcRequestSource, 
+                    (ConcurrentRequest) request);
         }
-        if (parent == null)
-            throw new UnsupportedOperationException(request.getClass().getName());
-        return parent.acceptCall(apcRequestSource, request);
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**

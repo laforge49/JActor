@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 /**
  * <p>
@@ -49,15 +48,14 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
  */
 public interface Actor {
     /**
-     * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+     * Send a constrained request.
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request)
+    public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request)
             throws Exception;
 
     /**
@@ -67,7 +65,7 @@ public interface Actor {
      * @param request       The unwrapped request to be sent.
      * @param rp            The request processor.
      */
-    void acceptRequest(APCRequestSource requestSource,
+    public void acceptRequest(APCRequestSource requestSource,
                        Object request,
                        ResponseProcessor rp)
             throws Exception;

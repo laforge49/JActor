@@ -23,11 +23,8 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.ConcurrentRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
@@ -127,7 +124,7 @@ abstract public class JAPCActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request) throws Exception {
+    public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
         throw new UnsupportedOperationException(request.getClass().getName());
     }
 

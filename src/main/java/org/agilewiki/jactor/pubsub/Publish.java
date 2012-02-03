@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.pubsub;
 
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.ConcurrentRequest;
 
 /**
  * Broadcast a request to all subscribers.

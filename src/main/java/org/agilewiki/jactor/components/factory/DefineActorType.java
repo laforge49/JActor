@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.components.factory;
 
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.ConcurrentRequest;
 
 /**
  * DefineActorType is a request to register a component that can be used
