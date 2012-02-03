@@ -26,5 +26,5 @@ package org.agilewiki.jactor.bind;
 /**
  * A request which can be processed concurrently.
  */
-public class ConcurrentRequest extends ConstrainedRequest {
+public class ConcurrentRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
 }

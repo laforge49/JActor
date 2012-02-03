@@ -28,5 +28,4 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
 /**
  * Returns the actor name, or null, when sent to an actor with an ActorName component.
  */
-final public class GetActorName extends ConcurrentRequest {
-}
+final public class GetActorName<String> extends ConcurrentRequest<String> {}

@@ -29,7 +29,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 /**
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */
-public class ConstrainedRequest extends Request {
+public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
     /**
      * Send a constrained request.
      * (Override this method for requests with known return types.)

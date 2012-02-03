@@ -23,11 +23,14 @@
  */
 package org.agilewiki.jactor.pubsub;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
+
+import java.util.Set;
 
 /**
  * A request for the set of subscribing actors.
  * The result is a concurrent set containing the subscribing actors.
  */
-public class Subscribers extends ConcurrentRequest {
-}
+public class Subscribers extends ConcurrentRequest<Set<Actor>> {}
+

@@ -28,5 +28,5 @@ package org.agilewiki.jactor.bind;
  * via the Internals.call or Actor.acceptCall methods,
  * but only when sender and receiver use the same mailbox.
  */
-public class SynchronousRequest extends ConstrainedRequest {
+public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
 }
