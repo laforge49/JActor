@@ -114,7 +114,7 @@ Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware
 threads. The times reported were best run in 5. Only standard switch settings
 were used--there was NO compiler optimization.
 
-Unreleased Changes
+Unreleased Changes (version 2.0.0)
 
     - The bind method now fails if the request class is already bound.
 
@@ -126,9 +126,11 @@ Unreleased Changes
 
     - Rename: DataBinding => ConcurrentDataBinding
 
-    - Added pure synchronous methods.
-
     - Component.open is now synchronous--it no longer takes a
       ResponseProcessor parameter.
 
     - Requests bound to ConcurrentMethodBinding must extend ConcurrentRequest.
+
+    - Added Initialization and Synchronous requests and method bindings.
+
+    - Added return and result typing.
