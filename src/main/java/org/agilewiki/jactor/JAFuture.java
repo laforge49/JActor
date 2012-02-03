@@ -26,6 +26,7 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.lpc.RequestSource;

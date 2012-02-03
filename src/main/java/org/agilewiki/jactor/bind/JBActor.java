@@ -432,11 +432,12 @@ public class JBActor implements Actor {
      */
     @Override
     final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
+        RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
         if (binding == null) {
             if (parent == null)
                 throw new UnsupportedOperationException(request.getClass().getName());
-            return parent.acceptCall(apcRequestSource, request);
+            return parent.acceptCall(requestSource, request);
         }
         if (request instanceof ConcurrentRequest) {
             if (!(binding instanceof ConcurrentMethodBinding))
@@ -444,9 +445,18 @@ public class JBActor implements Actor {
                         request.getClass().getName());
             ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
             return concurrentMethodBinding.concurrentProcessRequest(
-                    requestReceiver, 
-                    (RequestSource) apcRequestSource, 
+                    requestReceiver,
+                    requestSource,
                     (ConcurrentRequest) request);
+        }
+        if (request instanceof SynchronousRequest) {
+            if (!(binding instanceof SynchronousMethodBinding))
+                throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +
+                        request.getClass().getName());
+            if (requestSource.getMailbox() != internals.getMailbox()) throw new UnsupportedOperationException(
+                    "A synchronous request may not be called when the mailboxes are not the same");
+            SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
+            return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
         }
         throw new UnsupportedOperationException(request.getClass().getName());
     }

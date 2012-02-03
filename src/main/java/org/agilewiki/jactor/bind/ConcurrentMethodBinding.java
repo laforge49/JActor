@@ -23,12 +23,13 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ConcurrentRequest;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * <p>Binds a request class to a purely synchronous method.</p>
+ * <p>
+ *     Binds a ConcurrentRequest class to a thread safe method.
+ * </p>
  */
 abstract public class ConcurrentMethodBinding extends ConcurrentBinding {
     /**

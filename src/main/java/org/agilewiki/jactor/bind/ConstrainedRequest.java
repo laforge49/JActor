@@ -1,5 +1,6 @@
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.bind.Internals;
 

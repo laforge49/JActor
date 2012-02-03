@@ -25,7 +25,7 @@ package org.agilewiki.jactor.pubsub;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.bind.ConstrainedRequest;
 
 import java.util.Collections;
 import java.util.Iterator;

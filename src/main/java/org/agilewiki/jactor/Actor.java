@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.bind.ConstrainedRequest;
 
 /**
  * <p>

@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.bind.ConstrainedRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;

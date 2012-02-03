@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.pubsub;
 
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 /**
  * A request for the set of subscribing actors.

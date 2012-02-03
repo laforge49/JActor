@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.*;
