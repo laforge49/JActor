@@ -23,23 +23,8 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
-
 /**
- * A binding for processing concurrent requests.
+ * A JBActor request.
  */
-abstract public class ConcurrentBinding extends Binding {
-    /**
-     * Unsupported.
-     *
-     * @param internals The internal API of JBActor.
-     * @param request   A request.
-     * @param rp        The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    final public void processRequest(Internals internals, Object request, ResponseProcessor rp)
-            throws Exception {
-        throw new UnsupportedOperationException();
-    }
+public class Request {
 }
