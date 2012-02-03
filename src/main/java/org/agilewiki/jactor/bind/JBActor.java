@@ -227,16 +227,6 @@ public class JBActor implements Actor {
         }
 
         /**
-         * Returns the mailbox factory.
-         *
-         * @return The mailbox factory.
-         */
-        @Override
-        final public MailboxFactory getMailboxFactory() {
-            return JBActor.this.getMailboxFactory();
-        }
-
-        /**
          * Returns the exception handler.
          *
          * @return The exception handler.
@@ -257,16 +247,6 @@ public class JBActor implements Actor {
         }
 
         /**
-         * Returns the actor's parent.
-         *
-         * @return The actor's parent, or null.
-         */
-        @Override
-        final public Actor getParent() {
-            return parent;
-        }
-
-        /**
          * Returns this actor.
          *
          * @return This actor.
@@ -274,27 +254,6 @@ public class JBActor implements Actor {
         @Override
         final public JBActor getThisActor() {
             return JBActor.this;
-        }
-
-        /**
-         * Returns true when the concurrent data of the parent contains the named data item.
-         *
-         * @param name The key for the data item.
-         * @return True when the concurrent data of the parent contains the named data item.
-         */
-        @Override
-        final public boolean parentHasDataItem(String name) {
-            return getThisActor().parentHasDataItem(name);
-        }
-
-        /**
-         * Returns the actor's mailbox.
-         *
-         * @return The actor's mailbox.
-         */
-        @Override
-        final public Mailbox getMailbox() {
-            return JBActor.this.getMailbox();
         }
     };
 
@@ -467,7 +426,7 @@ public class JBActor implements Actor {
             if (!(binding instanceof SynchronousMethodBinding))
                 throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +
                         request.getClass().getName());
-            if (requestSource.getMailbox() != internals.getMailbox()) throw new UnsupportedOperationException(
+            if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
                     "A synchronous request may not be called when the mailboxes are not the same");
             SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
             return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
@@ -832,7 +791,7 @@ public class JBActor implements Actor {
      *
      * @return The mailbox factory.
      */
-    final protected MailboxFactory getMailboxFactory() {
+    final public MailboxFactory getMailboxFactory() {
         return mailbox.getMailboxFactory();
     }
 

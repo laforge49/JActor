@@ -86,13 +86,6 @@ public interface Internals {
     public void sendEvent(Actor actor, Object request);
 
     /**
-     * Returns the mailbox factory.
-     *
-     * @return The mailbox factory.
-     */
-    public MailboxFactory getMailboxFactory();
-
-    /**
      * Returns the exception handler.
      *
      * @return The exception handler.
@@ -107,31 +100,9 @@ public interface Internals {
     public void setExceptionHandler(final ExceptionHandler exceptionHandler);
 
     /**
-     * Returns the actor's parent.
-     *
-     * @return The actor's parent, or null.
-     */
-    public Actor getParent();
-
-    /**
      * Returns this actor.
      *
      * @return This actor.
      */
     public JBActor getThisActor();
-
-    /**
-     * Returns true when the concurrent data of the parent contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the parent contains the named data item.
-     */
-    public boolean parentHasDataItem(String name);
-
-    /**
-     * Returns the actor's mailbox.
-     *
-     * @return The actor's mailbox.
-     */
-    public Mailbox getMailbox();
 }
