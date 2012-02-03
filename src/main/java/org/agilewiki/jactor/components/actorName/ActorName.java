@@ -25,6 +25,7 @@ package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.ConcurrentDataBinding;
+import org.agilewiki.jactor.bind.InitializationMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -48,19 +49,19 @@ public class ActorName extends Component {
     public void open(final Internals internals)
             throws Exception {
         super.open(internals);
-        internals.bind(SetActorName.class.getName(), new MethodBinding() {
-            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
-                    throws Exception {
+        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName>() {
+            @Override
+            public Object initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();
                 if (data.get("ActorName") != null)
                     throw new UnsupportedOperationException("Already named");
-                SetActorName setActorName = (SetActorName) request;
+                SetActorName setActorName =  request;
                 String name = setActorName.getName();
                 data.put("ActorName", name);
-                rp1.process(null);
+                return null;
             }
         });
 
-        internals.bind(GetActorName.class.getName(), new ConcurrentDataBinding("ActorName"));
+        internals.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName>("ActorName"));
     }
 }

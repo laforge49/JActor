@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.components.actorName;
 
+import org.agilewiki.jactor.bind.InitializationRequest;
+
 /**
  * Assigns an immutable name to an actor when sent to an actor with an ActorName component.
  */
-final public class SetActorName {
+final public class SetActorName extends InitializationRequest {
     /**
      * The name to be assigned to the actor.
      */
