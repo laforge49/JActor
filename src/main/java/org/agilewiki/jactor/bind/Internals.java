@@ -56,8 +56,8 @@ public interface Internals {
     /**
      * Send a constrained request.
      *
-     * @param targetActor   The target actor.
-     * @param request The request.
+     * @param targetActor The target actor.
+     * @param request     The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */

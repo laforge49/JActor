@@ -50,7 +50,7 @@ public class JBActor implements Actor {
      * True when the first non-initialization request is received.
      */
     private boolean active;
-    
+
     /**
      * The API used when a request is received.
      */

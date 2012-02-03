@@ -4,7 +4,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * <p>
- *     Binds a SynchronousRequest class to a purely synchronous method.
+ * Binds a SynchronousRequest class to a purely synchronous method.
  * </p>
  */
 abstract public class SynchronousMethodBinding extends MethodBinding {
@@ -20,6 +20,6 @@ abstract public class SynchronousMethodBinding extends MethodBinding {
     final public void processRequest(Internals internals, Object request, ResponseProcessor rp) throws Exception {
         rp.process(synchronousProcessRequest(internals, (SynchronousRequest) request));
     }
-    
+
     abstract public Object synchronousProcessRequest(Internals internals, SynchronousRequest request);
 }

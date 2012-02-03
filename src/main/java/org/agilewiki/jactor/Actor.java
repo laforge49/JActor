@@ -67,8 +67,8 @@ public interface Actor {
      * @param rp            The request processor.
      */
     public void acceptRequest(APCRequestSource requestSource,
-                       Object request,
-                       ResponseProcessor rp)
+                              Object request,
+                              ResponseProcessor rp)
             throws Exception;
 
     /**

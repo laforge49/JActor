@@ -24,9 +24,9 @@
 package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.ConcurrentDataBinding;
 import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 
 import java.util.concurrent.ConcurrentSkipListMap;

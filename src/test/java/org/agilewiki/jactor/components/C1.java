@@ -1,8 +1,8 @@
 package org.agilewiki.jactor.components;
 
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.MethodBinding;
 
 public class C1 extends Component {
     @Override

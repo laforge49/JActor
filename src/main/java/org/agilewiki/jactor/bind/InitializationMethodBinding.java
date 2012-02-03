@@ -4,7 +4,7 @@ import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * <p>
- *     Binds a SynchronousRequest class to a purely synchronous method.
+ * Binds a SynchronousRequest class to a purely synchronous method.
  * </p>
  */
 abstract public class InitializationMethodBinding extends MethodBinding {

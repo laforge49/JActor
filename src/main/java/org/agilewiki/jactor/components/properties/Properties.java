@@ -25,10 +25,10 @@ package org.agilewiki.jactor.components.properties;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.ConcurrentBinding;
+import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 

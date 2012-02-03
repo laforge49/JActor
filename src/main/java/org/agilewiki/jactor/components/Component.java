@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.Internals;
 
 import java.util.ArrayList;
@@ -53,12 +52,14 @@ public class Component {
      * @throws Exception Any exceptions thrown during the open.
      */
     public void open(Internals internals)
-            throws Exception {}
+            throws Exception {
+    }
 
     /**
      * Close any files or sockets opened by the component.
      *
      * @throws Exception All exceptions thrown will be ignored.
      */
-    public void close() throws Exception {}
+    public void close() throws Exception {
+    }
 }
