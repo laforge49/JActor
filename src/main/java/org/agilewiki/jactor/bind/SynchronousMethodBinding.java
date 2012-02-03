@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * Binds a SynchronousRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class SynchronousMethodBinding extends MethodBinding {
+abstract public class SynchronousMethodBinding<REQUEST_TYPE> extends MethodBinding<REQUEST_TYPE> {
     /**
      * A safe method for processing requests sent to the actor.
      *
@@ -40,9 +40,9 @@ abstract public class SynchronousMethodBinding extends MethodBinding {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, Object request, ResponseProcessor rp) throws Exception {
-        rp.process(synchronousProcessRequest(internals, (SynchronousRequest) request));
+    final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
+        rp.process(synchronousProcessRequest(internals, (REQUEST_TYPE) request));
     }
 
-    abstract public Object synchronousProcessRequest(Internals internals, SynchronousRequest request);
+    abstract public Object synchronousProcessRequest(Internals internals, REQUEST_TYPE request);
 }

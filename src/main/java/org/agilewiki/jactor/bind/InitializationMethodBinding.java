@@ -30,7 +30,7 @@ import org.agilewiki.jactor.ResponseProcessor;
  * Binds an InitializationRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class InitializationMethodBinding<REQUEST_TYPE> extends MethodBinding {
+abstract public class InitializationMethodBinding<REQUEST_TYPE> extends MethodBinding<REQUEST_TYPE> {
     /**
      * Process the request.
      *
@@ -40,8 +40,8 @@ abstract public class InitializationMethodBinding<REQUEST_TYPE> extends MethodBi
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, Object request, ResponseProcessor rp) throws Exception {
-        rp.process(initializationProcessRequest(internals, (REQUEST_TYPE) request));
+    final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
+        rp.process(initializationProcessRequest(internals, request));
     }
 
     /**

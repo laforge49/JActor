@@ -56,10 +56,12 @@ public class Factory extends Component {
     public void open(final Internals internals) throws Exception {
         super.open(internals);
 
-        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding() {
+        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, ConcurrentRequest request) throws Exception {
-                DefineActorType defineActorType = (DefineActorType) request;
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   DefineActorType defineActorType)
+                    throws Exception {
                 String actorType = defineActorType.getActorType();
                 if (types.containsKey(actorType))
                     throw new IllegalArgumentException("Actor type is already defined: " + actorType);

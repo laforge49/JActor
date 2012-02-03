@@ -136,3 +136,5 @@ Unreleased Changes (version 2.0.0)
     - Added return and result typing.
 
     - Removed redundant methods from Internals--call via Internals.thisActor.
+
+    - Requests are now typed by generic binding classes.

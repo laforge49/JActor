@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Provides customization of request message processing.
  */
-abstract public class Binding {
+abstract public class Binding<REQUEST_TYPE> {
     /**
      * <p>
      * Process an incoming request.
@@ -51,7 +51,7 @@ abstract public class Binding {
      */
     abstract public void acceptRequest(RequestReceiver requestReceiver,
                                        RequestSource requestSource,
-                                       Object request,
+                                       REQUEST_TYPE request,
                                        ResponseProcessor rp)
             throws Exception;
 
@@ -63,6 +63,6 @@ abstract public class Binding {
      * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+    abstract public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp)
             throws Exception;
 }

@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Binds a request class to a method that supports asynchronous requests.
  */
-abstract public class MethodBinding extends Binding {
+abstract public class MethodBinding<REQUEST_TYPE> extends Binding<REQUEST_TYPE> {
     /**
      * <p>
      * Routes an incoming request by calling internals.routeRequest.
@@ -44,7 +44,7 @@ abstract public class MethodBinding extends Binding {
     @Override
     final public void acceptRequest(RequestReceiver requestReceiver,
                                     RequestSource requestSource,
-                                    Object request,
+                                    REQUEST_TYPE request,
                                     ResponseProcessor rp)
             throws Exception {
         requestReceiver.routeRequest(requestSource, request, rp, this);
