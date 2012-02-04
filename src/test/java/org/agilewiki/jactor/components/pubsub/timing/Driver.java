@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsubComponent.timing;
+package org.agilewiki.jactor.components.pubsub.timing;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
@@ -7,8 +7,8 @@ import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.pubsubComponent.PubSubComponent;
-import org.agilewiki.jactor.components.pubsubComponent.Publish;
+import org.agilewiki.jactor.components.pubsub.PubSub;
+import org.agilewiki.jactor.components.pubsub.Publish;
 import org.agilewiki.jactor.parallel.JAResponseCounter;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Driver extends Component {
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
-        rv.add(new Include(PubSubComponent.class));
+        rv.add(new Include(PubSub.class));
         return rv;
     }
 

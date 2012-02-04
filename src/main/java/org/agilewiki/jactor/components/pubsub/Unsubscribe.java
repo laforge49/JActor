@@ -21,27 +21,27 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 /**
- * Subscribe to a publisher
- * The result returned is true when a new subscriber has been added.
+ * Unsubscribe from a publisher.
+ * The result is true when a subscriber has been unsubscribed.
  */
-public class Subscribe extends ConcurrentRequest<Boolean> {
+public class Unsubscribe extends ConcurrentRequest<Boolean> {
     /**
      * The subscribing actor.
      */
     private Actor subscriber;
 
     /**
-     * Create a Subscribe request.
+     * Create an unsubscribe request.
      *
      * @param subscriber The subscribing actor.
      */
-    public Subscribe(Actor subscriber) {
+    public Unsubscribe(Actor subscriber) {
         this.subscriber = subscriber;
     }
 

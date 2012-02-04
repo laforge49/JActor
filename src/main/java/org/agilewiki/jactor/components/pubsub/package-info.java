@@ -76,4 +76,4 @@
  *     Got request.
  * </pre>
  */
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.components.pubsub;

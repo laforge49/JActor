@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.ConcurrentBinding;
@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Implements publish/subscribe over Component.
  */
-public class PubSubComponent extends Component {
+public class PubSub extends Component {
     /**
      * The subscribing actors.
      */

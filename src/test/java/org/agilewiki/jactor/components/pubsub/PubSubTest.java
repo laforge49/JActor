@@ -1,18 +1,18 @@
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.components.pubsub;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 
-public class PubSubComponentTest extends TestCase {
+public class PubSubTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
-            future.call(publisher, new Include(PubSubComponent.class));
+            future.call(publisher, new Include(PubSub.class));
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
             future.send(publisher, new Subscribe(subscriber1));

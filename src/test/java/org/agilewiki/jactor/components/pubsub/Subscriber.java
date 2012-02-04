@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsubComponent;
+package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.ResponseProcessor;

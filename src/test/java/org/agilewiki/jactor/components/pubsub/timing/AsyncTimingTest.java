@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsubComponent.timing;
+package org.agilewiki.jactor.components.pubsub.timing;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.Actor;
@@ -7,35 +7,35 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.pubsubComponent.Subscribe;
+import org.agilewiki.jactor.components.pubsub.Subscribe;
 import org.agilewiki.jactor.parallel.JAParallel;
 
-public class TimingTest extends TestCase {
+public class AsyncTimingTest extends TestCase {
     public void test() {
 
-        int c = 10;
+        int c = 1;
         int b = 1;
-        int s = 1000;
-        int p = 1;
+        int s = 10;
+        int p = 4;
         int t = 4;
 
-        //int c = 1000000;
+        //int c = 100000;
         //int b = 1;
         //int s = 10;
         //int p = 4;
         //int t = 4;
-        //4 parallel runs of 1000000 bursts of 1 requests sent to 10 subscribers
-        //publications per sec = 18867924
-        //response time 212 nanoseconds
+        //4 parallel runs of 100000 bursts of 1 requests sent to 10 subscribers
+        //publications per sec = 2751031
+        //response time 1.5 microseconds
 
-        //int c = 10000;
+        //int c = 1000;
         //int b = 1;
         //int s = 1000;
         //int p = 4;
         //int t = 4;
-        //4 parallel runs of 10000 bursts of 1 requests sent to 1000 subscribers
-        //publications per sec = 23852116
-        //response time 168 nanoseconds
+        //4 parallel runs of 1000 bursts of 1 requests sent to 1000 subscribers
+        //publications per sec = 1642036
+        //response time 2.4 microseconds
 
         //int c = 1000;
         //int b = 1000;
@@ -43,7 +43,7 @@ public class TimingTest extends TestCase {
         //int p = 4;
         //int t = 4;
         //4 parallel runs of 1000 bursts of 1000 requests sent to 10 subscribers
-        //publications per sec = 31595576
+        //publications per sec = 11305822
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -57,7 +57,7 @@ public class TimingTest extends TestCase {
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {
-                    Actor subscriber = new NullSubscriber(mailboxFactory.createMailbox());
+                    Actor subscriber = new NullSubscriber(mailboxFactory.createAsyncMailbox());
                     subscriber.setInitialBufferCapacity(b + 10);
                     Subscribe subscribe = new Subscribe(subscriber);
                     future.send(driver, subscribe);
