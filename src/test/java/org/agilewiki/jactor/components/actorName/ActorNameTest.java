@@ -15,7 +15,7 @@ public class ActorNameTest extends TestCase {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             future.call(a, new Include(ActorName.class));
             future.call(a, new SetActorName("foo"));
-            System.err.println(future.send(a, new GetActorName()));
+            System.err.println(future.call(a, new GetActorName()));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

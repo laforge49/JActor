@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.components.properties;
 
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+
 /**
  * The result of this request is the property value, or null.
  */
-public class GetProperty {
+public class GetProperty extends ConcurrentRequest {
     /**
      * The name of the property.
      */

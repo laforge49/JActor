@@ -25,10 +25,7 @@ package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.ConcurrentBinding;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
@@ -89,22 +86,19 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentBinding() {
+        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor>() {
             @Override
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      RequestSource requestSource,
-                                      Object request,
-                                      ResponseProcessor rp)
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   GetRegisteredActor request)
                     throws Exception {
-                GetRegisteredActor getRegisteredActor = (GetRegisteredActor) request;
-                String name = getRegisteredActor.getName();
+                String name = request.getName();
                 JCActor registeredActor = registry.get(name);
                 if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
-                    parent.acceptRequest(requestSource, request, rp);
-                    return;
+                    return parent.acceptCall(requestSource, request);
                 }
-                rp.process(registeredActor);
+                return registeredActor;
             }
         });
     }

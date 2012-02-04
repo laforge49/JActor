@@ -27,7 +27,7 @@ public class EventTest extends TestCase {
     class Hi {
     }
 
-    class Ho {
+    class Ho extends ConcurrentRequest<String> {
     }
 
     class A extends JBActor {
@@ -43,15 +43,14 @@ public class EventTest extends TestCase {
                 }
             });
 
-            bind(Ho.class.getName(), new ConcurrentBinding() {
+            bind(Ho.class.getName(), new ConcurrentMethodBinding<Ho>() {
                 @Override
-                public void acceptRequest(RequestReceiver requestReceiver,
-                                          RequestSource requestSource,
-                                          Object request,
-                                          ResponseProcessor rp)
+                public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                       RequestSource requestSource,
+                                                       Ho request)
                         throws Exception {
                     System.err.println("A got request");
-                    rp.process("Hello world!");
+                    return "Hello world!";
                 }
             });
         }

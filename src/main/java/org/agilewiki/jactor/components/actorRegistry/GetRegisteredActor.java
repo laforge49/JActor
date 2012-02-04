@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+
 /**
  * Sent to an actor with an ActorRegistry component to fetch a registered actor by name.
  */
-final public class GetRegisteredActor {
+final public class GetRegisteredActor extends ConcurrentRequest<String> {
     /**
      * The name of the registered actor.
      */

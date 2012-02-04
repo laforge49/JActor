@@ -25,10 +25,7 @@ package org.agilewiki.jactor.components.properties;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.ConcurrentBinding;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -66,19 +63,19 @@ public class Properties extends Component {
             }
         });
 
-        internals.bind(GetProperty.class.getName(), new ConcurrentBinding() {
+        internals.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty>() {
             @Override
-            public void acceptRequest(RequestReceiver requestReceiver, RequestSource requestSource, Object request, ResponseProcessor rp)
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   GetProperty request)
                     throws Exception {
-                GetProperty getProperty = (GetProperty) request;
-                String name = getProperty.getPropertyName();
+                String name = request.getPropertyName();
                 Object value = properties.get(name);
                 if (value == null && requestReceiver.parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
-                    parent.acceptRequest(requestSource, request, rp);
-                    return;
+                    return parent.acceptCall(requestSource, request);
                 }
-                rp.process(value);
+                return value;
             }
         });
     }
