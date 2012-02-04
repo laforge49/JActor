@@ -21,35 +21,36 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.pubsub;
+package org.agilewiki.jactor.components.pubsubComponent;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
 
 /**
- * Broadcast a request to all subscribers.
- * The response is the number of subscribers to which the request was broadcast.
+ * Unsubscribe from a publisher.
+ * The result is true when a subscriber has been unsubscribed.
  */
-public class Publish extends ConcurrentRequest {
+public class Unsubscribe extends ConcurrentRequest<Boolean> {
     /**
-     * The request to be broadcast.
+     * The subscribing actor.
      */
-    private Object request;
+    private Actor subscriber;
 
     /**
-     * Create a publish request.
+     * Create an unsubscribe request.
      *
-     * @param request The request to be broadcast.
+     * @param subscriber The subscribing actor.
      */
-    public Publish(Object request) {
-        this.request = request;
+    public Unsubscribe(Actor subscriber) {
+        this.subscriber = subscriber;
     }
 
     /**
-     * Returns the request to be broadcast.
+     * Returns the subscribing actor.
      *
-     * @return The request to be broadcast.
+     * @return The subscribing actor.
      */
-    public Object getRequest() {
-        return request;
+    public Actor getSubscriber() {
+        return subscriber;
     }
 }

@@ -8,8 +8,8 @@ import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.pubsubComponent.PubSubComponent;
+import org.agilewiki.jactor.components.pubsubComponent.Publish;
 import org.agilewiki.jactor.parallel.JAResponseCounter;
-import org.agilewiki.jactor.pubsub.Publish;
 
 import java.util.ArrayList;
 

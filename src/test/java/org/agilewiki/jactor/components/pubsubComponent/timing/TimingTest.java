@@ -7,8 +7,8 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.components.pubsubComponent.Subscribe;
 import org.agilewiki.jactor.parallel.JAParallel;
-import org.agilewiki.jactor.pubsub.Subscribe;
 
 public class TimingTest extends TestCase {
     public void test() {

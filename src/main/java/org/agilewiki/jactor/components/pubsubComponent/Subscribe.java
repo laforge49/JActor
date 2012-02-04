@@ -21,17 +21,36 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.pubsub;
+package org.agilewiki.jactor.components.pubsubComponent;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
 
-import java.util.Set;
-
 /**
- * A request for the set of subscribing actors.
- * The result is a concurrent set containing the subscribing actors.
+ * Subscribe to a publisher
+ * The result returned is true when a new subscriber has been added.
  */
-public class Subscribers extends ConcurrentRequest<Set<Actor>> {
-}
+public class Subscribe extends ConcurrentRequest<Boolean> {
+    /**
+     * The subscribing actor.
+     */
+    private Actor subscriber;
 
+    /**
+     * Create a Subscribe request.
+     *
+     * @param subscriber The subscribing actor.
+     */
+    public Subscribe(Actor subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    /**
+     * Returns the subscribing actor.
+     *
+     * @return The subscribing actor.
+     */
+    public Actor getSubscriber() {
+        return subscriber;
+    }
+}

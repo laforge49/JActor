@@ -24,7 +24,56 @@
 
 /**
  * <p>
- *     A faster implementation of publish/subscribe than PubSub.
+ *     Publish/Subscribe using 2-way messaging, with the advantage that a publish
+ *     operation returns no result until the message has been processed by
+ *     all subscribers.
+ *     There is no defined order for publishing requests to subscribers.
+ *     And like JAParallel, requests are published in parallel.
  * </p>
+ * <p>
+ *     To demonstrate publish/subscribe, we first need a request which will be published.
+ * </p>
+ * <pre>
+ *     final public class PSRequest {}
+ * </pre>
+ * <p>
+ *     Now we need an actor that will receive the request, i.e. a subscriber.
+ * </p>
+ * <pre>
+ *     public class Subscriber extends JLPCActor {
+ *         public Subscriber(Mailbox mailbox) {
+ *             super(mailbox);
+ *         }
+ *
+ *         protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *             System.err.println("Got request.");
+ *             rp.process(null);
+ *         }
+ *     }
+ * </pre>
+ * <p>
+ *     Test code.
+ * </p>
+ * <pre>
+ *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+ *     Mailbox mailbox = mailboxFactory.createMailbox();
+ *     Actor publisher = new PubSub();
+ *     JAFuture future = new JAFuture();
+ *     Actor subscriber1 = new Subscriber(mailbox);
+ *     Actor subscriber2 = new Subscriber(mailbox);
+ *     future.send(publisher, new Subscribe(subscriber1));
+ *     future.send(publisher, new Subscribe(subscriber2));
+ *     future.send(publisher, new Publish(new PSRequest()));
+ *     future.send(publisher, new Unsubscribe(subscriber1));
+ *     future.send(publisher, new Publish(new PSRequest()));
+ * </pre>
+ * <p>
+ *     Output.
+ * </p>
+ * <pre>
+ *     Got request.
+ *     Got request.
+ *     Got request.
+ * </pre>
  */
 package org.agilewiki.jactor.components.pubsubComponent;
