@@ -30,7 +30,7 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
  * Subscribe to a publisher
  * The result returned is true when a new subscriber has been added.
  */
-public class Subscribe extends ConcurrentRequest {
+public class Subscribe extends ConcurrentRequest<Boolean> {
     /**
      * The subscribing actor.
      */

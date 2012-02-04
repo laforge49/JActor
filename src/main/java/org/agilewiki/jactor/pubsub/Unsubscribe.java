@@ -30,7 +30,7 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
  * Unsubscribe from a publisher.
  * The result is true when a subscriber has been unsubscribed.
  */
-public class Unsubscribe extends ConcurrentRequest {
+public class Unsubscribe extends ConcurrentRequest<Boolean> {
     /**
      * The subscribing actor.
      */

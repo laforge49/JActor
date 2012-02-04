@@ -25,6 +25,7 @@ package org.agilewiki.jactor.components.pubsubComponent;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.ConcurrentBinding;
+import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
@@ -56,27 +57,22 @@ public class PubSubComponent extends Component {
             throws Exception {
         super.open(internals);
 
-        internals.bind(Subscribe.class.getName(), new ConcurrentBinding() {
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      RequestSource requestSource,
-                                      Object request,
-                                      ResponseProcessor rp)
+        internals.bind(Subscribe.class.getName(), new ConcurrentMethodBinding<Subscribe>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   Subscribe request)
                     throws Exception {
-                Subscribe subscribe = (Subscribe) request;
-                Actor subscriber = subscribe.getSubscriber();
-                rp.process(subscribers.add(subscriber));
+                Actor subscriber = request.getSubscriber();
+                return subscribers.add(subscriber);
             }
         });
 
-        internals.bind(Unsubscribe.class.getName(), new ConcurrentBinding() {
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      RequestSource requestSource,
-                                      Object request,
-                                      ResponseProcessor rp)
-                    throws Exception {
-                Unsubscribe unsubscribe = (Unsubscribe) request;
-                Actor subscriber = unsubscribe.getSubscriber();
-                rp.process(subscribers.remove(subscriber));
+        internals.bind(Unsubscribe.class.getName(), new ConcurrentMethodBinding<Unsubscribe>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Unsubscribe request) throws Exception {
+                Actor subscriber = request.getSubscriber();
+                return subscribers.remove(subscriber);
             }
         });
 
@@ -109,13 +105,13 @@ public class PubSubComponent extends Component {
             }
         });
 
-        internals.bind(Subscribers.class.getName(), new ConcurrentBinding() {
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      RequestSource requestSource,
-                                      Object request,
-                                      ResponseProcessor rp)
+        internals.bind(Subscribers.class.getName(), new ConcurrentMethodBinding<Set<Actor>>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   Set<Actor> request)
                     throws Exception {
-                rp.process(subscribers);
+                return subscribers;
             }
         });
     }
