@@ -56,7 +56,7 @@ public class Factory extends Component {
     public void open(final Internals internals) throws Exception {
         super.open(internals);
 
-        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType>() {
+        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,

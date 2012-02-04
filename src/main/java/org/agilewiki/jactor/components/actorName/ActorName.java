@@ -47,7 +47,7 @@ public class ActorName extends Component {
     public void open(final Internals internals)
             throws Exception {
         super.open(internals);
-        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName>() {
+        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object> () {
             @Override
             public Object initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();

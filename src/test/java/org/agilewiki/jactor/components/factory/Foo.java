@@ -10,7 +10,7 @@ public class Foo extends Component {
     @Override
     public void open(final Internals internals) throws Exception {
         super.open(internals);
-        internals.bind(Hi.class.getName(), new ConcurrentMethodBinding<Hi>() {
+        internals.bind(Hi.class.getName(), new ConcurrentMethodBinding<Hi, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,

@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * Binds a ConcurrentRequest class to a thread safe method.
  * </p>
  */
-abstract public class ConcurrentMethodBinding<REQUEST_TYPE> extends ConcurrentBinding<REQUEST_TYPE> {
+abstract public class ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> extends ConcurrentBinding<REQUEST_TYPE> {
     /**
      * <p>
      * Process an incoming request.
@@ -68,7 +68,7 @@ abstract public class ConcurrentMethodBinding<REQUEST_TYPE> extends ConcurrentBi
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+    abstract public RESPONSE_TYPE concurrentProcessRequest(RequestReceiver requestReceiver,
                                                     RequestSource requestSource,
                                                     REQUEST_TYPE request)
             throws Exception;

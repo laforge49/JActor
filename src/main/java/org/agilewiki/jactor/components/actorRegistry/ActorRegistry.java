@@ -89,9 +89,9 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor>() {
+        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+            public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    GetRegisteredActor request)
                     throws Exception {
@@ -99,7 +99,7 @@ public class ActorRegistry extends Component {
                 JCActor registeredActor = registry.get(name);
                 if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
-                    return parent.acceptCall(requestSource, request);
+                    return request.acceptCall(requestSource, parent);
                 }
                 return registeredActor;
             }

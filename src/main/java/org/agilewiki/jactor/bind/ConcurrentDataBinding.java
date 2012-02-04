@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * Requests are processed immediately,
  * even if the actor has an asynchronous mailbox.
  */
-public class ConcurrentDataBinding<REQUEST_TYPE> extends ConcurrentMethodBinding<REQUEST_TYPE> {
+final public class ConcurrentDataBinding<REQUEST_TYPE> extends ConcurrentMethodBinding<REQUEST_TYPE, Object> {
     /**
      * The name of a concurrent data item.
      */

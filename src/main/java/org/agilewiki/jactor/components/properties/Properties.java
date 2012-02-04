@@ -66,7 +66,7 @@ public class Properties extends Component {
             }
         });
 
-        internals.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty>() {
+        internals.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,

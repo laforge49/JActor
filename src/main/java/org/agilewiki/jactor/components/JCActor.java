@@ -54,7 +54,7 @@ final public class JCActor extends JBActor {
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
 
-        bind(Include.class.getName(), new InitializationMethodBinding<Include>() {
+        bind(Include.class.getName(), new InitializationMethodBinding<Include, Object>() {
             @Override
             public Object initializationProcessRequest(Internals internals, Include request)
                     throws Exception {
