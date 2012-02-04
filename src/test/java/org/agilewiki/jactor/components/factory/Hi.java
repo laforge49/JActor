@@ -1,4 +1,5 @@
 package org.agilewiki.jactor.components.factory;
 
-final public class Hi {
-}
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+
+final public class Hi extends ConcurrentRequest {}

@@ -17,7 +17,7 @@ public class ActorRegistryTest extends TestCase {
             JAFuture future = new JAFuture();
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             future.call(a, new Include(ActorName.class));
-            future.send(a, new SetActorName("foo"));
+            future.call(a, new SetActorName("foo"));
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             future.call(r, new Include(ActorRegistry.class));
             future.send(r, new RegisterActor(a));
@@ -42,7 +42,7 @@ public class ActorRegistryTest extends TestCase {
             future.call(pr, new Include(ActorRegistry.class));
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             future.call(a, new Include(ActorName.class));
-            future.send(a, new SetActorName("foo"));
+            future.call(a, new SetActorName("foo"));
             future.send(pr, new RegisterActor(a));
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             r.setParent(pr);

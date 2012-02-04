@@ -1,20 +1,25 @@
 package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
+import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 public class Foo extends Component {
     @Override
     public void open(final Internals internals) throws Exception {
         super.open(internals);
-        internals.bind(Hi.class.getName(), new MethodBinding() {
+        internals.bind(Hi.class.getName(), new ConcurrentMethodBinding<Hi>() {
             @Override
-            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   Hi request)
                     throws Exception {
                 System.err.println("Hello world!");
-                rp1.process(null);
+                return null;
             }
         });
     }

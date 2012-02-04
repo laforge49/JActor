@@ -71,16 +71,11 @@ public class ActorRegistry extends Component {
                     throws Exception {
                 RegisterActor registerActor = (RegisterActor) request;
                 final JCActor actor = registerActor.getActor();
-                internals.send(actor, new GetActorName(), new ResponseProcessor() {
-                    @Override
-                    public void process(Object response) throws Exception {
-                        String name = (String) response;
-                        if (registry.containsKey(name))
-                            throw new UnsupportedOperationException("Duplicate actor name.");
-                        registry.put(name, actor);
-                        rp1.process(null);
-                    }
-                });
+                String name = (new GetActorName()).call(internals, actor);
+                if (registry.containsKey(name))
+                    throw new UnsupportedOperationException("Duplicate actor name.");
+                registry.put(name, actor);
+                rp1.process(null);
             }
         });
 

@@ -18,9 +18,9 @@ public class FactoryTest extends TestCase {
             JCActor f = new JCActor(mailboxFactory.createMailbox());
             future.call(f, new Include(Factory.class));
             future.call(f, new Include(ActorRegistry.class));
-            future.send(f, new DefineActorType("Foo", Foo.class));
+            future.call(f, new DefineActorType("Foo", Foo.class));
             Actor a = (Actor) future.send(f, new NewActor("Foo"));
-            future.send(a, new Hi());
+            future.call(a, new Hi());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -37,9 +37,9 @@ public class FactoryTest extends TestCase {
             f = new JCActor(mailboxFactory.createMailbox());
             future.call(f, new Include(Factory.class));
             future.call(f, new Include(ActorRegistry.class));
-            future.send(f, new DefineActorType("Bar", Bar.class));
+            future.call(f, new DefineActorType("Bar", Bar.class));
             Actor a = (Actor) future.send(f, new NewActor("Bar", null, "Bloop"));
-            future.send(a, new Hi());
+            future.call(a, new Hi());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
