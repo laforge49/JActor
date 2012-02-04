@@ -47,14 +47,13 @@ public class ActorName extends Component {
     public void open(final Internals internals)
             throws Exception {
         super.open(internals);
-        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object> () {
+        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object>() {
             @Override
             public Object initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();
                 if (data.get("ActorName") != null)
                     throw new UnsupportedOperationException("Already named");
-                SetActorName setActorName = request;
-                String name = setActorName.getName();
+                String name = request.getName();
                 data.put("ActorName", name);
                 return null;
             }

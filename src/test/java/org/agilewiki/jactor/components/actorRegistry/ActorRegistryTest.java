@@ -20,11 +20,11 @@ public class ActorRegistryTest extends TestCase {
             future.call(a, new SetActorName("foo"));
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             future.call(r, new Include(ActorRegistry.class));
-            future.send(r, new RegisterActor(a));
-            System.err.println(future.send(r, new GetRegisteredActor("abe")));
-            System.err.println(future.send(r, new GetRegisteredActor("foo")));
-            future.send(r, new UnregisterActor("foo"));
-            System.err.println(future.send(r, new GetRegisteredActor("foo")));
+            future.call(r, new RegisterActor(a));
+            System.err.println(future.call(r, new GetRegisteredActor("abe")));
+            System.err.println(future.call(r, new GetRegisteredActor("foo")));
+            future.call(r, new UnregisterActor("foo"));
+            System.err.println(future.call(r, new GetRegisteredActor("foo")));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,16 +43,16 @@ public class ActorRegistryTest extends TestCase {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             future.call(a, new Include(ActorName.class));
             future.call(a, new SetActorName("foo"));
-            future.send(pr, new RegisterActor(a));
+            future.call(pr, new RegisterActor(a));
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             r.setParent(pr);
             future.call(r, new Include(ActorRegistry.class));
-            System.err.println(future.send(r, new GetRegisteredActor("abe")));
-            System.err.println(future.send(r, new GetRegisteredActor("foo")));
-            future.send(r, new UnregisterActor("foo"));
-            System.err.println(future.send(r, new GetRegisteredActor("foo")));
-            future.send(pr, new UnregisterActor("foo"));
-            System.err.println(future.send(r, new GetRegisteredActor("foo")));
+            System.err.println(future.call(r, new GetRegisteredActor("abe")));
+            System.err.println(future.call(r, new GetRegisteredActor("foo")));
+            future.call(r, new UnregisterActor("foo"));
+            System.err.println(future.call(r, new GetRegisteredActor("foo")));
+            future.call(pr, new UnregisterActor("foo"));
+            System.err.println(future.call(r, new GetRegisteredActor("foo")));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();

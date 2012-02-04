@@ -24,10 +24,8 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
@@ -66,34 +64,38 @@ public class ActorRegistry extends Component {
             throws Exception {
         super.open(internals);
 
-        internals.bind(RegisterActor.class.getName(), new MethodBinding() {
-            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+        internals.bind(RegisterActor.class.getName(), new ConcurrentMethodBinding<RegisterActor, Object>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   RegisterActor request)
                     throws Exception {
-                RegisterActor registerActor = (RegisterActor) request;
-                final JCActor actor = registerActor.getActor();
+                final JCActor actor = request.getActor();
                 String name = (new GetActorName()).call(internals, actor);
-                if (registry.containsKey(name))
+                JCActor old = registry.putIfAbsent(name, actor);
+                if (old != null && old != actor)
                     throw new UnsupportedOperationException("Duplicate actor name.");
-                registry.put(name, actor);
-                rp1.process(null);
+                return null;
             }
         });
 
-        internals.bind(UnregisterActor.class.getName(), new MethodBinding() {
-            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+        internals.bind(UnregisterActor.class.getName(), new ConcurrentMethodBinding<UnregisterActor, Object>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   UnregisterActor request)
                     throws Exception {
-                UnregisterActor unregisterActor = (UnregisterActor) request;
-                final String name = unregisterActor.getName();
+                final String name = request.getName();
                 registry.remove(name);
-                rp1.process(null);
+                return null;
             }
         });
 
         internals.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
             @Override
             public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   GetRegisteredActor request)
+                                                    RequestSource requestSource,
+                                                    GetRegisteredActor request)
                     throws Exception {
                 String name = request.getName();
                 JCActor registeredActor = registry.get(name);

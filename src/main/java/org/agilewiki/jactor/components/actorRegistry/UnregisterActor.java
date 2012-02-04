@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+
 /**
  * Sent to an actor with a ActorRegistry to unregister an actor.
  */
-final public class UnregisterActor {
+final public class UnregisterActor extends ConcurrentRequest {
     /**
      * The name of the actor to be unregistered.
      */

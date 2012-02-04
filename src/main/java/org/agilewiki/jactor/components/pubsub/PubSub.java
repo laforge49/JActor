@@ -59,8 +59,8 @@ public class PubSub extends Component {
         internals.bind(Subscribe.class.getName(), new ConcurrentMethodBinding<Subscribe, Boolean>() {
             @Override
             public Boolean concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   Subscribe request)
+                                                    RequestSource requestSource,
+                                                    Subscribe request)
                     throws Exception {
                 Actor subscriber = request.getSubscriber();
                 return subscribers.add(subscriber);
