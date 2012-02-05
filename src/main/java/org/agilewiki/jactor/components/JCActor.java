@@ -46,6 +46,8 @@ final public class JCActor extends JBActor {
      */
     private String actorType;
 
+    private ArrayList<Component> components = new ArrayList<Component>();
+
     /**
      * Create a JCActor.
      *
@@ -86,6 +88,7 @@ final public class JCActor extends JBActor {
         if (includes == null) {
             c.thisActor = this;
             c.bindery();
+            components.add(c);
             return null;
         }
         final Iterator<Include> it = includes.iterator();
@@ -94,23 +97,40 @@ final public class JCActor extends JBActor {
         }
         c.thisActor = JCActor.this;
         c.bindery();
+        components.add(c);
         return null;
     }
 
     /**
+     * Called when an actor becomes active.
+     * Components are opened in dependency order, the root component being the last.
+     *
+     * @param internals The actor's internals.
+     */
+    @Override
+    protected void open(Internals internals) {
+        Iterator<Component> it = components.iterator();
+        while (it.hasNext()) {
+            Component c = it.next();
+            try {
+                c.open(internals);
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    /**
      * Call close on all the components, ignoring any exceptions that are thrown.
-     * The order in which close is called on the components is not defined.
+     * Components are closed in reverse dependency order, the root component being the first.
      */
     public void close() {
-        Iterator<Object> it = getData().values().iterator();
-        while (it.hasNext()) {
-            Object o = it.next();
-            if (o instanceof Component) {
-                Component c = (Component) o;
-                try {
-                    c.close();
-                } catch (Exception e) {
-                }
+        int i = components.size();
+        while (i > 0) {
+            i -= 1;
+            Component c = components.get(i);
+            try {
+                c.close();
+            } catch (Exception e) {
             }
         }
     }

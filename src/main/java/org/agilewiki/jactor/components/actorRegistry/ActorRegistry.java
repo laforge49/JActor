@@ -25,7 +25,6 @@ package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;

@@ -399,7 +399,10 @@ public class JBActor implements Actor {
                         request.getClass().getName());
             InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
             return initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
-        } else active = true;
+        } else {
+            active = true;
+            open(internals);
+        }
         if (request instanceof ConcurrentRequest) {
             if (!(binding instanceof ConcurrentMethodBinding))
                 throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
@@ -438,7 +441,10 @@ public class JBActor implements Actor {
         if (request instanceof InitializationRequest) {
             if (active)
                 throw new UnsupportedOperationException("actor is already active");
-        } else active = true;
+        } else {
+            active = true;
+            open(internals);
+        }
         Binding binding = getBinding(request);
         if (binding != null) {
             binding.acceptRequest(requestReceiver, (RequestSource) apcRequestSource, request, rp);
@@ -447,6 +453,15 @@ public class JBActor implements Actor {
         if (parent == null)
             throw new UnsupportedOperationException(request.getClass().getName());
         parent.acceptRequest(apcRequestSource, request, rp);
+    }
+
+    /**
+     * Called when an actor becomes active.
+     *
+     * @param internals The actor's internals.
+     */
+    protected void open(Internals internals) {
+
     }
 
     /**

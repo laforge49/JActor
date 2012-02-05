@@ -55,7 +55,19 @@ public class Component {
     }
 
     /**
+     * Open is called when an actor becomes active by receiving a
+     * non-initialization request--useful initialization like opening files.
+     * Components are opened in dependency order, the root component being the last.
+     *
+     * @param internals The actor's internals.
+     */
+    public void open(Internals internals) {
+
+    }
+
+    /**
      * Close any files or sockets opened by the component.
+     * Components are closed in reverse dependency order, the root component being the first.
      *
      * @throws Exception All exceptions thrown will be ignored.
      */

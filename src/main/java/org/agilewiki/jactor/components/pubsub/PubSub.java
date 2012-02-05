@@ -26,7 +26,6 @@ package org.agilewiki.jactor.components.pubsub;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.bind.ConcurrentBinding;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
