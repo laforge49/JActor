@@ -55,14 +55,16 @@ public class Properties extends Component {
     public void open(final Internals internals) throws Exception {
         super.open(internals);
 
-        internals.bind(SetProperty.class.getName(), new MethodBinding() {
-            public void processRequest(Internals internals, Object request, final ResponseProcessor rp1)
+        internals.bind(SetProperty.class.getName(), new ConcurrentMethodBinding<SetProperty, Object>() {
+            @Override
+            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                   RequestSource requestSource,
+                                                   SetProperty request)
                     throws Exception {
-                SetProperty setProperty = (SetProperty) request;
-                String propertyName = setProperty.getPropertyName();
-                Object propertyValue = setProperty.getPropertyValue();
+                String propertyName = request.getPropertyName();
+                Object propertyValue = request.getPropertyValue();
                 properties.put(propertyName, propertyValue);
-                rp1.process(null);
+                return null;
             }
         });
 

@@ -17,11 +17,11 @@ public class PropertiesTest extends TestCase {
             JCActor p2 = new JCActor(p1.getMailbox());
             p2.setParent(p1);
             future.call(p2, new Include(Properties.class));
-            future.send(p1, new SetProperty("a", "foo"));
-            future.send(p2, new SetProperty("b", "bar"));
-            System.err.println(future.send(p2, new GetProperty("a")));
-            System.err.println(future.send(p2, new GetProperty("b")));
-            System.err.println(future.send(p2, new GetProperty("c")));
+            future.call(p1, new SetProperty("a", "foo"));
+            future.call(p2, new SetProperty("b", "bar"));
+            System.err.println(future.call(p2, new GetProperty("a")));
+            System.err.println(future.call(p2, new GetProperty("b")));
+            System.err.println(future.call(p2, new GetProperty("c")));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

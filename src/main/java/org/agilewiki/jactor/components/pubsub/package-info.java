@@ -57,14 +57,15 @@
  * <pre>
  *     MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
  *     Mailbox mailbox = mailboxFactory.createMailbox();
- *     Actor publisher = new PubSub();
+ *     Actor publisher = new JCActor(mailbox);
  *     JAFuture future = new JAFuture();
+ *     future.call(publisher, new Include(PubSub.class));
  *     Actor subscriber1 = new Subscriber(mailbox);
  *     Actor subscriber2 = new Subscriber(mailbox);
- *     future.send(publisher, new Subscribe(subscriber1));
- *     future.send(publisher, new Subscribe(subscriber2));
+ *     future.call(publisher, new Subscribe(subscriber1));
+ *     future.call(publisher, new Subscribe(subscriber2));
  *     future.send(publisher, new Publish(new PSRequest()));
- *     future.send(publisher, new Unsubscribe(subscriber1));
+ *     future.call(publisher, new Unsubscribe(subscriber1));
  *     future.send(publisher, new Publish(new PSRequest()));
  * </pre>
  * <p>

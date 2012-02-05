@@ -15,10 +15,10 @@ public class PubSubTest extends TestCase {
             future.call(publisher, new Include(PubSub.class));
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
-            future.send(publisher, new Subscribe(subscriber1));
-            future.send(publisher, new Subscribe(subscriber2));
+            future.call(publisher, new Subscribe(subscriber1));
+            future.call(publisher, new Subscribe(subscriber2));
             future.send(publisher, new Publish(new PSRequest()));
-            future.send(publisher, new Unsubscribe(subscriber1));
+            future.call(publisher, new Unsubscribe(subscriber1));
             future.send(publisher, new Publish(new PSRequest()));
         } catch (Exception e) {
             e.printStackTrace();
