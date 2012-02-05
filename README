@@ -138,3 +138,9 @@ Unreleased Changes (version 2.0.0)
     - Removed redundant methods from Internals--call via Internals.thisActor.
 
     - Requests are now typed by generic binding classes.
+
+    - The bind method has been moved from Internals to JCActor.
+
+    - New Component.bindery method for greater thread safety.
+
+    - Components are now opened in dependency order, and closed in reverse dependency order.
