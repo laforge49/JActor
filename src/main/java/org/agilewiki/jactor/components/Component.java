@@ -46,12 +46,11 @@ public class Component {
     }
 
     /**
-     * Initialize the component after all its includes have been processed.
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
-    public void open(Internals internals)
+    public void bindery()
             throws Exception {
     }
 

@@ -46,16 +46,15 @@ public class Properties extends Component {
     private ConcurrentSkipListMap<String, Object> properties = new ConcurrentSkipListMap<String, Object>();
 
     /**
-     * Initialize the component after all its includes have been processed.
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
     @Override
-    public void open(final Internals internals) throws Exception {
-        super.open(internals);
+    public void bindery() throws Exception {
+        super.bindery();
 
-        internals.bind(SetProperty.class.getName(), new ConcurrentMethodBinding<SetProperty, Object>() {
+        thisActor.bind(SetProperty.class.getName(), new ConcurrentMethodBinding<SetProperty, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
@@ -68,7 +67,7 @@ public class Properties extends Component {
             }
         });
 
-        internals.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty, Object>() {
+        thisActor.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,

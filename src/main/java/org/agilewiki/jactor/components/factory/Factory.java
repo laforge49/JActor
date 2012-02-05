@@ -48,16 +48,15 @@ public class Factory extends Component {
     private ConcurrentSkipListMap<String, Class> types = new ConcurrentSkipListMap<String, Class>();
 
     /**
-     * Initialize the component after all its includes have been processed.
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
     @Override
-    public void open(final Internals internals) throws Exception {
-        super.open(internals);
+    public void bindery() throws Exception {
+        super.bindery();
 
-        internals.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType, Object>() {
+        thisActor.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
@@ -72,7 +71,7 @@ public class Factory extends Component {
             }
         });
 
-        internals.bind(NewActor.class.getName(), new ConcurrentMethodBinding<NewActor, JCActor>() {
+        thisActor.bind(NewActor.class.getName(), new ConcurrentMethodBinding<NewActor, JCActor>() {
             @Override
             public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
                                                     RequestSource requestSource,

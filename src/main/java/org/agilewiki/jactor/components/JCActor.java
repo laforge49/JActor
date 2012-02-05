@@ -68,7 +68,7 @@ final public class JCActor extends JBActor {
      *
      * @param internals The internal API of JBActor.
      * @param include   The include request.
-     * @throws Exception Any uncaught exceptions from calls to the component open methods.
+     * @throws Exception Any uncaught exceptions from calls to the component bindery methods.
      */
     private Object processInclude(final Internals internals, Include include)
             throws Exception {
@@ -85,7 +85,7 @@ final public class JCActor extends JBActor {
         ArrayList<Include> includes = c.includes();
         if (includes == null) {
             c.thisActor = this;
-            c.open(internals);
+            c.bindery();
             return null;
         }
         final Iterator<Include> it = includes.iterator();
@@ -93,7 +93,7 @@ final public class JCActor extends JBActor {
             processInclude(internals, it.next());
         }
         c.thisActor = JCActor.this;
-        c.open(internals);
+        c.bindery();
         return null;
     }
 

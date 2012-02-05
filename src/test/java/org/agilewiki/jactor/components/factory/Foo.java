@@ -8,9 +8,9 @@ import org.agilewiki.jactor.lpc.RequestSource;
 
 public class Foo extends Component {
     @Override
-    public void open(final Internals internals) throws Exception {
-        super.open(internals);
-        internals.bind(Hi.class.getName(), new ConcurrentMethodBinding<Hi, Object>() {
+    public void bindery() throws Exception {
+        super.bindery();
+        thisActor.bind(Hi.class.getName(), new ConcurrentMethodBinding<Hi, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,

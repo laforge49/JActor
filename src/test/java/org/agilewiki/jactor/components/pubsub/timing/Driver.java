@@ -22,9 +22,9 @@ public class Driver extends Component {
     }
 
     @Override
-    public void open(final Internals internals) throws Exception {
-        super.open(internals);
-        internals.bind(Timing.class.getName(), new MethodBinding() {
+    public void bindery() throws Exception {
+        super.bindery();
+        thisActor.bind(Timing.class.getName(), new MethodBinding() {
             @Override
             public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
                     throws Exception {

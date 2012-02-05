@@ -54,24 +54,23 @@ public class ActorRegistry extends Component {
     private ConcurrentSkipListMap<String, JCActor> registry = new ConcurrentSkipListMap<String, JCActor>();
 
     /**
-     * Initialize the component after all its includes have been processed.
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
     @Override
-    public void open(final Internals internals)
+    public void bindery()
             throws Exception {
-        super.open(internals);
+        super.bindery();
 
-        internals.bind(RegisterActor.class.getName(), new ConcurrentMethodBinding<RegisterActor, Object>() {
+        thisActor.bind(RegisterActor.class.getName(), new ConcurrentMethodBinding<RegisterActor, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    RegisterActor request)
                     throws Exception {
                 final JCActor actor = request.getActor();
-                String name = (new GetActorName()).call(internals, actor);
+                String name = (new GetActorName()).acceptCall(requestSource, actor);
                 JCActor old = registry.putIfAbsent(name, actor);
                 if (old != null && old != actor)
                     throw new UnsupportedOperationException("Duplicate actor name.");
@@ -79,7 +78,7 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(UnregisterActor.class.getName(), new ConcurrentMethodBinding<UnregisterActor, Object>() {
+        thisActor.bind(UnregisterActor.class.getName(), new ConcurrentMethodBinding<UnregisterActor, Object>() {
             @Override
             public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
@@ -91,7 +90,7 @@ public class ActorRegistry extends Component {
             }
         });
 
-        internals.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
+        thisActor.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
             @Override
             public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
                                                     RequestSource requestSource,

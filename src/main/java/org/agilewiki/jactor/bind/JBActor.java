@@ -135,6 +135,35 @@ public class JBActor implements Actor {
     };
 
     /**
+     * The bindings of the actor.
+     */
+    final private ConcurrentSkipListMap<String, Binding> bindings =
+            new ConcurrentSkipListMap<String, Binding>();
+
+    /**
+     * Add a binding to the actor.
+     *
+     * @param requestClassName The class name of the request.
+     * @param binding          The binding.
+     * @throws IllegalStateException Thrown if there is already a binding for the class.
+     */
+    final public void bind(String requestClassName, Binding binding) throws IllegalStateException {
+        if (bindings.containsKey(requestClassName))
+            throw new IllegalStateException("Duplicate binding for " + requestClassName);
+        bindings.put(requestClassName, binding);
+    }
+
+    /**
+     * Returns a binding.
+     *
+     * @param request The request.
+     * @return The binding, or null.
+     */
+    final private Binding getBinding(Object request) {
+        return bindings.get(request.getClass().getName());
+    }
+
+    /**
      * The internals of a JBActor.
      */
     final private Internals internals = new Internals() {
@@ -144,12 +173,6 @@ public class JBActor implements Actor {
         final private ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
 
         /**
-         * The bindings of the actor.
-         */
-        final private ConcurrentSkipListMap<String, Binding> bindings =
-                new ConcurrentSkipListMap<String, Binding>();
-
-        /**
          * Returns the concurrent data.
          *
          * @return The concurrent data.
@@ -157,31 +180,6 @@ public class JBActor implements Actor {
         @Override
         final public ConcurrentSkipListMap<String, Object> getData() {
             return data;
-        }
-
-        /**
-         * Add a binding to the actor.
-         *
-         * @param requestClassName The class name of the request.
-         * @param binding          The binding.
-         * @throws IllegalStateException Thrown if there is already a binding for the class.
-         */
-        @Override
-        final public void bind(String requestClassName, Binding binding) throws IllegalStateException {
-            if (bindings.containsKey(requestClassName))
-                throw new IllegalStateException("Duplicate binding for " + requestClassName);
-            bindings.put(requestClassName, binding);
-        }
-
-        /**
-         * Returns a binding.
-         *
-         * @param request The request.
-         * @return The binding, or null.
-         */
-        @Override
-        final public Binding getBinding(Object request) {
-            return bindings.get(request.getClass().getName());
         }
 
         /**
@@ -355,16 +353,6 @@ public class JBActor implements Actor {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         this.parent = parent;
-    }
-
-    /**
-     * Returns a binding.
-     *
-     * @param request The the request.
-     * @return The binding, or null.
-     */
-    final private Binding getBinding(Object request) {
-        return internals.getBinding(request);
     }
 
     /**
@@ -745,16 +733,6 @@ public class JBActor implements Actor {
     final protected boolean parentHasDataItem(String name) {
         if (parent == null) return false;
         return parent.hasDataItem(name);
-    }
-
-    /**
-     * Add a binding to the actor.
-     *
-     * @param requestClassName The class name of the request.
-     * @param binding          The binding.
-     */
-    final protected void bind(String requestClassName, Binding binding) {
-        internals.bind(requestClassName, binding);
     }
 
     /**

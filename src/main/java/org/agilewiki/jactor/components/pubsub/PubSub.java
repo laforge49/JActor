@@ -46,17 +46,16 @@ public class PubSub extends Component {
     private Set<Actor> subscribers = Collections.newSetFromMap(new ConcurrentHashMap<Actor, Boolean>());
 
     /**
-     * Initialize the component after all its includes have been processed.
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
     @Override
-    public void open(final Internals internals)
+    public void bindery()
             throws Exception {
-        super.open(internals);
+        super.bindery();
 
-        internals.bind(Subscribe.class.getName(), new ConcurrentMethodBinding<Subscribe, Boolean>() {
+        thisActor.bind(Subscribe.class.getName(), new ConcurrentMethodBinding<Subscribe, Boolean>() {
             @Override
             public Boolean concurrentProcessRequest(RequestReceiver requestReceiver,
                                                     RequestSource requestSource,
@@ -67,7 +66,7 @@ public class PubSub extends Component {
             }
         });
 
-        internals.bind(Unsubscribe.class.getName(), new ConcurrentMethodBinding<Unsubscribe, Boolean>() {
+        thisActor.bind(Unsubscribe.class.getName(), new ConcurrentMethodBinding<Unsubscribe, Boolean>() {
             @Override
             public Boolean concurrentProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Unsubscribe request) throws Exception {
                 Actor subscriber = request.getSubscriber();
@@ -75,7 +74,7 @@ public class PubSub extends Component {
             }
         });
 
-        internals.bind(Publish.class.getName(), new ConcurrentBinding() {
+        thisActor.bind(Publish.class.getName(), new ConcurrentBinding() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       final RequestSource requestSource,
                                       final Object request,
@@ -104,7 +103,7 @@ public class PubSub extends Component {
             }
         });
 
-        internals.bind(Subscribers.class.getName(), new ConcurrentMethodBinding<Subscribers, Set<Actor>>() {
+        thisActor.bind(Subscribers.class.getName(), new ConcurrentMethodBinding<Subscribers, Set<Actor>>() {
             @Override
             public Set<Actor> concurrentProcessRequest(RequestReceiver requestReceiver,
                                                        RequestSource requestSource,

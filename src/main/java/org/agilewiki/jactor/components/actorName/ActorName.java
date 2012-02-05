@@ -37,17 +37,15 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class ActorName extends Component {
 
     /**
-     * Initialize the component after all its includes have been processed.
-     * The response must always be null;
+     * Bind request classes.
      *
-     * @param internals The JBActor's internals.
-     * @throws Exception Any exceptions thrown during the open.
+     * @throws Exception Any exceptions thrown while binding.
      */
     @Override
-    public void open(final Internals internals)
+    public void bindery()
             throws Exception {
-        super.open(internals);
-        internals.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object>() {
+        super.bindery();
+        thisActor.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object>() {
             @Override
             public Object initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();
@@ -59,6 +57,6 @@ public class ActorName extends Component {
             }
         });
 
-        internals.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName>("ActorName"));
+        thisActor.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName>("ActorName"));
     }
 }

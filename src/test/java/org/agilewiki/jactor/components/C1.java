@@ -6,10 +6,10 @@ import org.agilewiki.jactor.bind.MethodBinding;
 
 public class C1 extends Component {
     @Override
-    public void open(final Internals internals)
+    public void bindery()
             throws Exception {
-        super.open(internals);
-        internals.bind(Hi.class.getName(), new MethodBinding() {
+        super.bindery();
+        thisActor.bind(Hi.class.getName(), new MethodBinding() {
             public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
                     throws Exception {
                 rp1.process("Hello world!");

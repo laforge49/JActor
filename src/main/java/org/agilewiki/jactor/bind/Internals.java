@@ -39,23 +39,6 @@ public interface Internals {
     public ConcurrentSkipListMap<String, Object> getData();
 
     /**
-     * Add a binding to the actor.
-     *
-     * @param requestClassName The class name of the request.
-     * @param binding          The binding.
-     * @throws IllegalStateException Thrown if there is already a binding for the class.
-     */
-    void bind(String requestClassName, Binding binding) throws IllegalStateException;
-
-    /**
-     * Returns a binding.
-     *
-     * @param request The request.
-     * @return The binding, or null.
-     */
-    public Binding getBinding(Object request);
-
-    /**
      * Send a constrained request.
      *
      * @param targetActor The target actor.
