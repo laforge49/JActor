@@ -19,7 +19,7 @@ public class FactoryTest extends TestCase {
             future.call(f, new Include(Factory.class));
             future.call(f, new Include(ActorRegistry.class));
             future.call(f, new DefineActorType("Foo", Foo.class));
-            Actor a = (Actor) future.send(f, new NewActor("Foo"));
+            Actor a = (Actor) future.call(f, new NewActor("Foo"));
             future.call(a, new Hi());
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class FactoryTest extends TestCase {
             future.call(f, new Include(Factory.class));
             future.call(f, new Include(ActorRegistry.class));
             future.call(f, new DefineActorType("Bar", Bar.class));
-            Actor a = (Actor) future.send(f, new NewActor("Bar", null, "Bloop"));
+            Actor a = (Actor) future.call(f, new NewActor("Bar", null, "Bloop"));
             future.call(a, new Hi());
         } catch (Exception e) {
             e.printStackTrace();

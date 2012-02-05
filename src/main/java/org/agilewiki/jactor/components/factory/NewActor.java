@@ -25,6 +25,8 @@ package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.components.JCActor;
 
 /**
  * <p>NewActor is a request to create and configure an actor.</p>
@@ -34,7 +36,7 @@ import org.agilewiki.jactor.Mailbox;
  * and the actor is added to the actor registry.
  * However, the actor must include the ActorName component.</p>
  */
-public class NewActor {
+public class NewActor extends ConcurrentRequest<JCActor> {
     /**
      * An actor type name.
      */

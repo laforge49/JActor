@@ -25,8 +25,6 @@ package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.Binding;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
@@ -74,52 +72,37 @@ public class Factory extends Component {
             }
         });
 
-        internals.bind(NewActor.class.getName(), new Binding() {
+        internals.bind(NewActor.class.getName(), new ConcurrentMethodBinding<NewActor, JCActor>() {
             @Override
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      RequestSource requestSource,
-                                      Object request,
-                                      ResponseProcessor rp)
+            public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                    RequestSource requestSource,
+                                                    NewActor request)
                     throws Exception {
-                NewActor newActor = (NewActor) request;
-                String actorType = newActor.getActorType();
-                Mailbox mailbox = newActor.getMailbox();
-                Actor parent = newActor.getParent();
+                String actorType = request.getActorType();
+                Mailbox mailbox = request.getMailbox();
+                Actor parent = request.getParent();
                 if (mailbox == null || parent == null) {
                     if (mailbox == null) mailbox = requestReceiver.getMailbox();
                     if (parent == null) parent = requestReceiver.getThisActor();
-                    newActor = new NewActor(actorType, mailbox, newActor.getActorName(), parent);
+                    request = new NewActor(actorType, mailbox, request.getActorName(), parent);
                 }
-                if (types.containsKey(actorType)) {
-                    requestReceiver.routeRequest(requestSource, newActor, rp, this);
-                    return;
-                }
-                if (requestReceiver.parentHasSameComponent()) {
-                    requestReceiver.getParent().acceptRequest(requestSource, newActor, rp);
-                    return;
-                }
-                throw new IllegalArgumentException("Unknown actor type: " + actorType);
-            }
-
-            @Override
-            public void processRequest(Internals internals, Object request, final ResponseProcessor rp)
-                    throws Exception {
-                NewActor newActor = (NewActor) request;
-                String actorType = newActor.getActorType();
                 Class componentClass = types.get(actorType);
+                if (componentClass == null) {
+                    if (requestReceiver.parentHasSameComponent())
+                        return request.acceptCall(requestSource, requestReceiver.getParent());
+                    throw new IllegalArgumentException("Unknown actor type: " + actorType);
+                }
                 Include include = new Include(componentClass);
-                Mailbox mailbox = newActor.getMailbox();
-                String actorName = newActor.getActorName();
-                Actor parent = newActor.getParent();
+                String actorName = request.getActorName();
                 JCActor actor = new JCActor(mailbox);
                 actor.setActorType(actorType);
                 actor.setParent(parent);
-                internals.call(actor, include);
+                actor.acceptCall(requestSource, include);
                 if (actorName != null) {
-                    internals.call(actor, new SetActorName(actorName));
-                    internals.call(thisActor, new RegisterActor(actor));
+                    actor.acceptCall(requestSource, new SetActorName(actorName));
+                    thisActor.acceptCall(requestSource, new RegisterActor(actor));
                 }
-                rp.process(actor);
+                return actor;
             }
         });
     }
