@@ -144,3 +144,8 @@ Unreleased Changes (version 2.0.0)
     - New Component.bindery method for greater thread safety.
 
     - Components are now opened in dependency order, and closed in reverse dependency order.
+
+Contact
+
+email:   laforge49@gmail.com
+twitter: @laforge49
