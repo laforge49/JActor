@@ -26,6 +26,7 @@ package org.agilewiki.jactor.components.actorRegistry;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
@@ -62,9 +63,9 @@ public class ActorRegistry extends Component {
             throws Exception {
         super.bindery();
 
-        thisActor.bind(RegisterActor.class.getName(), new ConcurrentMethodBinding<RegisterActor, Object>() {
+        thisActor.bind(RegisterActor.class.getName(), new VoidConcurrentMethodBinding<RegisterActor>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+            public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    RegisterActor request)
                     throws Exception {
@@ -73,19 +74,17 @@ public class ActorRegistry extends Component {
                 JCActor old = registry.putIfAbsent(name, actor);
                 if (old != null && old != actor)
                     throw new UnsupportedOperationException("Duplicate actor name.");
-                return null;
             }
         });
 
-        thisActor.bind(UnregisterActor.class.getName(), new ConcurrentMethodBinding<UnregisterActor, Object>() {
+        thisActor.bind(UnregisterActor.class.getName(), new VoidConcurrentMethodBinding<UnregisterActor>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+            public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    UnregisterActor request)
                     throws Exception {
                 final String name = request.getName();
                 registry.remove(name);
-                return null;
             }
         });
 
