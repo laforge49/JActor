@@ -27,6 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
@@ -55,9 +56,9 @@ public class Factory extends Component {
     public void bindery() throws Exception {
         super.bindery();
 
-        thisActor.bind(DefineActorType.class.getName(), new ConcurrentMethodBinding<DefineActorType, Object>() {
+        thisActor.bind(DefineActorType.class.getName(), new VoidConcurrentMethodBinding<DefineActorType>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+            public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    DefineActorType defineActorType)
                     throws Exception {
@@ -66,7 +67,6 @@ public class Factory extends Component {
                     throw new IllegalArgumentException("Actor type is already defined: " + actorType);
                 Class rootComponentClass = defineActorType.getRootComponentClass();
                 types.put(actorType, rootComponentClass);
-                return null;
             }
         });
 
@@ -95,7 +95,7 @@ public class Factory extends Component {
                 JCActor actor = new JCActor(mailbox);
                 actor.setActorType(actorType);
                 actor.setParent(parent);
-                actor.acceptCall(requestSource, include);
+                include.acceptCall(requestSource, actor);
                 if (actorName != null) {
                     (new SetActorName(actorName)).acceptCall(requestSource, actor);
                     (new RegisterActor(actor)).acceptCall(requestSource, actor);
