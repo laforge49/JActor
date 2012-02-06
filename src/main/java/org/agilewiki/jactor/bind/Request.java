@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.JANoResponse;
+import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
  * A JBActor request.
@@ -45,6 +47,19 @@ public class Request<RESPONSE_TYPE> {
     /**
      * Send a request.
      *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @param rp            The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
+            throws Exception {
+        targetActor.acceptRequest(requestSource, this, rp);
+    }
+
+    /**
+     * Send a request event.
+     *
      * @param senderInternals The sending actor's internals.
      * @param targetActor     The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
@@ -52,5 +67,17 @@ public class Request<RESPONSE_TYPE> {
     public void sendEvent(Internals senderInternals, Actor targetActor)
             throws Exception {
         senderInternals.sendEvent(targetActor, this);
+    }
+
+    /**
+     * Send a request event.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public void sendEvent(APCRequestSource requestSource, Actor targetActor)
+            throws Exception {
+        targetActor.acceptRequest(requestSource, this, JANoResponse.nrp);
     }
 }

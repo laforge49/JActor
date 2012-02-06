@@ -47,13 +47,13 @@ public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
      * Send a constrained request.
      * (Override this method for requests with known return types.)
      *
-     * @param apcRequestSource The sender of the request.
-     * @param targetActor      The target actor.
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(APCRequestSource apcRequestSource, Actor targetActor)
+    public RESPONSE_TYPE call(APCRequestSource requestSource, Actor targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(apcRequestSource, this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);
     }
 }
