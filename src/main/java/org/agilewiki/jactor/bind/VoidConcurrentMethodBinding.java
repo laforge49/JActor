@@ -68,7 +68,7 @@ abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE> extends Concurre
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                           RequestSource requestSource,
-                                                           REQUEST_TYPE request)
+                                                  RequestSource requestSource,
+                                                  REQUEST_TYPE request)
             throws Exception;
 }

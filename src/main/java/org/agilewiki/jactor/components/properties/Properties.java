@@ -55,8 +55,8 @@ public class Properties extends Component {
         thisActor.bind(SetProperty.class.getName(), new VoidConcurrentMethodBinding<SetProperty>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   SetProperty request)
+                                                 RequestSource requestSource,
+                                                 SetProperty request)
                     throws Exception {
                 String propertyName = request.getPropertyName();
                 Object propertyValue = request.getPropertyValue();

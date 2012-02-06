@@ -59,8 +59,8 @@ public class Factory extends Component {
         thisActor.bind(DefineActorType.class.getName(), new VoidConcurrentMethodBinding<DefineActorType>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   DefineActorType defineActorType)
+                                                 RequestSource requestSource,
+                                                 DefineActorType defineActorType)
                     throws Exception {
                 String actorType = defineActorType.getActorType();
                 if (types.containsKey(actorType))

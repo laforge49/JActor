@@ -60,8 +60,8 @@ final public class ConcurrentDataBinding<REQUEST_TYPE, RESPONSE_TYPE>
      */
     @Override
     public RESPONSE_TYPE concurrentProcessRequest(RequestReceiver requestReceiver,
-                                           RequestSource requestSource,
-                                           REQUEST_TYPE request)
+                                                  RequestSource requestSource,
+                                                  REQUEST_TYPE request)
             throws Exception {
         return (RESPONSE_TYPE) requestReceiver.getData().get(name);
     }

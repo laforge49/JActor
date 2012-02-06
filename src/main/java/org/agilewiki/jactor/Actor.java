@@ -51,12 +51,12 @@ public interface Actor {
     /**
      * Send a constrained request.
      *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
+     * @param requestSource The originator of the request.
+     * @param request       The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request)
+    public Object acceptCall(APCRequestSource requestSource, ConstrainedRequest request)
             throws Exception;
 
     /**

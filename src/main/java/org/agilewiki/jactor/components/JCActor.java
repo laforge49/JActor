@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.components;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.bind.InitializationMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;

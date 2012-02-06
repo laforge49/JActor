@@ -66,8 +66,8 @@ public class ActorRegistry extends Component {
         thisActor.bind(RegisterActor.class.getName(), new VoidConcurrentMethodBinding<RegisterActor>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   RegisterActor request)
+                                                 RequestSource requestSource,
+                                                 RegisterActor request)
                     throws Exception {
                 final JCActor actor = request.getActor();
                 String name = (new GetActorName()).call(requestSource, actor);
@@ -80,8 +80,8 @@ public class ActorRegistry extends Component {
         thisActor.bind(UnregisterActor.class.getName(), new VoidConcurrentMethodBinding<UnregisterActor>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   RequestSource requestSource,
-                                                   UnregisterActor request)
+                                                 RequestSource requestSource,
+                                                 UnregisterActor request)
                     throws Exception {
                 final String name = request.getName();
                 registry.remove(name);
