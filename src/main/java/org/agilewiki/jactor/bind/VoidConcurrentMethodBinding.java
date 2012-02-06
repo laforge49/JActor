@@ -53,7 +53,7 @@ abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE> extends Concurre
                                     REQUEST_TYPE request,
                                     ResponseProcessor rp)
             throws Exception {
-        concurrentProcessRequest(requestReceiver, requestSource, request);
+        concurrentProcessRequest(requestReceiver, request);
         rp.process(null);
     }
 
@@ -63,12 +63,10 @@ abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE> extends Concurre
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
-     * @param requestSource   The originator of the request.
      * @param request         The request to be processed.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                  RequestSource requestSource,
                                                   REQUEST_TYPE request)
             throws Exception;
 }

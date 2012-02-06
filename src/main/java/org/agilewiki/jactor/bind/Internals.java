@@ -34,11 +34,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public interface Internals {
     /**
-     * Internal concurrent data of the actor.
-     */
-    public ConcurrentSkipListMap<String, Object> getData();
-
-    /**
      * Send a constrained request.
      *
      * @param targetActor The target actor.

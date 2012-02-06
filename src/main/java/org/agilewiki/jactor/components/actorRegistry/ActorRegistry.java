@@ -66,11 +66,10 @@ public class ActorRegistry extends Component {
         thisActor.bind(RegisterActor.class.getName(), new VoidConcurrentMethodBinding<RegisterActor>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 RequestSource requestSource,
                                                  RegisterActor request)
                     throws Exception {
                 final JCActor actor = request.getActor();
-                String name = (new GetActorName()).call(requestSource, actor);
+                String name = (new GetActorName()).call(actor);
                 JCActor old = registry.putIfAbsent(name, actor);
                 if (old != null && old != actor)
                     throw new UnsupportedOperationException("Duplicate actor name.");
@@ -80,7 +79,6 @@ public class ActorRegistry extends Component {
         thisActor.bind(UnregisterActor.class.getName(), new VoidConcurrentMethodBinding<UnregisterActor>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 RequestSource requestSource,
                                                  UnregisterActor request)
                     throws Exception {
                 final String name = request.getName();
@@ -91,14 +89,13 @@ public class ActorRegistry extends Component {
         thisActor.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
             @Override
             public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                    RequestSource requestSource,
                                                     GetRegisteredActor request)
                     throws Exception {
                 String name = request.getName();
                 JCActor registeredActor = registry.get(name);
                 if (registeredActor == null && parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
-                    return request.call(requestSource, parent);
+                    return request.call(parent);
                 }
                 return registeredActor;
             }

@@ -57,7 +57,6 @@ public class PubSub extends Component {
         thisActor.bind(Subscribe.class.getName(), new ConcurrentMethodBinding<Subscribe, Boolean>() {
             @Override
             public Boolean concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                    RequestSource requestSource,
                                                     Subscribe request)
                     throws Exception {
                 Actor subscriber = request.getSubscriber();
@@ -67,7 +66,7 @@ public class PubSub extends Component {
 
         thisActor.bind(Unsubscribe.class.getName(), new ConcurrentMethodBinding<Unsubscribe, Boolean>() {
             @Override
-            public Boolean concurrentProcessRequest(RequestReceiver requestReceiver, RequestSource requestSource, Unsubscribe request) throws Exception {
+            public Boolean concurrentProcessRequest(RequestReceiver requestReceiver, Unsubscribe request) throws Exception {
                 Actor subscriber = request.getSubscriber();
                 return subscribers.remove(subscriber);
             }
@@ -104,7 +103,6 @@ public class PubSub extends Component {
         thisActor.bind(Subscribers.class.getName(), new ConcurrentMethodBinding<Subscribers, Set<Actor>>() {
             @Override
             public Set<Actor> concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                       RequestSource requestSource,
                                                        Subscribers request)
                     throws Exception {
                 return subscribers;

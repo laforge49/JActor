@@ -58,9 +58,9 @@ final public class JCActor extends JBActor {
 
         bind(Include.class.getName(), new VoidInitializationMethodBinding<Include>() {
             @Override
-            public void initializationProcessRequest(Internals internals, Include request)
+            public void initializationProcessRequest(Include request)
                     throws Exception {
-                processInclude(internals, request);
+                processInclude(request);
             }
         });
     }
@@ -68,11 +68,10 @@ final public class JCActor extends JBActor {
     /**
      * Process an include.
      *
-     * @param internals The internal API of JBActor.
      * @param include   The include request.
      * @throws Exception Any uncaught exceptions from calls to the component bindery methods.
      */
-    private void processInclude(final Internals internals, Include include)
+    private void processInclude(Include include)
             throws Exception {
         Class clazz = include.getClazz();
         final String className = clazz.getName();
@@ -93,7 +92,7 @@ final public class JCActor extends JBActor {
         }
         final Iterator<Include> it = includes.iterator();
         while (it.hasNext()) {
-            processInclude(internals, it.next());
+            processInclude(it.next());
         }
         c.thisActor = JCActor.this;
         c.bindery();

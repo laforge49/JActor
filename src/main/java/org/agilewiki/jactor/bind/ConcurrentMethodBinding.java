@@ -53,7 +53,7 @@ abstract public class ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> exten
                                     REQUEST_TYPE request,
                                     ResponseProcessor rp)
             throws Exception {
-        rp.process(concurrentProcessRequest(requestReceiver, requestSource, request));
+        rp.process(concurrentProcessRequest(requestReceiver, request));
     }
 
     /**
@@ -63,13 +63,11 @@ abstract public class ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> exten
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
-     * @param requestSource   The originator of the request.
      * @param request         The request to be processed.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     abstract public RESPONSE_TYPE concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                           RequestSource requestSource,
                                                            REQUEST_TYPE request)
             throws Exception;
 }

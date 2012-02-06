@@ -41,17 +41,16 @@ abstract public class InitializationMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> e
      */
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
-        rp.process(initializationProcessRequest(internals, request));
+        rp.process(initializationProcessRequest(request));
     }
 
     /**
      * Process the initialization request.
      *
-     * @param internals The internal API of the receiving actor.
      * @param request   A request.
      * @return The response.
      * @throws Exception
      */
-    abstract public RESPONSE_TYPE initializationProcessRequest(Internals internals, REQUEST_TYPE request)
+    abstract public RESPONSE_TYPE initializationProcessRequest(REQUEST_TYPE request)
             throws Exception;
 }

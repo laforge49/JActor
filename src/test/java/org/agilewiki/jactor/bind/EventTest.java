@@ -46,7 +46,6 @@ public class EventTest extends TestCase {
             bind(Ho.class.getName(), new ConcurrentMethodBinding<Ho, String>() {
                 @Override
                 public String concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                       RequestSource requestSource,
                                                        Ho request)
                         throws Exception {
                     System.err.println("A got request");

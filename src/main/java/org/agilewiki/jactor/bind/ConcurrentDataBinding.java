@@ -53,14 +53,12 @@ final public class ConcurrentDataBinding<REQUEST_TYPE, RESPONSE_TYPE>
      * </p>
      *
      * @param requestReceiver The API used when a request is received.
-     * @param requestSource   The originator of the request.
      * @param request         The request to be processed.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
     public RESPONSE_TYPE concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                  RequestSource requestSource,
                                                   REQUEST_TYPE request)
             throws Exception {
         return (RESPONSE_TYPE) requestReceiver.getData().get(name);

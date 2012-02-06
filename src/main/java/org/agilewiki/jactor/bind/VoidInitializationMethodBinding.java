@@ -41,17 +41,16 @@ abstract public class VoidInitializationMethodBinding<REQUEST_TYPE> extends Meth
      */
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
-        initializationProcessRequest(internals, request);
+        initializationProcessRequest(request);
         rp.process(null);
     }
 
     /**
      * Process the initialization request.
      *
-     * @param internals The internal API of the receiving actor.
      * @param request   A request.
      * @throws Exception
      */
-    abstract public void initializationProcessRequest(Internals internals, REQUEST_TYPE request)
+    abstract public void initializationProcessRequest(REQUEST_TYPE request)
             throws Exception;
 }

@@ -154,24 +154,14 @@ public class JBActor implements Actor {
     }
 
     /**
+     * Concurrent data of the actor.
+     */
+    final private ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
+
+    /**
      * The internals of a JBActor.
      */
     final private Internals internals = new Internals() {
-        /**
-         * Internal concurrent data of the actor.
-         */
-        final private ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
-
-        /**
-         * Returns the concurrent data.
-         *
-         * @return The concurrent data.
-         */
-        @Override
-        final public ConcurrentSkipListMap<String, Object> getData() {
-            return data;
-        }
-
         /**
          * Send a request to a purely synchronous method.
          * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
@@ -387,11 +377,11 @@ public class JBActor implements Actor {
                 throw new UnsupportedOperationException("actor is already active");
             if (binding instanceof InitializationMethodBinding) {
                 InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
-                return initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+                return initializationMethodBinding.initializationProcessRequest(request);
             }
             if (binding instanceof VoidInitializationMethodBinding) {
                 VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
-                initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+                initializationMethodBinding.initializationProcessRequest(request);
                 return null;
             }
             throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
@@ -405,14 +395,12 @@ public class JBActor implements Actor {
                 ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
                 return concurrentMethodBinding.concurrentProcessRequest(
                         requestReceiver,
-                        requestSource,
                         request);
             }
             if (binding instanceof VoidConcurrentMethodBinding) {
                 VoidConcurrentMethodBinding concurrentMethodBinding = (VoidConcurrentMethodBinding) binding;
                 concurrentMethodBinding.concurrentProcessRequest(
                         requestReceiver,
-                        requestSource,
                         request);
                 return null;
             }
@@ -732,12 +720,12 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Returns the concurrent data of the actor.
+     * Returns the concurrent data.
      *
-     * @return The concurrent data of the actor.
+     * @return The concurrent data.
      */
-    final protected ConcurrentSkipListMap<String, Object> getData() {
-        return internals.getData();
+    final public ConcurrentSkipListMap<String, Object> getData() {
+        return data;
     }
 
     /**

@@ -59,7 +59,6 @@ public class Factory extends Component {
         thisActor.bind(DefineActorType.class.getName(), new VoidConcurrentMethodBinding<DefineActorType>() {
             @Override
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 RequestSource requestSource,
                                                  DefineActorType defineActorType)
                     throws Exception {
                 String actorType = defineActorType.getActorType();
@@ -73,7 +72,6 @@ public class Factory extends Component {
         thisActor.bind(NewActor.class.getName(), new ConcurrentMethodBinding<NewActor, JCActor>() {
             @Override
             public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                    RequestSource requestSource,
                                                     NewActor request)
                     throws Exception {
                 String actorType = request.getActorType();
@@ -87,7 +85,7 @@ public class Factory extends Component {
                 Class componentClass = types.get(actorType);
                 if (componentClass == null) {
                     if (parentHasSameComponent())
-                        return request.call(requestSource, requestReceiver.getParent());
+                        return request.call(requestReceiver.getParent());
                     throw new IllegalArgumentException("Unknown actor type: " + actorType);
                 }
                 Include include = new Include(componentClass);
@@ -95,10 +93,10 @@ public class Factory extends Component {
                 JCActor actor = new JCActor(mailbox);
                 actor.setActorType(actorType);
                 actor.setParent(parent);
-                include.call(requestSource, actor);
+                include.call(actor);
                 if (actorName != null) {
-                    (new SetActorName(actorName)).call(requestSource, actor);
-                    (new RegisterActor(actor)).call(requestSource, actor);
+                    (new SetActorName(actorName)).call(actor);
+                    (new RegisterActor(actor)).call(actor);
                 }
                 return actor;
             }
