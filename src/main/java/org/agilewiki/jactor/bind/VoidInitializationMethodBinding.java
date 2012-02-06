@@ -27,12 +27,12 @@ import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * <p>
- * Binds a SynchronousRequest class to a purely synchronous method.
+ * Binds an InitializationRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> extends MethodBinding<REQUEST_TYPE> {
+abstract public class VoidInitializationMethodBinding<REQUEST_TYPE> extends MethodBinding<REQUEST_TYPE> {
     /**
-     * A safe method for processing requests sent to the actor.
+     * Process the request.
      *
      * @param internals The internal API of the receiving actor.
      * @param request   A request.
@@ -41,17 +41,17 @@ abstract public class SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> exte
      */
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
-        rp.process(synchronousProcessRequest(internals, (REQUEST_TYPE) request));
+        initializationProcessRequest(internals, request);
+        rp.process(null);
     }
 
     /**
-     * A synchronous method.
+     * Process the initialization request.
      *
      * @param internals The internal API of the receiving actor.
      * @param request   A request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
+     * @throws Exception
      */
-    abstract public RESPONSE_TYPE synchronousProcessRequest(Internals internals, REQUEST_TYPE request)
+    abstract public void initializationProcessRequest(Internals internals, REQUEST_TYPE request)
             throws Exception;
 }
