@@ -26,6 +26,7 @@ package org.agilewiki.jactor.components.properties;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -51,16 +52,15 @@ public class Properties extends Component {
     public void bindery() throws Exception {
         super.bindery();
 
-        thisActor.bind(SetProperty.class.getName(), new ConcurrentMethodBinding<SetProperty, Object>() {
+        thisActor.bind(SetProperty.class.getName(), new VoidConcurrentMethodBinding<SetProperty>() {
             @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+            public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                    RequestSource requestSource,
                                                    SetProperty request)
                     throws Exception {
                 String propertyName = request.getPropertyName();
                 Object propertyValue = request.getPropertyValue();
                 properties.put(propertyName, propertyValue);
-                return null;
             }
         });
 

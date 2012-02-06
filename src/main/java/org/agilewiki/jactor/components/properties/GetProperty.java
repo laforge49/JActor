@@ -28,7 +28,7 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
 /**
  * The result of this request is the property value, or null.
  */
-public class GetProperty extends ConcurrentRequest {
+public class GetProperty<RESPONSE_TYPE> extends ConcurrentRequest<RESPONSE_TYPE> {
     /**
      * The name of the property.
      */
