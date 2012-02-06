@@ -97,7 +97,7 @@ public class ActorRegistry extends Component {
                     throws Exception {
                 String name = request.getName();
                 JCActor registeredActor = registry.get(name);
-                if (registeredActor == null && requestReceiver.parentHasSameComponent()) {
+                if (registeredActor == null && parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
                     return request.acceptCall(requestSource, parent);
                 }

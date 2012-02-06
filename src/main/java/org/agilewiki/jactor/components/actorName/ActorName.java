@@ -26,6 +26,7 @@ package org.agilewiki.jactor.components.actorName;
 import org.agilewiki.jactor.bind.ConcurrentDataBinding;
 import org.agilewiki.jactor.bind.InitializationMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 import org.agilewiki.jactor.components.Component;
 
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -45,15 +46,15 @@ public class ActorName extends Component {
     public void bindery()
             throws Exception {
         super.bindery();
-        thisActor.bind(SetActorName.class.getName(), new InitializationMethodBinding<SetActorName, Object>() {
+
+        thisActor.bind(SetActorName.class.getName(), new VoidInitializationMethodBinding<SetActorName>() {
             @Override
-            public Object initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
+            public void initializationProcessRequest(Internals internals, SetActorName request) throws Exception {
                 ConcurrentSkipListMap<String, Object> data = internals.getData();
                 if (data.get("ActorName") != null)
                     throw new UnsupportedOperationException("Already named");
                 String name = request.getName();
                 data.put("ActorName", name);
-                return null;
             }
         });
 

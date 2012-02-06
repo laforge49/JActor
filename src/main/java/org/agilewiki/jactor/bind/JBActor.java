@@ -87,16 +87,6 @@ public class JBActor implements Actor {
         }
 
         /**
-         * Returns true when the parent has the same component.
-         *
-         * @return True when the parent has the same component.
-         */
-        @Override
-        final public boolean parentHasSameComponent() {
-            return parentHasDataItem(getClass().getName());
-        }
-
-        /**
          * Ensures that the request is processed on the appropriate thread.
          *
          * @param requestSource The originator of the request.
@@ -387,18 +377,25 @@ public class JBActor implements Actor {
         RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
         if (binding == null) {
-            if (parent == null)
+            if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
+            }
             return parent.acceptCall(requestSource, request);
         }
         if (request instanceof InitializationRequest) {
             if (active)
                 throw new UnsupportedOperationException("actor is already active");
-            if (!(binding instanceof InitializationMethodBinding))
-                throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
-                        request.getClass().getName());
-            InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
-            return initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+            if (binding instanceof InitializationMethodBinding) {
+                InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
+                return initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+            }
+            if (binding instanceof VoidInitializationMethodBinding) {
+                VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
+                initializationMethodBinding.initializationProcessRequest(internals, (InitializationRequest) request);
+                return null;
+            }
+            throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
+                    request.getClass().getName());
         } else {
             active = true;
             open(internals);
@@ -414,13 +411,19 @@ public class JBActor implements Actor {
                     (ConcurrentRequest) request);
         }
         if (request instanceof SynchronousRequest) {
-            if (!(binding instanceof SynchronousMethodBinding))
-                throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +
-                        request.getClass().getName());
             if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
                     "A synchronous request may not be called when the mailboxes are not the same");
-            SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
-            return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+            if (binding instanceof SynchronousMethodBinding) {
+                SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
+                return synchronousMethodBinding.synchronousProcessRequest(internals, request);
+            }
+            if (binding instanceof VoidSynchronousMethodBinding) {
+                VoidSynchronousMethodBinding synchronousMethodBinding = (VoidSynchronousMethodBinding) binding;
+                synchronousMethodBinding.synchronousProcessRequest(internals, request);
+                return null;
+            }
+            throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +
+                    request.getClass().getName());
         }
         throw new IllegalArgumentException(request.getClass().getName());
     }
@@ -745,7 +748,7 @@ public class JBActor implements Actor {
      * @param name The key for the data item.
      * @return True when the concurrent data of the parent contains the named data item.
      */
-    final protected boolean parentHasDataItem(String name) {
+    final public boolean parentHasDataItem(String name) {
         if (parent == null) return false;
         return parent.hasDataItem(name);
     }

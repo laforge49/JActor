@@ -73,4 +73,13 @@ public class Component {
      */
     public void close() throws Exception {
     }
+
+    /**
+     * Returns true when the parent has the same component.
+     *
+     * @return True when the parent has the same component.
+     */
+    final public boolean parentHasSameComponent() {
+        return thisActor.parentHasDataItem(getClass().getName());
+    }
 }

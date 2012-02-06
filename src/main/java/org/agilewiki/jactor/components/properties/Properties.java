@@ -72,7 +72,7 @@ public class Properties extends Component {
                     throws Exception {
                 String name = request.getPropertyName();
                 Object value = properties.get(name);
-                if (value == null && requestReceiver.parentHasSameComponent()) {
+                if (value == null && parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
                     return parent.acceptCall(requestSource, request);
                 }

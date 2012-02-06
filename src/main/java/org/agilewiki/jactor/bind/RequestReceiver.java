@@ -57,13 +57,6 @@ public interface RequestReceiver {
     boolean parentHasDataItem(String name);
 
     /**
-     * Returns true when the parent has the same component.
-     *
-     * @return True when the parent has the same component.
-     */
-    boolean parentHasSameComponent();
-
-    /**
      * Ensures that the request is processed on the appropriate thread.
      *
      * @param requestSource The originator of the request.

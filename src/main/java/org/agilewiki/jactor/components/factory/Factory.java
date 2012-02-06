@@ -86,7 +86,7 @@ public class Factory extends Component {
                 }
                 Class componentClass = types.get(actorType);
                 if (componentClass == null) {
-                    if (requestReceiver.parentHasSameComponent())
+                    if (parentHasSameComponent())
                         return request.acceptCall(requestSource, requestReceiver.getParent());
                     throw new IllegalArgumentException("Unknown actor type: " + actorType);
                 }
@@ -97,8 +97,8 @@ public class Factory extends Component {
                 actor.setParent(parent);
                 actor.acceptCall(requestSource, include);
                 if (actorName != null) {
-                    actor.acceptCall(requestSource, new SetActorName(actorName));
-                    thisActor.acceptCall(requestSource, new RegisterActor(actor));
+                    (new SetActorName(actorName)).acceptCall(requestSource, actor);
+                    (new RegisterActor(actor)).acceptCall(requestSource, actor);
                 }
                 return actor;
             }
