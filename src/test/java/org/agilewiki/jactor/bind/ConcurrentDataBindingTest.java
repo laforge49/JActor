@@ -44,7 +44,7 @@ public class ConcurrentDataBindingTest extends TestCase {
 
             getData().put("greeting", "Hello world!");
 
-            bind(Hi.class.getName(), new ConcurrentDataBinding("greeting"));
+            bind(Hi.class.getName(), new ConcurrentDataBinding<Hi, String>("greeting"));
         }
     }
 }

@@ -57,6 +57,6 @@ public class ActorName extends Component {
             }
         });
 
-        thisActor.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName>("ActorName"));
+        thisActor.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName, String>("ActorName"));
     }
 }
