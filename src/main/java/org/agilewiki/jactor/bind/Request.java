@@ -41,4 +41,16 @@ public class Request<RESPONSE_TYPE> {
             throws Exception {
         senderInternals.send(targetActor, this, rp);
     }
+
+    /**
+     * Send a request.
+     *
+     * @param senderInternals The sending actor's internals.
+     * @param targetActor     The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public void sendEvent(Internals senderInternals, Actor targetActor)
+            throws Exception {
+        senderInternals.sendEvent(targetActor, this);
+    }
 }
