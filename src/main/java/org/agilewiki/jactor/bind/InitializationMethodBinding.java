@@ -47,7 +47,7 @@ abstract public class InitializationMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> e
     /**
      * Process the initialization request.
      *
-     * @param request   A request.
+     * @param request A request.
      * @return The response.
      * @throws Exception
      */

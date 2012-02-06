@@ -68,7 +68,7 @@ final public class JCActor extends JBActor {
     /**
      * Process an include.
      *
-     * @param include   The include request.
+     * @param include The include request.
      * @throws Exception Any uncaught exceptions from calls to the component bindery methods.
      */
     private void processInclude(Include include)

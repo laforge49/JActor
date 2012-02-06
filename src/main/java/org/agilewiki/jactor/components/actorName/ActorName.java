@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.components.actorName;
 
 import org.agilewiki.jactor.bind.ConcurrentDataBinding;
-import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 import org.agilewiki.jactor.components.Component;
 

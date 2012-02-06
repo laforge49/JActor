@@ -12,13 +12,13 @@ public class PubSubTest extends TestCase {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
-            future.call(publisher, new Include(PubSub.class));
+            (new Include(PubSub.class)).call(publisher);
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
-            future.call(publisher, new Subscribe(subscriber1));
-            future.call(publisher, new Subscribe(subscriber2));
+            (new Subscribe(subscriber1)).call(publisher);
+            (new Subscribe(subscriber2)).call(publisher);
             future.send(publisher, new Publish(new PSRequest()));
-            future.call(publisher, new Unsubscribe(subscriber1));
+            (new Unsubscribe(subscriber1)).call(publisher);
             future.send(publisher, new Publish(new PSRequest()));
         } catch (Exception e) {
             e.printStackTrace();

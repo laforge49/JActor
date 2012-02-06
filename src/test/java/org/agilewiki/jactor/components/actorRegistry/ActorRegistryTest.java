@@ -14,17 +14,16 @@ public class ActorRegistryTest extends TestCase {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAFuture future = new JAFuture();
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            future.call(a, new Include(ActorName.class));
-            future.call(a, new SetActorName("foo"));
+            (new Include(ActorName.class)).call(a);
+            (new SetActorName("foo")).call(a);
             JCActor r = new JCActor(mailboxFactory.createMailbox());
-            future.call(r, new Include(ActorRegistry.class));
-            future.call(r, new RegisterActor(a));
-            System.err.println(future.call(r, new GetRegisteredActor("abe")));
-            System.err.println(future.call(r, new GetRegisteredActor("foo")));
-            future.call(r, new UnregisterActor("foo"));
-            System.err.println(future.call(r, new GetRegisteredActor("foo")));
+            (new Include(ActorRegistry.class)).call(r);
+            (new RegisterActor(a)).call(r);
+            System.err.println((new GetRegisteredActor("abe")).call(r));
+            System.err.println((new GetRegisteredActor("foo")).call(r));
+            (new UnregisterActor("foo")).call(r);
+            System.err.println((new GetRegisteredActor("foo")).call(r));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,22 +36,21 @@ public class ActorRegistryTest extends TestCase {
         System.err.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAFuture future = new JAFuture();
             JCActor pr = new JCActor(mailboxFactory.createMailbox());
-            future.call(pr, new Include(ActorRegistry.class));
+            (new Include(ActorRegistry.class)).call(pr);
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            future.call(a, new Include(ActorName.class));
-            future.call(a, new SetActorName("foo"));
-            future.call(pr, new RegisterActor(a));
+            (new Include(ActorName.class)).call(a);
+            (new SetActorName("foo")).call(a);
+            (new RegisterActor(a)).call(pr);
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             r.setParent(pr);
-            future.call(r, new Include(ActorRegistry.class));
-            System.err.println(future.call(r, new GetRegisteredActor("abe")));
-            System.err.println(future.call(r, new GetRegisteredActor("foo")));
-            future.call(r, new UnregisterActor("foo"));
-            System.err.println(future.call(r, new GetRegisteredActor("foo")));
-            future.call(pr, new UnregisterActor("foo"));
-            System.err.println(future.call(r, new GetRegisteredActor("foo")));
+            (new Include(ActorRegistry.class)).call(r);
+            System.err.println((new GetRegisteredActor("abe")).call(r));
+            System.err.println((new GetRegisteredActor("foo")).call(r));
+            (new UnregisterActor("foo")).call(r);
+            System.err.println((new GetRegisteredActor("foo")).call(r));
+            (new UnregisterActor("foo")).call(pr);
+            System.err.println((new GetRegisteredActor("foo")).call(r));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();

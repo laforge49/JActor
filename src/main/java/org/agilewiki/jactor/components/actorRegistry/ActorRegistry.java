@@ -30,7 +30,6 @@ import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.GetActorName;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentSkipListMap;

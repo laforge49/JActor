@@ -23,8 +23,6 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.lpc.RequestSource;
-
 /**
  * Binds a request class to a concurrent data item.
  * Requests are processed immediately,

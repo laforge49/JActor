@@ -28,7 +28,6 @@ import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 

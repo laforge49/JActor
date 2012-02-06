@@ -11,11 +11,10 @@ public class ActorNameTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAFuture future = new JAFuture();
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            future.call(a, new Include(ActorName.class));
-            future.call(a, new SetActorName("foo"));
-            System.err.println(future.call(a, new GetActorName()));
+            (new Include(ActorName.class)).call(a);
+            (new SetActorName("foo")).call(a);
+            System.err.println((new GetActorName()).call(a));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

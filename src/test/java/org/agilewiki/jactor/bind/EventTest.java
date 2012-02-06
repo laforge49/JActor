@@ -2,7 +2,6 @@ package org.agilewiki.jactor.bind;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 public class EventTest extends TestCase {
     public void test() {

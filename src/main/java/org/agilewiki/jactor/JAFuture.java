@@ -103,20 +103,6 @@ final public class JAFuture {
     };
 
     /**
-     * Send a request to a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-     *
-     * @param actor   The target actor.
-     * @param request The request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public Object call(Actor actor, FutureCallableRequest request)
-            throws Exception {
-        return actor.acceptCall(requestSource, request);
-    }
-
-    /**
      * Sends a request and waits for a response.
      *
      * @param actor   The target actor.

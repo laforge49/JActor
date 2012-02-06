@@ -53,13 +53,13 @@ public class TimingTest extends TestCase {
             while (i < p) {
                 Actor driver = new JCActor(mailboxFactory.createAsyncMailbox());
                 driver.setInitialBufferCapacity(b + 10);
-                future.call(driver, new Include(Driver.class));
+                (new Include(Driver.class)).call(driver);
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(mailboxFactory.createMailbox());
                     subscriber.setInitialBufferCapacity(b + 10);
-                    future.call(driver, new Subscribe(subscriber));
+                    (new Subscribe(subscriber)).call(driver);
                     j += 1;
                 }
                 i += 1;

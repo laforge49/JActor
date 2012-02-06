@@ -48,7 +48,7 @@ abstract public class VoidInitializationMethodBinding<REQUEST_TYPE> extends Meth
     /**
      * Process the initialization request.
      *
-     * @param request   A request.
+     * @param request A request.
      * @throws Exception
      */
     abstract public void initializationProcessRequest(REQUEST_TYPE request)

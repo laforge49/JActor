@@ -14,13 +14,12 @@ public class FactoryTest extends TestCase {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAFuture future = new JAFuture();
             JCActor f = new JCActor(mailboxFactory.createMailbox());
-            future.call(f, new Include(Factory.class));
-            future.call(f, new Include(ActorRegistry.class));
-            future.call(f, new DefineActorType("Foo", Foo.class));
-            Actor a = (Actor) future.call(f, new NewActor("Foo"));
-            future.call(a, new Hi());
+            (new Include(Factory.class)).call(f);
+            (new Include(ActorRegistry.class)).call(f);
+            (new DefineActorType("Foo", Foo.class)).call(f);
+            Actor a = (new NewActor("Foo")).call(f);
+            (new Hi()).call(a);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -33,13 +32,12 @@ public class FactoryTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         JCActor f = null;
         try {
-            JAFuture future = new JAFuture();
             f = new JCActor(mailboxFactory.createMailbox());
-            future.call(f, new Include(Factory.class));
-            future.call(f, new Include(ActorRegistry.class));
-            future.call(f, new DefineActorType("Bar", Bar.class));
-            Actor a = (Actor) future.call(f, new NewActor("Bar", null, "Bloop"));
-            future.call(a, new Hi());
+            (new Include(Factory.class)).call(f);
+            (new Include(ActorRegistry.class)).call(f);
+            (new DefineActorType("Bar", Bar.class)).call(f);
+            Actor a = (new NewActor("Bar", null, "Bloop")).call(f);
+            (new Hi()).call(a);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
