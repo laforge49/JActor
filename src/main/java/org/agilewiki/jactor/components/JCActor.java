@@ -27,6 +27,7 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.InitializationMethodBinding;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
+import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,11 +57,11 @@ final public class JCActor extends JBActor {
     public JCActor(final Mailbox mailbox) {
         super(mailbox);
 
-        bind(Include.class.getName(), new InitializationMethodBinding<Include, Object>() {
+        bind(Include.class.getName(), new VoidInitializationMethodBinding<Include>() {
             @Override
-            public Object initializationProcessRequest(Internals internals, Include request)
+            public void initializationProcessRequest(Internals internals, Include request)
                     throws Exception {
-                return processInclude(internals, request);
+                processInclude(internals, request);
             }
         });
     }
@@ -72,24 +73,24 @@ final public class JCActor extends JBActor {
      * @param include   The include request.
      * @throws Exception Any uncaught exceptions from calls to the component bindery methods.
      */
-    private Object processInclude(final Internals internals, Include include)
+    private void processInclude(final Internals internals, Include include)
             throws Exception {
         Class clazz = include.getClazz();
         final String className = clazz.getName();
         ConcurrentSkipListMap<String, Object> data = getData();
         if (data.containsKey(className))
-            return null;
+            return;
         Object o = clazz.newInstance();
         data.put(className, o);
         if (!(o instanceof Component))
-            return null;
+            return;
         final Component c = (Component) o;
         ArrayList<Include> includes = c.includes();
         if (includes == null) {
             c.thisActor = this;
             c.bindery();
             components.add(c);
-            return null;
+            return;
         }
         final Iterator<Include> it = includes.iterator();
         while (it.hasNext()) {
@@ -98,7 +99,6 @@ final public class JCActor extends JBActor {
         c.thisActor = JCActor.this;
         c.bindery();
         components.add(c);
-        return null;
     }
 
     /**

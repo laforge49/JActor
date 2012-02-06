@@ -401,14 +401,23 @@ public class JBActor implements Actor {
             open(internals);
         }
         if (request instanceof ConcurrentRequest) {
-            if (!(binding instanceof ConcurrentMethodBinding))
-                throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
-                        request.getClass().getName());
-            ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
-            return concurrentMethodBinding.concurrentProcessRequest(
-                    requestReceiver,
-                    requestSource,
-                    (ConcurrentRequest) request);
+            if (binding instanceof ConcurrentMethodBinding) {
+                ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
+                return concurrentMethodBinding.concurrentProcessRequest(
+                        requestReceiver,
+                        requestSource,
+                        request);
+            }
+            if (binding instanceof VoidConcurrentMethodBinding) {
+                VoidConcurrentMethodBinding concurrentMethodBinding = (VoidConcurrentMethodBinding) binding;
+                concurrentMethodBinding.concurrentProcessRequest(
+                        requestReceiver,
+                        requestSource,
+                        request);
+                return null;
+            }
+            throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
+                    request.getClass().getName());
         }
         if (request instanceof SynchronousRequest) {
             if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
