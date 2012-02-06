@@ -52,7 +52,7 @@ public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE acceptCall(APCRequestSource apcRequestSource, Actor targetActor)
+    public RESPONSE_TYPE call(APCRequestSource apcRequestSource, Actor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(apcRequestSource, this);
     }

@@ -87,7 +87,7 @@ public class Factory extends Component {
                 Class componentClass = types.get(actorType);
                 if (componentClass == null) {
                     if (parentHasSameComponent())
-                        return request.acceptCall(requestSource, requestReceiver.getParent());
+                        return request.call(requestSource, requestReceiver.getParent());
                     throw new IllegalArgumentException("Unknown actor type: " + actorType);
                 }
                 Include include = new Include(componentClass);
@@ -95,10 +95,10 @@ public class Factory extends Component {
                 JCActor actor = new JCActor(mailbox);
                 actor.setActorType(actorType);
                 actor.setParent(parent);
-                include.acceptCall(requestSource, actor);
+                include.call(requestSource, actor);
                 if (actorName != null) {
-                    (new SetActorName(actorName)).acceptCall(requestSource, actor);
-                    (new RegisterActor(actor)).acceptCall(requestSource, actor);
+                    (new SetActorName(actorName)).call(requestSource, actor);
+                    (new RegisterActor(actor)).call(requestSource, actor);
                 }
                 return actor;
             }

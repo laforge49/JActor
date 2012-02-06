@@ -29,7 +29,7 @@ public class Bar extends Component {
                                                    RequestSource requestSource,
                                                    Hi request)
                     throws Exception {
-                myName = (new GetActorName()).acceptCall(requestSource, thisActor);
+                myName = (new GetActorName()).call(requestSource, thisActor);
                 System.err.println("Hello world! --" + myName);
                 return null;
             }

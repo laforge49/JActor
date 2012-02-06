@@ -70,7 +70,7 @@ public class ActorRegistry extends Component {
                                                    RegisterActor request)
                     throws Exception {
                 final JCActor actor = request.getActor();
-                String name = (new GetActorName()).acceptCall(requestSource, actor);
+                String name = (new GetActorName()).call(requestSource, actor);
                 JCActor old = registry.putIfAbsent(name, actor);
                 if (old != null && old != actor)
                     throw new UnsupportedOperationException("Duplicate actor name.");
@@ -98,7 +98,7 @@ public class ActorRegistry extends Component {
                 JCActor registeredActor = registry.get(name);
                 if (registeredActor == null && parentHasSameComponent()) {
                     Actor parent = requestReceiver.getParent();
-                    return request.acceptCall(requestSource, parent);
+                    return request.call(requestSource, parent);
                 }
                 return registeredActor;
             }
