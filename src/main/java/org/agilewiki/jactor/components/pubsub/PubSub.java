@@ -73,16 +73,15 @@ public class PubSub extends Component {
             }
         });
 
-        thisActor.bind(Publish.class.getName(), new ConcurrentBinding() {
+        thisActor.bind(Publish.class.getName(), new ConcurrentBinding<Publish>() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       final RequestSource requestSource,
-                                      final Object request,
+                                      final Publish request,
                                       final ResponseProcessor rp)
                     throws Exception {
                 final Iterator<Actor> sit = subscribers.iterator();
                 JAIterator jaIterator = new JAIterator() {
-                    Publish publish = (Publish) request;
-                    Object broadcastRequest = publish.getRequest();
+                    Object broadcastRequest = request.getRequest();
                     final PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
 
                     @Override

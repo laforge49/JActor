@@ -64,8 +64,7 @@ public class SharedTimingTest extends TestCase {
                 int j = 0;
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(sharedMailbox);
-                    Subscribe subscribe = new Subscribe(subscriber);
-                    future.send(driver, subscribe);
+                    future.call(driver, new Subscribe(subscriber));
                     j += 1;
                 }
                 i += 1;

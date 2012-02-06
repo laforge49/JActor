@@ -59,8 +59,7 @@ public class AsyncTimingTest extends TestCase {
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(mailboxFactory.createAsyncMailbox());
                     subscriber.setInitialBufferCapacity(b + 10);
-                    Subscribe subscribe = new Subscribe(subscriber);
-                    future.send(driver, subscribe);
+                    future.call(driver, new Subscribe(subscriber));
                     j += 1;
                 }
                 i += 1;
