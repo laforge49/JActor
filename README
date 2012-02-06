@@ -114,37 +114,6 @@ Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware
 threads. The times reported were best run in 5. Only standard switch settings
 were used--there was NO compiler optimization.
 
-Unreleased Changes (version 2.0.0)
-
-    - The bind method now fails if the request class is already bound.
-
-    - Components now hold a reference to the actor they are a part of.
-
-    - The getParent method in JBActor is now public.
-
-    - Rename: SyncBinding => ConcurrentBinding.
-
-    - Rename: DataBinding => ConcurrentDataBinding
-
-    - Component.open is now synchronous--it no longer takes a
-      ResponseProcessor parameter.
-
-    - Requests bound to ConcurrentMethodBinding must extend ConcurrentRequest.
-
-    - Added Initialization and Synchronous requests and method bindings.
-
-    - Added return and result typing.
-
-    - Removed redundant methods from Internals--call via Internals.thisActor.
-
-    - Requests are now typed by generic binding classes.
-
-    - The bind method has been moved from Internals to JCActor.
-
-    - New Component.bindery method for greater thread safety.
-
-    - Components are now opened in dependency order, and closed in reverse dependency order.
-
 Contact
 
 email:   laforge49@gmail.com
