@@ -26,7 +26,7 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
-import org.agilewiki.jactor.bind.FutureRequest;
+import org.agilewiki.jactor.bind.FutureCallableRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.lpc.RequestSource;
@@ -111,7 +111,7 @@ final public class JAFuture {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object call(Actor actor, FutureRequest request)
+    public Object call(Actor actor, FutureCallableRequest request)
             throws Exception {
         return actor.acceptCall(requestSource, request);
     }
