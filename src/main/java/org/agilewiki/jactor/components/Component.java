@@ -51,8 +51,7 @@ public class Component {
      * @throws Exception Any exceptions thrown while binding.
      */
     public void bindery()
-            throws Exception {
-    }
+            throws Exception {}
 
     /**
      * Open is called when an actor becomes active by receiving a
@@ -60,10 +59,10 @@ public class Component {
      * Components are opened in dependency order, the root component being the last.
      *
      * @param internals The actor's internals.
+     * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(Internals internals) {
-
-    }
+    public void open(Internals internals)
+            throws Exception {}
 
     /**
      * Close any files or sockets opened by the component.
@@ -71,8 +70,8 @@ public class Component {
      *
      * @throws Exception All exceptions thrown will be ignored.
      */
-    public void close() throws Exception {
-    }
+    public void close()
+            throws Exception {}
 
     /**
      * Returns true when the parent has the same component.
