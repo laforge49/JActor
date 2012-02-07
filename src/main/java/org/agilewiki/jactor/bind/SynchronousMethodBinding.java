@@ -41,7 +41,7 @@ abstract public class SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> exte
      */
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
-        rp.process(synchronousProcessRequest(internals, (REQUEST_TYPE) request));
+        rp.process(synchronousProcessRequest(internals, request));
     }
 
     /**

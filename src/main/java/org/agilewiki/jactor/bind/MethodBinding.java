@@ -42,7 +42,7 @@ abstract public class MethodBinding<REQUEST_TYPE> extends Binding<REQUEST_TYPE> 
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(RequestReceiver requestReceiver,
+    public void acceptRequest(RequestReceiver requestReceiver,
                                     RequestSource requestSource,
                                     REQUEST_TYPE request,
                                     ResponseProcessor rp)
