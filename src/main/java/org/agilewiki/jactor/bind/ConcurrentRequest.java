@@ -26,5 +26,5 @@ package org.agilewiki.jactor.bind;
 /**
  * A request which can be processed concurrently.
  */
-public class ConcurrentRequest<RESPONSE_TYPE> extends FutureCallableRequest<RESPONSE_TYPE> {
+public class ConcurrentRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<RESPONSE_TYPE> {
 }

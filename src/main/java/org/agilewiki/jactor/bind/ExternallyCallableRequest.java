@@ -3,9 +3,9 @@ package org.agilewiki.jactor.bind;
 import org.agilewiki.jactor.Actor;
 
 /**
- * Requests that can be called from JAFuture.
+ * Requests that can be called from outside an actor.
  */
-public class FutureCallableRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
+public class ExternallyCallableRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
     /**
      * Send a constrained request.
      * (Override this method for requests with known return types.)
