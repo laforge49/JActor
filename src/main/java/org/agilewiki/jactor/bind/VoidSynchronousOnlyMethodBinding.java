@@ -32,8 +32,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * but restricts access to senders with the same mailbox.
  * </p>
  */
-abstract public class SynchronousOnlyMethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
-        extends SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
+abstract public class VoidSynchronousOnlyMethodBinding<REQUEST_TYPE>
+        extends VoidSynchronousMethodBinding<REQUEST_TYPE> {
     /**
      * <p>
      * Routes an incoming request by calling internals.routeRequest.
