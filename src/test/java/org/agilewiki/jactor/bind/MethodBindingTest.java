@@ -10,7 +10,7 @@ public class MethodBindingTest extends TestCase {
         try {
             Actor a = new A(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.err.println(future.send(a, new Hi()));
+            System.err.println((new Hi()).send(future, a));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -26,7 +26,7 @@ public class MethodBindingTest extends TestCase {
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
             JAFuture future = new JAFuture();
-            System.err.println(future.send(b, new Hi()));
+            System.err.println((new Hi()).send(future, b));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -34,7 +34,7 @@ public class MethodBindingTest extends TestCase {
         }
     }
 
-    class Hi {
+    class Hi extends Request<String> {
     }
 
     class A extends JBActor {

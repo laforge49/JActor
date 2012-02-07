@@ -8,14 +8,13 @@ public class EventTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Actor a = new A(mailboxFactory.createMailbox());
-            JAEvent event = new JAEvent();
             JAFuture future = new JAFuture();
             Hi hi = new Hi();
-            event.sendEvent(a, hi);
-            future.send(a, hi);
+            hi.sendEvent(a);
+            hi.send(future, a);
             Ho ho = new Ho();
-            event.sendEvent(a, ho);
-            future.send(a, ho);
+            ho.sendEvent(a);
+            ho.call(a);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -23,7 +22,7 @@ public class EventTest extends TestCase {
         }
     }
 
-    class Hi {
+    class Hi extends Request<String> {
     }
 
     class Ho extends ConcurrentRequest<String> {
@@ -34,8 +33,8 @@ public class EventTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new MethodBinding() {
-                public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+            bind(Hi.class.getName(), new MethodBinding<Hi>() {
+                public void processRequest(Internals internals, Hi request, ResponseProcessor rp)
                         throws Exception {
                     System.err.println("A got request");
                     rp.process("Hello world!");

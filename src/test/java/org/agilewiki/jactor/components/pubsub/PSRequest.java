@@ -1,4 +1,5 @@
 package org.agilewiki.jactor.components.pubsub;
 
-final public class PSRequest {
-}
+import org.agilewiki.jactor.bind.Request;
+
+final public class PSRequest extends Request {}

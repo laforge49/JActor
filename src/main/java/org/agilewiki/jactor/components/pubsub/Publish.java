@@ -23,22 +23,24 @@
  */
 package org.agilewiki.jactor.components.pubsub;
 
+import org.agilewiki.jactor.bind.Request;
+
 /**
  * Broadcast a request to all subscribers.
  * The response is the number of subscribers to which the request was broadcast.
  */
-public class Publish {
+public class Publish extends Request {
     /**
      * The request to be broadcast.
      */
-    private Object request;
+    private Request request;
 
     /**
      * Create a publish request.
      *
      * @param request The request to be broadcast.
      */
-    public Publish(Object request) {
+    public Publish(Request request) {
         this.request = request;
     }
 
@@ -47,7 +49,7 @@ public class Publish {
      *
      * @return The request to be broadcast.
      */
-    public Object getRequest() {
+    public Request getRequest() {
         return request;
     }
 }

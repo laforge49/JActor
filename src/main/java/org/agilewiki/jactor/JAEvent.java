@@ -42,7 +42,7 @@ public class JAEvent {
     /**
      * Serves as the originator of a request.
      */
-    private RequestSource requestSource = new RequestSource() {
+    public static RequestSource requestSource = new RequestSource() {
         @Override
         final public Mailbox getMailbox() {
             return null;

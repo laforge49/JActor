@@ -66,10 +66,10 @@ public class TimingTest extends TestCase {
             }
             JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), drivers);
             Timing timing = new Timing(c, b);
-            future.send(parallel, timing);
-            future.send(parallel, timing);
+            timing.send(future, parallel);
+            timing.send(future, parallel);
             long t0 = System.currentTimeMillis();
-            future.send(parallel, timing);
+            timing.send(future, parallel);
             long t1 = System.currentTimeMillis();
             System.out.println("" + p + " parallel runs of " + c + " bursts of " + b + " requests sent to " + s + " subscribers");
             if (t1 != t0)

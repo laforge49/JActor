@@ -17,5 +17,5 @@ abstract public class RP<RESPONSE_TYPE> extends ResponseProcessor {
         processResponse((RESPONSE_TYPE) response);
     }
 
-    abstract public void processResponse(RESPONSE_TYPE response);
+    abstract public void processResponse(RESPONSE_TYPE response) throws Exception;
 }

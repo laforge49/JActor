@@ -1,6 +1,8 @@
 package org.agilewiki.jactor.components.pubsub.timing;
 
-final public class Timing {
+import org.agilewiki.jactor.bind.Request;
+
+final public class Timing extends Request {
     private int count;
     private int burst;
 

@@ -9,8 +9,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Actor a = new A(mailboxFactory.createMailbox());
-            JAFuture future = new JAFuture();
-            System.err.println(future.send(a, new Hi()));
+            System.err.println((new Hi()).call(a));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -25,8 +24,7 @@ public class ConcurrentDataBindingTest extends TestCase {
             Actor a = new A(mailboxFactory.createMailbox());
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
-            JAFuture future = new JAFuture();
-            System.err.println(future.send(b, new Hi()));
+            System.err.println((new Hi()).call(b));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

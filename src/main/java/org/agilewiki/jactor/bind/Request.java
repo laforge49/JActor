@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.JAEvent;
+import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JANoResponse;
 import org.agilewiki.jactor.apc.APCRequestSource;
 
@@ -31,6 +33,18 @@ import org.agilewiki.jactor.apc.APCRequestSource;
  * A JBActor request.
  */
 public class Request<RESPONSE_TYPE> {
+    /**
+     * Send a request and waits for a response.
+     *
+     * @param future The future.
+     * @param targetActor     The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) future.send(targetActor, this);
+    }
+
     /**
      * Send a request.
      *
@@ -55,6 +69,11 @@ public class Request<RESPONSE_TYPE> {
     public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
         targetActor.acceptRequest(requestSource, this, rp);
+    }
+    
+    public void sendEvent(Actor targetActor)
+            throws Exception {
+        targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
     }
 
     /**

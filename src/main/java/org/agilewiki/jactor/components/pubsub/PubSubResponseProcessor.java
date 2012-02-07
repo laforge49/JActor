@@ -24,12 +24,13 @@
 package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.bind.RP;
 
 /**
  * Counts the number of requests sent and the number of responses received
  * and responds with the count of requests sent when the iteration is finished.
  */
-public class PubSubResponseProcessor extends ResponseProcessor {
+public class PubSubResponseProcessor extends RP {
     /**
      * The number of requests sent.
      */
@@ -78,7 +79,7 @@ public class PubSubResponseProcessor extends ResponseProcessor {
      * @throws Exception Any uncaught exceptions raised when processing the response.
      */
     @Override
-    public void process(Object response) throws Exception {
+    public void processResponse(Object response) throws Exception {
         received += 1;
         if (complete && received == sent) {
             xrp.process(new Integer(sent));
