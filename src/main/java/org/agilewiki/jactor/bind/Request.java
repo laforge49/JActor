@@ -36,8 +36,8 @@ public class Request<RESPONSE_TYPE> {
     /**
      * Send a request and waits for a response.
      *
-     * @param future The future.
-     * @param targetActor     The target actor.
+     * @param future      The future.
+     * @param targetActor The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
@@ -70,7 +70,7 @@ public class Request<RESPONSE_TYPE> {
             throws Exception {
         targetActor.acceptRequest(requestSource, this, rp);
     }
-    
+
     public void sendEvent(Actor targetActor)
             throws Exception {
         targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);

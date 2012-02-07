@@ -1,7 +1,10 @@
 package org.agilewiki.jactor.bind;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.JAMailboxFactory;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.MailboxFactory;
 
 public class ConcurrentDataBindingTest extends TestCase {
     public void test1() {
