@@ -131,29 +131,6 @@ public class JBActor implements Actor {
             new ConcurrentSkipListMap<String, Binding>();
 
     /**
-     * Add a binding to the actor.
-     *
-     * @param requestClassName The class name of the request.
-     * @param binding          The binding.
-     * @throws IllegalStateException Thrown if there is already a binding for the class.
-     */
-    final public void bind(String requestClassName, Binding binding) throws IllegalStateException {
-        if (bindings.containsKey(requestClassName))
-            throw new IllegalStateException("Duplicate binding for " + requestClassName);
-        bindings.put(requestClassName, binding);
-    }
-
-    /**
-     * Returns a binding.
-     *
-     * @param request The request.
-     * @return The binding, or null.
-     */
-    final private Binding getBinding(Object request) {
-        return bindings.get(request.getClass().getName());
-    }
-
-    /**
      * Concurrent data of the actor.
      */
     final private ConcurrentSkipListMap<String, Object> data = new ConcurrentSkipListMap<String, Object>();
@@ -324,6 +301,31 @@ public class JBActor implements Actor {
     }
 
     /**
+     * Add a binding to the actor.
+     *
+     * @param requestClassName The class name of the request.
+     * @param binding          The binding.
+     * @throws IllegalStateException Thrown if there is already a binding for the class.
+     */
+    final public void bind(String requestClassName, Binding binding) throws IllegalStateException {
+        if (bindings.containsKey(requestClassName))
+            throw new IllegalStateException("Duplicate binding for " + requestClassName);
+        if (active)
+            throw new UnsupportedOperationException("already active");
+        bindings.put(requestClassName, binding);
+    }
+
+    /**
+     * Returns a binding.
+     *
+     * @param request The request.
+     * @return The binding, or null.
+     */
+    final private Binding getBinding(Object request) {
+        return bindings.get(request.getClass().getName());
+    }
+
+    /**
      * Assign the parent actor.
      * Once assigned, it can not be changed.
      *
@@ -332,7 +334,18 @@ public class JBActor implements Actor {
     public void setParent(Actor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
+        if (active)
+            throw new UnsupportedOperationException("already active");
         this.parent = parent;
+    }
+
+    /**
+     * Returns the actor's parent.
+     *
+     * @return The actor's parent, or null.
+     */
+    final public Actor getParent() {
+        return parent;
     }
 
     /**
@@ -351,6 +364,8 @@ public class JBActor implements Actor {
      */
     @Override
     final public void setInitialBufferCapacity(final int initialBufferCapacity) {
+        if (active)
+            throw new UnsupportedOperationException("already active");
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
     }
 
@@ -460,9 +475,7 @@ public class JBActor implements Actor {
      *
      * @param internals The actor's internals.
      */
-    protected void open(Internals internals) {
-
-    }
+    protected void open(Internals internals) {}
 
     /**
      * Ensures that the request is processed on the appropriate thread.
@@ -804,14 +817,5 @@ public class JBActor implements Actor {
      */
     final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
         requestProcessor.setExceptionHandler(exceptionHandler);
-    }
-
-    /**
-     * Returns the actor's parent.
-     *
-     * @return The actor's parent, or null.
-     */
-    final public Actor getParent() {
-        return parent;
     }
 }

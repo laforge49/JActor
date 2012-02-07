@@ -71,32 +71,15 @@ public class Request<RESPONSE_TYPE> {
         targetActor.acceptRequest(requestSource, this, rp);
     }
 
-    public void sendEvent(Actor targetActor)
-            throws Exception {
-        targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
-    }
 
     /**
      * Send a request event.
      *
-     * @param senderInternals The sending actor's internals.
      * @param targetActor     The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public void sendEvent(Internals senderInternals, Actor targetActor)
+    public void sendEvent(Actor targetActor)
             throws Exception {
-        senderInternals.sendEvent(targetActor, this);
-    }
-
-    /**
-     * Send a request event.
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public void sendEvent(APCRequestSource requestSource, Actor targetActor)
-            throws Exception {
-        targetActor.acceptRequest(requestSource, this, JANoResponse.nrp);
+        targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
     }
 }
