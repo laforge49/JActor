@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.components.*;
+import org.agilewiki.jactor.components.Include;
+import org.agilewiki.jactor.components.JCActor;
 
 public class GreeterTest extends TestCase {
     public void test() {
@@ -16,7 +16,7 @@ public class GreeterTest extends TestCase {
             (new Include(Greeter.class)).call(a);
             JAFuture future = new JAFuture();
             String greeting = (new Hi()).send(future, a);
-            System.err.println(greeting);
+            System.out.println(greeting);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
