@@ -11,7 +11,8 @@ public class ResponsePrinter extends Component {
     public void bindery() throws Exception {
         thisActor.bind(PrintResponse.class.getName(), new VoidSynchronousMethodBinding<PrintResponse>() {
             @Override
-            public void synchronousProcessRequest(Internals internals, PrintResponse request) throws Exception {
+            public void synchronousProcessRequest(Internals internals, PrintResponse request)
+                    throws Exception {
                 SynchronousRequest wrappedRequest = request.getRequest();
                 JCActor actor = request.getActor();
                 Object response = wrappedRequest.call(internals, actor);
