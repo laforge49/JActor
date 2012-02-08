@@ -9,7 +9,7 @@ import org.agilewiki.jactor.components.*;
 
 public class GreeterTest extends TestCase {
     public void test() {
-        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
             JCActor a = new JCActor(mailbox);
