@@ -13,7 +13,9 @@ public class ResponsePrinter extends Component {
     public void bindery() throws Exception {
         thisActor.bind(PrintResponse.class.getName(), new MethodBinding<PrintResponse>() {
             @Override
-            public void processRequest(Internals internals, PrintResponse request, final ResponseProcessor rp)
+            public void processRequest(Internals internals,
+                                       PrintResponse request,
+                                       final ResponseProcessor rp)
                     throws Exception {
                 Request wrappedRequest = request.getRequest();
                 JCActor actor = request.getActor();
