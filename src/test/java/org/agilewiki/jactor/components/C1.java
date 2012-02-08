@@ -9,8 +9,8 @@ public class C1 extends Component {
     public void bindery()
             throws Exception {
         super.bindery();
-        thisActor.bind(Hi.class.getName(), new MethodBinding() {
-            public void processRequest(Internals internals, Object request, ResponseProcessor rp1)
+        thisActor.bind(Hi.class.getName(), new MethodBinding<Hi>() {
+            public void processRequest(Internals internals, Hi request, ResponseProcessor rp1)
                     throws Exception {
                 rp1.process("Hello world!");
             }

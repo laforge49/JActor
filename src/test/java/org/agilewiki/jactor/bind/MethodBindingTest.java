@@ -42,8 +42,8 @@ public class MethodBindingTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new MethodBinding() {
-                public void processRequest(Internals internals, Object request, ResponseProcessor rp)
+            bind(Hi.class.getName(), new MethodBinding<Hi>() {
+                public void processRequest(Internals internals, Hi request, ResponseProcessor rp)
                         throws Exception {
                     rp.process("Hello world!");
                 }

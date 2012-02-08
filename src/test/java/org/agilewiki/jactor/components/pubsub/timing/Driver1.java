@@ -23,9 +23,9 @@ final public class Driver1 extends Component {
     @Override
     public void bindery() throws Exception {
         super.bindery();
-        thisActor.bind(Timing.class.getName(), new MethodBinding() {
+        thisActor.bind(Timing.class.getName(), new MethodBinding<Timing>() {
             @Override
-            public void processRequest(final Internals internals, Object request, ResponseProcessor rp)
+            public void processRequest(final Internals internals, Timing request, ResponseProcessor rp)
                     throws Exception {
                 Timing timing = (Timing) request;
                 final int count = timing.getCount();
