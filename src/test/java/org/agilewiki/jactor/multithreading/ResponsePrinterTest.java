@@ -68,4 +68,36 @@ public class ResponsePrinterTest extends TestCase {
             mailboxFactory.close();
         }
     }
+
+    public void test4() {
+        System.out.println("start ResponsePrinterTest 4");
+        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
+        try {
+
+            //JCActor a = new JCActor(mailboxFactory.createMailbox()); //todo This should work
+            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo async should not be required
+
+            (new Include(Greeter.class)).call(a);
+            int count = 5;
+            JCActor[] bs = new JCActor[count];
+            int i = 0;
+            while (i < count) {
+                JCActor b = new JCActor(mailboxFactory.createAsyncMailbox());
+                (new Include(ResponsePrinter.class)).call(b);
+                bs[i] = b;
+                i += 1;
+            }
+            JCActor c = new JCActor(mailboxFactory.createMailbox());
+            (new Include(ParallelResponsePrinter.class)).call(c);
+            JAFuture future = new JAFuture();
+            PrintResponse printResponse = new PrintResponse(new Hi(), a);
+            PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
+            printParallelResponse.send(future, c);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("end ResponsePrinterTest 4");
+            mailboxFactory.close();
+        }
+    }
 }
