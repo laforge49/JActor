@@ -53,7 +53,7 @@ public class ResponsePrinterTest extends TestCase {
         System.out.println("start ResponsePrinterTest 3");
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
-            Mailbox mailbox1 = mailboxFactory.createAsyncMailbox();
+            Mailbox mailbox1 = mailboxFactory.createMailbox();
             Mailbox mailbox2 = mailboxFactory.createAsyncMailbox();
             JCActor a = new JCActor(mailbox1);
             (new Include(Greeter.class)).call(a);
