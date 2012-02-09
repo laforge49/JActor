@@ -465,8 +465,10 @@ public class JBActor implements Actor {
             binding.acceptRequest(requestReceiver, (RequestSource) apcRequestSource, request, rp);
             return;
         }
-        if (parent == null)
+        if (parent == null) {
+            System.err.println(bindings);
             throw new UnsupportedOperationException(request.getClass().getName());
+        }
         parent.acceptRequest(apcRequestSource, request, rp);
     }
 
@@ -475,7 +477,8 @@ public class JBActor implements Actor {
      *
      * @param internals The actor's internals.
      */
-    protected void open(Internals internals) {}
+    protected void open(Internals internals) {
+    }
 
     /**
      * Ensures that the request is processed on the appropriate thread.
