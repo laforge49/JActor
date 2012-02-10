@@ -74,8 +74,7 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            JCActor a = new JCActor(mailboxFactory.createMailbox()); //todo This should work
-            //JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo async should not be required
+            JCActor a = new JCActor(mailboxFactory.createMailbox());
 
             (new Include(Greeter.class)).call(a);
             int count = 5;
