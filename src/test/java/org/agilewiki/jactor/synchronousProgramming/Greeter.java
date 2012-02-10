@@ -10,7 +10,6 @@ public class Greeter extends Component {
         thisActor.bind(Hi.class.getName(), new SynchronousMethodBinding<Hi, String>() {
             @Override
             public String synchronousProcessRequest(Internals internals, Hi request) throws Exception {
-                System.out.println("got it");
                 return "Hello world!";
             }
         });

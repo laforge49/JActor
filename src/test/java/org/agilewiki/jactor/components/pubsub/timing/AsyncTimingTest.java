@@ -15,9 +15,9 @@ public class AsyncTimingTest extends TestCase {
 
         int c = 1;
         int b = 1;
-        int s = 10;
-        int p = 4;
-        int t = 4;
+        int s = 1;
+        int p = 1;
+        int t = 1;
 
         //int c = 100000;
         //int b = 1;

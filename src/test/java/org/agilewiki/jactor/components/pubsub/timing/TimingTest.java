@@ -13,11 +13,11 @@ import org.agilewiki.jactor.parallel.JAParallel;
 public class TimingTest extends TestCase {
     public void test() {
 
-        int c = 10;
+        int c = 1;
         int b = 1;
-        int s = 1000;
+        int s = 1;
         int p = 1;
-        int t = 4;
+        int t = 1;
 
         //int c = 1000000;
         //int b = 1;

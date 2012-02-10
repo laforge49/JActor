@@ -10,10 +10,10 @@ import org.agilewiki.jactor.parallel.JAParallel;
 public class SharedTimingTest extends TestCase {
     public void test() {
 
-        int c = 10;
-        int s = 1000;
+        int c = 1;
+        int s = 1;
         int p = 1;
-        int t = 4;
+        int t = 1;
 
         //int c = 10000;
         //int s = 1000;
