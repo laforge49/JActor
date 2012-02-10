@@ -43,9 +43,4 @@ abstract public class JActor<E> {
      * @param event The event to be processed.
      */
     abstract protected void processEvent(E event);
-
-    /**
-     * Try to gain control and start the task.
-     */
-    abstract public void ping();
 }

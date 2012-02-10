@@ -76,12 +76,4 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
     public final void putEvent(E event) {
         inbox.putEvent(event);
     }
-
-    /**
-     * Try to gain control and start the task.
-     */
-    @Override
-    public final void ping() {
-        inbox.ping();
-    }
 }

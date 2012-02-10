@@ -90,11 +90,4 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
     final public void putBufferedEvents(ArrayList<E> bufferedEvents) {
         mailbox.putBufferedEvents(bufferedEvents);
     }
-
-    /**
-     * Try to gain control and start the task.
-     */
-    public void ping() {
-        mailbox.ping();
-    }
 }

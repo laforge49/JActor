@@ -116,13 +116,6 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     @Override
     public void putEvent(E event) {
         queue.put(event);
-        ping();
-    }
-
-    /**
-     * Try to gain control and start the task.
-     */
-    public void ping() {
         if (running.compareAndSet(false, true)) {
             threadManager.process(task);
         }

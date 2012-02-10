@@ -83,9 +83,4 @@ public interface Mailbox extends APCMailbox {
      * @return The mailbox factory.
      */
     public MailboxFactory getMailboxFactory();
-
-    /**
-     * Try to gain control and start the task.
-     */
-    public void ping();
 }

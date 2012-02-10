@@ -106,8 +106,8 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            //JCActor a = new JCActor(mailboxFactory.createMailbox());
-            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo: still a bug here
+            //JCActor a = new JCActor(mailboxFactory.createMailbox()); //todo: still a bug here
+            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox());
 
             (new Include(Greeter.class)).call(a);
             int count = 5;
@@ -125,7 +125,7 @@ public class ResponsePrinterTest extends TestCase {
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
             int j = 0;
-            while (j < 3) {
+            while (j < 10) {
                 printParallelResponse.send(future, c);
                 j += 1;
             }

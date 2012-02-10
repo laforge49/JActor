@@ -65,10 +65,6 @@ final public class JAFuture {
                     result = japcResponse.getUnwrappedResponse();
                     done.release();
                 }
-
-                @Override
-                public void ping() {
-                }
             };
 
     /**
