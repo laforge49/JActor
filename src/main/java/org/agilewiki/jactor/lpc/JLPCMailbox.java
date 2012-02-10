@@ -148,6 +148,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
                 try {
                     super.dispatchEvents();
                 } finally {
+                    sendPendingMessages();
                     relinquishControl();
                 }
             } else return;

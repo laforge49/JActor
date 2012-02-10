@@ -511,6 +511,7 @@ public class JBActor implements Actor {
         }
         if (!mailbox.acquireControl(srcControllingMailbox)) {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            mailbox.dispatchRemaining(srcControllingMailbox);
             return;
         }
         try {
@@ -518,7 +519,6 @@ public class JBActor implements Actor {
         } finally {
             mailbox.sendPendingMessages();
             mailbox.relinquishControl();
-            mailbox.dispatchRemaining(srcControllingMailbox);
         }
     }
 
