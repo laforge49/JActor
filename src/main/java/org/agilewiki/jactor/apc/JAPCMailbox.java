@@ -186,4 +186,11 @@ public class JAPCMailbox implements APCMailbox {
             currentRequest.response(eventQueue, unwrappedResponse);
         }
     }
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping() {
+        eventQueue.ping();
+    }
 }

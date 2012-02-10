@@ -13,4 +13,9 @@ public interface EventDestination<E> {
      * @param event The events to be processed.
      */
     public void putEvent(E event);
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping();
 }

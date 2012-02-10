@@ -177,4 +177,11 @@ final public class JABufferedEventsQueue<E>
         }
         return false;
     }
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping() {
+        eventQueue.ping();
+    }
 }

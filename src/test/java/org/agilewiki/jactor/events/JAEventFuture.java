@@ -63,4 +63,10 @@ final public class JAEventFuture<E> implements EventDestination<E> {
         result = event;
         done.release();
     }
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping() {
+    }
 }

@@ -108,13 +108,21 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     }
 
     /**
-     * The putEvent method adds an events to the queue of events to be processed.
+     * The putEvent method adds an events to the queue of events to be processed
+     * and if idle, start the task.
      *
      * @param event The events to be processed.
      */
     @Override
     public void putEvent(E event) {
         queue.put(event);
+        ping();
+    }
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping() {
         if (running.compareAndSet(false, true)) {
             threadManager.process(task);
         }

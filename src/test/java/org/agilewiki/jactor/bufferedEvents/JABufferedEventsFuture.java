@@ -73,4 +73,8 @@ final public class JABufferedEventsFuture<E> implements BufferedEventsDestinatio
         result = bufferedEvents.get(0);
         done.release();
     }
+
+    @Override
+    public void ping() {
+    }
 }

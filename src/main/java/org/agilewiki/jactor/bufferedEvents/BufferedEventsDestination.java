@@ -38,4 +38,9 @@ public interface BufferedEventsDestination<E> {
      * @param bufferedEvents The events to be processed.
      */
     public void putBufferedEvents(ArrayList<E> bufferedEvents);
+
+    /**
+     * Try to gain control and start the task.
+     */
+    public void ping();
 }
