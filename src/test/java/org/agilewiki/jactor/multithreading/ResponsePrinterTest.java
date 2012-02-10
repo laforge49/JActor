@@ -74,7 +74,8 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
+            //JCActor a = new JCActor(mailboxFactory.createMailbox());
+            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo: still a bug here
 
             (new Include(Greeter.class)).call(a);
             int count = 5;
@@ -96,6 +97,42 @@ public class ResponsePrinterTest extends TestCase {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 4");
+            mailboxFactory.close();
+        }
+    }
+
+    public void test5() {
+        System.out.println("start ResponsePrinterTest 5");
+        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
+        try {
+
+            //JCActor a = new JCActor(mailboxFactory.createMailbox());
+            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo: still a bug here
+
+            (new Include(Greeter.class)).call(a);
+            int count = 5;
+            JCActor[] bs = new JCActor[count];
+            int i = 0;
+            while (i < count) {
+                JCActor b = new JCActor(mailboxFactory.createAsyncMailbox());
+                (new Include(ResponsePrinter.class)).call(b);
+                bs[i] = b;
+                i += 1;
+            }
+            JCActor c = new JCActor(mailboxFactory.createMailbox());
+            (new Include(ParallelResponsePrinter.class)).call(c);
+            JAFuture future = new JAFuture();
+            PrintResponse printResponse = new PrintResponse(new Hi(), a);
+            PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
+            int j = 0;
+            while (j < 3) {
+                printParallelResponse.send(future, c);
+                j += 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("end ResponsePrinterTest 5");
             mailboxFactory.close();
         }
     }

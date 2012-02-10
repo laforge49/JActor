@@ -519,6 +519,7 @@ public class JBActor implements Actor {
         } finally {
             mailbox.sendPendingMessages();
             mailbox.relinquishControl();
+            mailbox.dispatchRemaining(srcControllingMailbox);
         }
     }
 
