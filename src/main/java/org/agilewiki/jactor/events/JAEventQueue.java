@@ -35,6 +35,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @param <E> The type of event.
  */
 final public class JAEventQueue<E> implements EventQueue<E> {
+    private volatile boolean notEmpty;
+
     /**
      * Provides a thread for processing dispatched events.
      */
@@ -70,6 +72,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
                         if (queue.peek() == null || !acquireControl(JAEventQueue.this))
                             return;
                     }
+                    notEmpty = false;
                     eventProcessor.haveEvents();
                 }
         }
@@ -102,7 +105,9 @@ final public class JAEventQueue<E> implements EventQueue<E> {
         if (c == this)
             return;
         atomicControl.set(null);
-        threadManager.process(task);
+        if (notEmpty) {
+            threadManager.process(task);
+        }
     }
 
     /**
@@ -145,6 +150,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     @Override
     public void putEvent(E event) {
         queue.put(event);
+        notEmpty = true;
         if (atomicControl.get() == null)
             threadManager.process(task);
     }
