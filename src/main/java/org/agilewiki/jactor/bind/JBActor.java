@@ -519,6 +519,7 @@ public class JBActor implements Actor {
         try {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
         } finally {
+            mailbox.dispatchEvents();
             mailbox.sendPendingMessages();
             eventQueue.relinquishControl();
         }
@@ -676,6 +677,7 @@ public class JBActor implements Actor {
                             try {
                                 rp.process(response);
                             } finally {
+                                mailbox.dispatchEvents();
                                 mailbox.sendPendingMessages();
                                 eventQueue.relinquishControl();
                             }

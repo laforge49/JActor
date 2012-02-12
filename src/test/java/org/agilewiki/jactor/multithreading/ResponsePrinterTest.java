@@ -123,7 +123,7 @@ public class ResponsePrinterTest extends TestCase {
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
             int j = 0;
-            while (j < 1) {
+            while (j < 1000) {
                 printParallelResponse.send(future, c);
                 j += 1;
             }

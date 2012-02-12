@@ -213,6 +213,7 @@ abstract public class JLPCActor implements Actor {
         try {
             syncSend(rs, request, rp, sourceExceptionHandler);
         } finally {
+            mailbox.dispatchEvents();
             mailbox.sendPendingMessages();
             eventQueue.relinquishControl();
         }
@@ -366,6 +367,7 @@ abstract public class JLPCActor implements Actor {
                             try {
                                 rp.process(response);
                             } finally {
+                                mailbox.dispatchEvents();
                                 mailbox.sendPendingMessages();
                                 eventQueue.relinquishControl();
                             }
