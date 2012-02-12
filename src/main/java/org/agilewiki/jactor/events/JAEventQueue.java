@@ -108,6 +108,18 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     }
 
     /**
+     * Returns the controlling queue.
+     *
+     * @return The controlling queue.
+     */
+    public JAEventQueue<E> getController() {
+        JAEventQueue<E> c = atomicControl.get();
+        if (c == null)
+            return this;
+        return c;
+    }
+
+    /**
      * Specifies the object which will process the dispatched events.
      *
      * @param eventProcessor Processes the dispatched events.

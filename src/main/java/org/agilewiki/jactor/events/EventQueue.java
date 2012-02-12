@@ -43,4 +43,11 @@ public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
      * Relinquish control over the queue.
      */
     public void relinquishControl();
+
+    /**
+     * Returns the controlling queue.
+     *
+     * @return The controlling queue.
+     */
+    public JAEventQueue<E> getController();
 }
