@@ -24,6 +24,9 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.events.EventDispatcher;
+import org.agilewiki.jactor.events.EventQueue;
+
+import java.util.ArrayList;
 
 /**
  * A BufferedEventsQueue receives buffered events, queues them,
@@ -52,4 +55,11 @@ public interface BufferedEventsQueue<E>
      * @param event       The event to be sent.
      */
     public void send(BufferedEventsDestination<E> destination, E event);
+
+    /**
+     * Returns the event queue.
+     *
+     * @return The event queue.
+     */
+    public EventQueue<ArrayList<E>> getEventQueue();
 }

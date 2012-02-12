@@ -29,6 +29,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.ActiveEventProcessor;
+import org.agilewiki.jactor.events.EventQueue;
 
 import java.util.ArrayList;
 
@@ -45,18 +46,18 @@ public class JAPCMailbox implements APCMailbox {
     /**
      * The lower-level mailbox which transports messages as 1-way events.
      */
-    private BufferedEventsQueue<JAMessage> eventQueue;
+    private BufferedEventsQueue<JAMessage> bufferedEventQueue;
 
     /**
      * Create a JAPCMailbox.
      * Use this constructor when providing an implementation of BufferedEventsQueue
      * other than JABufferedEventsQueue.
      *
-     * @param eventQueue The lower-level mailbox which transports messages as 1-way events.
+     * @param bufferedEventQueue The lower-level mailbox which transports messages as 1-way events.
      */
-    public JAPCMailbox(BufferedEventsQueue<JAMessage> eventQueue) {
-        this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(new ActiveEventProcessor<JAMessage>() {
+    public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue) {
+        this.bufferedEventQueue = bufferedEventQueue;
+        bufferedEventQueue.setEventProcessor(new ActiveEventProcessor<JAMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();
@@ -123,7 +124,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     final public boolean isEmpty() {
-        return eventQueue.isEmpty();
+        return bufferedEventQueue.isEmpty();
     }
 
     /**
@@ -132,7 +133,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     public boolean dispatchEvents() {
-        return eventQueue.dispatchEvents();
+        return bufferedEventQueue.dispatchEvents();
     }
 
     /**
@@ -142,7 +143,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     final public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
-        eventQueue.putBufferedEvents(bufferedEvents);
+        bufferedEventQueue.putBufferedEvents(bufferedEvents);
     }
 
     /**
@@ -150,7 +151,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     final public void sendPendingMessages() {
-        eventQueue.sendPendingEvents();
+        bufferedEventQueue.sendPendingEvents();
     }
 
     /**
@@ -160,7 +161,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     final public void setInitialBufferCapacity(int initialBufferCapacity) {
-        eventQueue.setInitialBufferCapacity(initialBufferCapacity);
+        bufferedEventQueue.setInitialBufferCapacity(initialBufferCapacity);
     }
 
     /**
@@ -171,7 +172,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     public void send(BufferedEventsDestination<JAMessage> destination, JARequest request) {
-        eventQueue.send(destination, request);
+        bufferedEventQueue.send(destination, request);
     }
 
     /**
@@ -183,7 +184,16 @@ public class JAPCMailbox implements APCMailbox {
     final public void response(Object unwrappedResponse) {
         if (currentRequest.isActive()) {
             currentRequest.inactive();
-            currentRequest.response(eventQueue, unwrappedResponse);
+            currentRequest.response(bufferedEventQueue, unwrappedResponse);
         }
+    }
+
+    /**
+     * Returns the event queue.
+     *
+     * @return The event queue.
+     */
+    public EventQueue<ArrayList<JAMessage>> getBufferedEventQueue() {
+        return bufferedEventQueue.getEventQueue();
     }
 }

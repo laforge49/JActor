@@ -43,9 +43,9 @@ abstract public class MethodBinding<REQUEST_TYPE> extends Binding<REQUEST_TYPE> 
      */
     @Override
     public void acceptRequest(RequestReceiver requestReceiver,
-                                    RequestSource requestSource,
-                                    REQUEST_TYPE request,
-                                    ResponseProcessor rp)
+                              RequestSource requestSource,
+                              REQUEST_TYPE request,
+                              ResponseProcessor rp)
             throws Exception {
         requestReceiver.routeRequest(requestSource, request, rp, this);
     }

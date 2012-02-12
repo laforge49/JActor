@@ -177,4 +177,13 @@ final public class JABufferedEventsQueue<E>
         }
         return false;
     }
+
+    /**
+     * Returns the event queue.
+     *
+     * @return The event queue.
+     */
+    public EventQueue<ArrayList<E>> getEventQueue() {
+        return eventQueue;
+    }
 }

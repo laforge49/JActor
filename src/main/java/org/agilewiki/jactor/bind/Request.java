@@ -75,7 +75,7 @@ public class Request<RESPONSE_TYPE> {
     /**
      * Send a request event.
      *
-     * @param targetActor     The target actor.
+     * @param targetActor The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public void sendEvent(Actor targetActor)

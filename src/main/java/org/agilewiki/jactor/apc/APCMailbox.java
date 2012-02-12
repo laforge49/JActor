@@ -24,6 +24,9 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
+import org.agilewiki.jactor.events.EventQueue;
+
+import java.util.ArrayList;
 
 /**
  * Serves as the asynchronous transport for APCMessages.
@@ -82,4 +85,11 @@ public interface APCMailbox extends BufferedEventsDestination<JAMessage> {
      * True is returned if any messages were actually processed.
      */
     public boolean dispatchEvents();
+
+    /**
+     * Returns the event queue.
+     *
+     * @return The event queue.
+     */
+    public EventQueue<ArrayList<JAMessage>> getBufferedEventQueue();
 }
