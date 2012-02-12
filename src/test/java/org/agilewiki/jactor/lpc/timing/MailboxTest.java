@@ -6,22 +6,22 @@ import org.agilewiki.jactor.parallel.JAParallel;
 
 public class MailboxTest extends TestCase {
     public void testTiming() {
-        int c = 2;
-        int b = 3;
-        int p = 1;
-        int t = 1;
+        //int c = 2;
+        //int b = 3;
+        //int p = 1;
+        //int t = 1;
 
-        //int c = 10000000;
-        //int b = 1;
-        //int p = 16;
-        //int t = 4;
+        int c = 10000000;
+        int b = 1;
+        int p = 16;
+        int t = 4;
 
         //burst size of 1
         //16 parallel runs of 20000000 messages each.
         //320000000 messages sent with 4 threads.
-        //msgs per sec = 71095312
-        //14 nanoseconds per message test
-        //response time 56 namoseconds
+        //msgs per sec = 56248901
+        //18 nanoseconds per message test
+        //response time 71 namoseconds
 
         //int c = 10000;
         //int b = 1000;
@@ -31,8 +31,8 @@ public class MailboxTest extends TestCase {
         //burst size of 1000
         //16 parallel runs of 20000000 messages each.
         //320000000 messages sent with 4 threads.
-        //msgs per sec = 65093572
-        //15 nanoseconds per message
+        //msgs per sec = 76099881
+        //13 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

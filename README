@@ -89,8 +89,8 @@ Message Passing Benchmarks
 When actors share the same mailbox, 1,095,890,410 messages are passed per second.
 With a response time of 7.6 nanoseconds.
 
-When different mailboxes are used, the rate drops to 71,095,312 per second and
-the response time becomes 56 nanoseconds.
+When different mailboxes are used, the rate drops to 76,099,881 per second and
+the response time becomes 71 nanoseconds.
 
 Asynchronous message passing is also supported, making it easy to use all the
 available hardware threads for good vertical scalability. Messages sent to an
