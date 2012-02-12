@@ -105,7 +105,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      * @return True when control was acquired.
      */
     @Override
-    public boolean acquireControl(final Mailbox srcControllingMailbox) {
+    public boolean acquireMailboxControl(Mailbox srcControllingMailbox) {
         return atomicControl.compareAndSet(null, srcControllingMailbox);
     }
 
@@ -113,7 +113,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      * Relinquish control over the mailbox.
      */
     @Override
-    public void relinquishControl() {
+    public void relinquishMailboxControl() {
         atomicControl.set(null);
     }
 
@@ -125,11 +125,11 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
     public boolean dispatchEvents() {
         if (async) return super.dispatchEvents();
         boolean dispatched = false;
-        if (atomicControl.compareAndSet(null, this)) {
+        if (acquireMailboxControl(this)) {
             try {
                 dispatched = super.dispatchEvents();
             } finally {
-                atomicControl.set(null);
+                relinquishMailboxControl();
             }
         }
         return dispatched;
@@ -144,12 +144,12 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
         while (!isEmpty()) {
             if (getControllingMailbox() == controllingMailbox) {
                 super.dispatchEvents();
-            } else if (acquireControl(controllingMailbox)) {
+            } else if (acquireMailboxControl(controllingMailbox)) {
                 try {
                     super.dispatchEvents();
                 } finally {
                     sendPendingMessages();
-                    relinquishControl();
+                    relinquishMailboxControl();
                 }
             } else return;
         }

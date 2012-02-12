@@ -56,12 +56,12 @@ public interface Mailbox extends APCMailbox {
      * @param activeMailbox The mailbox gaining control.
      * @return True when control was acquired.
      */
-    public boolean acquireControl(Mailbox activeMailbox);
+    public boolean acquireMailboxControl(Mailbox activeMailbox);
 
     /**
      * Relinquish control over the mailbox.
      */
-    public void relinquishControl();
+    public void relinquishMailboxControl();
 
     /**
      * Returns true when all requests are to be processed asynchronously.

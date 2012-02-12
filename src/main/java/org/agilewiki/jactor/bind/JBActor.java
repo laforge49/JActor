@@ -509,7 +509,7 @@ public class JBActor implements Actor {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             return;
         }
-        if (!mailbox.acquireControl(srcControllingMailbox)) {
+        if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
             mailbox.dispatchRemaining(srcControllingMailbox);
             return;
@@ -518,7 +518,7 @@ public class JBActor implements Actor {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
         } finally {
             mailbox.sendPendingMessages();
-            mailbox.relinquishControl();
+            mailbox.relinquishMailboxControl();
             mailbox.dispatchRemaining(srcControllingMailbox);
         }
     }
@@ -668,14 +668,14 @@ public class JBActor implements Actor {
                             rp.process(response);
                         } else if (sourceMailbox.isAsync()) {
                             asyncResponse(rs, request, response, rp);
-                        } else if (!mailbox.acquireControl(srcControllingMailbox)) {
+                        } else if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
                             asyncResponse(rs, request, response, rp);
                         } else {
                             try {
                                 rp.process(response);
                             } finally {
                                 mailbox.sendPendingMessages();
-                                mailbox.relinquishControl();
+                                mailbox.relinquishMailboxControl();
                                 mailbox.dispatchRemaining(srcControllingMailbox);
                             }
                         }

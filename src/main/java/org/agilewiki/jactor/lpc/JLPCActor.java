@@ -202,7 +202,7 @@ abstract public class JLPCActor implements Actor {
             syncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
-        if (!mailbox.acquireControl(srcControllingMailbox)) {
+        if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
             asyncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
@@ -210,7 +210,7 @@ abstract public class JLPCActor implements Actor {
             syncSend(rs, request, rp, sourceExceptionHandler);
         } finally {
             mailbox.sendPendingMessages();
-            mailbox.relinquishControl();
+            mailbox.relinquishMailboxControl();
             mailbox.dispatchRemaining(srcControllingMailbox);
         }
     }
@@ -356,14 +356,14 @@ abstract public class JLPCActor implements Actor {
                             rp.process(response);
                         } else if (sourceMailbox.isAsync()) {
                             asyncResponse(rs, request, response, rp);
-                        } else if (!mailbox.acquireControl(srcControllingMailbox)) {
+                        } else if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
                             asyncResponse(rs, request, response, rp);
                         } else {
                             try {
                                 rp.process(response);
                             } finally {
                                 mailbox.sendPendingMessages();
-                                mailbox.relinquishControl();
+                                mailbox.relinquishMailboxControl();
                                 mailbox.dispatchRemaining(srcControllingMailbox);
                             }
                         }

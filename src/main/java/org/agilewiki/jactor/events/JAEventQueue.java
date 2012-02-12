@@ -71,7 +71,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
                 event = queue.poll();
                 if (event == null) {
                     if (queue.peek() == null) {
-                        relinquishControl();
+                        atomicControl.set(null);
                         if (queue.peek() == null || !acquireControl(JAEventQueue.this))
                             return;
                     }
@@ -101,9 +101,12 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     }
 
     /**
-     * Relinquish control over the queue.
+     * Relinquish foreign control over the queue.
      */
     public void relinquishControl() {
+        JAEventQueue<E> c = atomicControl.get();
+        if (c == this)
+            return;
         atomicControl.set(null);
     }
 

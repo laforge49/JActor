@@ -40,7 +40,7 @@ public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
     public boolean acquireControl(JAEventQueue<E> controller);
 
     /**
-     * Relinquish control over the queue.
+     * Relinquish foreign control over the queue.
      */
     public void relinquishControl();
 
