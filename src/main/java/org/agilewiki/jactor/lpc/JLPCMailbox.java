@@ -6,8 +6,6 @@ import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JAPCMailbox;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 /**
  * Implements Mailbox.
  */
@@ -17,12 +15,6 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      * Used to create mailboxes.
      */
     private MailboxFactory mailboxFactory;
-
-    /**
-     * Tracks which mailbox has control. If an exchange can gain control
-     * over another exchange, it can send requests to it synchronously.
-     */
-    final private AtomicReference<Mailbox> atomicControl = new AtomicReference<Mailbox>();
 
     /**
      * Set to true when all requests are to be processed asynchronously.
@@ -86,72 +78,5 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      */
     public boolean isAsync() {
         return async;
-    }
-
-    /**
-     * Returns the controlling mailbox.
-     */
-    @Override
-    public Mailbox getControllingMailbox() {
-        Mailbox c = atomicControl.get();
-        if (c == null) return this;
-        return c;
-    }
-
-    /**
-     * Gains control over the mailbox.
-     *
-     * @param srcControllingMailbox The mailbox gaining control.
-     * @return True when control was acquired.
-     */
-    @Override
-    public boolean acquireMailboxControl(Mailbox srcControllingMailbox) {
-        return atomicControl.compareAndSet(null, srcControllingMailbox);
-    }
-
-    /**
-     * Relinquish control over the mailbox.
-     */
-    @Override
-    public void relinquishMailboxControl() {
-        atomicControl.set(null);
-    }
-
-    /**
-     * The dispatchMessages method processes any messages in the queue.
-     * True is returned if any messages were actually processed.
-     */
-    @Override
-    public boolean dispatchEvents() {
-        if (async) return super.dispatchEvents();
-        boolean dispatched = false;
-        if (acquireMailboxControl(this)) {
-            try {
-                dispatched = super.dispatchEvents();
-            } finally {
-                relinquishMailboxControl();
-            }
-        }
-        return dispatched;
-    }
-
-    /**
-     * Dispatch any enqueued requests, if possible.
-     *
-     * @param controllingMailbox The mailbox that was just in control.
-     */
-    public void dispatchRemaining(final Mailbox controllingMailbox) {
-        while (!isEmpty()) {
-            if (getControllingMailbox() == controllingMailbox) {
-                super.dispatchEvents();
-            } else if (acquireMailboxControl(controllingMailbox)) {
-                try {
-                    super.dispatchEvents();
-                } finally {
-                    sendPendingMessages();
-                    relinquishMailboxControl();
-                }
-            } else return;
-        }
     }
 }

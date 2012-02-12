@@ -27,10 +27,12 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.lpc.RequestSource;
 import org.agilewiki.jactor.lpc.TransparentException;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -494,8 +496,8 @@ public class JBActor implements Actor {
                                       final ResponseProcessor rp,
                                       final Binding binding)
             throws Exception {
-        final Mailbox sourceMailbox = requestSource.getMailbox();
-        final ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
+        Mailbox sourceMailbox = requestSource.getMailbox();
+        ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
         if (sourceMailbox == mailbox) {
             syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
             return;
@@ -504,22 +506,21 @@ public class JBActor implements Actor {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
             return;
         }
-        final Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-        if (mailbox.getControllingMailbox() == srcControllingMailbox) {
+        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+        if (eventQueue.getController() == srcController) {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             return;
         }
-        if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
+        if (!eventQueue.acquireControl(srcController)) {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
-            mailbox.dispatchRemaining(srcControllingMailbox);
             return;
         }
         try {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
         } finally {
             mailbox.sendPendingMessages();
-            mailbox.relinquishMailboxControl();
-            mailbox.dispatchRemaining(srcControllingMailbox);
+            eventQueue.relinquishControl();
         }
     }
 
@@ -662,21 +663,21 @@ public class JBActor implements Actor {
                         asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
                     else try {
                         Mailbox sourceMailbox = rs.getMailbox();
-                        Mailbox srcControllingMailbox = sourceMailbox.getControllingMailbox();
-                        Mailbox controllingMailbox = mailbox.getControllingMailbox();
-                        if (srcControllingMailbox == controllingMailbox) {
+                        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+                        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+                        EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
+                        if (srcController == controller) {
                             rp.process(response);
                         } else if (sourceMailbox.isAsync()) {
                             asyncResponse(rs, request, response, rp);
-                        } else if (!mailbox.acquireMailboxControl(srcControllingMailbox)) {
+                        } else if (!eventQueue.acquireControl(srcController)) {
                             asyncResponse(rs, request, response, rp);
                         } else {
                             try {
                                 rp.process(response);
                             } finally {
                                 mailbox.sendPendingMessages();
-                                mailbox.relinquishMailboxControl();
-                                mailbox.dispatchRemaining(srcControllingMailbox);
+                                eventQueue.relinquishControl();
                             }
                         }
                     } catch (Exception ex) {

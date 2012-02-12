@@ -87,11 +87,11 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * Gain control of the queue.
      *
-     * @param controller A queue.
+     * @param eventQueue A queue.
      * @return True when control was acquired.
      */
-    public boolean acquireControl(JAEventQueue<E> controller) {
-        return atomicControl.compareAndSet(null, controller);
+    public boolean acquireControl(EventQueue<E> eventQueue) {
+        return atomicControl.compareAndSet(null, eventQueue.getController());
     }
 
     /**
@@ -102,8 +102,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
         if (c == this)
             return;
         atomicControl.set(null);
-        if (queue.poll() != null)
-            threadManager.process(task);
+        threadManager.process(task);
     }
 
     /**

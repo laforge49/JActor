@@ -44,38 +44,12 @@ import org.agilewiki.jactor.apc.APCMailbox;
  * </p>
  */
 public interface Mailbox extends APCMailbox {
-
-    /**
-     * Returns the controlling mailbox, or null.
-     */
-    public Mailbox getControllingMailbox();
-
-    /**
-     * Gains control over the mailbox.
-     *
-     * @param activeMailbox The mailbox gaining control.
-     * @return True when control was acquired.
-     */
-    public boolean acquireMailboxControl(Mailbox activeMailbox);
-
-    /**
-     * Relinquish control over the mailbox.
-     */
-    public void relinquishMailboxControl();
-
     /**
      * Returns true when all requests are to be processed asynchronously.
      *
      * @return True when all requests are to be processed asynchronously.
      */
     public boolean isAsync();
-
-    /**
-     * Dispatch any enqueued requests, if possible.
-     *
-     * @param activeMailbox The mailbox that was just in control.
-     */
-    public void dispatchRemaining(Mailbox activeMailbox);
 
     /**
      * Returns the mailbox factory.

@@ -37,7 +37,7 @@ public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
      * @param controller A queue.
      * @return True when control was acquired.
      */
-    public boolean acquireControl(JAEventQueue<E> controller);
+    public boolean acquireControl(EventQueue<E> controller);
 
     /**
      * Relinquish foreign control over the queue.

@@ -102,7 +102,7 @@ public class ResponsePrinterTest extends TestCase {
 
     public void test5() {
         System.out.println("start ResponsePrinterTest 5");
-        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
             JCActor a = new JCActor(mailboxFactory.createMailbox());
@@ -123,7 +123,7 @@ public class ResponsePrinterTest extends TestCase {
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
             int j = 0;
-            while (j < 10) {
+            while (j < 1) {
                 printParallelResponse.send(future, c);
                 j += 1;
             }
