@@ -193,7 +193,7 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @return The event queue.
      */
-    public EventQueue<ArrayList<JAMessage>> getBufferedEventQueue() {
+    public EventQueue<ArrayList<JAMessage>> getEventQueue() {
         return bufferedEventQueue.getEventQueue();
     }
 }

@@ -91,5 +91,5 @@ public interface APCMailbox extends BufferedEventsDestination<JAMessage> {
      *
      * @return The event queue.
      */
-    public EventQueue<ArrayList<JAMessage>> getBufferedEventQueue();
+    public EventQueue<ArrayList<JAMessage>> getEventQueue();
 }
