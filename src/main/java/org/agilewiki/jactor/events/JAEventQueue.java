@@ -26,7 +26,7 @@ package org.agilewiki.jactor.events;
 import org.agilewiki.jactor.concurrent.ConcurrentLinkedBlockingQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * An JAEventQueue receives messages, queues them,
@@ -53,7 +53,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * Set to true when busy.
      */
-    private AtomicBoolean running = new AtomicBoolean();
+    private AtomicReference<JAEventQueue<E>> atomicControl = new AtomicReference<JAEventQueue<E>>();
 
     /**
      * The events being dispatched.
@@ -70,8 +70,8 @@ final public class JAEventQueue<E> implements EventQueue<E> {
             while (true) {
                 event = queue.poll();
                 if (event == null) {
-                    running.set(false);
-                    if (queue.peek() == null || !running.compareAndSet(false, true))
+                    atomicControl.set(null);
+                    if (queue.peek() == null || !atomicControl.compareAndSet(null, JAEventQueue.this))
                         return;
                 }
                 eventProcessor.haveEvents();
@@ -116,7 +116,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     @Override
     public void putEvent(E event) {
         queue.put(event);
-        if (running.compareAndSet(false, true)) {
+        if (atomicControl.compareAndSet(null, JAEventQueue.this)) {
             threadManager.process(task);
         }
     }
