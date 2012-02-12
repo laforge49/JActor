@@ -56,28 +56,22 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     private AtomicReference<JAEventQueue<E>> atomicControl = new AtomicReference<JAEventQueue<E>>();
 
     /**
-     * The events being dispatched.
-     */
-    private E event;
-
-    /**
      * The task is used to process the events in the queue.
      * Each events is in turn processed using the JAEventQueue.
      */
     private Runnable task = new Runnable() {
         @Override
         public void run() {
-            while (true) {
-                event = queue.poll();
-                if (event == null) {
-                    if (queue.peek() == null) {
+            if (acquireControl(JAEventQueue.this))
+                while (true) {
+                    E event = queue.peek();
+                    if (event == null) {
                         atomicControl.set(null);
                         if (queue.peek() == null || !acquireControl(JAEventQueue.this))
                             return;
                     }
+                    eventProcessor.haveEvents();
                 }
-                eventProcessor.haveEvents();
-            }
         }
     };
 
@@ -108,6 +102,8 @@ final public class JAEventQueue<E> implements EventQueue<E> {
         if (c == this)
             return;
         atomicControl.set(null);
+        if (queue.poll() != null)
+            threadManager.process(task);
     }
 
     /**
@@ -150,9 +146,8 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     @Override
     public void putEvent(E event) {
         queue.put(event);
-        if (acquireControl(JAEventQueue.this)) {
+        if (atomicControl.get() == null)
             threadManager.process(task);
-        }
     }
 
     /**
@@ -161,12 +156,10 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      */
     @Override
     public boolean dispatchEvents() {
-        if (event == null) event = queue.poll();
+        E event = queue.poll();
         if (event == null) return false;
         while (event != null) {
-            E e = event;
-            event = null;
-            eventProcessor.processEvent(e);
+            eventProcessor.processEvent(event);
             event = queue.poll();
         }
         return true;

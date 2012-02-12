@@ -74,8 +74,7 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            //JCActor a = new JCActor(mailboxFactory.createMailbox());
-            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox()); //todo: still a bug here
+            JCActor a = new JCActor(mailboxFactory.createMailbox());
 
             (new Include(Greeter.class)).call(a);
             int count = 5;
@@ -103,11 +102,10 @@ public class ResponsePrinterTest extends TestCase {
 
     public void test5() {
         System.out.println("start ResponsePrinterTest 5");
-        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
+        JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
 
-            //JCActor a = new JCActor(mailboxFactory.createMailbox()); //todo: still a bug here
-            JCActor a = new JCActor(mailboxFactory.createAsyncMailbox());
+            JCActor a = new JCActor(mailboxFactory.createMailbox());
 
             (new Include(Greeter.class)).call(a);
             int count = 5;
