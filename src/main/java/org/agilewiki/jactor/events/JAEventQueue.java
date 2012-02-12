@@ -70,9 +70,11 @@ final public class JAEventQueue<E> implements EventQueue<E> {
             while (true) {
                 event = queue.poll();
                 if (event == null) {
-                    atomicControl.set(null);
-                    if (queue.peek() == null || !atomicControl.compareAndSet(null, JAEventQueue.this))
-                        return;
+                    if (queue.peek() == null) {
+                        relinquishControl();
+                        if (queue.peek() == null || !acquireControl(JAEventQueue.this))
+                            return;
+                    }
                 }
                 eventProcessor.haveEvents();
             }
@@ -86,6 +88,23 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      */
     public JAEventQueue(ThreadManager threadManager) {
         this.threadManager = threadManager;
+    }
+
+    /**
+     * Gain control of the queue.
+     *
+     * @param controller A queue.
+     * @return True when control was acquired.
+     */
+    public boolean acquireControl(JAEventQueue<E> controller) {
+        return atomicControl.compareAndSet(null, controller);
+    }
+
+    /**
+     * Relinquish control over the queue.
+     */
+    public void relinquishControl() {
+        atomicControl.set(null);
     }
 
     /**
@@ -116,7 +135,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     @Override
     public void putEvent(E event) {
         queue.put(event);
-        if (atomicControl.compareAndSet(null, JAEventQueue.this)) {
+        if (acquireControl(JAEventQueue.this)) {
             threadManager.process(task);
         }
     }

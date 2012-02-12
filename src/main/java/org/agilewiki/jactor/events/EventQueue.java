@@ -30,4 +30,17 @@ package org.agilewiki.jactor.events;
  * @param <E>
  */
 public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
+
+    /**
+     * Gain control of the queue.
+     *
+     * @param controller A queue.
+     * @return True when control was acquired.
+     */
+    public boolean acquireControl(JAEventQueue<E> controller);
+
+    /**
+     * Relinquish control over the queue.
+     */
+    public void relinquishControl();
 }
