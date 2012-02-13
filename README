@@ -11,7 +11,7 @@ Google groups: http://groups.google.com/group/agilewikidevelopers/
 Dependent Projects
  - Incremental Deserialization    https://github.com/laforge49/JID
 
-Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|g%3A%22org.agilewiki%22
+Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|org.agilewiki
 So you just need to add this to your POM file:
     <dependency>
       <groupId>org.agilewiki.jactor</groupId>
