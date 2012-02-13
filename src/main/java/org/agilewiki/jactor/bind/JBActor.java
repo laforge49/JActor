@@ -99,7 +99,7 @@ public class JBActor implements Actor {
         @Override
         final public void routeRequest(final RequestSource requestSource,
                                        final Object request,
-                                       final ResponseProcessor rp,
+                                       final RP rp,
                                        Binding binding)
                 throws Exception {
             JBActor.this.routeRequest(requestSource, request, rp, binding);
@@ -166,7 +166,7 @@ public class JBActor implements Actor {
         @Override
         final public void send(final Actor actor,
                                final Object request,
-                               final ResponseProcessor rp)
+                               final RP rp)
                 throws Exception {
             JBActor.this.send(actor, request, rp);
 
@@ -251,9 +251,9 @@ public class JBActor implements Actor {
             Binding binding = getBinding(request);
             if (jaRequest.isEvent())
                 JBActor.this.processRequest(request, jaRequest.getResponseProcessor(), binding);
-            else JBActor.this.processRequest(request, new ResponseProcessor() {
+            else JBActor.this.processRequest(request, new RP() {
                 @Override
-                public void process(Object response) {
+                public void processResponse(Object response) {
                     mailbox.response(response);
                 }
             }, binding);
@@ -453,7 +453,7 @@ public class JBActor implements Actor {
     @Override
     final public void acceptRequest(final APCRequestSource apcRequestSource,
                                     final Object request,
-                                    final ResponseProcessor rp)
+                                    final RP rp)
             throws Exception {
         if (request instanceof InitializationRequest) {
             if (active)
@@ -493,7 +493,7 @@ public class JBActor implements Actor {
      */
     final protected void routeRequest(final RequestSource requestSource,
                                       final Object request,
-                                      final ResponseProcessor rp,
+                                      final RP rp,
                                       final Binding binding)
             throws Exception {
         Mailbox sourceMailbox = requestSource.getMailbox();
@@ -551,12 +551,12 @@ public class JBActor implements Actor {
      */
     final private void asyncSend(final RequestSource rs,
                                  final Object request,
-                                 final ResponseProcessor rp,
+                                 final RP rp,
                                  final ExceptionHandler sourceExceptionHandler) {
-        ResponseProcessor rp1 = rp;
-        if (!rp.isEvent()) rp1 = new ResponseProcessor() {
+        RP rp1 = rp;
+        if (!rp.isEvent()) rp1 = new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 rs.setExceptionHandler(sourceExceptionHandler);
                 if (response != null && response instanceof Exception) {
                     asyncException(
@@ -589,7 +589,7 @@ public class JBActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final private void syncProcess(final Object request,
-                                   final ResponseProcessor rp,
+                                   final RP rp,
                                    final ExceptionHandler sourceExceptionHandler,
                                    final RequestSource requestSource,
                                    final Binding binding)
@@ -602,9 +602,9 @@ public class JBActor implements Actor {
             return;
         }
         try {
-            ResponseProcessor rp1 = new ResponseProcessor() {
+            RP rp1 = new RP() {
                 @Override
-                public void process(Object response) throws Exception {
+                public void processResponse(Object response) throws Exception {
                     try {
                         rp.process(response);
                     } catch (Exception e) {
@@ -636,7 +636,7 @@ public class JBActor implements Actor {
      */
     final private void syncSend(final RequestSource rs,
                                 final Object request,
-                                final ResponseProcessor rp,
+                                final RP rp,
                                 final ExceptionHandler sourceExceptionHandler,
                                 final Binding binding)
             throws Exception {
@@ -649,7 +649,7 @@ public class JBActor implements Actor {
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
-            public void process(final Object response)
+            public void processResponse(final Object response)
                     throws Exception {
                 requestSource.setExceptionHandler(sourceExceptionHandler);
                 if (!async) {
@@ -712,7 +712,7 @@ public class JBActor implements Actor {
     final private void asyncResponse(RequestSource rs,
                                      Object request,
                                      Object response,
-                                     ResponseProcessor rp) {
+                                     RP rp) {
         final JARequest jaRequest = new JARequest(
                 rs,
                 requestProcessor,
@@ -730,7 +730,7 @@ public class JBActor implements Actor {
      * @param binding Binds a request class.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final private void processRequest(Object request, ResponseProcessor rp, Binding binding)
+    final private void processRequest(Object request, RP rp, Binding binding)
             throws Exception {
         if (binding != null) {
             binding.processRequest(internals, request, rp);
@@ -780,7 +780,7 @@ public class JBActor implements Actor {
      */
     final private void send(final Actor actor,
                             final Object request,
-                            final ResponseProcessor rp)
+                            final RP rp)
             throws Exception {
         actor.acceptRequest(requestSource, request, rp);
     }

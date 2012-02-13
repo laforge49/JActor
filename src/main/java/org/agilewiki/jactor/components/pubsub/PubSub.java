@@ -73,11 +73,11 @@ public class PubSub extends Component {
             }
         });
 
-        thisActor.bind(Publish.class.getName(), new ConcurrentBinding<Publish>() {
+        thisActor.bind(Publish.class.getName(), new ConcurrentBinding<Publish, Object>() {
             public void acceptRequest(RequestReceiver requestReceiver,
                                       final RequestSource requestSource,
                                       final Publish request,
-                                      final ResponseProcessor rp)
+                                      final RP<Object> rp)
                     throws Exception {
                 final Iterator<Actor> sit = subscribers.iterator();
                 JAIterator jaIterator = new JAIterator() {
@@ -85,7 +85,7 @@ public class PubSub extends Component {
                     final PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
 
                     @Override
-                    protected void process(ResponseProcessor rp1) throws Exception {
+                    protected void process(RP rp1) throws Exception {
                         if (!sit.hasNext()) {
                             psrp.finished();
                             rp1.process(JANull.jan);

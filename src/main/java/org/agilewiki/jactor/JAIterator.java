@@ -84,10 +84,10 @@ abstract public class JAIterator {
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    public void iterate(final ResponseProcessor responseProcessor) throws Exception {
+    public void iterate(final RP responseProcessor) throws Exception {
         ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 if (response == null) {
                     if (!async) {
                         sync = true;
@@ -114,5 +114,5 @@ abstract public class JAIterator {
      * @param responseProcessor Processes the response.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    abstract protected void process(ResponseProcessor responseProcessor) throws Exception;
+    abstract protected void process(RP responseProcessor) throws Exception;
 }

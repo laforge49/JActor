@@ -23,13 +23,13 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * Provides customization of request message processing.
  */
-abstract public class Binding<REQUEST_TYPE> {
+abstract public class Binding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * <p>
      * Process an incoming request.
@@ -52,7 +52,7 @@ abstract public class Binding<REQUEST_TYPE> {
     abstract public void acceptRequest(RequestReceiver requestReceiver,
                                        RequestSource requestSource,
                                        REQUEST_TYPE request,
-                                       ResponseProcessor rp)
+                                       RP<RESPONSE_TYPE> rp)
             throws Exception;
 
     /**
@@ -63,6 +63,6 @@ abstract public class Binding<REQUEST_TYPE> {
      * @param rp        The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp)
+    abstract public void processRequest(Internals internals, REQUEST_TYPE request, RP<RESPONSE_TYPE> rp)
             throws Exception;
 }

@@ -1,6 +1,4 @@
-package org.agilewiki.jactor.bind;
-
-import org.agilewiki.jactor.ResponseProcessor;
+package org.agilewiki.jactor;
 
 /**
  * Types the response.

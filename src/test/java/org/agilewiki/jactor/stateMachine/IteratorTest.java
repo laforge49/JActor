@@ -25,7 +25,7 @@ public class IteratorTest extends TestCase {
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             new _Iterator(smb, "rs") {
                 int i;
@@ -38,7 +38,7 @@ public class IteratorTest extends TestCase {
                 }
 
                 @Override
-                protected void process(ResponseProcessor rp2) throws Exception {
+                protected void process(RP rp2) throws Exception {
                     if (i >= max) rp2.process(new Integer(r));
                     else {
                         i += 1;

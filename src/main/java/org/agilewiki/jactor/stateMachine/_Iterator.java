@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * <p>
@@ -93,11 +93,11 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+    final public void call(final StateMachine stateMachine, final RP rp) throws Exception {
         init(stateMachine);
-        iterate(new ResponseProcessor() {
+        iterate(new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 if (resultName != null) {
                     stateMachine.put(resultName, response);
                 }
@@ -113,7 +113,7 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised by the process method.
      */
-    final public void iterate(final ResponseProcessor responseProcessor) throws Exception {
+    final public void iterate(final RP responseProcessor) throws Exception {
         super.iterate(responseProcessor);
     }
 

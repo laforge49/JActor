@@ -3,7 +3,7 @@ package org.agilewiki.jactor.lpc.exceptions;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Driver extends JLPCActor {
@@ -15,7 +15,7 @@ public class Driver extends JLPCActor {
     }
 
     @Override
-    public void processRequest(final Object unwrappedRequest, final ResponseProcessor rd)
+    public void processRequest(final Object unwrappedRequest, final RP rd)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -27,9 +27,9 @@ public class Driver extends JLPCActor {
         if (unwrappedRequest instanceof T1) {
             send(doer, unwrappedRequest, rd);
         } else {
-            send(doer, unwrappedRequest, new ResponseProcessor() {
+            send(doer, unwrappedRequest, new RP() {
                 @Override
-                public void process(Object unwrappedResponse) throws Exception {
+                public void processResponse(Object unwrappedResponse) throws Exception {
                     throw new Exception("Exception thrown in response processing");
                 }
             });

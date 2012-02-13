@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * Send a request to an actor.
@@ -38,12 +38,12 @@ abstract public class _Send implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    final public void call(final StateMachine stateMachine, final ResponseProcessor rp) throws Exception {
+    final public void call(final StateMachine stateMachine, final RP rp) throws Exception {
         Actor a = getTargetActor(stateMachine);
         Object r = getRequest(stateMachine);
-        stateMachine.send(a, r, new ResponseProcessor() {
+        stateMachine.send(a, r, new RP() {
             @Override
-            final public void process(Object response) throws Exception {
+            final public void processResponse(Object response) throws Exception {
                 String rn = getResultName();
                 if (rn != null) stateMachine.put(rn, response);
                 rp.process(null);

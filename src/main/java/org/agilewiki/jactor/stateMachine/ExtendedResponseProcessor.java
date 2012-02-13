@@ -23,12 +23,12 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * Supports processing sensitive to how a response is returned.
  */
-abstract public class ExtendedResponseProcessor extends ResponseProcessor {
+abstract public class ExtendedResponseProcessor extends RP {
     /**
      * Set true when a response is received synchronously.
      */

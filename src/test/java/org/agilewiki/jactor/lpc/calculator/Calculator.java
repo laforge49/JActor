@@ -1,6 +1,7 @@
 package org.agilewiki.jactor.lpc.calculator;
 
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -12,7 +13,7 @@ public class Calculator extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+    protected void processRequest(Object request, RP rp) throws Exception {
         if (request instanceof Clear) clear((Clear) request, rp);
         else if (request instanceof Get) get((Get) request, rp);
         else if (request instanceof Set) set((Set) request, rp);

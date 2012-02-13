@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 
 /**
@@ -52,7 +52,7 @@ final public class JARequest extends JAMessage {
     /**
      * An object used to process an unwrapped response.
      */
-    private ResponseProcessor responseProcessor;
+    private RP responseProcessor;
 
     /**
      * Initially true, active is set to false when a response is sent.
@@ -71,7 +71,7 @@ final public class JARequest extends JAMessage {
     public JARequest(APCRequestSource requestSource,
                      RequestProcessor requestProcessor,
                      Object unwrappedRequest,
-                     ResponseProcessor responseProcessor) {
+                     RP responseProcessor) {
         this.requestSource = requestSource;
         this.requestProcessor = requestProcessor;
         this.unwrappedRequest = unwrappedRequest;
@@ -110,7 +110,7 @@ final public class JARequest extends JAMessage {
      *
      * @return The responseProcessor.
      */
-    final public ResponseProcessor getResponseProcessor() {
+    final public RP getResponseProcessor() {
         return responseProcessor;
     }
 

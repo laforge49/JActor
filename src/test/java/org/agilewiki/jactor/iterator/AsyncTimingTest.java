@@ -2,6 +2,7 @@ package org.agilewiki.jactor.iterator;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.ResponseProcessor;
 
 public class AsyncTimingTest extends TestCase {
@@ -14,9 +15,9 @@ public class AsyncTimingTest extends TestCase {
 
         final long t0 = System.currentTimeMillis();
 
-        final ResponseProcessor done = new ResponseProcessor() {
+        final RP done = new RP() {
             @Override
-            public void process(Object unwrappedResponse) throws Exception {
+            public void processResponse(Object unwrappedResponse) throws Exception {
                 final long t1 = System.currentTimeMillis();
                 long d = t1 - t0;
                 if (d > 0) System.out.println("iterations per sec = " + c * 1000L / d);
@@ -29,7 +30,7 @@ public class AsyncTimingTest extends TestCase {
             ResponseProcessor rp;
 
             @Override
-            protected void process(ResponseProcessor rp) throws Exception {
+            protected void process(RP rp) throws Exception {
                 this.rp = rp;
             }
         }

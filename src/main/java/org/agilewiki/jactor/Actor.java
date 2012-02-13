@@ -68,7 +68,7 @@ public interface Actor {
      */
     public void acceptRequest(APCRequestSource requestSource,
                               Object request,
-                              ResponseProcessor rp)
+                              RP rp)
             throws Exception;
 
     /**

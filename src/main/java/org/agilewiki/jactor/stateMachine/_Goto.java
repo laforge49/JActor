@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.stateMachine;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * <p>
@@ -76,7 +76,7 @@ public class _Goto implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    public void call(StateMachine stateMachine, ResponseProcessor rp) throws Exception {
+    public void call(StateMachine stateMachine, RP rp) throws Exception {
         stateMachine.go(label);
         rp.process(null);
     }

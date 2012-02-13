@@ -26,7 +26,7 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.ConstrainedRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
@@ -63,9 +63,9 @@ abstract public class JAPCActor implements Actor {
 
         @Override
         public void processRequest(JARequest request) throws Exception {
-            JAPCActor.this.processRequest(request.getUnwrappedRequest(), new ResponseProcessor() {
+            JAPCActor.this.processRequest(request.getUnwrappedRequest(), new RP() {
                 @Override
-                public void process(Object unwrappedResponse) {
+                public void processResponse(Object unwrappedResponse) {
                     mailbox.response(unwrappedResponse);
                 }
             });
@@ -141,7 +141,7 @@ abstract public class JAPCActor implements Actor {
     @Override
     final public void acceptRequest(APCRequestSource requestSource,
                                     Object unwrappedRequest,
-                                    ResponseProcessor rd) {
+                                    RP rd) {
         JARequest japcRequest = new JARequest(requestSource, requestProcessor, unwrappedRequest, rd);
         requestSource.send(mailbox, japcRequest);
     }
@@ -156,7 +156,7 @@ abstract public class JAPCActor implements Actor {
      */
     final protected void send(final Actor actor,
                               final Object unwrappedRequest,
-                              final ResponseProcessor rp) throws Exception {
+                              final RP rp) throws Exception {
         actor.acceptRequest(requestSource, unwrappedRequest, rp);
     }
 
@@ -167,7 +167,7 @@ abstract public class JAPCActor implements Actor {
      * @param responseProcessor The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object request, ResponseProcessor responseProcessor)
+    abstract protected void processRequest(Object request, RP responseProcessor)
             throws Exception;
 
     @Override

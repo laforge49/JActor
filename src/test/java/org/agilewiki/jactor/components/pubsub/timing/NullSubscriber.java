@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.components.pubsub.timing;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 final public class NullSubscriber extends JLPCActor {
@@ -10,7 +10,7 @@ final public class NullSubscriber extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+    protected void processRequest(Object request, RP rp) throws Exception {
         rp.process(null);
     }
 }

@@ -25,7 +25,7 @@ package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -67,7 +67,7 @@ public interface RequestReceiver {
      */
     void routeRequest(final RequestSource requestSource,
                       final Object request,
-                      final ResponseProcessor rp,
+                      final RP rp,
                       Binding binding)
             throws Exception;
 

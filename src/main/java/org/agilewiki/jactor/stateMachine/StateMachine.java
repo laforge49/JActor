@@ -26,7 +26,7 @@ package org.agilewiki.jactor.stateMachine;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 import java.util.HashMap;
 
@@ -70,11 +70,11 @@ public class StateMachine {
      * @param rp      The response processor.
      * @throws Exception Any exceptions raised while executing the state machine.
      */
-    public void execute(Object request, ResponseProcessor rp) throws Exception {
+    public void execute(Object request, RP rp) throws Exception {
         this.request = request;
         (new JAIterator() {
             @Override
-            protected void process(final ResponseProcessor rp1) throws Exception {
+            protected void process(final RP rp1) throws Exception {
                 if (programCounter >= smBuilder.operationsSize()) rp1.process(JANull.jan);
                 else {
                     final _Operation o = smBuilder.getOperation(programCounter);
@@ -113,7 +113,7 @@ public class StateMachine {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public void send(Actor actor, Object request, ResponseProcessor rp)
+    public void send(Actor actor, Object request, RP rp)
             throws Exception {
         smBuilder.send(actor, request, rp);
     }

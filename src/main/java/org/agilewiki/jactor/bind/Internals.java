@@ -25,7 +25,7 @@ package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * The API used when processing a request.
@@ -52,7 +52,7 @@ public interface Internals {
      */
     public void send(final Actor actor,
                      final Object request,
-                     final ResponseProcessor rp)
+                     final RP rp)
             throws Exception;
 
     /**

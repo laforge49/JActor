@@ -2,6 +2,7 @@ package org.agilewiki.jactor.lpc.calculator;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -14,7 +15,7 @@ public class PrintingCalculator extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request, ResponseProcessor rp)
+    protected void processRequest(Object request, RP rp)
             throws Exception {
         if (request instanceof Clear) clear((Clear) request, rp);
         else if (request instanceof Get) get((Get) request, rp);
@@ -35,9 +36,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("Clear => " + response);
                 rp.process(response);
             }
@@ -53,9 +54,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("Get => " + response);
                 rp.process(response);
             }
@@ -71,9 +72,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("Set " + request.getValue() + " => " + response);
                 rp.process(response);
             }
@@ -89,9 +90,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("+ " + request.getValue() + " => " + response);
                 rp.process(response);
             }
@@ -107,9 +108,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("- " + request.getValue() + " => " + response);
                 rp.process(response);
             }
@@ -125,9 +126,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("* " + request.getValue() + " => " + response);
                 rp.process(response);
             }
@@ -143,9 +144,9 @@ public class PrintingCalculator extends JLPCActor {
                 rp.process(null);
             }
         });
-        send(calculator, request, new ResponseProcessor() {
+        send(calculator, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 System.out.println("/ " + request.getValue() + " => " + response);
                 rp.process(response);
             }

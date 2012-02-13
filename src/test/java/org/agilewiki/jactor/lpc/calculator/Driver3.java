@@ -2,7 +2,7 @@ package org.agilewiki.jactor.lpc.calculator;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.ObjectFunc;
 import org.agilewiki.jactor.stateMachine.StateMachine;
@@ -13,7 +13,7 @@ public class Driver3 extends JLPCActor {
     }
 
     @Override
-    protected void processRequest(Object request, final ResponseProcessor rp)
+    protected void processRequest(Object request, final RP rp)
             throws Exception {
         final Actor calculator = new Calculator(getMailbox());
         final SMBuilder smb = new SMBuilder();

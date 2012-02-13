@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,7 +292,7 @@ abstract public class _SMBuilder {
      * @param rp The response processor.
      * @throws Exception Any uncaught exceptions raised while executing the state machine.
      */
-    final public void call(ResponseProcessor rp)
+    final public void call(RP rp)
             throws Exception {
         call(null, rp);
     }
@@ -304,7 +304,7 @@ abstract public class _SMBuilder {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while executing the state machine.
      */
-    final public void call(Object request, ResponseProcessor rp)
+    final public void call(Object request, RP rp)
             throws Exception {
         final StateMachine stateMachine = new StateMachine(this);
         stateMachine.execute(request, rp);
@@ -318,5 +318,5 @@ abstract public class _SMBuilder {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void send(Actor actor, Object request, ResponseProcessor rp) throws Exception;
+    abstract public void send(Actor actor, Object request, RP rp) throws Exception;
 }

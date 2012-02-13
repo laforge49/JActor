@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.multithreading;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -11,11 +11,11 @@ public class ParallelResponsePrinter extends Component {
     @Override
     public void bindery() throws Exception {
 
-        thisActor.bind(PrintParallelResponse.class.getName(), new MethodBinding<PrintParallelResponse>() {
+        thisActor.bind(PrintParallelResponse.class.getName(), new MethodBinding<PrintParallelResponse, Object>() {
             @Override
             public void processRequest(Internals internals,
                                        PrintParallelResponse request,
-                                       ResponseProcessor rp)
+                                       RP rp)
                     throws Exception {
                 int count = request.getCount();
                 JCActor[] responsePrinters = request.getResponsePrinters();

@@ -113,9 +113,9 @@ final public class JAFuture {
                        final Object request)
             throws Exception {
         done = new Semaphore(0);
-        actor.acceptRequest(requestSource, request, new ResponseProcessor() {
+        actor.acceptRequest(requestSource, request, new RP() {
             @Override
-            public void process(Object response) throws Exception {
+            public void processResponse(Object response) throws Exception {
                 result = response;
                 done.release();
             }

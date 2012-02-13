@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.components.pubsub;
 
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.ResponseProcessor;
-import org.agilewiki.jactor.bind.RP;
 
 /**
  * Counts the number of requests sent and the number of responses received

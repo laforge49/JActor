@@ -2,7 +2,7 @@ package org.agilewiki.jactor.iterator.factorial;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Factorial extends JLPCActor {
@@ -11,11 +11,11 @@ public class Factorial extends JLPCActor {
     }
 
     @Override
-    public void processRequest(Object req, final ResponseProcessor rp)
+    public void processRequest(Object req, final RP rp)
             throws Exception {
         final int max = 5;
-        ResponseProcessor printResult = new ResponseProcessor() {
-            public void process(Object rsp) throws Exception {
+        RP printResult = new RP() {
+            public void processResponse(Object rsp) throws Exception {
                 System.out.println(rsp);
                 rp.process(null);
             }
@@ -25,15 +25,15 @@ public class Factorial extends JLPCActor {
             int r = 1;
             Multiplier mp = new Multiplier(getMailbox());
 
-            public void process(ResponseProcessor rp) throws Exception {
+            public void process(RP rp) throws Exception {
                 if (i >= max) rp.process(new Integer(r));
                 else {
                     i += 1;
                     Multiply m = new Multiply();
                     m.a = r;
                     m.b = i;
-                    send(mp, m, new ResponseProcessor() {
-                        public void process(Object rsp) throws Exception {
+                    send(mp, m, new RP() {
+                        public void processResponse(Object rsp) throws Exception {
                             r = ((Integer) rsp).intValue();
                         }
                     });

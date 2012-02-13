@@ -25,7 +25,7 @@ package org.agilewiki.jactor.parallel;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
@@ -62,7 +62,7 @@ final public class JAParallel extends JLPCActor {
      * @throws Exception Any uncaught exception thrown when the request is processed.
      */
     @Override
-    public void processRequest(final Object request, final ResponseProcessor rd1)
+    public void processRequest(final Object request, final RP rd1)
             throws Exception {
         int p = actors.length;
         responseCounter = new JAResponseCounter(p, rd1);

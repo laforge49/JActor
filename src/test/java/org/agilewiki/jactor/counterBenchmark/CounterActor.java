@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.counterBenchmark;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 final public class CounterActor extends JLPCActor {
@@ -13,7 +13,7 @@ final public class CounterActor extends JLPCActor {
 
     @Override
     public void processRequest(Object request,
-                               ResponseProcessor rp)
+                               RP rp)
             throws Exception {
         if (request instanceof AddCount) {
             AddCount addCount = (AddCount) request;

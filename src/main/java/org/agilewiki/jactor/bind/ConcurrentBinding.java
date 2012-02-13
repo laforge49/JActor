@@ -23,12 +23,13 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * A binding for processing concurrent requests.
  */
-abstract public class ConcurrentBinding<REQUEST_TYPE> extends Binding<REQUEST_TYPE> {
+abstract public class ConcurrentBinding<REQUEST_TYPE, RESPONSE_TYPE>
+        extends Binding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * Unsupported.
      *
@@ -38,7 +39,7 @@ abstract public class ConcurrentBinding<REQUEST_TYPE> extends Binding<REQUEST_TY
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp)
+    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<RESPONSE_TYPE> rp)
             throws Exception {
         throw new UnsupportedOperationException();
     }

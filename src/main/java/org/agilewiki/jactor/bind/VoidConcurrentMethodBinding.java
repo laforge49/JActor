@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
@@ -31,7 +31,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * Binds a ConcurrentRequest class to a thread safe method.
  * </p>
  */
-abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE> extends ConcurrentBinding<REQUEST_TYPE> {
+abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE>
+        extends ConcurrentBinding<REQUEST_TYPE, Object> {
     /**
      * <p>
      * Process an incoming request.
@@ -51,7 +52,7 @@ abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE> extends Concurre
     final public void acceptRequest(RequestReceiver requestReceiver,
                                     RequestSource requestSource,
                                     REQUEST_TYPE request,
-                                    ResponseProcessor rp)
+                                    RP<Object> rp)
             throws Exception {
         concurrentProcessRequest(requestReceiver, request);
         rp.process(null);

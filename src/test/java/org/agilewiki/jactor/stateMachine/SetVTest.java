@@ -25,7 +25,7 @@ public class SetVTest extends TestCase {
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, ResponseProcessor rp) throws Exception {
+        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             String sv = "Hello world!";
             smb._set(sv, "r1");

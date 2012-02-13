@@ -26,7 +26,7 @@ package org.agilewiki.jactor;
 /**
  * Used with on-way messages (Events) to signal that no response is required.
  */
-final public class JANoResponse extends ResponseProcessor {
+final public class JANoResponse extends RP {
     /**
      * An immutable instance of JANoResponse.
      */
@@ -45,7 +45,7 @@ final public class JANoResponse extends ResponseProcessor {
      * @throws Exception Any uncaught exceptions raised when processing the response.
      */
     @Override
-    public void process(Object response) throws Exception {
+    public void processResponse(Object response) throws Exception {
     }
 
     /**

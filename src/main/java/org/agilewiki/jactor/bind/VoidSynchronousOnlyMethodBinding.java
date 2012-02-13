@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
@@ -49,7 +49,7 @@ abstract public class VoidSynchronousOnlyMethodBinding<REQUEST_TYPE>
     public void acceptRequest(RequestReceiver requestReceiver,
                               RequestSource requestSource,
                               REQUEST_TYPE request,
-                              ResponseProcessor rp)
+                              RP<Object> rp)
             throws Exception {
         if (requestReceiver.getMailbox() != requestSource.getMailbox())
             throw new UnsupportedOperationException("mailboxes are not the same");

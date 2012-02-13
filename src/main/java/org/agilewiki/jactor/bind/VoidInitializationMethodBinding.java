@@ -23,14 +23,15 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * <p>
  * Binds an InitializationRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class VoidInitializationMethodBinding<REQUEST_TYPE> extends MethodBinding<REQUEST_TYPE> {
+abstract public class VoidInitializationMethodBinding<REQUEST_TYPE>
+        extends MethodBinding<REQUEST_TYPE, Object> {
     /**
      * Process the request.
      *
@@ -40,9 +41,9 @@ abstract public class VoidInitializationMethodBinding<REQUEST_TYPE> extends Meth
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, REQUEST_TYPE request, ResponseProcessor rp) throws Exception {
+    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp) throws Exception {
         initializationProcessRequest(request);
-        rp.process(null);
+        rp.processResponse(null);
     }
 
     /**

@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 /**
@@ -51,7 +51,7 @@ final public class SMBuilder extends _SMBuilder {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void send(Actor actor, Object request, ResponseProcessor rp)
+    public void send(Actor actor, Object request, RP rp)
             throws Exception {
         internals.send(actor, request, rp);
     }
