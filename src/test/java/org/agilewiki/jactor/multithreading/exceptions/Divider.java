@@ -1,5 +1,6 @@
 package org.agilewiki.jactor.multithreading.exceptions;
 
+import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
@@ -55,8 +56,14 @@ public class Divider extends Component {
                     @Override
                     public void processRequest(Internals internals,
                                                IDivide request,
-                                               RP rp)
+                                               final RP rp)
                             throws Exception {
+                        internals.setExceptionHandler(new ExceptionHandler() {
+                            @Override
+                            public void process(Exception exception) throws Exception {
+                                rp.process(null);
+                            }
+                        });
                         Divide divide = new Divide(request.getN(), request.getD());
                         divide.send(internals, thisActor, rp);
                     }

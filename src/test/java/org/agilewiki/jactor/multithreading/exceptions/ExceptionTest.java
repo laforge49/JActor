@@ -30,7 +30,8 @@ public class ExceptionTest {
 
             System.out.println("test 3 => " + (new ISyncDivide(3, 0)).send(future, a));
 
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            System.out.println("test 4 => " + (new IDivide(3, 0)).send(future, a));
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
