@@ -13,7 +13,10 @@ public class ParallelResponsePrinter extends Component {
 
         thisActor.bind(PrintParallelResponse.class.getName(), new MethodBinding<PrintParallelResponse>() {
             @Override
-            public void processRequest(Internals internals, PrintParallelResponse request, ResponseProcessor rp) throws Exception {
+            public void processRequest(Internals internals,
+                                       PrintParallelResponse request,
+                                       ResponseProcessor rp)
+                    throws Exception {
                 int count = request.getCount();
                 JCActor[] responsePrinters = request.getResponsePrinters();
                 PrintResponse printResponse = request.getPrintResponse();

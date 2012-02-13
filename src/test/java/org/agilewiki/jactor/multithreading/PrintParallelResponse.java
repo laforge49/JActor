@@ -20,7 +20,9 @@ public class PrintParallelResponse<RESPONSE_TYPE> extends Request {
         return responsePrinters;
     }
 
-    public PrintParallelResponse(int count, JCActor[] responsePrinters, PrintResponse<RESPONSE_TYPE> printResponse) {
+    public PrintParallelResponse(int count,
+                                 JCActor[] responsePrinters,
+                                 PrintResponse<RESPONSE_TYPE> printResponse) {
         this.count = count;
         this.responsePrinters = responsePrinters;
 
