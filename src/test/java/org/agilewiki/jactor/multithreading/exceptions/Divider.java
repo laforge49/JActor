@@ -44,7 +44,7 @@ public class Divider extends Component {
                         SyncDivide syncDivide = new SyncDivide(request.getN(), request.getD());
                         try {
                             return syncDivide.call(internals, thisActor);
-                        } catch (ArithmeticException x) {
+                        } catch (Exception x) {
                             return null;
                         }
                     }
