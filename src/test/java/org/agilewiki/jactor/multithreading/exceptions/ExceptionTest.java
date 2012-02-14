@@ -9,7 +9,6 @@ import org.junit.Test;
 public class ExceptionTest {
     @Test
     public void test() {
-        System.out.println("start ResponsePrinterTest 4");
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
@@ -41,7 +40,6 @@ public class ExceptionTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            System.out.println("end ResponsePrinterTest 4");
             mailboxFactory.close();
         }
     }
