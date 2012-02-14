@@ -733,6 +733,7 @@ public class JBActor implements Actor {
     final private void processRequest(Object request, RP rp, Binding binding)
             throws Exception {
         if (binding != null) {
+            setExceptionHandler(null);
             binding.processRequest(internals, request, rp);
             return;
         }

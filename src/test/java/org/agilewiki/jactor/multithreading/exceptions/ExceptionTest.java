@@ -32,6 +32,12 @@ public class ExceptionTest {
 
             System.out.println("test 4 => " + (new IDivide(3, 0)).send(future, a));
 
+            try {
+                (new Divide(3, 0)).send(future, a);
+            } catch (Exception x) {
+                System.out.println("test 5 => " + x.toString());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
