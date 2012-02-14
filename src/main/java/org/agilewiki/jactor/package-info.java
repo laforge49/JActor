@@ -136,18 +136,18 @@
  *     The application logic for processing a request need not distinguish between 1-way and 2-way requests.
  * </p>
  *
- * <h2>The ResponseProcessor</h2>
+ * <h2>The RP Class</h2>
  * <p>
- *     When an actor receives a request object, it is also given an accompanying ResponseProcessor object. The process
- *     method on the ResponseProcessor handles the transport and/or processing of the response.
+ *     When an actor receives a request object, it is also given an accompanying RP object. The process
+ *     method on the RP class handles the transport and/or processing of the response.
  * </p>
  * <pre>
- *     protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
- *         rp.process(request); //echo back the request
+ *     protected void processRequest(Object request, RP rp) throws Exception {
+ *         rp.processResponse(request); //echo back the request
  *     }
  * </pre>
  * <p>
- *     ResponseProcessor does have a second method, isEvent, which can be used to detect 1-way messaging. When isEvent
+ *     RP does have a second method, isEvent, which can be used to detect 1-way messaging. When isEvent
  *     returns true, a call to the process method does nothing.
  * </p>
  * <pre>
@@ -155,11 +155,11 @@
  * </pre>
  * <p>
  *     The send method of an actor is used to send a request to another actor. And the 3rd parameter is a
- *     ResponseProcessor object. But the ResponseProcessor object sent by one actor is often not the same object that
- *     is received by the other actor. The JActor code does a lot of intermediation with ResponseProcessor objects.
+ *     RP object. But the RP object sent by one actor is often not the same object that
+ *     is received by the other actor. The JActor code does a lot of intermediation with RP objects.
  * </p>
  * <pre>
- *     send(anotherActor, someRequest, new ResponseProcessor() {
+ *     send(anotherActor, someRequest, new RP() {
  *         public void process(Object response) {
  *             System.out.println("sent " + someRequest + " and got back " + response);
  *         }
@@ -168,14 +168,14 @@
  *
  * <h2>The ExceptionHandler</h2>
  * <p>
- *     Trapping exceptions using try/catch when there are a lot of callbacks like ResponseProcessor can be tedious and
+ *     Trapping exceptions using try/catch when there are a lot of callbacks like RP can be tedious and
  *     error prone. So instead we use an ExceptionHandler. The ExceptionHandler interface defines one method, process,
  *     for processing an exception. Calling the setExceptionHandler method of an actor result in all exceptions being
  *     passed to the application's own exception handler. If an actor does not have an exception handler, exceptions
  *     which occur while processing a request message are passed back to the actor which sent the request, recursively.
  * </p>
  * <pre>
- *     protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *     protected void processRequest(Object request, RP rp) throws Exception {
  *         setExceptionHandler(new ExceptionHandler(){
  *             public void process(Exception ex) {
  *                 System.err.println("exception occurred while processing request " + request):
@@ -197,7 +197,7 @@
  * </p>
  * <pre>
  *     final int max = 5;
- *     ResponseProcessor printResult = new ResponseProcessor() {
+ *     RP printResult = new RP() {
  *         public void process(Object rsp) {
  *             System.out.println(rsp);
  *         }
@@ -207,7 +207,7 @@
  *         int i;
  *         int r = 1;
  *
- *         public void process(ResponseProcessor rp) throws Exception {
+ *         public void process(RP rp) throws Exception {
  *             if (i >= max) rp.process(new Integer(r));
  *             else {
  *                 i += 1;

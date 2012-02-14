@@ -3,7 +3,6 @@ package org.agilewiki.jactor.lpc.calculator;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class PrintingCalculator extends JLPCActor {
@@ -27,7 +26,7 @@ public class PrintingCalculator extends JLPCActor {
         else throw new UnsupportedOperationException(request.getClass().getName());
     }
 
-    private void clear(Clear request, final ResponseProcessor rp)
+    private void clear(Clear request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -45,7 +44,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void get(Get request, final ResponseProcessor rp)
+    private void get(Get request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -63,7 +62,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void set(final Set request, final ResponseProcessor rp)
+    private void set(final Set request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -81,7 +80,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void add(final Add request, final ResponseProcessor rp)
+    private void add(final Add request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -99,7 +98,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void subtract(final Subtract request, final ResponseProcessor rp)
+    private void subtract(final Subtract request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -117,7 +116,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void multiply(final Multiply request, final ResponseProcessor rp)
+    private void multiply(final Multiply request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
@@ -135,7 +134,7 @@ public class PrintingCalculator extends JLPCActor {
         });
     }
 
-    private void divide(final Divide request, final ResponseProcessor rp)
+    private void divide(final Divide request, final RP rp)
             throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override

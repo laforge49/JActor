@@ -11,7 +11,7 @@ import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
  * </p>
  * <pre>
  *        final int max = 5;
- *        ResponseProcessor printResult = new ResponseProcessor() {
+ *        RP printResult = new RP() {
  *            public void process(Object rsp) {
  *                System.out.println(rsp);
  *            }
@@ -21,7 +21,7 @@ import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
  *            int i;
  *            int r = 1;
  *
- *            public void process(ResponseProcessor rp) throws Exception {
+ *            public void process(RP rp) throws Exception {
  *                if (i >= max) rp.process(new Integer(r));
  *                else {
  *                    i += 1;
@@ -43,10 +43,10 @@ import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
  *         super(mailbox);
  *     }
  *
- *     protected void processRequest(Object req, final ResponseProcessor rp)
+ *     protected void processRequest(Object req, final RP rp)
  *             throws Exception {
  *         final int max = 5;
- *         ResponseProcessor printResult = new ResponseProcessor() {
+ *         RP printResult = new RP() {
  *             public void process(Object rsp) throws Exception {
  *                 System.out.println(rsp);
  *                 rp.process(null);
@@ -57,14 +57,14 @@ import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
  *             int r = 1;
  *             Multiplier mp = new Multiplier(getMailbox());
  *
- *             protected void process(ResponseProcessor rp) throws Exception {
+ *             protected void process(RP rp) throws Exception {
  *                 if (i >= max) rp.process(new Integer(r));
  *                 else {
  *                     i += 1;
  *                     Multiply m = new Multiply();
  *                     m.a = r;
  *                     m.b = i;
- *                     send(mp, m, new ResponseProcessor() {
+ *                     send(mp, m, new RP() {
  *                         public void process(Object rsp) throws Exception {
  *                             r = ((Integer) rsp).intValue();
  *                         }

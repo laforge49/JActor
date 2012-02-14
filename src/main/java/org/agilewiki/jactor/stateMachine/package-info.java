@@ -59,7 +59,7 @@
  *            super(mailbox);
  *        }
  *
- *        public void processRequest(Object unwrappedRequest, ResponseProcessor rp)
+ *        public void processRequest(Object unwrappedRequest, RP rp)
  *                throws Exception {
  *            SMBuilder smb = new SMBuilder();
  *            smb._return(new ObjectFunc() {

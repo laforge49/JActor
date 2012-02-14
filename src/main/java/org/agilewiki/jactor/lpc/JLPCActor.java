@@ -52,7 +52,7 @@ import java.util.ArrayList;
  *         super(mailbox);
  *     }
  *
- *     protected void processRequest(Object req, ResponseProcessor rp)
+ *     protected void processRequest(Object req, RP rp)
  *             throws Exception {
  *         Multiply m = (Multiply) req;
  *         rp.process(new Integer(m.a * m.b));

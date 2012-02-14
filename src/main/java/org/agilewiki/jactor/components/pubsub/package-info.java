@@ -45,7 +45,7 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *         protected void processRequest(Object request, RP rp) throws Exception {
  *             System.err.println("Got request.");
  *             rp.process(null);
  *         }

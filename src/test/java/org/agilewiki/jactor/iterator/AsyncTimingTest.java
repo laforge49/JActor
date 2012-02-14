@@ -3,7 +3,6 @@ package org.agilewiki.jactor.iterator;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.ResponseProcessor;
 
 public class AsyncTimingTest extends TestCase {
     public void testSync() throws Exception {
@@ -27,7 +26,7 @@ public class AsyncTimingTest extends TestCase {
 
         class It extends JAIterator {
             long i;
-            ResponseProcessor rp;
+            RP rp;
 
             @Override
             protected void process(RP rp) throws Exception {

@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.ResponseProcessor;
+import org.agilewiki.jactor.RP;
 
 /**
  * Responses sent to a JAPCActor are wrapped by an JAResponse,
@@ -73,7 +73,7 @@ final public class JAResponse extends JAMessage {
      *
      * @return The object which will process the response.
      */
-    public ResponseProcessor getResponseProcessor() {
+    public RP getResponseProcessor() {
         return japcRequest.getResponseProcessor();
     }
 }

@@ -44,7 +44,7 @@ package org.agilewiki.jactor;
  *         super(mailbox);
  *     }
  *
- *     protected void processRequest(final Object request, final ResponseProcessor rp)
+ *     protected void processRequest(final Object request, final RP rp)
  *             throws Exception {
  *         setExceptionHandler(new ExceptionHandler() {
  *             public void process(Exception exception) throws Exception {

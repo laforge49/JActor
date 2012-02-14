@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.ResponseProcessor;
 
 /**
  * Counts the number of requests sent and the number of responses received
@@ -49,14 +48,14 @@ public class PubSubResponseProcessor extends RP {
     /**
      * The mechanism for responding when finished.
      */
-    private ResponseProcessor xrp;
+    private RP xrp;
 
     /**
      * Create a PubSubResponseProcessor.
      *
      * @param xrp The external response processor.
      */
-    public PubSubResponseProcessor(ResponseProcessor xrp) {
+    public PubSubResponseProcessor(RP xrp) {
         this.xrp = xrp;
     }
 

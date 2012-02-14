@@ -40,7 +40,7 @@ import org.agilewiki.jactor.RP;
  * max = ((Integer) sm.request).intValue();
  * }
  * <p/>
- * protected void process(ResponseProcessor rp2) throws Exception {
+ * protected void process(RP rp2) throws Exception {
  * if (i >= max) rp2.process(new Integer(r));
  * else {
  * i += 1;

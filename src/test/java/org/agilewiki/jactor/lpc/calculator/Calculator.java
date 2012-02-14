@@ -2,7 +2,6 @@ package org.agilewiki.jactor.lpc.calculator;
 
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.ResponseProcessor;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Calculator extends JLPCActor {
@@ -24,36 +23,36 @@ public class Calculator extends JLPCActor {
         else throw new UnsupportedOperationException(request.getClass().getName());
     }
 
-    private void clear(Clear request, ResponseProcessor rp) throws Exception {
+    private void clear(Clear request, RP rp) throws Exception {
         accumulator = 0;
         rp.process(new Integer(accumulator));
     }
 
-    private void get(Get request, ResponseProcessor rp) throws Exception {
+    private void get(Get request, RP rp) throws Exception {
         rp.process(new Integer(accumulator));
     }
 
-    private void set(Set request, ResponseProcessor rp) throws Exception {
+    private void set(Set request, RP rp) throws Exception {
         accumulator = request.getValue();
         rp.process(new Integer(accumulator));
     }
 
-    private void add(Add request, ResponseProcessor rp) throws Exception {
+    private void add(Add request, RP rp) throws Exception {
         accumulator = accumulator + request.getValue();
         rp.process(new Integer(accumulator));
     }
 
-    private void subtract(Subtract request, ResponseProcessor rp) throws Exception {
+    private void subtract(Subtract request, RP rp) throws Exception {
         accumulator = accumulator - request.getValue();
         rp.process(new Integer(accumulator));
     }
 
-    private void multiply(Multiply request, ResponseProcessor rp) throws Exception {
+    private void multiply(Multiply request, RP rp) throws Exception {
         accumulator = accumulator * request.getValue();
         rp.process(new Integer(accumulator));
     }
 
-    private void divide(Divide request, ResponseProcessor rp) throws Exception {
+    private void divide(Divide request, RP rp) throws Exception {
         accumulator = accumulator / request.getValue();
         rp.process(new Integer(accumulator));
     }

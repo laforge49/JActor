@@ -134,7 +134,7 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, ResponseProcessor rp) throws Exception {
+ *         protected void processRequest(Object request, RP rp) throws Exception {
  *             if (request instanceof Clear) clear((Clear) request, rp);
  *             else if (request instanceof Get) get((Get) request, rp);
  *             else if (request instanceof Set) set((Set) request, rp);
@@ -145,36 +145,36 @@
  *             else throw new UnsupportedOperationException(request.getClass().getName());
  *         }
  *
- *         private void clear(Clear request, ResponseProcessor rp) throws Exception {
+ *         private void clear(Clear request, RP rp) throws Exception {
  *             accumulator = 0;
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void get(Get request, ResponseProcessor rp) throws Exception {
+ *         private void get(Get request, RP rp) throws Exception {
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void set(Set request, ResponseProcessor rp) throws Exception {
+ *         private void set(Set request, RP rp) throws Exception {
  *             accumulator = request.getValue();
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void add(Add request, ResponseProcessor rp) throws Exception {
+ *         private void add(Add request, RP rp) throws Exception {
  *             accumulator = accumulator + request.getValue();
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void subtract(Subtract request, ResponseProcessor rp) throws Exception {
+ *         private void subtract(Subtract request, RP rp) throws Exception {
  *             accumulator = accumulator - request.getValue();
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void multiply(Multiply request, ResponseProcessor rp) throws Exception {
+ *         private void multiply(Multiply request, RP rp) throws Exception {
  *             accumulator = accumulator * request.getValue();
  *             rp.process(new Integer(accumulator));
  *         }
  *
- *         private void divide(Divide request, ResponseProcessor rp) throws Exception {
+ *         private void divide(Divide request, RP rp) throws Exception {
  *             accumulator = accumulator / request.getValue();
  *             rp.process(new Integer(accumulator));
  *         }
@@ -204,11 +204,11 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, final ResponseProcessor rp) throws Exception {
+ *         protected void processRequest(Object request, final RP rp) throws Exception {
  *             final Actor calculator = new Calculator(getMailbox());
- *             send(calculator, new Set(1), new ResponseProcessor() {
+ *             send(calculator, new Set(1), new RP() {
  *                 public void process(Object response) throws Exception {
- *                     send(calculator, new Add(2), new ResponseProcessor() {
+ *                     send(calculator, new Add(2), new RP() {
  *                         public void process(Object response) throws Exception {
  *                             send(calculator, new Multiply(3), rp);
  *                         }
@@ -238,7 +238,7 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, final ResponseProcessor rp)
+ *         protected void processRequest(Object request, final RP rp)
  *                      throws Exception {
  *             final Actor calculator = new Calculator(getMailbox());
  *             sendEvent(calculator, new Set(1));
@@ -256,7 +256,7 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, final ResponseProcessor rp)
+ *         protected void processRequest(Object request, final RP rp)
  *                 throws Exception {
  *             final Actor calculator = new Calculator(getMailbox());
  *             final SMBuilder smb = new SMBuilder();
@@ -287,7 +287,7 @@
  *             calculator = new Calculator(mailbox);
  *         }
  *
- *         protected void processRequest(Object request, ResponseProcessor rp)
+ *         protected void processRequest(Object request, RP rp)
  *                 throws Exception {
  *             if (request instanceof Clear) clear((Clear) request, rp);
  *             else if (request instanceof Get) get((Get) request, rp);
@@ -299,7 +299,7 @@
  *             else throw new UnsupportedOperationException(request.getClass().getName());
  *         }
  *
- *         private void clear(Clear request, final ResponseProcessor rp)
+ *         private void clear(Clear request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -307,7 +307,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("Clear => " + response);
  *                     rp.process(response);
@@ -315,7 +315,7 @@
  *             });
  *         }
  *
- *         private void get(Get request, final ResponseProcessor rp)
+ *         private void get(Get request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -323,7 +323,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("Get => " + response);
  *                     rp.process(response);
@@ -331,7 +331,7 @@
  *             });
  *         }
  *
- *         private void set(final Set request, final ResponseProcessor rp)
+ *         private void set(final Set request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -339,7 +339,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("Set " + request.getValue() + " => " + response);
  *                     rp.process(response);
@@ -347,7 +347,7 @@
  *             });
  *         }
  *
- *         private void add(final Add request, final ResponseProcessor rp)
+ *         private void add(final Add request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -355,7 +355,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("+ " + request.getValue() + " => " + response);
  *                     rp.process(response);
@@ -363,7 +363,7 @@
  *             });
  *         }
  *
- *         private void subtract(final Subtract request, final ResponseProcessor rp)
+ *         private void subtract(final Subtract request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -371,7 +371,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("- " + request.getValue() + " => " + response);
  *                     rp.process(response);
@@ -379,7 +379,7 @@
  *             });
  *         }
  *
- *         private void multiply(final Multiply request, final ResponseProcessor rp)
+ *         private void multiply(final Multiply request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -387,7 +387,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("* " + request.getValue() + " => " + response);
  *                     rp.process(response);
@@ -395,7 +395,7 @@
  *             });
  *         }
  *
- *         private void divide(final Divide request, final ResponseProcessor rp)
+ *         private void divide(final Divide request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
@@ -403,7 +403,7 @@
  *                     rp.process(null);
  *                 }
  *             });
- *             send(calculator, request, new ResponseProcessor() {
+ *             send(calculator, request, new RP() {
  *                 public void process(Object response) throws Exception {
  *                     System.out.println("/ " + request.getValue() + " => " + response);
  *                     rp.process(response);
@@ -459,22 +459,22 @@
  *             super(mailbox);
  *         }
  *
- *         protected void processRequest(final Object request, final ResponseProcessor rp)
+ *         protected void processRequest(final Object request, final RP rp)
  *                 throws Exception {
  *             final Calculator calculator = new Calculator(getMailbox());
- *             send(calculator, new Set(1), new ResponseProcessor() {
+ *             send(calculator, new Set(1), new RP() {
  *                 public void process(Object response) throws Exception {
  *                     JAIterator it = new JAIterator() {
  *                         Factorial factorial = (Factorial) request;
  *                         int max = factorial.getValue();
  *                         int count = 0;
- *                         protected void process(final ResponseProcessor rp1) throws Exception {
+ *                         protected void process(final EP rp1) throws Exception {
  *                             if (count == max) {
  *                                 send(calculator, new Get(), rp1);
  *                                 return;
  *                             }
  *                             count += 1;
- *                             send(calculator, new Multiply(count), new ResponseProcessor() {
+ *                             send(calculator, new Multiply(count), new RP() {
  *                                 public void process(Object response) throws Exception {
  *                                     rp1.process(null);
  *                                 }
