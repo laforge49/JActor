@@ -18,11 +18,11 @@ public class PropertiesTest extends TestCase {
             (new SetProperty("a", "foo")).call(p1);
             (new SetProperty("b", "bar")).call(p2);
             String a = (new GetProperty<String>("a")).call(p2);
-            System.err.println(a);
+            System.out.println(a);
             String b = (new GetProperty<String>("b")).call(p2);
-            System.err.println(b);
+            System.out.println(b);
             String c = (new GetProperty<String>("c")).call(p2);
-            System.err.println(c);
+            System.out.println(c);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -40,7 +40,8 @@ public class Properties extends Component {
     /**
      * Table of registered actors.
      */
-    private ConcurrentSkipListMap<String, Object> properties = new ConcurrentSkipListMap<String, Object>();
+    private ConcurrentSkipListMap<String, Object> properties =
+            new ConcurrentSkipListMap<String, Object>();
 
     /**
      * Bind request classes.
@@ -51,30 +52,34 @@ public class Properties extends Component {
     public void bindery() throws Exception {
         super.bindery();
 
-        thisActor.bind(SetProperty.class.getName(), new VoidConcurrentMethodBinding<SetProperty>() {
-            @Override
-            public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 SetProperty request)
-                    throws Exception {
-                String propertyName = request.getPropertyName();
-                Object propertyValue = request.getPropertyValue();
-                properties.put(propertyName, propertyValue);
-            }
-        });
+        thisActor.bind(
+                SetProperty.class.getName(),
+                new VoidConcurrentMethodBinding<SetProperty>() {
+                    @Override
+                    public void concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                         SetProperty request)
+                            throws Exception {
+                        String propertyName = request.getPropertyName();
+                        Object propertyValue = request.getPropertyValue();
+                        properties.put(propertyName, propertyValue);
+                    }
+                });
 
-        thisActor.bind(GetProperty.class.getName(), new ConcurrentMethodBinding<GetProperty, Object>() {
-            @Override
-            public Object concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                   GetProperty request)
-                    throws Exception {
-                String name = request.getPropertyName();
-                Object value = properties.get(name);
-                if (value == null && parentHasSameComponent()) {
-                    Actor parent = requestReceiver.getParent();
-                    return request.call(parent);
-                }
-                return value;
-            }
-        });
+        thisActor.bind(
+                GetProperty.class.getName(),
+                new ConcurrentMethodBinding<GetProperty, Object>() {
+                    @Override
+                    public Object concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                           GetProperty request)
+                            throws Exception {
+                        String name = request.getPropertyName();
+                        Object value = properties.get(name);
+                        if (value == null && parentHasSameComponent()) {
+                            Actor parent = requestReceiver.getParent();
+                            return request.call(parent);
+                        }
+                        return value;
+                    }
+                });
     }
 }
