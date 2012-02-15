@@ -13,7 +13,8 @@ public class ActorNameTest extends TestCase {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             (new Include(ActorName.class)).call(a);
             (new SetActorName("foo")).call(a);
-            System.err.println((new GetActorName()).call(a));
+            String nm = (new GetActorName()).call(a);
+            System.out.println(nm);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
