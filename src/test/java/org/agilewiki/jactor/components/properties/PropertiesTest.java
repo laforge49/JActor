@@ -17,9 +17,12 @@ public class PropertiesTest extends TestCase {
             (new Include(Properties.class)).call(p2);
             (new SetProperty("a", "foo")).call(p1);
             (new SetProperty("b", "bar")).call(p2);
-            System.err.println((new GetProperty("a")).call(p2));
-            System.err.println((new GetProperty("b")).call(p2));
-            System.err.println((new GetProperty("c")).call(p2));
+            String a = (new GetProperty<String>("a")).call(p2);
+            System.err.println(a);
+            String b = (new GetProperty<String>("b")).call(p2);
+            System.err.println(b);
+            String c = (new GetProperty<String>("c")).call(p2);
+            System.err.println(c);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
