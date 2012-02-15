@@ -50,7 +50,8 @@ public class ActorRegistry extends Component {
     /**
      * Table of registered actors.
      */
-    private ConcurrentSkipListMap<String, JCActor> registry = new ConcurrentSkipListMap<String, JCActor>();
+    private ConcurrentSkipListMap<String, JCActor> registry =
+            new ConcurrentSkipListMap<String, JCActor>();
 
     /**
      * Bind request classes.
@@ -62,43 +63,49 @@ public class ActorRegistry extends Component {
             throws Exception {
         super.bindery();
 
-        thisActor.bind(RegisterActor.class.getName(), new VoidConcurrentMethodBinding<RegisterActor>() {
-            @Override
-            public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 RegisterActor request)
-                    throws Exception {
-                final JCActor actor = request.getActor();
-                String name = (new GetActorName()).call(actor);
-                JCActor old = registry.putIfAbsent(name, actor);
-                if (old != null && old != actor)
-                    throw new UnsupportedOperationException("Duplicate actor name.");
-            }
-        });
+        thisActor.bind(
+                RegisterActor.class.getName(),
+                new VoidConcurrentMethodBinding<RegisterActor>() {
+                    @Override
+                    public void concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                         RegisterActor request)
+                            throws Exception {
+                        final JCActor actor = request.getActor();
+                        String name = (new GetActorName()).call(actor);
+                        JCActor old = registry.putIfAbsent(name, actor);
+                        if (old != null && old != actor)
+                            throw new UnsupportedOperationException("Duplicate actor name.");
+                    }
+                });
 
-        thisActor.bind(UnregisterActor.class.getName(), new VoidConcurrentMethodBinding<UnregisterActor>() {
-            @Override
-            public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 UnregisterActor request)
-                    throws Exception {
-                final String name = request.getName();
-                registry.remove(name);
-            }
-        });
+        thisActor.bind(
+                UnregisterActor.class.getName(),
+                new VoidConcurrentMethodBinding<UnregisterActor>() {
+                    @Override
+                    public void concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                         UnregisterActor request)
+                            throws Exception {
+                        final String name = request.getName();
+                        registry.remove(name);
+                    }
+                });
 
-        thisActor.bind(GetRegisteredActor.class.getName(), new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
-            @Override
-            public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                    GetRegisteredActor request)
-                    throws Exception {
-                String name = request.getName();
-                JCActor registeredActor = registry.get(name);
-                if (registeredActor == null && parentHasSameComponent()) {
-                    Actor parent = requestReceiver.getParent();
-                    return request.call(parent);
-                }
-                return registeredActor;
-            }
-        });
+        thisActor.bind(
+                GetRegisteredActor.class.getName(),
+                new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
+                    @Override
+                    public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                            GetRegisteredActor request)
+                            throws Exception {
+                        String name = request.getName();
+                        JCActor registeredActor = registry.get(name);
+                        if (registeredActor == null && parentHasSameComponent()) {
+                            Actor parent = requestReceiver.getParent();
+                            return request.call(parent);
+                        }
+                        return registeredActor;
+                    }
+                });
     }
 
     /**

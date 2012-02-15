@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * Implements immutable actor object names.
  * Supported request messages: SetActorName and GetActorName.
  */
-public class ActorName extends Component {
+final public class ActorName extends Component {
 
     /**
      * Bind request classes.
@@ -56,6 +56,8 @@ public class ActorName extends Component {
             }
         });
 
-        thisActor.bind(GetActorName.class.getName(), new ConcurrentDataBinding<GetActorName, String>("ActorName"));
+        thisActor.bind(
+                GetActorName.class.getName(),
+                new ConcurrentDataBinding<GetActorName, String>("ActorName"));
     }
 }
