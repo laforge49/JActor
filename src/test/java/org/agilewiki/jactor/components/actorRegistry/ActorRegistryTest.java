@@ -10,7 +10,7 @@ import org.agilewiki.jactor.components.actorName.SetActorName;
 
 public class ActorRegistryTest extends TestCase {
     public void test1() {
-        System.err.println("test1");
+        System.out.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
@@ -19,10 +19,10 @@ public class ActorRegistryTest extends TestCase {
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             (new Include(ActorRegistry.class)).call(r);
             (new RegisterActor(a)).call(r);
-            System.err.println((new GetRegisteredActor("abe")).call(r));
-            System.err.println((new GetRegisteredActor("foo")).call(r));
+            System.out.println((new GetRegisteredActor("abe")).call(r));
+            System.out.println((new GetRegisteredActor("foo")).call(r));
             (new UnregisterActor("foo")).call(r);
-            System.err.println((new GetRegisteredActor("foo")).call(r));
+            System.out.println((new GetRegisteredActor("foo")).call(r));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class ActorRegistryTest extends TestCase {
     }
 
     public void test2() {
-        System.err.println("test2");
+        System.out.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JCActor pr = new JCActor(mailboxFactory.createMailbox());
@@ -44,12 +44,12 @@ public class ActorRegistryTest extends TestCase {
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             r.setParent(pr);
             (new Include(ActorRegistry.class)).call(r);
-            System.err.println((new GetRegisteredActor("abe")).call(r));
-            System.err.println((new GetRegisteredActor("foo")).call(r));
+            System.out.println((new GetRegisteredActor("abe")).call(r));
+            System.out.println((new GetRegisteredActor("foo")).call(r));
             (new UnregisterActor("foo")).call(r);
-            System.err.println((new GetRegisteredActor("foo")).call(r));
+            System.out.println((new GetRegisteredActor("foo")).call(r));
             (new UnregisterActor("foo")).call(pr);
-            System.err.println((new GetRegisteredActor("foo")).call(r));
+            System.out.println((new GetRegisteredActor("foo")).call(r));
             r.close();
         } catch (Exception e) {
             e.printStackTrace();
