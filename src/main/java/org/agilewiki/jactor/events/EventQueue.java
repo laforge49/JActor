@@ -49,5 +49,5 @@ public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
      *
      * @return The controlling queue.
      */
-    public JAEventQueue<E> getController();
+    public EventQueue<E> getController();
 }

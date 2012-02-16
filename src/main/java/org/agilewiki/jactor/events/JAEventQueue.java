@@ -55,7 +55,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * Set to true when busy.
      */
-    private AtomicReference<JAEventQueue<E>> atomicControl = new AtomicReference<JAEventQueue<E>>();
+    private AtomicReference<EventQueue<E>> atomicControl = new AtomicReference<EventQueue<E>>();
 
     /**
      * The task is used to process the events in the queue.
@@ -105,7 +105,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      * Relinquish foreign control over the queue.
      */
     public void relinquishControl() {
-        JAEventQueue<E> c = atomicControl.get();
+        EventQueue<E> c = atomicControl.get();
         if (c == this)
             return;
         atomicControl.set(null);
@@ -119,8 +119,8 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      *
      * @return The controlling queue.
      */
-    public JAEventQueue<E> getController() {
-        JAEventQueue<E> c = atomicControl.get();
+    public EventQueue<E> getController() {
+        EventQueue<E> c = atomicControl.get();
         if (c == null)
             return this;
         return c;
