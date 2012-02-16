@@ -43,17 +43,17 @@ public class NewActor extends ConcurrentRequest<JCActor> {
     private String actorType;
 
     /**
-     * A mailbox which may be shared with other actors.
+     * A mailbox which may be shared with other actors, or null.
      */
     private Mailbox mailbox;
 
     /**
-     * The name to be assigned to the actor.
+     * The name to be assigned to the actor, or null.
      */
     private String actorName;
 
     /**
-     * The parent actor to which unrecognized requests are forwarded.
+     * The parent actor to which unrecognized requests are forwarded, or null.
      */
     private Actor parent;
 
