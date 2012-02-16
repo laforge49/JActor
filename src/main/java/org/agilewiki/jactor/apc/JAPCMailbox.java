@@ -28,7 +28,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
+import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.EventQueue;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue) {
         this.bufferedEventQueue = bufferedEventQueue;
-        bufferedEventQueue.setActiveEventProcessor(new ActiveEventProcessor<JAMessage>() {
+        bufferedEventQueue.setActiveEventProcessor(new EventProcessor<JAMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();

@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.events.ActiveEventProcessor;
+import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.events.JAEventQueue;
 
@@ -48,7 +48,7 @@ final public class JABufferedEventsQueue<E>
     /**
      * The eventProcessor is used to process unblocked events.
      */
-    ActiveEventProcessor<E> eventProcessor;
+    EventProcessor<E> eventProcessor;
 
     /**
      * Used for buffering outgoing events.
@@ -69,7 +69,7 @@ final public class JABufferedEventsQueue<E>
      */
     public JABufferedEventsQueue(EventQueue<ArrayList<E>> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setActiveEventProcessor(new ActiveEventProcessor<ArrayList<E>>() {
+        eventQueue.setActiveEventProcessor(new EventProcessor<ArrayList<E>>() {
             @Override
             public void processEvent(ArrayList<E> bufferedEvents) {
                 int i = 0;
@@ -152,7 +152,7 @@ final public class JABufferedEventsQueue<E>
      * @param eventProcessor Processes the dispatched events.
      */
     @Override
-    public void setActiveEventProcessor(ActiveEventProcessor<E> eventProcessor) {
+    public void setActiveEventProcessor(EventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
 

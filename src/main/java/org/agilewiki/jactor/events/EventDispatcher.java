@@ -34,7 +34,7 @@ public interface EventDispatcher<E> {
      *
      * @param activeEventProcessor Receives event notifications and processes events.
      */
-    public void setActiveEventProcessor(ActiveEventProcessor<E> activeEventProcessor);
+    public void setActiveEventProcessor(EventProcessor<E> activeEventProcessor);
 
     /**
      * The isEmpty method returns true when there are no pending events,

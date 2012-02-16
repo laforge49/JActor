@@ -29,7 +29,7 @@ package org.agilewiki.jactor.events;
  *
  * @param <E> The type of event.
  */
-public interface ActiveEventProcessor<E> {
+public interface EventProcessor<E> {
     /**
      * The haveEvents method is called when
      * there may be one or more pending events.

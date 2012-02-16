@@ -15,7 +15,7 @@ abstract public class JActor<E> {
     /**
      * Handles callbacks from the inbox.
      */
-    private ActiveEventProcessor<E> eventProcessor = new ActiveEventProcessor<E>() {
+    private EventProcessor<E> eventProcessor = new EventProcessor<E>() {
         @Override
         public void haveEvents() {
             inbox.dispatchEvents();
