@@ -28,13 +28,13 @@ public class Bar extends Component {
                                                  Hi request)
                     throws Exception {
                 myName = (new GetActorName()).call(thisActor);
-                System.err.println("Hello world! --" + myName);
+                System.out.println("Hello world! --" + myName);
             }
         });
     }
 
     @Override
     public void close() throws Exception {
-        System.err.println("Bye! --" + myName);
+        System.out.println("Bye! --" + myName);
     }
 }

@@ -55,50 +55,54 @@ public class Factory extends Component {
     public void bindery() throws Exception {
         super.bindery();
 
-        thisActor.bind(DefineActorType.class.getName(), new VoidConcurrentMethodBinding<DefineActorType>() {
-            @Override
-            public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                 DefineActorType defineActorType)
-                    throws Exception {
-                String actorType = defineActorType.getActorType();
-                if (types.containsKey(actorType))
-                    throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-                Class rootComponentClass = defineActorType.getRootComponentClass();
-                types.put(actorType, rootComponentClass);
-            }
-        });
+        thisActor.bind(
+                DefineActorType.class.getName(),
+                new VoidConcurrentMethodBinding<DefineActorType>() {
+                    @Override
+                    public void concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                         DefineActorType defineActorType)
+                            throws Exception {
+                        String actorType = defineActorType.getActorType();
+                        if (types.containsKey(actorType))
+                            throw new IllegalArgumentException("Actor type is already defined: " + actorType);
+                        Class rootComponentClass = defineActorType.getRootComponentClass();
+                        types.put(actorType, rootComponentClass);
+                    }
+                });
 
-        thisActor.bind(NewActor.class.getName(), new ConcurrentMethodBinding<NewActor, JCActor>() {
-            @Override
-            public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                    NewActor request)
-                    throws Exception {
-                String actorType = request.getActorType();
-                Mailbox mailbox = request.getMailbox();
-                Actor parent = request.getParent();
-                if (mailbox == null || parent == null) {
-                    if (mailbox == null) mailbox = requestReceiver.getMailbox();
-                    if (parent == null) parent = requestReceiver.getThisActor();
-                    request = new NewActor(actorType, mailbox, request.getActorName(), parent);
-                }
-                Class componentClass = types.get(actorType);
-                if (componentClass == null) {
-                    if (parentHasSameComponent())
-                        return request.call(requestReceiver.getParent());
-                    throw new IllegalArgumentException("Unknown actor type: " + actorType);
-                }
-                Include include = new Include(componentClass);
-                String actorName = request.getActorName();
-                JCActor actor = new JCActor(mailbox);
-                actor.setActorType(actorType);
-                actor.setParent(parent);
-                include.call(actor);
-                if (actorName != null) {
-                    (new SetActorName(actorName)).call(actor);
-                    (new RegisterActor(actor)).call(actor);
-                }
-                return actor;
-            }
-        });
+        thisActor.bind(
+                NewActor.class.getName(),
+                new ConcurrentMethodBinding<NewActor, JCActor>() {
+                    @Override
+                    public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                            NewActor request)
+                            throws Exception {
+                        String actorType = request.getActorType();
+                        Mailbox mailbox = request.getMailbox();
+                        Actor parent = request.getParent();
+                        if (mailbox == null || parent == null) {
+                            if (mailbox == null) mailbox = requestReceiver.getMailbox();
+                            if (parent == null) parent = requestReceiver.getThisActor();
+                            request = new NewActor(actorType, mailbox, request.getActorName(), parent);
+                        }
+                        Class componentClass = types.get(actorType);
+                        if (componentClass == null) {
+                            if (parentHasSameComponent())
+                                return request.call(requestReceiver.getParent());
+                            throw new IllegalArgumentException("Unknown actor type: " + actorType);
+                        }
+                        Include include = new Include(componentClass);
+                        String actorName = request.getActorName();
+                        JCActor actor = new JCActor(mailbox);
+                        actor.setActorType(actorType);
+                        actor.setParent(parent);
+                        include.call(actor);
+                        if (actorName != null) {
+                            (new SetActorName(actorName)).call(actor);
+                            (new RegisterActor(actor)).call(actor);
+                        }
+                        return actor;
+                    }
+                });
     }
 }
