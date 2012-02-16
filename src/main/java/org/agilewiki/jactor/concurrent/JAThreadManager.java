@@ -53,6 +53,9 @@ final public class JAThreadManager implements ThreadManager {
      */
     private int threadCount;
 
+    /**
+     * The worker threads.
+     */
     final private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     /**

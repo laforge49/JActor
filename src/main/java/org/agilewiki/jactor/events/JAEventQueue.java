@@ -23,9 +23,9 @@
  */
 package org.agilewiki.jactor.events;
 
-import org.agilewiki.jactor.concurrent.ConcurrentLinkedBlockingQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -50,7 +50,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * A queue of pending events.
      */
-    private ConcurrentLinkedBlockingQueue<E> queue = new ConcurrentLinkedBlockingQueue<E>();
+    private ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
 
     /**
      * Set to true when busy.
@@ -153,7 +153,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      */
     @Override
     public void putEvent(E event) {
-        queue.put(event);
+        queue.offer(event);
         notEmpty = true;
         if (atomicControl.get() == null)
             threadManager.process(task);
