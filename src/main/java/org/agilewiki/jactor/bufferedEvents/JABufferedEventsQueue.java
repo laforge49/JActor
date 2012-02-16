@@ -69,7 +69,7 @@ final public class JABufferedEventsQueue<E>
      */
     public JABufferedEventsQueue(EventQueue<ArrayList<E>> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setEventProcessor(new ActiveEventProcessor<ArrayList<E>>() {
+        eventQueue.setActiveEventProcessor(new ActiveEventProcessor<ArrayList<E>>() {
             @Override
             public void processEvent(ArrayList<E> bufferedEvents) {
                 int i = 0;
@@ -152,7 +152,7 @@ final public class JABufferedEventsQueue<E>
      * @param eventProcessor Processes the dispatched events.
      */
     @Override
-    public void setEventProcessor(ActiveEventProcessor<E> eventProcessor) {
+    public void setActiveEventProcessor(ActiveEventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
 

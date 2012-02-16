@@ -57,7 +57,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue) {
         this.bufferedEventQueue = bufferedEventQueue;
-        bufferedEventQueue.setEventProcessor(new ActiveEventProcessor<JAMessage>() {
+        bufferedEventQueue.setActiveEventProcessor(new ActiveEventProcessor<JAMessage>() {
             @Override
             public void haveEvents() {
                 dispatchEvents();

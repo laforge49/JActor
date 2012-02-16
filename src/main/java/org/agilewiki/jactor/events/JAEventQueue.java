@@ -132,7 +132,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      * @param eventProcessor Processes the dispatched events.
      */
     @Override
-    public void setEventProcessor(ActiveEventProcessor<E> eventProcessor) {
+    public void setActiveEventProcessor(ActiveEventProcessor<E> eventProcessor) {
         this.eventProcessor = eventProcessor;
     }
 

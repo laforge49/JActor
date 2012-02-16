@@ -34,7 +34,7 @@ abstract public class JActor<E> {
      */
     public JActor(EventDispatcher<E> inbox) {
         this.inbox = inbox;
-        inbox.setEventProcessor(eventProcessor);
+        inbox.setActiveEventProcessor(eventProcessor);
     }
 
     /**
