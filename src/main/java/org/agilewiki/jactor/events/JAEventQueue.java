@@ -71,6 +71,10 @@ final public class JAEventQueue<E> implements EventQueue<E> {
                         atomicControl.set(null);
                         if (queue.peek() == null || !atomicControl.compareAndSet(null, getController()))
                             return;
+                        if (queue.peek() == null) {
+                            atomicControl.set(null);
+                            return;
+                        }
                     }
                     notEmpty = false;
                     eventProcessor.haveEvents();
