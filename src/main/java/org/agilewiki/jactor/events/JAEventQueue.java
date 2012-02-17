@@ -53,7 +53,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     private ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
 
     /**
-     * Set to true when busy.
+     * Set to null when idle, set to this when under internal control, and is otherwise under external control.
      */
     private AtomicReference<EventQueue<E>> atomicControl = new AtomicReference<EventQueue<E>>();
 
