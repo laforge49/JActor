@@ -1,5 +1,8 @@
 The JActor project implements actors in Java that can process 1 Billion messages per second.
 
+JActor 2 supports method calls (without callbacks) for initialization, synchronous and concurrent requests,
+as well as static typing, all of which make for a more natural coding style when developing applications.
+
 Downloads:     https://sourceforge.net/projects/jactor/files/
 Blog:          https://sourceforge.net/p/jactor/blog/
 API:           http://jactor.sourceforge.net/
