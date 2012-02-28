@@ -45,7 +45,7 @@ public class MethodBindingTest extends TestCase {
             bind(Hi.class.getName(), new MethodBinding<Hi, Object>() {
                 public void processRequest(Internals internals, Hi request, RP rp)
                         throws Exception {
-                    rp.process("Hello world!");
+                    rp.processResponse("Hello world!");
                 }
             });
         }

@@ -22,7 +22,7 @@ public class ResponsePrinter extends Component {
                     @Override
                     public void processResponse(Object response) throws Exception {
                         System.out.println(response);
-                        rp.process(null);
+                        rp.processResponse(null);
                     }
                 });
             }

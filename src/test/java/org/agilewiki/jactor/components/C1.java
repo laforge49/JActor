@@ -12,7 +12,7 @@ public class C1 extends Component {
         thisActor.bind(Hi.class.getName(), new MethodBinding<Hi, String>() {
             public void processRequest(Internals internals, Hi request, RP rp1)
                     throws Exception {
-                rp1.process("Hello world!");
+                rp1.processResponse("Hello world!");
             }
         });
     }

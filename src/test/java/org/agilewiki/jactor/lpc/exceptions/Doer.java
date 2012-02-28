@@ -17,13 +17,13 @@ public class Doer extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Exception caught by Doer");
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         if (request instanceof T1) {
             throw new Exception("Exception thrown in request processing");
         } else {
-            rp.process(request);
+            rp.processResponse(request);
         }
     }
 }

@@ -13,7 +13,7 @@ final public class Echo extends JAPCActor {
     @Override
     public void processRequest(Object unwrappedRequest, RP responseProcessor)
             throws Exception {
-        responseProcessor.process(null);
+        responseProcessor.processResponse(null);
     }
 
     /**

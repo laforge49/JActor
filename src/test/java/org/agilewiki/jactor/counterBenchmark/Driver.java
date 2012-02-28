@@ -20,7 +20,7 @@ final public class Driver extends JLPCActor {
 
                     @Override
                     protected void process(RP rp1) throws Exception {
-                        if (i == runs) rp1.process(this);
+                        if (i == runs) rp1.processResponse(this);
                         else {
                             i += 1;
                             AddCount addCount = new AddCount();
@@ -32,7 +32,7 @@ final public class Driver extends JLPCActor {
                 it.iterate(new RP() {
                     @Override
                     public void processResponse(Object response) throws Exception {
-                        rp1.process(null);
+                        rp1.processResponse(null);
                     }
                 });
             }

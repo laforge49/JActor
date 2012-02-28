@@ -43,7 +43,7 @@ abstract public class VoidSynchronousMethodBinding<REQUEST_TYPE>
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp) throws Exception {
         synchronousProcessRequest(internals, request);
-        rp.process(null);
+        rp.processResponse(null);
     }
 
     /**

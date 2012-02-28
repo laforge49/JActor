@@ -101,7 +101,7 @@ abstract public class _Iterator extends JAIterator implements _Operation {
                 if (resultName != null) {
                     stateMachine.put(resultName, response);
                 }
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
     }

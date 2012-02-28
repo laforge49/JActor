@@ -66,7 +66,7 @@ public class PubSubResponseProcessor extends RP {
      */
     public void finished() throws Exception {
         if (received == sent)
-            xrp.process(new Integer(sent));
+            xrp.processResponse(new Integer(sent));
         else
             complete = true;
     }
@@ -81,7 +81,7 @@ public class PubSubResponseProcessor extends RP {
     public void processResponse(Object response) throws Exception {
         received += 1;
         if (complete && received == sent) {
-            xrp.process(new Integer(sent));
+            xrp.processResponse(new Integer(sent));
         }
     }
 }

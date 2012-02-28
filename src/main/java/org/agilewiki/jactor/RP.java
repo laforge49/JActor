@@ -10,10 +10,6 @@ abstract public class RP<RESPONSE_TYPE> {
      * @param response The response.
      * @throws Exception Any uncaught exceptions raised when processing the response.
      */
-    final public void process(Object response) throws Exception {
-        processResponse((RESPONSE_TYPE) response);
-    }
-
     abstract public void processResponse(RESPONSE_TYPE response) throws Exception;
 
     /**

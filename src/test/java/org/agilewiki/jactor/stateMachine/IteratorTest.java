@@ -39,11 +39,11 @@ public class IteratorTest extends TestCase {
 
                 @Override
                 protected void process(RP rp2) throws Exception {
-                    if (i >= max) rp2.process(new Integer(r));
+                    if (i >= max) rp2.processResponse(new Integer(r));
                     else {
                         i += 1;
                         r = r * i;
-                        rp2.process(null);
+                        rp2.processResponse(null);
                     }
                 }
             };

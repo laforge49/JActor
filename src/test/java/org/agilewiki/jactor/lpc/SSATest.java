@@ -34,7 +34,7 @@ public class SSATest extends TestCase {
                 @Override
                 public void processResponse(Object response) throws Exception {
                     System.err.println("S got response");
-                    rp.process(response);
+                    rp.processResponse(response);
                 }
             });
         }
@@ -49,7 +49,7 @@ public class SSATest extends TestCase {
         @Override
         public void processRequest(Object request, RP rp) throws Exception {
             System.err.println("A got request");
-            rp.process(request);
+            rp.processResponse(request);
         }
     }
 }

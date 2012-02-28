@@ -21,7 +21,7 @@ public class Driver extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Exception caught by JAParallel");
-                rd.process(null);
+                rd.processResponse(null);
             }
         });
         if (unwrappedRequest instanceof T1) {

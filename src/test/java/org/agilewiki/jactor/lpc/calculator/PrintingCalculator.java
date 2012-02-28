@@ -32,14 +32,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Clear => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("Clear => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -50,14 +50,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Get => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("Get => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -68,14 +68,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Set " + request.getValue() + " => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("Set " + request.getValue() + " => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -86,14 +86,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("+ " + request.getValue() + " => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("+ " + request.getValue() + " => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -104,14 +104,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("- " + request.getValue() + " => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("- " + request.getValue() + " => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -122,14 +122,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("* " + request.getValue() + " => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("* " + request.getValue() + " => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }
@@ -140,14 +140,14 @@ public class PrintingCalculator extends JLPCActor {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("/ " + request.getValue() + " => " + exception);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
         send(calculator, request, new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 System.out.println("/ " + request.getValue() + " => " + response);
-                rp.process(response);
+                rp.processResponse(response);
             }
         });
     }

@@ -14,6 +14,6 @@ public class Multiplier extends JLPCActor {
     public void processRequest(Object req, RP rp)
             throws Exception {
         Multiply m = (Multiply) req;
-        rp.process(new Integer(m.a * m.b));
+        rp.processResponse(new Integer(m.a * m.b));
     }
 }

@@ -55,7 +55,7 @@ abstract public class VoidConcurrentMethodBinding<REQUEST_TYPE>
                                     RP<Object> rp)
             throws Exception {
         concurrentProcessRequest(requestReceiver, request);
-        rp.process(null);
+        rp.processResponse(null);
     }
 
     /**

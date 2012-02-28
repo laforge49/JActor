@@ -54,7 +54,7 @@ abstract public class ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
                                     REQUEST_TYPE request,
                                     RP<RESPONSE_TYPE> rp)
             throws Exception {
-        rp.process(concurrentProcessRequest(requestReceiver, request));
+        rp.processResponse(concurrentProcessRequest(requestReceiver, request));
     }
 
     /**

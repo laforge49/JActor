@@ -28,7 +28,7 @@ final public class Driver extends JAPCActor {
             @Override
             public void processResponse(Object unwrappedResponse) throws Exception {
                 r += 1;
-                if (r == p) rd1.process(null);
+                if (r == p) rd1.processResponse(null);
             }
         };
         int i = 0;

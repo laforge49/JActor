@@ -25,35 +25,35 @@ public class Calculator extends JLPCActor {
 
     private void clear(Clear request, RP rp) throws Exception {
         accumulator = 0;
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void get(Get request, RP rp) throws Exception {
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void set(Set request, RP rp) throws Exception {
         accumulator = request.getValue();
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void add(Add request, RP rp) throws Exception {
         accumulator = accumulator + request.getValue();
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void subtract(Subtract request, RP rp) throws Exception {
         accumulator = accumulator - request.getValue();
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void multiply(Multiply request, RP rp) throws Exception {
         accumulator = accumulator * request.getValue();
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 
     private void divide(Divide request, RP rp) throws Exception {
         accumulator = accumulator / request.getValue();
-        rp.process(new Integer(accumulator));
+        rp.processResponse(new Integer(accumulator));
     }
 }

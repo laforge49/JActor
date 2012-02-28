@@ -32,7 +32,7 @@ public class FactorialCalculation extends JLPCActor {
                         send(calculator, new Multiply(count), new RP() {
                             @Override
                             public void processResponse(Object response) throws Exception {
-                                rp1.process(null);
+                                rp1.processResponse(null);
                             }
                         });
                     }

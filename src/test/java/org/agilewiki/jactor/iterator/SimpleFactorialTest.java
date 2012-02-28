@@ -18,11 +18,11 @@ public class SimpleFactorialTest extends TestCase {
             int r = 1;
 
             public void process(RP rp) throws Exception {
-                if (i >= max) rp.process(new Integer(r));
+                if (i >= max) rp.processResponse(new Integer(r));
                 else {
                     i += 1;
                     r = r * i;
-                    rp.process(null);
+                    rp.processResponse(null);
                 }
             }
         }).iterate(printResult);

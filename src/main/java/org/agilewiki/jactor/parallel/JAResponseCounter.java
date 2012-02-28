@@ -69,6 +69,6 @@ final public class JAResponseCounter extends RP {
     @Override
     public void processResponse(Object response) throws Exception {
         c += 1;
-        if (c == max) rp.process(null);
+        if (c == max) rp.processResponse(null);
     }
 }

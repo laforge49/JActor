@@ -37,7 +37,7 @@ public class EventTest extends TestCase {
                 public void processRequest(Internals internals, Hi request, RP rp)
                         throws Exception {
                     System.err.println("A got request");
-                    rp.process("Hello world!");
+                    rp.processResponse("Hello world!");
                 }
             });
 

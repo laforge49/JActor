@@ -91,6 +91,6 @@ final public class _SetF implements _Operation {
     public void call(StateMachine stateMachine, RP rp) throws Exception {
         Object value = objectFunc.get(stateMachine);
         if (resultName != null) stateMachine.put(resultName, value);
-        rp.process(null);
+        rp.processResponse(null);
     }
 }

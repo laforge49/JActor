@@ -78,6 +78,6 @@ public class _Goto implements _Operation {
     @Override
     public void call(StateMachine stateMachine, RP rp) throws Exception {
         stateMachine.go(label);
-        rp.process(null);
+        rp.processResponse(null);
     }
 }

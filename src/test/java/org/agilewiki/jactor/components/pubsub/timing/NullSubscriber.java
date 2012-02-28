@@ -11,6 +11,6 @@ final public class NullSubscriber extends JLPCActor {
 
     @Override
     protected void processRequest(Object request, RP rp) throws Exception {
-        rp.process(null);
+        rp.processResponse(null);
     }
 }

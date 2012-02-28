@@ -12,6 +12,6 @@ public class Subscriber extends JLPCActor {
     @Override
     protected void processRequest(Object request, RP rp) throws Exception {
         System.err.println("Got request.");
-        rp.process(null);
+        rp.processResponse(null);
     }
 }

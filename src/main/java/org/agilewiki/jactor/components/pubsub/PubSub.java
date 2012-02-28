@@ -88,13 +88,13 @@ public class PubSub extends Component {
                     protected void process(RP rp1) throws Exception {
                         if (!sit.hasNext()) {
                             psrp.finished();
-                            rp1.process(JANull.jan);
+                            rp1.processResponse(JANull.jan);
                             return;
                         }
                         Actor subscriber = sit.next();
                         psrp.sent += 1;
                         broadcastRequest.send(requestSource, subscriber, psrp);
-                        rp1.process(null);
+                        rp1.processResponse(null);
                     }
                 };
                 jaIterator.iterate(JANoResponse.nrp);

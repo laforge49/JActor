@@ -17,7 +17,7 @@ public class Factorial extends JLPCActor {
         RP printResult = new RP() {
             public void processResponse(Object rsp) throws Exception {
                 System.out.println(rsp);
-                rp.process(null);
+                rp.processResponse(null);
             }
         };
         (new JAIterator() {
@@ -26,7 +26,7 @@ public class Factorial extends JLPCActor {
             Multiplier mp = new Multiplier(getMailbox());
 
             public void process(RP rp) throws Exception {
-                if (i >= max) rp.process(new Integer(r));
+                if (i >= max) rp.processResponse(new Integer(r));
                 else {
                     i += 1;
                     Multiply m = new Multiply();
@@ -37,7 +37,7 @@ public class Factorial extends JLPCActor {
                             r = ((Integer) rsp).intValue();
                         }
                     });
-                    rp.process(null);
+                    rp.processResponse(null);
                 }
             }
         }).iterate(printResult);

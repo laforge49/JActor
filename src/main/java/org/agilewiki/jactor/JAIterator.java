@@ -94,8 +94,8 @@ abstract public class JAIterator {
                     } else {
                         iterate(responseProcessor); //not recursive
                     }
-                } else if (response instanceof JANull) responseProcessor.process(null);
-                else responseProcessor.process(response);
+                } else if (response instanceof JANull) responseProcessor.processResponse(null);
+                else responseProcessor.processResponse(response);
             }
         };
         erp.sync = true;

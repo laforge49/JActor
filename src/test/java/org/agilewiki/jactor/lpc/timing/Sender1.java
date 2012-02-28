@@ -26,7 +26,7 @@ public class Sender1 extends JLPCActor {
 
             @Override
             public void process(final RP rd2) throws Exception {
-                if (i > count) rd2.process(this);
+                if (i > count) rd2.processResponse(this);
                 else {
                     i += 1;
                     send(echo, null, rd2);

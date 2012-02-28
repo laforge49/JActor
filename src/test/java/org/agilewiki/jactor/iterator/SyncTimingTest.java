@@ -29,8 +29,8 @@ public class SyncTimingTest extends TestCase {
             @Override
             protected void process(RP rp) throws Exception {
                 i += 1;
-                if (i < c) rp.process(null);
-                else rp.process(this);
+                if (i < c) rp.processResponse(null);
+                else rp.processResponse(this);
             }
         }).iterate(done);
     }

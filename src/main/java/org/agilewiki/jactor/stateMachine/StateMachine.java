@@ -75,7 +75,7 @@ public class StateMachine {
         (new JAIterator() {
             @Override
             protected void process(final RP rp1) throws Exception {
-                if (programCounter >= smBuilder.operationsSize()) rp1.process(JANull.jan);
+                if (programCounter >= smBuilder.operationsSize()) rp1.processResponse(JANull.jan);
                 else {
                     final _Operation o = smBuilder.getOperation(programCounter);
                     programCounter += 1;

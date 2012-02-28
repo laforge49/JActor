@@ -28,7 +28,7 @@ public class SendFFTest extends TestCase {
         public void processRequest(Object request, RP rp)
                 throws Exception {
             int req = (Integer) request;
-            rp.process(req * 2);
+            rp.processResponse(req * 2);
         }
     }
 

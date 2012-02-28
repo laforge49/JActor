@@ -81,6 +81,6 @@ final public class _IfV extends _Goto {
     @Override
     public void call(StateMachine stateMachine, RP rp) throws Exception {
         if (condition) super.call(stateMachine, rp);
-        else rp.process(null);
+        else rp.processResponse(null);
     }
 }

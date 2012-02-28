@@ -38,7 +38,7 @@ public class Driver extends Component {
                     @Override
                     protected void process(final RP rp1) throws Exception {
                         if (i == count) {
-                            rp1.process(JANull.jan);
+                            rp1.processResponse(JANull.jan);
                             return;
                         }
                         i += 1;

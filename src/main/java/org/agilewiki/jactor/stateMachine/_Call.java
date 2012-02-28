@@ -103,7 +103,7 @@ final public class _Call implements _Operation {
             @Override
             final public void processResponse(Object response) throws Exception {
                 if (resultName != null) stateMachine.put(resultName, response);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
     }

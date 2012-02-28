@@ -18,11 +18,11 @@ final public class CounterActor extends JLPCActor {
         if (request instanceof AddCount) {
             AddCount addCount = (AddCount) request;
             count += addCount.number;
-            rp.process(null);
+            rp.processResponse(null);
         } else {
             Long current = new Long(count);
             count = 0;
-            rp.process(current);
+            rp.processResponse(current);
         }
     }
 }

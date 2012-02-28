@@ -80,6 +80,6 @@ public class _SetV implements _Operation {
     @Override
     public void call(StateMachine stateMachine, RP rp) throws Exception {
         if (resultName != null) stateMachine.put(resultName, value);
-        rp.process(null);
+        rp.processResponse(null);
     }
 }

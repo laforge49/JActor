@@ -27,7 +27,7 @@ public class Sender extends JLPCActor {
 
             @Override
             public void process(final RP rd2) throws Exception {
-                if (i > count) rd2.process(this);
+                if (i > count) rd2.processResponse(this);
                 else {
                     i += 1;
                     RP rd3 = new RP() {
@@ -36,7 +36,7 @@ public class Sender extends JLPCActor {
                         @Override
                         public void processResponse(Object unwrappedResponse) throws Exception {
                             r -= 1;
-                            if (r == 0) rd2.process(null);
+                            if (r == 0) rd2.processResponse(null);
                         }
                     };
                     int j = 0;

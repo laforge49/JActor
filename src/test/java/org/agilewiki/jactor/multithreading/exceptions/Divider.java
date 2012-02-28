@@ -30,7 +30,7 @@ public class Divider extends Component {
                                                Divide request,
                                                RP rp)
                             throws Exception {
-                        rp.process(request.getN() / request.getD());
+                        rp.processResponse(request.getN() / request.getD());
                     }
                 });
 
@@ -61,7 +61,7 @@ public class Divider extends Component {
                         internals.setExceptionHandler(new ExceptionHandler() {
                             @Override
                             public void process(Exception exception) throws Exception {
-                                rp.process(null);
+                                rp.processResponse(null);
                             }
                         });
                         Divide divide = new Divide(request.getN(), request.getD());

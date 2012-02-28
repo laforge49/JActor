@@ -82,6 +82,6 @@ final public class _ReturnF implements _Operation {
     final public void call(StateMachine stateMachine, RP rp) throws Exception {
         Object rv = result.get(stateMachine);
         if (rv == null) rv = JANull.jan;
-        rp.process(rv);
+        rp.processResponse(rv);
     }
 }

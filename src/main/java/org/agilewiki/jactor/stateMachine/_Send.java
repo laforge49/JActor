@@ -46,7 +46,7 @@ abstract public class _Send implements _Operation {
             final public void processResponse(Object response) throws Exception {
                 String rn = getResultName();
                 if (rn != null) stateMachine.put(rn, response);
-                rp.process(null);
+                rp.processResponse(null);
             }
         });
     }

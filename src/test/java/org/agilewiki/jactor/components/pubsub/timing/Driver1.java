@@ -36,14 +36,14 @@ final public class Driver1 extends Component {
                     @Override
                     protected void process(final RP rp1) throws Exception {
                         if (i == count) {
-                            rp1.process(JANull.jan);
+                            rp1.processResponse(JANull.jan);
                             return;
                         }
                         i += 1;
                         internals.send(internals.getThisActor(), publish, new RP() {
                             @Override
                             public void processResponse(Object response) throws Exception {
-                                rp1.process(null);
+                                rp1.processResponse(null);
                             }
                         });
                     }

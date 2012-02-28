@@ -76,6 +76,6 @@ final public class _ReturnV implements _Operation {
     final public void call(StateMachine stateMachine, RP rp) throws Exception {
         Object rv = result;
         if (rv == null) rv = JANull.jan;
-        rp.process(rv);
+        rp.processResponse(rv);
     }
 }

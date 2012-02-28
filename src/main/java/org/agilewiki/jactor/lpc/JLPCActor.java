@@ -258,7 +258,7 @@ abstract public class JLPCActor implements Actor {
                             sourceExceptionHandler,
                             rs.getMailbox());
                 } else try {
-                    rp.process(response);
+                    rp.processResponse(response);
                 } catch (Exception ex) {
                     asyncException(ex, sourceExceptionHandler, rs.getMailbox());
                 }
@@ -298,7 +298,7 @@ abstract public class JLPCActor implements Actor {
                 @Override
                 public void processResponse(Object response) throws Exception {
                     try {
-                        rp.process(response);
+                        rp.processResponse(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
                     }
@@ -345,7 +345,7 @@ abstract public class JLPCActor implements Actor {
                 if (!async) {
                     sync = true;
                     try {
-                        rp.process(response);
+                        rp.processResponse(response);
                     } catch (Exception e) {
                         throw new TransparentException(e);
                     }
@@ -358,14 +358,14 @@ abstract public class JLPCActor implements Actor {
                         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
                         EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
                         if (srcController == controller) {
-                            rp.process(response);
+                            rp.processResponse(response);
                         } else if (sourceMailbox.isAsync()) {
                             asyncResponse(rs, request, response, rp);
                         } else if (!eventQueue.acquireControl(srcController)) {
                             asyncResponse(rs, request, response, rp);
                         } else {
                             try {
-                                rp.process(response);
+                                rp.processResponse(response);
                             } finally {
                                 mailbox.dispatchEvents();
                                 mailbox.sendPendingMessages();

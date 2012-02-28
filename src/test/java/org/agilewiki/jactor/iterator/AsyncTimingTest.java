@@ -38,8 +38,8 @@ public class AsyncTimingTest extends TestCase {
         it.iterate(done);
         while (it.i < c) {
             it.i += 1;
-            it.rp.process(null);
+            it.rp.processResponse(null);
         }
-        it.rp.process(this);
+        it.rp.processResponse(this);
     }
 }
