@@ -11,27 +11,29 @@ public class ParallelResponsePrinter extends Component {
     @Override
     public void bindery() throws Exception {
 
-        thisActor.bind(PrintParallelResponse.class.getName(), new MethodBinding<PrintParallelResponse, Object>() {
-            @Override
-            public void processRequest(Internals internals,
-                                       PrintParallelResponse request,
-                                       RP rp)
-                    throws Exception {
-                int count = request.getCount();
-                JCActor[] responsePrinters = request.getResponsePrinters();
-                PrintResponse printResponse = request.getPrintResponse();
-                PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
-                int i = 0;
-                while (i < count) {
-                    System.out.println(i);
-                    printResponse.send(internals, responsePrinters[i], psrp);
-                    i += 1;
-                }
-                psrp.sent = count;
-                psrp.finished();
-                System.out.println(count + " sends");
-            }
-        });
+        thisActor.bind(
+                PrintParallelResponse.class.getName(),
+                new MethodBinding<PrintParallelResponse<Object>, Object>() {
+                    @Override
+                    public void processRequest(Internals internals,
+                                               PrintParallelResponse request,
+                                               RP rp)
+                            throws Exception {
+                        int count = request.getCount();
+                        JCActor[] responsePrinters = request.getResponsePrinters();
+                        PrintResponse printResponse = request.getPrintResponse();
+                        PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
+                        int i = 0;
+                        while (i < count) {
+                            System.out.println(i);
+                            printResponse.send(internals, responsePrinters[i], psrp);
+                            i += 1;
+                        }
+                        psrp.sent = count;
+                        psrp.finished();
+                        System.out.println(count + " sends");
+                    }
+                });
 
     }
 }

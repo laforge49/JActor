@@ -3,7 +3,7 @@ package org.agilewiki.jactor.multithreading;
 import org.agilewiki.jactor.bind.Request;
 import org.agilewiki.jactor.components.JCActor;
 
-public class PrintResponse<RESPONSE_TYPE> extends Request {
+public class PrintResponse<RESPONSE_TYPE> extends Request<Object> {
     private Request<RESPONSE_TYPE> request;
     private JCActor actor;
 

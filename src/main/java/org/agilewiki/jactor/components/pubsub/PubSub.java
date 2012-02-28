@@ -24,12 +24,8 @@
 package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.bind.ConcurrentBinding;
-import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.Request;
-import org.agilewiki.jactor.bind.RequestReceiver;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -73,11 +69,9 @@ public class PubSub extends Component {
             }
         });
 
-        thisActor.bind(Publish.class.getName(), new ConcurrentBinding<Publish, Object>() {
-            public void acceptRequest(RequestReceiver requestReceiver,
-                                      final RequestSource requestSource,
-                                      final Publish request,
-                                      final RP<Object> rp)
+        thisActor.bind(Publish.class.getName(), new MethodBinding<Publish, Object>() {
+            @Override
+            public void processRequest(final Internals internals, final Publish request, final RP<Object> rp)
                     throws Exception {
                 final Iterator<Actor> sit = subscribers.iterator();
                 JAIterator jaIterator = new JAIterator() {
@@ -93,7 +87,7 @@ public class PubSub extends Component {
                         }
                         Actor subscriber = sit.next();
                         psrp.sent += 1;
-                        broadcastRequest.send(requestSource, subscriber, psrp);
+                        broadcastRequest.send(internals, subscriber, psrp);
                         rp1.processResponse(null);
                     }
                 };

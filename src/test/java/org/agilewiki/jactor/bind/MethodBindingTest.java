@@ -42,7 +42,7 @@ public class MethodBindingTest extends TestCase {
         A(Mailbox mailbox) {
             super(mailbox);
 
-            bind(Hi.class.getName(), new MethodBinding<Hi, Object>() {
+            bind(Hi.class.getName(), new MethodBinding<Hi, String>() {
                 public void processRequest(Internals internals, Hi request, RP rp)
                         throws Exception {
                     rp.processResponse("Hello world!");

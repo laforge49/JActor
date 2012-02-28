@@ -67,7 +67,7 @@ public class Properties extends Component {
 
         thisActor.bind(
                 GetProperty.class.getName(),
-                new ConcurrentMethodBinding<GetProperty, Object>() {
+                new ConcurrentMethodBinding<GetProperty<Object>, Object>() {
                     @Override
                     public Object concurrentProcessRequest(RequestReceiver requestReceiver,
                                                            GetProperty request)

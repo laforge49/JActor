@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bind.Request;
  * Broadcast a request to all subscribers.
  * The response is the number of subscribers to which the request was broadcast.
  */
-public class Publish extends Request {
+public class Publish extends Request<Object> {
     /**
      * The request to be broadcast.
      */

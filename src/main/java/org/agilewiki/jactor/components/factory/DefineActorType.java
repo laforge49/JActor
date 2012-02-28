@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bind.InitializationRequest;
  * DefineActorType is a request to register a component that can be used
  * to create and configure new types of actors.
  */
-final public class DefineActorType extends InitializationRequest {
+final public class DefineActorType extends InitializationRequest<Object> {
     /**
      * An actor type name.
      */

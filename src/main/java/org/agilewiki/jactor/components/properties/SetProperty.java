@@ -28,7 +28,7 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
 /**
  * This request assigns a value to a property.
  */
-public class SetProperty extends ConcurrentRequest {
+public class SetProperty extends ConcurrentRequest<Object> {
     /**
      * The name of the property.
      */

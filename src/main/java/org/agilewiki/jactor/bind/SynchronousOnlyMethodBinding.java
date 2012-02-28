@@ -32,7 +32,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * but restricts access to senders with the same mailbox.
  * </p>
  */
-abstract public class SynchronousOnlyMethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
+abstract public class SynchronousOnlyMethodBinding
+        <REQUEST_TYPE extends SynchronousRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
         extends SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * <p>

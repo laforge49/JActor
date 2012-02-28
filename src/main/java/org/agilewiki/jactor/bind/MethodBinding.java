@@ -29,7 +29,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Binds a request class to a method that supports asynchronous requests.
  */
-abstract public class MethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
+abstract public class MethodBinding
+        <REQUEST_TYPE extends Request<RESPONSE_TYPE>, RESPONSE_TYPE>
         extends Binding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * <p>

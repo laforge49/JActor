@@ -394,11 +394,11 @@ public class JBActor implements Actor {
                 throw new UnsupportedOperationException("actor is already active");
             if (binding instanceof InitializationMethodBinding) {
                 InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
-                return initializationMethodBinding.initializationProcessRequest(request);
+                return initializationMethodBinding.initializationProcessRequest((InitializationRequest) request);
             }
             if (binding instanceof VoidInitializationMethodBinding) {
                 VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
-                initializationMethodBinding.initializationProcessRequest(request);
+                initializationMethodBinding.initializationProcessRequest((InitializationRequest) request);
                 return null;
             }
             throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
@@ -412,13 +412,13 @@ public class JBActor implements Actor {
                 ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
                 return concurrentMethodBinding.concurrentProcessRequest(
                         requestReceiver,
-                        request);
+                        (ConcurrentRequest) request);
             }
             if (binding instanceof VoidConcurrentMethodBinding) {
                 VoidConcurrentMethodBinding concurrentMethodBinding = (VoidConcurrentMethodBinding) binding;
                 concurrentMethodBinding.concurrentProcessRequest(
                         requestReceiver,
-                        request);
+                        (ConcurrentRequest) request);
                 return null;
             }
             throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
@@ -429,11 +429,11 @@ public class JBActor implements Actor {
                     "A synchronous request may not be called when the mailboxes are not the same");
             if (binding instanceof SynchronousMethodBinding) {
                 SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
-                return synchronousMethodBinding.synchronousProcessRequest(internals, request);
+                return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
             }
             if (binding instanceof VoidSynchronousMethodBinding) {
                 VoidSynchronousMethodBinding synchronousMethodBinding = (VoidSynchronousMethodBinding) binding;
-                synchronousMethodBinding.synchronousProcessRequest(internals, request);
+                synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
                 return null;
             }
             throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +

@@ -3,12 +3,12 @@ package org.agilewiki.jactor.multithreading;
 import org.agilewiki.jactor.bind.Request;
 import org.agilewiki.jactor.components.JCActor;
 
-public class PrintParallelResponse<RESPONSE_TYPE> extends Request {
+public class PrintParallelResponse<RESPONSE> extends Request<Object> {
     private int count;
-    private PrintResponse<RESPONSE_TYPE> printResponse;
+    private PrintResponse<RESPONSE> printResponse;
     private JCActor[] responsePrinters;
 
-    public PrintResponse<RESPONSE_TYPE> getPrintResponse() {
+    public PrintResponse<RESPONSE> getPrintResponse() {
         return printResponse;
     }
 
@@ -22,7 +22,7 @@ public class PrintParallelResponse<RESPONSE_TYPE> extends Request {
 
     public PrintParallelResponse(int count,
                                  JCActor[] responsePrinters,
-                                 PrintResponse<RESPONSE_TYPE> printResponse) {
+                                 PrintResponse<RESPONSE> printResponse) {
         this.count = count;
         this.responsePrinters = responsePrinters;
 

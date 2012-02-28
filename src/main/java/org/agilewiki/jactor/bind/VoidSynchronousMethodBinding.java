@@ -30,7 +30,8 @@ import org.agilewiki.jactor.RP;
  * Binds a SynchronousRequest class to a synchronous method.
  * </p>
  */
-abstract public class VoidSynchronousMethodBinding<REQUEST_TYPE>
+abstract public class VoidSynchronousMethodBinding
+        <REQUEST_TYPE extends SynchronousRequest<Object>>
         extends MethodBinding<REQUEST_TYPE, Object> {
     /**
      * A safe method for processing requests sent to the actor.
@@ -41,7 +42,8 @@ abstract public class VoidSynchronousMethodBinding<REQUEST_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp) throws Exception {
+    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp)
+            throws Exception {
         synchronousProcessRequest(internals, request);
         rp.processResponse(null);
     }
@@ -53,5 +55,6 @@ abstract public class VoidSynchronousMethodBinding<REQUEST_TYPE>
      * @param request   A request.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void synchronousProcessRequest(Internals internals, REQUEST_TYPE request) throws Exception;
+    abstract public void synchronousProcessRequest(Internals internals, REQUEST_TYPE request)
+            throws Exception;
 }

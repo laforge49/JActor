@@ -10,7 +10,7 @@ import org.agilewiki.jactor.components.JCActor;
 public class ResponsePrinter extends Component {
     @Override
     public void bindery() throws Exception {
-        thisActor.bind(PrintResponse.class.getName(), new MethodBinding<PrintResponse, Object>() {
+        thisActor.bind(PrintResponse.class.getName(), new MethodBinding<PrintResponse<Object>, Object>() {
             @Override
             public void processRequest(Internals internals,
                                        PrintResponse request,

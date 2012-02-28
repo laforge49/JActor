@@ -28,7 +28,8 @@ import org.agilewiki.jactor.RP;
 /**
  * A binding for processing concurrent requests.
  */
-abstract public class ConcurrentBinding<REQUEST_TYPE, RESPONSE_TYPE>
+abstract public class ConcurrentBinding
+        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
         extends Binding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * Unsupported.

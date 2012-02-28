@@ -31,7 +31,7 @@ import org.agilewiki.jactor.components.JCActor;
  * which has been assigned an actor name.</p>
  * <p>Only one actor can be registered for a given name.</p>
  */
-final public class RegisterActor extends ConcurrentRequest {
+final public class RegisterActor extends ConcurrentRequest<Object> {
     /**
      * The actor to be registered.
      */

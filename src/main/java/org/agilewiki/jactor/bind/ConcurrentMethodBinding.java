@@ -31,7 +31,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * Binds a ConcurrentRequest class to a thread safe method.
  * </p>
  */
-abstract public class ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
+abstract public class ConcurrentMethodBinding
+        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
         extends ConcurrentBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * <p>

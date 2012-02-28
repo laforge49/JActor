@@ -30,7 +30,8 @@ import org.agilewiki.jactor.RP;
  * Binds a SynchronousRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE>
+abstract public class SynchronousMethodBinding
+        <REQUEST_TYPE extends SynchronousRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
         extends MethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * A safe method for processing requests sent to the actor.
