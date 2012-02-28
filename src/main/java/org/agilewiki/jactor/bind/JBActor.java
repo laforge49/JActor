@@ -404,7 +404,6 @@ public class JBActor implements Actor {
             throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
                     request.getClass().getName());
         } else {
-            System.err.println(request);
             active = true;
             open(internals);
         }
@@ -460,7 +459,6 @@ public class JBActor implements Actor {
             if (active)
                 throw new UnsupportedOperationException("actor is already active");
         } else {
-            System.err.println(request);
             active = true;
             open(internals);
         }
