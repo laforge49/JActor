@@ -1,7 +1,5 @@
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.Actor;
-
 /**
  * Requests that can be called from outside an actor.
  */
@@ -14,7 +12,7 @@ public class ExternallyCallableRequest<RESPONSE_TYPE> extends ConstrainedRequest
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(Actor targetActor)
+    public RESPONSE_TYPE call(JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(null, this);
     }

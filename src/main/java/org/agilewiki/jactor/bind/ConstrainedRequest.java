@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
@@ -39,7 +38,7 @@ public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(Internals sourceInternals, Actor targetActor) throws Exception {
+    public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
         return (RESPONSE_TYPE) sourceInternals.call(targetActor, this);
     }
 
@@ -52,7 +51,7 @@ public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(APCRequestSource requestSource, Actor targetActor)
+    public RESPONSE_TYPE call(APCRequestSource requestSource, JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);
     }

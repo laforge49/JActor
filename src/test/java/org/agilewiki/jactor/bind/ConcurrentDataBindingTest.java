@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.bind;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
@@ -11,7 +10,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createMailbox());
+            JBActor a = new A(mailboxFactory.createMailbox());
             System.err.println((new Hi()).call(a));
         } catch (Exception e) {
             e.printStackTrace();

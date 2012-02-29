@@ -10,7 +10,7 @@ public class PubSubTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor publisher = new JCActor(mailbox);
+            JCActor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
             (new Include(PubSub.class)).call(publisher);
             Actor subscriber1 = new Subscriber(mailbox);

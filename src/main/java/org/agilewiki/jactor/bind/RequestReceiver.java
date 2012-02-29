@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
@@ -46,7 +45,7 @@ public interface RequestReceiver {
      *
      * @return The actor's parent, or null.
      */
-    Actor getParent();
+    JBActor getParent();
 
     /**
      * Returns true when the concurrent data of the parent contains the named data item.

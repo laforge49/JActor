@@ -7,7 +7,7 @@ public class EventTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createMailbox());
+            JBActor a = new A(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             Hi hi = new Hi();
             hi.sendEvent(a);

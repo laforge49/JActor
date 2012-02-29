@@ -48,10 +48,10 @@ public class AsyncTimingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
             JAFuture future = new JAFuture();
-            Actor[] drivers = new Actor[p];
+            Actor[] drivers = new JCActor[p];
             int i = 0;
             while (i < p) {
-                Actor driver = new JCActor(mailboxFactory.createAsyncMailbox());
+                JCActor driver = new JCActor(mailboxFactory.createAsyncMailbox());
                 driver.setInitialBufferCapacity(b + 10);
                 (new Include(Driver.class)).call(driver);
                 drivers[i] = driver;

@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.components.factory;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.components.Include;
@@ -17,7 +16,7 @@ public class FactoryTest extends TestCase {
             (new Include(Factory.class)).call(f);
             (new Include(ActorRegistry.class)).call(f);
             (new DefineActorType("Foo", Foo.class)).call(f);
-            Actor a = (new NewActor("Foo")).call(f);
+            JCActor a = (new NewActor("Foo")).call(f);
             (new Hi()).call(a);
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,7 +34,7 @@ public class FactoryTest extends TestCase {
             (new Include(Factory.class)).call(f);
             (new Include(ActorRegistry.class)).call(f);
             (new DefineActorType("Bar", Bar.class)).call(f);
-            Actor a = (new NewActor("Bar", null, "Bloop")).call(f);
+            JCActor a = (new NewActor("Bar", null, "Bloop")).call(f);
             (new Hi()).call(a);
         } catch (Exception e) {
             e.printStackTrace();

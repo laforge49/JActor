@@ -73,7 +73,7 @@ public class JBActor implements Actor {
          * @return The actor's parent, or null.
          */
         @Override
-        final public Actor getParent() {
+        final public JBActor getParent() {
             return JBActor.this.getParent();
         }
 

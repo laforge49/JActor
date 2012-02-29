@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.components.properties;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
+import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -75,7 +75,7 @@ public class Properties extends Component {
                         String name = request.getPropertyName();
                         Object value = properties.get(name);
                         if (value == null && parentHasSameComponent()) {
-                            Actor parent = requestReceiver.getParent();
+                            JBActor parent = requestReceiver.getParent();
                             return request.call(parent);
                         }
                         return value;
