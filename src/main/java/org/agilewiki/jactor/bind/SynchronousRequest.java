@@ -40,7 +40,6 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
         return (RESPONSE_TYPE) sourceInternals.call(targetActor, this);
     }
@@ -54,7 +53,6 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     public RESPONSE_TYPE call(APCRequestSource requestSource, JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);

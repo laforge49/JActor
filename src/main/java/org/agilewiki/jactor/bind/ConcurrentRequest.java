@@ -37,7 +37,6 @@ public class ConcurrentRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     public RESPONSE_TYPE call(JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(null, this);
@@ -52,7 +51,6 @@ public class ConcurrentRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
         return (RESPONSE_TYPE) sourceInternals.call(targetActor, this);
     }
@@ -66,7 +64,6 @@ public class ConcurrentRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     public RESPONSE_TYPE call(APCRequestSource requestSource, JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);

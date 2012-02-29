@@ -184,20 +184,6 @@ public class JBActor implements Actor {
         }
 
         /**
-         * Send a request to a purely synchronous method.
-         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         * @return The response.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        @Override
-        public Object call(JBActor actor, ConstrainedRequest request) throws Exception {
-            return actor.acceptCall(requestSource, request);
-        }
-
-        /**
          * Send a request to another actor.
          *
          * @param actor   The target actor.
@@ -513,25 +499,6 @@ public class JBActor implements Actor {
         throw new UnsupportedOperationException(
                 "SynchronousRequest is not bound to a [Void]SynchronousMethodBinding: " +
                         request.getClass().getName());
-    }
-
-    /**
-     * Processes a constrained request
-     *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request)
-            throws Exception {
-        if (request instanceof InitializationRequest)
-            return acceptCall(apcRequestSource, (InitializationRequest) request);
-        if (request instanceof ConcurrentRequest)
-            return acceptCall(apcRequestSource, (ConcurrentRequest) request);
-        if (request instanceof SynchronousRequest)
-            return acceptCall(apcRequestSource, (SynchronousRequest) request);
-        throw new IllegalArgumentException(request.getClass().getName());
     }
 
     /**
