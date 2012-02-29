@@ -17,25 +17,17 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
     private MailboxFactory mailboxFactory;
 
     /**
-     * Set to true when all requests are to be processed asynchronously.
-     */
-    private boolean async;
-
-    /**
      * Create a JLPCMailbox.
      * Use this constructor when providing an implementation of BufferedEventsQueue
      * other than JABufferedEventsQueue.
      *
      * @param eventQueue     The lower-level mailbox which transports messages as 1-way events.
      * @param mailboxFactory Provides a thread for processing dispatched events.
-     * @param async          Set to true when all requests are to be processed asynchronously.
      */
     public JLPCMailbox(final BufferedEventsQueue<JAMessage> eventQueue,
-                       final MailboxFactory mailboxFactory,
-                       final boolean async) {
+                       final MailboxFactory mailboxFactory) {
         super(eventQueue);
         this.mailboxFactory = mailboxFactory;
-        this.async = async;
     }
 
     /**
@@ -47,9 +39,8 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      */
     public JLPCMailbox(final MailboxFactory mailboxFactory,
                        final boolean async) {
-        super(mailboxFactory.getThreadManager());
+        super(mailboxFactory.getThreadManager(), async);
         this.mailboxFactory = mailboxFactory;
-        this.async = async;
     }
 
     /**
@@ -69,14 +60,5 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
     @Override
     public MailboxFactory getMailboxFactory() {
         return mailboxFactory;
-    }
-
-    /**
-     * Returns true when all requests are to be processed asynchronously.
-     *
-     * @return True when all requests are to be processed asynchronously.
-     */
-    public boolean isAsync() {
-        return async;
     }
 }

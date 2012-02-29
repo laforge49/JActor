@@ -47,7 +47,7 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JABufferedEventsActor(ThreadManager threadManager) {
-        this(new JABufferedEventsQueue<E>(threadManager));
+        this(new JABufferedEventsQueue<E>(threadManager, true));
     }
 
     /**

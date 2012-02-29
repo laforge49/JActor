@@ -181,12 +181,12 @@ abstract public class JLPCActor implements Actor {
             syncProcess(request, rp, sourceExceptionHandler, rs);
             return;
         }
-        if (mailbox.isAsync() || sourceMailbox == null) {
+        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+        if (eventQueue.isAutonomous() || sourceMailbox == null) {
             asyncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
         EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
-        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         if (eventQueue.getController() == srcController) {
             syncSend(rs, request, rp, sourceExceptionHandler);
             return;
@@ -339,12 +339,13 @@ abstract public class JLPCActor implements Actor {
                         asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
                     else try {
                         Mailbox sourceMailbox = rs.getMailbox();
-                        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+                        EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
+                        EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
                         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
                         EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
                         if (srcController == controller) {
                             rp.processResponse(response);
-                        } else if (sourceMailbox.isAsync()) {
+                        } else if (sourceEventQueue.isAutonomous()) {
                             asyncResponse(rs, request, response, rp);
                         } else if (!eventQueue.acquireControl(srcController)) {
                             asyncResponse(rs, request, response, rp);

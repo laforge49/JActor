@@ -95,9 +95,10 @@ public class JAPCMailbox implements APCMailbox {
      * Create a JAPCMailbox.
      *
      * @param threadManager Provides a thread for processing dispatched events.
+     * @param autonomous    Inhibits the acquireControl operation when true.
      */
-    public JAPCMailbox(ThreadManager threadManager) {
-        this(new JABufferedEventsQueue<JAMessage>(threadManager));
+    public JAPCMailbox(ThreadManager threadManager, boolean autonomous) {
+        this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous));
     }
 
     /**

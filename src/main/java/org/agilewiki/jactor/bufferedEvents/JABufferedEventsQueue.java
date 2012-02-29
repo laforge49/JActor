@@ -90,9 +90,10 @@ final public class JABufferedEventsQueue<E>
      * Create a BufferedEventsQueue.
      *
      * @param threadManager Provides a thread for processing dispatched events.
+     * @param autonomous    Inhibits the acquireControl operation when true.
      */
-    public JABufferedEventsQueue(ThreadManager threadManager) {
-        this(new JAEventQueue<ArrayList<E>>(threadManager));
+    public JABufferedEventsQueue(ThreadManager threadManager, boolean autonomous) {
+        this(new JAEventQueue<ArrayList<E>>(threadManager, autonomous));
     }
 
     /**

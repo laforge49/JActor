@@ -38,19 +38,12 @@ import org.agilewiki.jactor.apc.APCMailbox;
  * mailboxes always group outgoing messages by destination actor and then sends all the messages for each destination
  * as an array list.
  * </p><p>
- * Mailboxes can be tagged as synchronous or asynchronous. Asynchronous actors are actors which have a mailbox which
- * has been tagged as asynchronous. And when an actor has a request for an asynchronous actor, the request and response
- * are always exchanged asynchronously.
+ * Mailboxes can be tagged as synchronous or asynchronous. Asynchronous actors are actors which have an mailbox with
+ * an event queue which has been tagged as autonomous. And when an actor has a request for an asynchronous actor, the
+ * request and response are always exchanged asynchronously.
  * </p>
  */
 public interface Mailbox extends APCMailbox {
-    /**
-     * Returns true when all requests are to be processed asynchronously.
-     *
-     * @return True when all requests are to be processed asynchronously.
-     */
-    public boolean isAsync();
-
     /**
      * Returns the mailbox factory.
      *

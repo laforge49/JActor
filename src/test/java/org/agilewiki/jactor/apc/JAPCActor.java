@@ -92,7 +92,7 @@ abstract public class JAPCActor implements Actor {
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAPCActor(ThreadManager threadManager) {
-        this(new JAPCMailbox(threadManager));
+        this(new JAPCMailbox(threadManager, true));
     }
 
     /**

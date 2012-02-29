@@ -12,7 +12,7 @@ public class ServerTest extends TestCase {
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
             JAFuture future = new JAFuture();
-            int times = new Random().nextInt(20);
+            int times = new Random().nextInt(20) + 1;
             System.out.println("run " + times + " tasks");
             Driver driver = new Driver(mailbox);
             future.send(driver, times);

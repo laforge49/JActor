@@ -35,6 +35,14 @@ import java.util.concurrent.atomic.AtomicReference;
  * @param <E> The type of event.
  */
 final public class JAEventQueue<E> implements EventQueue<E> {
+    /**
+     * Inhibits the acquireControl operation.
+     */
+    private boolean autonomous;
+
+    /**
+     * Set true when something has been added to the queue.
+     */
     private volatile boolean notEmpty;
 
     /**
@@ -86,9 +94,20 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      * Creates a JAEventQueue.
      *
      * @param threadManager Provides a thread for processing dispatched events.
+     * @param autonomous    Inhibits the acquireControl operation when true.
      */
-    public JAEventQueue(ThreadManager threadManager) {
+    public JAEventQueue(ThreadManager threadManager, boolean autonomous) {
         this.threadManager = threadManager;
+        this.autonomous = autonomous;
+    }
+
+    /**
+     * Returns true when the acquireControl operation is inhibited.
+     *
+     * @return True when the acquireControl operation is inhibited.
+     */
+    public boolean isAutonomous() {
+        return autonomous;
     }
 
     /**
@@ -98,6 +117,8 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      * @return True when control was acquired.
      */
     public boolean acquireControl(EventQueue<E> eventQueue) {
+        if (autonomous)
+            return false;
         if (atomicControl.compareAndSet(null, eventQueue.getController())) {
             notEmpty = false;
             return true;

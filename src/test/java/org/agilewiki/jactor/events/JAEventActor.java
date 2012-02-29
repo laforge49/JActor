@@ -43,7 +43,7 @@ abstract public class JAEventActor<E> extends JActor<E> implements EventDestinat
      * @param threadManager Provides a thread for processing dispatched events.
      */
     public JAEventActor(ThreadManager threadManager) {
-        this(new JAEventQueue<E>(threadManager));
+        this(new JAEventQueue<E>(threadManager, true));
     }
 
     /**
