@@ -217,7 +217,7 @@ public class JBActor implements Actor {
     /**
      * The parent actor to which unrecognized requests are forwarded.
      */
-    private Actor parent;
+    private JBActor parent;
 
     /**
      * The inbox and outbox of the actor.
@@ -333,7 +333,7 @@ public class JBActor implements Actor {
      *
      * @param parent The parent actor to which unrecognized requests are forwarded.
      */
-    public void setParent(Actor parent) {
+    public void setParent(JBActor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         if (active)
@@ -346,7 +346,7 @@ public class JBActor implements Actor {
      *
      * @return The actor's parent, or null.
      */
-    final public Actor getParent() {
+    final public JBActor getParent() {
         return parent;
     }
 

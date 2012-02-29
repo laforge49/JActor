@@ -22,7 +22,7 @@ public class MethodBindingTest extends TestCase {
         System.err.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createMailbox());
+            JBActor a = new A(mailboxFactory.createMailbox());
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
             JAFuture future = new JAFuture();

@@ -24,7 +24,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         System.err.println("test2");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createMailbox());
+            JBActor a = new A(mailboxFactory.createMailbox());
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
             System.err.println((new Hi()).call(b));

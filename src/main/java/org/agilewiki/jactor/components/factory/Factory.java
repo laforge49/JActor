@@ -23,9 +23,9 @@
  */
 package org.agilewiki.jactor.components.factory;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
+import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -78,7 +78,7 @@ public class Factory extends Component {
                             throws Exception {
                         String actorType = request.getActorType();
                         Mailbox mailbox = request.getMailbox();
-                        Actor parent = request.getParent();
+                        JBActor parent = request.getParent();
                         if (mailbox == null || parent == null) {
                             if (mailbox == null) mailbox = requestReceiver.getMailbox();
                             if (parent == null) parent = requestReceiver.getThisActor();

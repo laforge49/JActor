@@ -23,9 +23,9 @@
  */
 package org.agilewiki.jactor.components.factory;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.components.JCActor;
 
 /**
@@ -55,7 +55,7 @@ public class NewActor extends ConcurrentRequest<JCActor> {
     /**
      * The parent actor to which unrecognized requests are forwarded, or null.
      */
-    private Actor parent;
+    private JBActor parent;
 
     /**
      * Create a NewActor request.
@@ -98,7 +98,7 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      * @param actorName The name to be assigned to the actor, or null.
      * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
      */
-    public NewActor(String actorType, Mailbox mailbox, String actorName, Actor parent) {
+    public NewActor(String actorType, Mailbox mailbox, String actorName, JBActor parent) {
         this.actorType = actorType;
         this.mailbox = mailbox;
         this.actorName = actorName;
@@ -137,7 +137,7 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      *
      * @return The parent actor to which unrecognized requests are forwarded, or null.
      */
-    public Actor getParent() {
+    public JBActor getParent() {
         return parent;
     }
 }
