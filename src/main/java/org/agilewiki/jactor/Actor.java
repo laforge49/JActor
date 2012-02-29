@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.ConstrainedRequest;
 
 /**
  * <p>
@@ -48,17 +47,6 @@ import org.agilewiki.jactor.bind.ConstrainedRequest;
  * </p>
  */
 public interface Actor {
-    /**
-     * Send a constrained request.
-     *
-     * @param requestSource The originator of the request.
-     * @param request       The request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public Object acceptCall(APCRequestSource requestSource, ConstrainedRequest request)
-            throws Exception;
-
     /**
      * Wraps and enqueues an unwrapped request in the requester's inbox.
      *

@@ -39,7 +39,7 @@ public interface Internals {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object call(Actor targetActor, ConstrainedRequest request)
+    public Object call(JBActor targetActor, ConstrainedRequest request)
             throws Exception;
 
     /**

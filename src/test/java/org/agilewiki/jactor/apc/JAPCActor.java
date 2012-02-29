@@ -27,7 +27,6 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.ConstrainedRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
@@ -115,20 +114,6 @@ abstract public class JAPCActor implements Actor {
     @Override
     final public void setInitialBufferCapacity(int initialBufferCapacity) {
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
-    }
-
-    /**
-     * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-     *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
-        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**

@@ -25,7 +25,6 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
-import org.agilewiki.jactor.bind.ConstrainedRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
@@ -160,20 +159,6 @@ abstract public class JLPCActor implements Actor {
     @Override
     final public void setInitialBufferCapacity(final int initialBufferCapacity) {
         mailbox.setInitialBufferCapacity(initialBufferCapacity);
-    }
-
-    /**
-     * Processes a purely synchronous method.
-     * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-     *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
-        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     /**

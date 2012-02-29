@@ -151,7 +151,7 @@ public class JBActor implements Actor {
          * @throws Exception Any uncaught exceptions raised while processing the request.
          */
         @Override
-        public Object call(Actor actor, ConstrainedRequest request) throws Exception {
+        public Object call(JBActor actor, ConstrainedRequest request) throws Exception {
             return actor.acceptCall(requestSource, request);
         }
 
@@ -379,7 +379,6 @@ public class JBActor implements Actor {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
         RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
