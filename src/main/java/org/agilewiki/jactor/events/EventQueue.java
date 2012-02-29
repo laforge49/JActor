@@ -50,11 +50,4 @@ public interface EventQueue<E> extends EventDispatcher<E>, EventDestination<E> {
      * @return The controlling queue.
      */
     public EventQueue<E> getController();
-
-    /**
-     * Returns true when the acquireControl operation is inhibited.
-     *
-     * @return True when the acquireControl operation is inhibited.
-     */
-    public boolean isAutonomous();
 }

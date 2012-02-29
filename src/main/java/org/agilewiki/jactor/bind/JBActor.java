@@ -562,7 +562,7 @@ public class JBActor implements Actor {
             return;
         }
         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-        if (eventQueue.isAutonomous() || sourceMailbox == null) {
+        if (sourceMailbox == null) {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
             return;
         }
@@ -729,8 +729,6 @@ public class JBActor implements Actor {
                         EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
                         if (srcController == controller) {
                             rp.processResponse(response);
-                        } else if (sourceEventQueue.isAutonomous()) {
-                            asyncResponse(rs, request, response, rp);
                         } else if (!eventQueue.acquireControl(srcController)) {
                             asyncResponse(rs, request, response, rp);
                         } else {

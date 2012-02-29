@@ -102,20 +102,12 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     }
 
     /**
-     * Returns true when the acquireControl operation is inhibited.
-     *
-     * @return True when the acquireControl operation is inhibited.
-     */
-    public boolean isAutonomous() {
-        return autonomous;
-    }
-
-    /**
      * Gain control of the queue.
      *
      * @param eventQueue A queue.
      * @return True when control was acquired.
      */
+    @Override
     public boolean acquireControl(EventQueue<E> eventQueue) {
         if (autonomous)
             return false;
@@ -129,6 +121,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     /**
      * Relinquish foreign control over the queue.
      */
+    @Override
     public void relinquishControl() {
         EventQueue<E> c = atomicControl.get();
         if (c == this)
@@ -144,6 +137,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
      *
      * @return The controlling queue.
      */
+    @Override
     public EventQueue<E> getController() {
         EventQueue<E> c = atomicControl.get();
         if (c == null)

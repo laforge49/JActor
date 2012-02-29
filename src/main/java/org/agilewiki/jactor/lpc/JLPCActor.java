@@ -182,7 +182,7 @@ abstract public class JLPCActor implements Actor {
             return;
         }
         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-        if (eventQueue.isAutonomous() || sourceMailbox == null) {
+        if (sourceMailbox == null) {
             asyncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
@@ -345,8 +345,6 @@ abstract public class JLPCActor implements Actor {
                         EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
                         if (srcController == controller) {
                             rp.processResponse(response);
-                        } else if (sourceEventQueue.isAutonomous()) {
-                            asyncResponse(rs, request, response, rp);
                         } else if (!eventQueue.acquireControl(srcController)) {
                             asyncResponse(rs, request, response, rp);
                         } else {
