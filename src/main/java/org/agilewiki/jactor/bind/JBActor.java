@@ -142,6 +142,48 @@ public class JBActor implements Actor {
      */
     final private Internals internals = new Internals() {
         /**
+         * Send an initialization request.
+         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         * @return The response.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        @Override
+        public Object call(JBActor actor, InitializationRequest request) throws Exception {
+            return actor.acceptCall(requestSource, request);
+        }
+
+        /**
+         * Send a concurrent request.
+         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         * @return The response.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        @Override
+        public Object call(JBActor actor, ConcurrentRequest request) throws Exception {
+            return actor.acceptCall(requestSource, request);
+        }
+
+        /**
+         * Send a synchronous request.
+         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
+         *
+         * @param actor   The target actor.
+         * @param request The request.
+         * @return The response.
+         * @throws Exception Any uncaught exceptions raised while processing the request.
+         */
+        @Override
+        public Object call(JBActor actor, SynchronousRequest request) throws Exception {
+            return actor.acceptCall(requestSource, request);
+        }
+
+        /**
          * Send a request to a purely synchronous method.
          * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
          *
@@ -372,14 +414,15 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Processes a constrained request
+     * Processes an initialization request
      *
      * @param apcRequestSource The originator of the request.
      * @param request          The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request) throws Exception {
+    final public Object acceptCall(APCRequestSource apcRequestSource, InitializationRequest request)
+            throws Exception {
         RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
         if (binding == null) {
@@ -388,56 +431,106 @@ public class JBActor implements Actor {
             }
             return parent.acceptCall(requestSource, request);
         }
-        if (request instanceof InitializationRequest) {
-            if (active)
-                throw new UnsupportedOperationException("actor is already active");
-            if (binding instanceof InitializationMethodBinding) {
-                InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
-                return initializationMethodBinding.initializationProcessRequest((InitializationRequest) request);
-            }
-            if (binding instanceof VoidInitializationMethodBinding) {
-                VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
-                initializationMethodBinding.initializationProcessRequest((InitializationRequest) request);
-                return null;
-            }
-            throw new UnsupportedOperationException("Request is not bound to a InitializationMethodBinding: " +
-                    request.getClass().getName());
-        } else {
-            active = true;
-            open(internals);
+        if (active)
+            throw new UnsupportedOperationException("actor is already active");
+        if (binding instanceof InitializationMethodBinding) {
+            InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
+            return initializationMethodBinding.initializationProcessRequest(request);
         }
-        if (request instanceof ConcurrentRequest) {
-            if (binding instanceof ConcurrentMethodBinding) {
-                ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
-                return concurrentMethodBinding.concurrentProcessRequest(
-                        requestReceiver,
-                        (ConcurrentRequest) request);
-            }
-            if (binding instanceof VoidConcurrentMethodBinding) {
-                VoidConcurrentMethodBinding concurrentMethodBinding = (VoidConcurrentMethodBinding) binding;
-                concurrentMethodBinding.concurrentProcessRequest(
-                        requestReceiver,
-                        (ConcurrentRequest) request);
-                return null;
-            }
-            throw new UnsupportedOperationException("Request is not bound to a ConcurrentMethodBinding: " +
-                    request.getClass().getName());
+        if (binding instanceof VoidInitializationMethodBinding) {
+            VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
+            initializationMethodBinding.initializationProcessRequest(request);
+            return null;
         }
-        if (request instanceof SynchronousRequest) {
-            if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
-                    "A synchronous request may not be called when the mailboxes are not the same");
-            if (binding instanceof SynchronousMethodBinding) {
-                SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
-                return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+        throw new UnsupportedOperationException("InitializationRequest is not bound to a [Void]InitializationMethodBinding: " +
+                request.getClass().getName());
+    }
+
+    /**
+     * Processes a concurrent request
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request)
+            throws Exception {
+        RequestSource requestSource = (RequestSource) apcRequestSource;
+        Binding binding = getBinding(request);
+        if (binding == null) {
+            if (parent == null) {
+                throw new UnsupportedOperationException(request.getClass().getName());
             }
-            if (binding instanceof VoidSynchronousMethodBinding) {
-                VoidSynchronousMethodBinding synchronousMethodBinding = (VoidSynchronousMethodBinding) binding;
-                synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
-                return null;
-            }
-            throw new UnsupportedOperationException("Request is not bound to a SynchronousMethodBinding: " +
-                    request.getClass().getName());
+            return parent.acceptCall(requestSource, request);
         }
+        active = true;
+        open(internals);
+        if (binding instanceof ConcurrentMethodBinding) {
+            ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
+            return concurrentMethodBinding.concurrentProcessRequest(requestReceiver, request);
+        }
+        if (binding instanceof VoidConcurrentMethodBinding) {
+            VoidConcurrentMethodBinding concurrentMethodBinding = (VoidConcurrentMethodBinding) binding;
+            concurrentMethodBinding.concurrentProcessRequest(requestReceiver, request);
+            return null;
+        }
+        throw new UnsupportedOperationException("ConcurrentRequest is not bound to a [Void]ConcurrentMethodBinding: " +
+                request.getClass().getName());
+    }
+
+    /**
+     * Processes a synchronous request
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public Object acceptCall(APCRequestSource apcRequestSource, SynchronousRequest request)
+            throws Exception {
+        RequestSource requestSource = (RequestSource) apcRequestSource;
+        Binding binding = getBinding(request);
+        if (binding == null) {
+            if (parent == null) {
+                throw new UnsupportedOperationException(request.getClass().getName());
+            }
+            return parent.acceptCall(requestSource, request);
+        }
+        active = true;
+        open(internals);
+        if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
+                "A synchronous request may not be called when the mailboxes are not the same");
+        if (binding instanceof SynchronousMethodBinding) {
+            SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
+            return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+        }
+        if (binding instanceof VoidSynchronousMethodBinding) {
+            VoidSynchronousMethodBinding synchronousMethodBinding = (VoidSynchronousMethodBinding) binding;
+            synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+            return null;
+        }
+        throw new UnsupportedOperationException(
+                "SynchronousRequest is not bound to a [Void]SynchronousMethodBinding: " +
+                        request.getClass().getName());
+    }
+
+    /**
+     * Processes a constrained request
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public Object acceptCall(APCRequestSource apcRequestSource, ConstrainedRequest request)
+            throws Exception {
+        if (request instanceof InitializationRequest)
+            return acceptCall(apcRequestSource, (InitializationRequest) request);
+        if (request instanceof ConcurrentRequest)
+            return acceptCall(apcRequestSource, (ConcurrentRequest) request);
+        if (request instanceof SynchronousRequest)
+            return acceptCall(apcRequestSource, (SynchronousRequest) request);
         throw new IllegalArgumentException(request.getClass().getName());
     }
 

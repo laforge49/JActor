@@ -5,7 +5,7 @@ package org.agilewiki.jactor.bind;
  */
 public class ExternallyCallableRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
     /**
-     * Send a constrained request.
+     * Send an externally callable request.
      * (Override this method for requests with known return types.)
      *
      * @param targetActor The target actor.

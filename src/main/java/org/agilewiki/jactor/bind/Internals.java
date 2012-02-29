@@ -39,6 +39,39 @@ public interface Internals {
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
+    public Object call(JBActor targetActor, InitializationRequest request)
+            throws Exception;
+
+    /**
+     * Send a concurrent request.
+     *
+     * @param targetActor The target actor.
+     * @param request     The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public Object call(JBActor targetActor, ConcurrentRequest request)
+            throws Exception;
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @param request     The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public Object call(JBActor targetActor, SynchronousRequest request)
+            throws Exception;
+
+    /**
+     * Send a constrained request.
+     *
+     * @param targetActor The target actor.
+     * @param request     The request.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
     public Object call(JBActor targetActor, ConstrainedRequest request)
             throws Exception;
 
