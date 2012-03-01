@@ -6,66 +6,35 @@ import org.agilewiki.jactor.parallel.JAParallel;
 
 public class SharedMailboxTest extends TestCase {
     public void testTiming() {
-        int c = 2;
-        int b = 3;
+        int c = 1;
+        int b = 1;
         int p = 1;
         int t = 1;
 
-        //int c = 10000000;
+        //int c = 500000000;
         //int b = 1;
-        //int p = 16;
-        //int t = 4;
+        //int p = 1;
+        //int t = 1;
 
         //burst size of 1
-        //16 parallel runs of 20000000 messages each.
-        //320000000 messages sent with 4 threads.
-        //msgs per sec = 518638573
-        //1.9 nanoseconds per message test
-        //response time of 7.6 nanoseconds
-
-        //int c = 2000000;
-        //int b = 10;
-        //int p = 16;
-        //int t = 4;
-
-        //burst size of 10
-        //16 parallel runs of 40000000 messages each.
-        //640000000 messages sent with 4 threads.
-        //msgs per sec = 777642770
-        //1.3 nanoseconds per message test
-
-        //int c = 40000000;
-        //int b = 1;
-        //int p = 8;
-        //int t = 4;
-
-        //burst size of 1
-        //8 parallel runs of 80000000 messages each.
-        //640000000 messages sent with 4 threads.
-        //msgs per sec = 506329113
-        //2 nanoseconds per message test
+        //16 parallel runs of 1000000000 messages each.
+        //1000000000 messages sent with 4 threads.
+        //msgs per sec = 311138767
+        //3.2 nanoseconds per message
+        //3.2 namosecond latency
+        //8 clock cycle latency
 
         //int c = 100000;
-        //int b = 1000;
-        //int p = 4;
-        //int t = 4;
-
-        //burst size of 1000
-        //4 parallel runs of 40000000 messages each.
-        //800000000 messages sent with 4 threads.
-        //msgs per sec = 730593607
-        //1.4 nanosecond per message
-
-        //int c = 20000;
         //int b = 1000;
         //int p = 16;
         //int t = 4;
 
         //burst size of 1000
         //16 parallel runs of 200000000 messages each.
-        //640000000 messages sent with 4 threads.
-        //msgs per sec = 1095890410
-        //1 nanoseconds per message
+        //3200000000 messages sent with 4 threads.
+        //msgs per sec = 1005340873
+        //.99 nanoseconds per message
+        //5 clock cycles per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -87,10 +56,15 @@ public class SharedMailboxTest extends TestCase {
             long t0 = System.currentTimeMillis();
             future.send(parallel, future);
             long t1 = System.currentTimeMillis();
+            future.send(parallel, null);
+            long t2 = System.currentTimeMillis();
+            System.out.println("null test time " + (t2 - t1));
             System.out.println("" + p + " parallel runs of " + (2L * c * b) + " messages each.");
             System.out.println("" + (2L * c * b * p) + " messages sent with " + t + " threads.");
-            if (t1 != t0)
+            if (t1 != t0) {
                 System.out.println("msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0)));
+                System.out.println("adjusted msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0 - t2 + t1)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

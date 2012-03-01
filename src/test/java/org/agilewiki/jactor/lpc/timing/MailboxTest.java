@@ -6,15 +6,15 @@ import org.agilewiki.jactor.parallel.JAParallel;
 
 public class MailboxTest extends TestCase {
     public void testTiming() {
-        //int c = 2;
-        //int b = 3;
-        //int p = 1;
-        //int t = 1;
-
-        int c = 50000000;
+        int c = 1;
         int b = 1;
         int p = 1;
         int t = 1;
+
+        //int c = 50000000;
+        //int b = 1;
+        //int p = 1;
+        //int t = 1;
 
         //burst size of 1
         //1 parallel runs of 100000000 messages each.
