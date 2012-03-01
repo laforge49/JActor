@@ -101,6 +101,12 @@ final public class JAEventQueue<E> implements EventQueue<E> {
         this.autonomous = autonomous;
     }
 
+    /**
+     * Take control.
+     *
+     * @param eventQueue The queue wanting to take control.
+     * @return True if control was taken.
+     */
     private boolean commandeer(EventQueue<E> eventQueue) {
         if (atomicControl.get() != null)
             return false;
