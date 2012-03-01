@@ -21,7 +21,7 @@ public class MailboxTest extends TestCase {
         //100000000 messages sent with 1 threads.
         //msgs per sec = 39572615
         //25 nanoseconds per message
-        //25 namosecond latency
+        //25 nanosecond latency
         //66 clock cycle latency
 
         //int c = 10000;

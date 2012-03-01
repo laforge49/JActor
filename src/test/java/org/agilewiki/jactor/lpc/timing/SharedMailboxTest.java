@@ -17,11 +17,11 @@ public class SharedMailboxTest extends TestCase {
         //int t = 1;
 
         //burst size of 1
-        //16 parallel runs of 1000000000 messages each.
-        //1000000000 messages sent with 4 threads.
+        //1 parallel runs of 1000000000 messages each.
+        //1000000000 messages sent with 1 threads.
         //msgs per sec = 311138767
         //3.2 nanoseconds per message
-        //3.2 namosecond latency
+        //3.2 nanosecond latency
         //8 clock cycle latency
 
         //int c = 100000;
