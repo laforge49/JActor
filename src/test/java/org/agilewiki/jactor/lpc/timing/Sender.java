@@ -22,6 +22,7 @@ public class Sender extends JLPCActor {
 
     @Override
     public void processRequest(final Object unwrappedRequest, final RP rd1) throws Exception {
+        final boolean real = unwrappedRequest != null;
         (new JAIterator() {
             int i;
 
@@ -41,7 +42,10 @@ public class Sender extends JLPCActor {
                     };
                     int j = 0;
                     while (j < burst) {
-                        send(echo, null, rd3);
+                        if (real)
+                            send(echo, null, rd3);
+                        else
+                            rd3.processResponse(null);
                         j += 1;
                     }
                 }

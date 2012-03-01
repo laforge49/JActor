@@ -11,28 +11,30 @@ public class MailboxTest extends TestCase {
         //int p = 1;
         //int t = 1;
 
-        //int c = 10000000;
-        //int b = 1;
-        //int p = 16;
-        //int t = 4;
+        int c = 50000000;
+        int b = 1;
+        int p = 1;
+        int t = 1;
 
         //burst size of 1
-        //16 parallel runs of 20000000 messages each.
-        //320000000 messages sent with 4 threads.
-        //msgs per sec = 56248901
-        //18 nanoseconds per message test
-        //response time 71 namoseconds
+        //1 parallel runs of 100000000 messages each.
+        //100000000 messages sent with 1 threads.
+        //msgs per sec = 39572615
+        //25 nanoseconds per message
+        //25 namosecond latency
+        //66 clock cycle latency
 
-        int c = 10000;
-        int b = 1000;
-        int p = 16;
-        int t = 4;
+        //int c = 10000;
+        //int b = 1000;
+        //int p = 16;
+        //int t = 4;
 
         //burst size of 1000
         //16 parallel runs of 20000000 messages each.
         //320000000 messages sent with 4 threads.
-        //msgs per sec = 81074233
-        //13 nanoseconds per message
+        //msgs per sec = 108511359
+        //9.2 nanoseconds per message
+        //46 clock cycles per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -55,10 +57,15 @@ public class MailboxTest extends TestCase {
             long t0 = System.currentTimeMillis();
             future.send(parallel, future);
             long t1 = System.currentTimeMillis();
+            future.send(parallel, null);
+            long t2 = System.currentTimeMillis();
+            System.out.println("null test time " + (t2 - t1));
             System.out.println("" + p + " parallel runs of " + (2L * c * b) + " messages each.");
             System.out.println("" + (2L * c * b * p) + " messages sent with " + t + " threads.");
-            if (t1 != t0)
+            if (t1 != t0) {
                 System.out.println("msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0)));
+                System.out.println("adjusted msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0 - t2 + t1)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

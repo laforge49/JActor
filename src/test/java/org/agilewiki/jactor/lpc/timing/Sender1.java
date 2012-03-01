@@ -21,6 +21,7 @@ public class Sender1 extends JLPCActor {
     @Override
     public void processRequest(final Object unwrappedRequest, final RP rd1)
             throws Exception {
+        final boolean real = unwrappedRequest != null;
         (new JAIterator() {
             int i;
 
@@ -29,7 +30,10 @@ public class Sender1 extends JLPCActor {
                 if (i > count) rd2.processResponse(this);
                 else {
                     i += 1;
-                    send(echo, null, rd2);
+                    if (real)
+                        send(echo, null, rd2);
+                    else
+                        rd2.processResponse(null);
                 }
             }
         }).iterate(rd1);
