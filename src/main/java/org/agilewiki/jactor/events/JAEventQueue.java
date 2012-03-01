@@ -72,12 +72,12 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     private Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (atomicControl.compareAndSet(null, getController()))
+            if (commandeer(JAEventQueue.this))
                 while (true) {
                     E event = queue.peek();
                     if (event == null) {
                         atomicControl.set(null);
-                        if (queue.peek() == null || !atomicControl.compareAndSet(null, getController()))
+                        if (queue.peek() == null || !commandeer(JAEventQueue.this))
                             return;
                         if (queue.peek() == null) {
                             atomicControl.set(null);
@@ -101,6 +101,12 @@ final public class JAEventQueue<E> implements EventQueue<E> {
         this.autonomous = autonomous;
     }
 
+    private boolean commandeer(EventQueue<E> eventQueue) {
+        if (atomicControl.get() != null)
+            return false;
+        return atomicControl.compareAndSet(null, eventQueue);
+    }
+
     /**
      * Gain control of the queue.
      *
@@ -111,7 +117,7 @@ final public class JAEventQueue<E> implements EventQueue<E> {
     public boolean acquireControl(EventQueue<E> eventQueue) {
         if (autonomous)
             return false;
-        if (atomicControl.compareAndSet(null, eventQueue.getController())) {
+        if (commandeer(eventQueue.getController())) {
             notEmpty = false;
             return true;
         }
