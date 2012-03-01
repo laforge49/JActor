@@ -49,7 +49,7 @@ final public class JAThreadManager implements ThreadManager {
     private Boolean closing = false;
 
     /**
-     * The threadCount is the number of concurrent used.
+     * The threadCount is the number of threads used.
      */
     private int threadCount;
 
