@@ -11,12 +11,14 @@ import org.agilewiki.jactor.components.nbLock.NBLock;
 
 public class NBLockTest extends TestCase {
     public void test() {
-        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
+            JCActor nblock = new JCActor(mailboxFactory.createMailbox());
+            (new Include(NBLock.class)).call(nblock);
             JCActor driver = new JCActor(mailboxFactory.createMailbox());
+            driver.setParent(nblock);
             (new Include(Driver.class)).call(driver);
-            (new Include(NBLock.class)).call(driver);
             (new DoIt()).send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();

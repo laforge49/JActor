@@ -24,6 +24,7 @@ public class Driver extends Component {
 
                     @Override
                     public void processResponse(Object response) throws Exception {
+                        System.out.println("count=" + count);
                         count -= 1;
                         if (count == 0)
                             rp.processResponse(null);
