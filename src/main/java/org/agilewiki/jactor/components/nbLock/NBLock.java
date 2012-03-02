@@ -47,10 +47,8 @@ public final class NBLock extends Component {
             @Override
             public void processRequest(Internals internals, Lock request, RP<Object> rp)
                     throws Exception {
-                System.out.println("got lock");
                 deque.addLast(rp);
                 if (deque.size() == 1) {
-                    System.out.println("locked");
                     rp.processResponse(null);
                 }
             }
@@ -60,14 +58,11 @@ public final class NBLock extends Component {
             @Override
             public void processRequest(Internals internals, Unlock request, RP<Object> rp)
                     throws Exception {
-                System.out.println("got unlock");
                 deque.removeFirst();
-                RP<Object> rp1 = deque.pollFirst();
                 rp.processResponse(null);
+                RP<Object> rp1 = deque.peekFirst();
                 if (rp1 != null) {
-                    System.out.println("locked");
                     rp1.processResponse(null);
-                    System.out.println("???????");
                 }
             }
         });

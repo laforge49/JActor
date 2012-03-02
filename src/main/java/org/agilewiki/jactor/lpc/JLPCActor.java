@@ -94,7 +94,10 @@ abstract public class JLPCActor implements Actor {
             else JLPCActor.this.processRequest(request.getUnwrappedRequest(), new RP() {
                 @Override
                 public void processResponse(Object unwrappedResponse) {
+                    JARequest old = mailbox.getCurrentRequest();
+                    mailbox.setCurrentRequest(request);
                     mailbox.response(unwrappedResponse);
+                    mailbox.setCurrentRequest(old);
                 }
             });
         }

@@ -282,7 +282,10 @@ public class JBActor implements Actor {
             else JBActor.this.processRequest(request, new RP() {
                 @Override
                 public void processResponse(Object response) {
+                    JARequest old = mailbox.getCurrentRequest();
+                    mailbox.setCurrentRequest(jaRequest);
                     mailbox.response(response);
+                    mailbox.setCurrentRequest(old);
                 }
             }, binding);
         }
