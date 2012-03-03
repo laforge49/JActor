@@ -560,15 +560,19 @@ public class JBActor implements Actor {
             throws Exception {
         Mailbox sourceMailbox = requestSource.getMailbox();
         ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
+        if (request instanceof AsyncRequest) {
+            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+            return;
+        }
         if (sourceMailbox == mailbox) {
             syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
             return;
         }
-        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         if (sourceMailbox == null) {
             asyncSend(requestSource, request, rp, sourceExceptionHandler);
             return;
         }
+        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);

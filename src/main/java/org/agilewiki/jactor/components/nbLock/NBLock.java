@@ -31,7 +31,11 @@ import org.agilewiki.jactor.components.Component;
 import java.util.ArrayDeque;
 
 /**
- * Non-blocking Lock.
+ * <p>Non-blocking Lock.</p>
+ * <p>Note that the technique used here,
+ * of saving an RP for subsequent use,
+ * should only be used with AsyncRequest messages.
+ * Otherwise exception handling will not work correctly.</p>
  */
 public final class NBLock extends Component {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();

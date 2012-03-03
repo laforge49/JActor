@@ -14,9 +14,9 @@ public class NBLockTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            JCActor nblock = new JCActor(mailboxFactory.createAsyncMailbox());
+            JCActor nblock = new JCActor(mailboxFactory.createMailbox());
             (new Include(NBLock.class)).call(nblock);
-            JCActor driver = new JCActor(mailboxFactory.createAsyncMailbox());
+            JCActor driver = new JCActor(mailboxFactory.createMailbox());
             driver.setParent(nblock);
             (new Include(Driver.class)).call(driver);
             (new DoIt()).send(future, driver);

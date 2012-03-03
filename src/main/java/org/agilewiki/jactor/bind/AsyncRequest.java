@@ -21,13 +21,10 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.nbLock;
-
-import org.agilewiki.jactor.bind.AsyncRequest;
+package org.agilewiki.jactor.bind;
 
 /**
- * Gain exclusive use of a resource.
+ * A request that is always passed asynchronously
  */
-final public class Lock extends AsyncRequest<Object> {
-    public final static Lock req = new Lock();
+public class AsyncRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
 }

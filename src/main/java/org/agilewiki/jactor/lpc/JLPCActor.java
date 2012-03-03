@@ -25,6 +25,7 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
+import org.agilewiki.jactor.bind.AsyncRequest;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
@@ -178,17 +179,21 @@ abstract public class JLPCActor implements Actor {
                               final RP rp)
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
-        Mailbox sourceMailbox = rs.getMailbox();
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
+        if (request instanceof AsyncRequest) {
+            asyncSend(rs, request, rp, sourceExceptionHandler);
+            return;
+        }
+        Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
             syncProcess(request, rp, sourceExceptionHandler, rs);
             return;
         }
-        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         if (sourceMailbox == null) {
             asyncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
+        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSend(rs, request, rp, sourceExceptionHandler);
