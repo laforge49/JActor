@@ -27,7 +27,7 @@ import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.bind.Internals;
 
 /**
- * A JBActor request.
+ * A request.
  */
 public class Request<RESPONSE_TYPE> {
     /**
