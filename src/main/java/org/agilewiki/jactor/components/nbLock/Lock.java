@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.components.nbLock;
 
-import org.agilewiki.jactor.bind.AsyncRequest;
+import org.agilewiki.jactor.AsyncRequest;
 
 /**
  * Gain exclusive use of a resource.

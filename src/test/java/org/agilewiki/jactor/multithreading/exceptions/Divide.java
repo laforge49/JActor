@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.multithreading.exceptions;
 
-import org.agilewiki.jactor.bind.Request;
+import org.agilewiki.jactor.Request;
 
 public class Divide extends Request<Integer> {
     private int n;

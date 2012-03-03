@@ -1,9 +1,9 @@
 package org.agilewiki.jactor.multithreading;
 
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.Request;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.Request;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 

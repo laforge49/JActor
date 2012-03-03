@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.multithreading;
 
-import org.agilewiki.jactor.bind.Request;
+import org.agilewiki.jactor.Request;
 import org.agilewiki.jactor.components.JCActor;
 
 public class PrintParallelResponse<RESPONSE> extends Request<Object> {

@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.Request;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**

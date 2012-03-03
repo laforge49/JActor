@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.components.pubsub.timing;
 
-import org.agilewiki.jactor.bind.Request;
+import org.agilewiki.jactor.Request;
 
 final public class Timing extends Request<Object> {
     private int count;
