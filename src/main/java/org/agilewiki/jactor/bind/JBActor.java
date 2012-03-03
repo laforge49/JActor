@@ -453,8 +453,10 @@ public class JBActor implements Actor {
             }
             return parent.acceptCall(requestSource, request);
         }
-        active = true;
-        open(internals);
+        if (!active) {
+            active = true;
+            open(internals);
+        }
         if (binding instanceof ConcurrentMethodBinding) {
             ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
             return concurrentMethodBinding.concurrentProcessRequest(requestReceiver, request);
@@ -486,8 +488,10 @@ public class JBActor implements Actor {
             }
             return parent.acceptCall(requestSource, request);
         }
-        active = true;
-        open(internals);
+        if (!active) {
+            active = true;
+            open(internals);
+        }
         if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
                 "A synchronous request may not be called when the mailboxes are not the same");
         if (binding instanceof SynchronousMethodBinding) {
@@ -520,7 +524,7 @@ public class JBActor implements Actor {
         if (request instanceof InitializationRequest) {
             if (active)
                 throw new UnsupportedOperationException("actor is already active");
-        } else {
+        } else if (!active) {
             active = true;
             open(internals);
         }
