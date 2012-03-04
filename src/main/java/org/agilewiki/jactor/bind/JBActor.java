@@ -331,6 +331,14 @@ public class JBActor implements Actor {
     public JBActor(final Mailbox mailbox) {
         if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
         this.mailbox = mailbox;
+
+        bind(Open.class.getName(), new VoidInitializationMethodBinding<Open>() {
+            @Override
+            public void initializationProcessRequest(Open request)
+                    throws Exception {
+                open(internals);
+            }
+        });
     }
 
     /**
@@ -454,8 +462,7 @@ public class JBActor implements Actor {
             return parent.acceptCall(requestSource, request);
         }
         if (!active) {
-            active = true;
-            open(internals);
+            throw new UnsupportedOperationException("actor is not yet active");
         }
         if (binding instanceof ConcurrentMethodBinding) {
             ConcurrentMethodBinding concurrentMethodBinding = (ConcurrentMethodBinding) binding;
@@ -489,8 +496,7 @@ public class JBActor implements Actor {
             return parent.acceptCall(requestSource, request);
         }
         if (!active) {
-            active = true;
-            open(internals);
+            throw new UnsupportedOperationException("actor is not yet active");
         }
         if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
                 "A synchronous request may not be called when the mailboxes are not the same");
@@ -525,8 +531,7 @@ public class JBActor implements Actor {
             if (active)
                 throw new UnsupportedOperationException("actor is already active");
         } else if (!active) {
-            active = true;
-            open(internals);
+            throw new UnsupportedOperationException("actor is not yet active");
         }
         Binding binding = getBinding(request);
         if (binding != null) {
@@ -541,11 +546,12 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Called when an actor becomes active.
+     * Marks the actor as active, and able to process only non-initialization requests.
      *
      * @param internals The actor's internals.
      */
     protected void open(Internals internals) {
+        active = true;
     }
 
     /**

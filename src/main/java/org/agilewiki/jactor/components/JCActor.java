@@ -100,8 +100,8 @@ final public class JCActor extends JBActor {
     }
 
     /**
-     * Called when an actor becomes active.
-     * Components are opened in dependency order, the root component being the last.
+     * Calls open on each component, then marks the actor as active,
+     * and then calls opened on each component.
      *
      * @param internals The actor's internals.
      */
@@ -112,6 +112,15 @@ final public class JCActor extends JBActor {
             Component c = it.next();
             try {
                 c.open(internals);
+            } catch (Exception e) {
+            }
+        }
+        super.open(internals);
+        it = components.iterator();
+        while (it.hasNext()) {
+            Component c = it.next();
+            try {
+                c.opened(internals);
             } catch (Exception e) {
             }
         }

@@ -31,8 +31,6 @@ import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.actorName.SetActorName;
-import org.agilewiki.jactor.components.actorRegistry.RegisterActor;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -82,7 +80,7 @@ public class Factory extends Component {
                         if (mailbox == null || parent == null) {
                             if (mailbox == null) mailbox = requestReceiver.getMailbox();
                             if (parent == null) parent = requestReceiver.getThisActor();
-                            request = new NewActor(actorType, mailbox, request.getActorName(), parent);
+                            request = new NewActor(actorType, mailbox, parent);
                         }
                         Class componentClass = types.get(actorType);
                         if (componentClass == null) {
@@ -91,15 +89,10 @@ public class Factory extends Component {
                             throw new IllegalArgumentException("Unknown actor type: " + actorType);
                         }
                         Include include = new Include(componentClass);
-                        String actorName = request.getActorName();
                         JCActor actor = new JCActor(mailbox);
                         actor.setActorType(actorType);
                         actor.setParent(parent);
                         include.call(actor);
-                        if (actorName != null) {
-                            (new SetActorName(actorName)).call(actor);
-                            (new RegisterActor(actor)).call(actor);
-                        }
                         return actor;
                     }
                 });

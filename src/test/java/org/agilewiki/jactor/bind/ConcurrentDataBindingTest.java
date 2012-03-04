@@ -11,6 +11,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JBActor a = new A(mailboxFactory.createMailbox());
+            Open.req.call(a);
             System.err.println((new Hi()).call(a));
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,8 +25,10 @@ public class ConcurrentDataBindingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JBActor a = new A(mailboxFactory.createMailbox());
+            Open.req.call(a);
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
+            Open.req.call(b);
             System.err.println((new Hi()).call(b));
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.pubsub.Subscribe;
@@ -48,12 +49,13 @@ public class AsyncTimingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
             JAFuture future = new JAFuture();
-            Actor[] drivers = new JCActor[p];
+            JCActor[] drivers = new JCActor[p];
             int i = 0;
             while (i < p) {
                 JCActor driver = new JCActor(mailboxFactory.createAsyncMailbox());
                 driver.setInitialBufferCapacity(b + 10);
                 (new Include(Driver.class)).call(driver);
+                Open.req.call(driver);
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {

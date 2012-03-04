@@ -2,6 +2,7 @@ package org.agilewiki.jactor.components.pubsub;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 
@@ -10,9 +11,10 @@ public class PubSubTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            JCActor publisher = new JCActor(mailbox);
             JAFuture future = new JAFuture();
+            JCActor publisher = new JCActor(mailbox);
             (new Include(PubSub.class)).call(publisher);
+            Open.req.call(publisher);
             Actor subscriber1 = new Subscriber(mailbox);
             Actor subscriber2 = new Subscriber(mailbox);
             (new Subscribe(subscriber1)).call(publisher);

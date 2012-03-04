@@ -55,14 +55,24 @@ public class Component {
     }
 
     /**
-     * Open is called when an actor becomes active by receiving a
-     * non-initialization request--useful initialization like opening files.
-     * Components are opened in dependency order, the root component being the last.
+     * Open is called when a Open initialization request is processed,
+     * but before the actor is marked as active.
      *
      * @param internals The actor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
     public void open(Internals internals)
+            throws Exception {
+    }
+
+    /**
+     * Opened is called when a Open initialization request is processed,
+     * but after the actor is marked as active.
+     *
+     * @param internals The actor's internals.
+     * @throws Exception Any exceptions thrown during the open.
+     */
+    public void opened(Internals internals)
             throws Exception {
     }
 

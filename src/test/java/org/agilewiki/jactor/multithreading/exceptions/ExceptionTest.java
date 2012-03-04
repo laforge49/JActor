@@ -2,6 +2,7 @@ package org.agilewiki.jactor.multithreading.exceptions;
 
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
+import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.junit.Test;
@@ -13,6 +14,7 @@ public class ExceptionTest {
         try {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
             (new Include(Divider.class)).call(a);
+            Open.req.call(a);
             JAFuture future = new JAFuture();
 
             try {

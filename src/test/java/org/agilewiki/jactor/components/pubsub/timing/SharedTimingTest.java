@@ -2,6 +2,7 @@ package org.agilewiki.jactor.components.pubsub.timing;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.pubsub.Subscribe;
@@ -54,12 +55,13 @@ public class SharedTimingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
             JAFuture future = new JAFuture();
-            Actor[] drivers = new Actor[p];
+            JCActor[] drivers = new JCActor[p];
             int i = 0;
             while (i < p) {
                 Mailbox sharedMailbox = mailboxFactory.createAsyncMailbox();
                 JCActor driver = new JCActor(sharedMailbox);
                 (new Include(Driver1.class)).call(driver);
+                Open.req.call(driver);
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {

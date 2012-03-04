@@ -8,7 +8,8 @@ public class MethodBindingTest extends TestCase {
         System.err.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createMailbox());
+            JBActor a = new A(mailboxFactory.createMailbox());
+            Open.req.call(a);
             JAFuture future = new JAFuture();
             System.err.println((new Hi()).send(future, a));
         } catch (Exception e) {
@@ -23,8 +24,10 @@ public class MethodBindingTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JBActor a = new A(mailboxFactory.createMailbox());
+            Open.req.call(a);
             JBActor b = new JBActor(mailboxFactory.createMailbox());
             b.setParent(a);
+            Open.req.call(b);
             JAFuture future = new JAFuture();
             System.err.println((new Hi()).send(future, b));
         } catch (Exception e) {

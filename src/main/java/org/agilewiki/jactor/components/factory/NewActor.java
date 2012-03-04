@@ -32,9 +32,6 @@ import org.agilewiki.jactor.components.JCActor;
  * <p>NewActor is a request to create and configure an actor.</p>
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
- * <p>If an actor name is given, it is assigned to the new actor
- * and the actor is added to the actor registry.
- * However, the actor must include the ActorName component.</p>
  */
 public class NewActor extends ConcurrentRequest<JCActor> {
     /**
@@ -46,11 +43,6 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      * A mailbox which may be shared with other actors, or null.
      */
     private Mailbox mailbox;
-
-    /**
-     * The name to be assigned to the actor, or null.
-     */
-    private String actorName;
 
     /**
      * The parent actor to which unrecognized requests are forwarded, or null.
@@ -82,26 +74,11 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      *
      * @param actorType An actor type name.
      * @param mailbox   A mailbox which may be shared with other actors, or null.
-     * @param actorName The name to be assigned to the actor, or null.
-     */
-    public NewActor(String actorType, Mailbox mailbox, String actorName) {
-        this.actorType = actorType;
-        this.mailbox = mailbox;
-        this.actorName = actorName;
-    }
-
-    /**
-     * Create a NewActor request.
-     *
-     * @param actorType An actor type name.
-     * @param mailbox   A mailbox which may be shared with other actors, or null.
-     * @param actorName The name to be assigned to the actor, or null.
      * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
      */
-    public NewActor(String actorType, Mailbox mailbox, String actorName, JBActor parent) {
+    public NewActor(String actorType, Mailbox mailbox, JBActor parent) {
         this.actorType = actorType;
         this.mailbox = mailbox;
-        this.actorName = actorName;
         this.parent = parent;
     }
 
@@ -121,15 +98,6 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      */
     public Mailbox getMailbox() {
         return mailbox;
-    }
-
-    /**
-     * Returns the name to be assigned to the actor.
-     *
-     * @return The name to be assigned to the actor, or null.
-     */
-    public String getActorName() {
-        return actorName;
     }
 
     /**
