@@ -58,7 +58,7 @@ final public class JCActor extends JBActor {
 
         bind(Include.class.getName(), new VoidInitializationMethodBinding<Include>() {
             @Override
-            public void initializationProcessRequest(Include request)
+            public void initializationProcessRequest(Internals internals, Include request)
                     throws Exception {
                 processInclude(request);
             }

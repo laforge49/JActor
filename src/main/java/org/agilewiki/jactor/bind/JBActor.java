@@ -334,7 +334,7 @@ public class JBActor implements Actor {
 
         bind(Open.class.getName(), new VoidInitializationMethodBinding<Open>() {
             @Override
-            public void initializationProcessRequest(Open request)
+            public void initializationProcessRequest(Internals internals, Open request)
                     throws Exception {
                 open(internals);
             }
@@ -432,11 +432,11 @@ public class JBActor implements Actor {
             throw new UnsupportedOperationException("actor is already active");
         if (binding instanceof InitializationMethodBinding) {
             InitializationMethodBinding initializationMethodBinding = (InitializationMethodBinding) binding;
-            return initializationMethodBinding.initializationProcessRequest(request);
+            return initializationMethodBinding.initializationProcessRequest(internals, request);
         }
         if (binding instanceof VoidInitializationMethodBinding) {
             VoidInitializationMethodBinding initializationMethodBinding = (VoidInitializationMethodBinding) binding;
-            initializationMethodBinding.initializationProcessRequest(request);
+            initializationMethodBinding.initializationProcessRequest(internals, request);
             return null;
         }
         throw new UnsupportedOperationException("InitializationRequest is not bound to a [Void]InitializationMethodBinding: " +

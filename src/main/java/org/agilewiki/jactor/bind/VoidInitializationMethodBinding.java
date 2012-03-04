@@ -41,8 +41,9 @@ abstract public class VoidInitializationMethodBinding<REQUEST_TYPE extends Initi
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp) throws Exception {
-        initializationProcessRequest(request);
+    final public void processRequest(Internals internals, REQUEST_TYPE request, RP<Object> rp)
+            throws Exception {
+        initializationProcessRequest(internals, request);
         rp.processResponse(null);
     }
 
@@ -52,6 +53,6 @@ abstract public class VoidInitializationMethodBinding<REQUEST_TYPE extends Initi
      * @param request A request.
      * @throws Exception
      */
-    abstract public void initializationProcessRequest(REQUEST_TYPE request)
+    abstract public void initializationProcessRequest(Internals internals, REQUEST_TYPE request)
             throws Exception;
 }

@@ -24,10 +24,7 @@
 package org.agilewiki.jactor.components.factory;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.bind.RequestReceiver;
-import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
+import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
@@ -57,7 +54,7 @@ public class Factory extends Component {
                 DefineActorType.class.getName(),
                 new VoidInitializationMethodBinding<DefineActorType>() {
                     @Override
-                    public void initializationProcessRequest(DefineActorType defineActorType)
+                    public void initializationProcessRequest(Internals internals, DefineActorType defineActorType)
                             throws Exception {
                         String actorType = defineActorType.getActorType();
                         if (types.containsKey(actorType))

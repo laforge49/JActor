@@ -44,7 +44,7 @@ abstract public class InitializationMethodBinding
     @Override
     final public void processRequest(Internals internals, REQUEST_TYPE request, RP<RESPONSE_TYPE> rp)
             throws Exception {
-        rp.processResponse(initializationProcessRequest(request));
+        rp.processResponse(initializationProcessRequest(internals, request));
     }
 
     /**
@@ -54,6 +54,6 @@ abstract public class InitializationMethodBinding
      * @return The response.
      * @throws Exception
      */
-    abstract public RESPONSE_TYPE initializationProcessRequest(REQUEST_TYPE request)
+    abstract public RESPONSE_TYPE initializationProcessRequest(Internals internals, REQUEST_TYPE request)
             throws Exception;
 }
