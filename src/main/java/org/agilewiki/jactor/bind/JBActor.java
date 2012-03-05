@@ -555,6 +555,15 @@ public class JBActor implements Actor {
     }
 
     /**
+     * Returns true if the actor has been opened.
+     *
+     * @return True if the actor has been opened.
+     */
+    protected boolean isOpen() {
+        return active;
+    }
+
+    /**
      * Ensures that the request is processed on the appropriate thread.
      *
      * @param requestSource The originator of the request.
