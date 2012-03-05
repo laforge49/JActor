@@ -559,7 +559,7 @@ public class JBActor implements Actor {
      *
      * @return True if the actor has been opened.
      */
-    protected boolean isOpen() {
+    public boolean isOpen() {
         return active;
     }
 
