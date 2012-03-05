@@ -549,8 +549,9 @@ public class JBActor implements Actor {
      * Marks the actor as active, and able to process only non-initialization requests.
      *
      * @param internals The actor's internals.
+     * @throws Exception Any uncaught exceptions raised while processing the open.
      */
-    protected void open(Internals internals) {
+    protected void open(Internals internals) throws Exception {
         active = true;
     }
 

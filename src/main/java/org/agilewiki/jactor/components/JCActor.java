@@ -104,25 +104,20 @@ final public class JCActor extends JBActor {
      * and then calls opened on each component.
      *
      * @param internals The actor's internals.
+     * @throws Exception Any uncaught exceptions raised while processing the open.
      */
     @Override
-    protected void open(Internals internals) {
+    protected void open(Internals internals) throws Exception {
         Iterator<Component> it = components.iterator();
         while (it.hasNext()) {
             Component c = it.next();
-            try {
-                c.open(internals);
-            } catch (Exception e) {
-            }
+            c.open(internals);
         }
         super.open(internals);
         it = components.iterator();
         while (it.hasNext()) {
             Component c = it.next();
-            try {
-                c.opened(internals);
-            } catch (Exception e) {
-            }
+            c.opened(internals);
         }
     }
 
