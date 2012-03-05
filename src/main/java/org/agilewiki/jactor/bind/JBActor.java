@@ -597,17 +597,17 @@ public class JBActor implements Actor {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             return;
         }
-        if (!eventQueue.acquireControl(srcController)) {
-            asyncSend(requestSource, request, rp, sourceExceptionHandler);
+        if (eventQueue.acquireControl(srcController)) {
+            try {
+                syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
+            } finally {
+                mailbox.dispatchEvents();
+                mailbox.sendPendingMessages();
+                eventQueue.relinquishControl();
+            }
             return;
         }
-        try {
-            syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
-        } finally {
-            mailbox.dispatchEvents();
-            mailbox.sendPendingMessages();
-            eventQueue.relinquishControl();
-        }
+        asyncSend(requestSource, request, rp, sourceExceptionHandler);
     }
 
     /**
