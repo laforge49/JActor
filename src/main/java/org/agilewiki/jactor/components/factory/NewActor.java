@@ -55,7 +55,7 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      * @param actorType An actor type name.
      */
     public NewActor(String actorType) {
-        this.actorType = actorType;
+        this(actorType, null);
     }
 
     /**
@@ -65,8 +65,7 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      * @param mailbox   A mailbox which may be shared with other actors, or null.
      */
     public NewActor(String actorType, Mailbox mailbox) {
-        this.actorType = actorType;
-        this.mailbox = mailbox;
+        this(actorType, mailbox, null);
     }
 
     /**
@@ -77,6 +76,9 @@ public class NewActor extends ConcurrentRequest<JCActor> {
      * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
      */
     public NewActor(String actorType, Mailbox mailbox, JBActor parent) {
+        if (actorType == null) {
+            throw new IllegalArgumentException("actorType may not be null");
+        }
         this.actorType = actorType;
         this.mailbox = mailbox;
         this.parent = parent;
