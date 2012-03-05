@@ -28,13 +28,13 @@ import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * <p>
- * Binds a SynchronousRequest class to a purely synchronous method,
+ * Binds an InitializationRequest class to a purely synchronous method,
  * but restricts access to senders with the same mailbox.
  * </p>
  */
-abstract public class SynchronousOnlyMethodBinding
-        <REQUEST_TYPE extends SynchronousRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
-        extends SynchronousMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
+abstract public class VoidSynchronousOnlyInitializationMethodBinding
+        <REQUEST_TYPE extends InitializationRequest<Object>>
+        extends VoidInitializationMethodBinding<REQUEST_TYPE> {
     /**
      * <p>
      * Routes an incoming request by calling internals.routeRequest.
@@ -50,7 +50,7 @@ abstract public class SynchronousOnlyMethodBinding
     public void acceptRequest(RequestReceiver requestReceiver,
                               RequestSource requestSource,
                               REQUEST_TYPE request,
-                              RP<RESPONSE_TYPE> rp)
+                              RP<Object> rp)
             throws Exception {
         if (requestReceiver.getMailbox() != requestSource.getMailbox())
             throw new UnsupportedOperationException("mailboxes are not the same");
