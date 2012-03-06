@@ -688,17 +688,7 @@ public class JBActor implements Actor {
             return;
         }
         try {
-            RP rp1 = new RP() {
-                @Override
-                public void processResponse(Object response) throws Exception {
-                    try {
-                        rp.processResponse(response);
-                    } catch (Exception e) {
-                        throw new TransparentException(e);
-                    }
-                }
-            };
-            processRequest(request, rp1, binding);
+            processRequest(request, rp, binding);
         } catch (TransparentException t) {
             final Exception e = (Exception) t.getCause();
             requestSource.setExceptionHandler(sourceExceptionHandler);
