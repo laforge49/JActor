@@ -138,7 +138,7 @@
  *
  * <h2>The RP Class</h2>
  * <p>
- *     When an actor receives a request object, it is also given an accompanying RP object. The process
+ *     When an actor receives a request object, it is also given an accompanying RP object. The processResponse
  *     method on the RP class handles the transport and/or processing of the response.
  * </p>
  * <pre>
@@ -148,7 +148,7 @@
  * </pre>
  * <p>
  *     RP does have a second method, isEvent, which can be used to detect 1-way messaging. When isEvent
- *     returns true, a call to the process method does nothing.
+ *     returns true, a call to the processResponse method does nothing.
  * </p>
  * <pre>
  *     boolean event = rp.isEvent();
@@ -160,7 +160,7 @@
  * </p>
  * <pre>
  *     send(anotherActor, someRequest, new RP() {
- *         public void process(Object response) {
+ *         public void processResponse(Object response) {
  *             System.out.println("sent " + someRequest + " and got back " + response);
  *         }
  *     });
@@ -198,7 +198,7 @@
  * <pre>
  *     final int max = 5;
  *     RP printResult = new RP() {
- *         public void process(Object rsp) {
+ *         public void processResponse(Object rsp) {
  *             System.out.println(rsp);
  *         }
  *     };
@@ -208,17 +208,17 @@
  *         int r = 1;
  *
  *         public void process(RP rp) throws Exception {
- *             if (i >= max) rp.process(new Integer(r));
+ *             if (i >= max) rp.processResponse(new Integer(r));
  *             else {
  *                 i += 1;
  *                 r = r * i;
- *                 rp.process(null);
+ *                 rp.processResponse(null);
  *             }
  *         }
  *     }).iterate(printResult);
  * </pre>
  * <p>
- *     Sometimes however we want iterate to return a null result. To do this, we just have the process method return
+ *     Sometimes however we want iterate to return a null result. To do this, we just have the processResponse method return
  *     a JANull object, which the iterate method recognizes as being non-null but which it converts to a null when
  *     returning the result.
  * </p>

@@ -30,27 +30,6 @@
  *     binding nor actor composition--these are handled by JBActor and JCActor.
  * </p>
  *
- * <h2>Message Passing Benchmarks</h2>
- * <p>
- * When actors share the same mailbox, 1,095,890,410 messages are passed per second. With a
- * response time of 7.6 nanoseconds.
- * </p>
- * <p>
- * When different mailboxes are used, the rate drops to 71,095,312 per second and the response
- * time becomes 56 nanoseconds.
- * </p>
- * <p>
- * Asynchronous message passing is also supported, making it easy to use all the available
- * hardware threads for good vertical scalability. Messages sent to an actor with an
- * asynchronous mailbox are passed asynchronously at a rate of 42,149,631 per second. The
- * response time is 996 nanoseconds.
- * </p>
- * <p>
- * Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware threads. The
- * times reported were best run in 5. Only standard switch settings were used--there was NO
- * compiler optimization.
- * </p>
- *
  * <h2>A Simple Calculator</h2>
  * <p>
  *     We will implement a simple calculator to show how to build an actor. First, we need some classes that we can
@@ -147,36 +126,36 @@
  *
  *         private void clear(Clear request, RP rp) throws Exception {
  *             accumulator = 0;
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void get(Get request, RP rp) throws Exception {
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void set(Set request, RP rp) throws Exception {
  *             accumulator = request.getValue();
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void add(Add request, RP rp) throws Exception {
  *             accumulator = accumulator + request.getValue();
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void subtract(Subtract request, RP rp) throws Exception {
  *             accumulator = accumulator - request.getValue();
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void multiply(Multiply request, RP rp) throws Exception {
  *             accumulator = accumulator * request.getValue();
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *
  *         private void divide(Divide request, RP rp) throws Exception {
  *             accumulator = accumulator / request.getValue();
- *             rp.process(new Integer(accumulator));
+ *             rp.processResponse(new Integer(accumulator));
  *         }
  *     }
  * </pre>
@@ -207,9 +186,9 @@
  *         protected void processRequest(Object request, final RP rp) throws Exception {
  *             final Actor calculator = new Calculator(getMailbox());
  *             send(calculator, new Set(1), new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     send(calculator, new Add(2), new RP() {
- *                         public void process(Object response) throws Exception {
+ *                         public void processResponse(Object response) throws Exception {
  *                             send(calculator, new Multiply(3), rp);
  *                         }
  *                     });
@@ -304,13 +283,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("Clear => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("Clear => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -320,13 +299,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("Get => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("Get => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -336,13 +315,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("Set " + request.getValue() + " => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("Set " + request.getValue() + " => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -352,13 +331,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("+ " + request.getValue() + " => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("+ " + request.getValue() + " => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -368,13 +347,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("- " + request.getValue() + " => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("- " + request.getValue() + " => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -384,13 +363,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("* " + request.getValue() + " => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("* " + request.getValue() + " => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -400,13 +379,13 @@
  *             setExceptionHandler(new ExceptionHandler() {
  *                 public void process(Exception exception) throws Exception {
  *                     System.out.println("/ " + request.getValue() + " => " + exception);
- *                     rp.process(null);
+ *                     rp.processResponse(null);
  *                 }
  *             });
  *             send(calculator, request, new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     System.out.println("/ " + request.getValue() + " => " + response);
- *                     rp.process(response);
+ *                     rp.processResponse(response);
  *                 }
  *             });
  *         }
@@ -463,7 +442,7 @@
  *                 throws Exception {
  *             final Calculator calculator = new Calculator(getMailbox());
  *             send(calculator, new Set(1), new RP() {
- *                 public void process(Object response) throws Exception {
+ *                 public void processResponse(Object response) throws Exception {
  *                     JAIterator it = new JAIterator() {
  *                         Factorial factorial = (Factorial) request;
  *                         int max = factorial.getValue();
@@ -475,8 +454,8 @@
  *                             }
  *                             count += 1;
  *                             send(calculator, new Multiply(count), new RP() {
- *                                 public void process(Object response) throws Exception {
- *                                     rp1.process(null);
+ *                                 public void processResponse(Object response) throws Exception {
+ *                                     rp1.processResponse(null);
  *                                 }
  *                             });
  *                         }

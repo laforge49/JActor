@@ -47,7 +47,7 @@
  *
  *         protected void processRequest(Object request, RP rp) throws Exception {
  *             System.err.println("Got request.");
- *             rp.process(null);
+ *             rp.processResponse(null);
  *         }
  *     }
  * </pre>
@@ -60,6 +60,7 @@
  *     Actor publisher = new JCActor(mailbox);
  *     JAFuture future = new JAFuture();
  *     future.call(publisher, new Include(PubSub.class));
+ *     Open.req.call(publisher);
  *     Actor subscriber1 = new Subscriber(mailbox);
  *     Actor subscriber2 = new Subscriber(mailbox);
  *     future.call(publisher, new Subscribe(subscriber1));
