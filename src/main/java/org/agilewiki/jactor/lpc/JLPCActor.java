@@ -179,10 +179,6 @@ abstract public class JLPCActor implements Actor {
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
-        if (request instanceof AsyncRequest) {
-            asyncSend(rs, request, rp, sourceExceptionHandler);
-            return;
-        }
         Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
             syncProcess(request, rp, sourceExceptionHandler, rs);

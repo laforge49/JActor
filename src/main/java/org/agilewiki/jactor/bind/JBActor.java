@@ -580,10 +580,6 @@ public class JBActor implements Actor {
             throws Exception {
         Mailbox sourceMailbox = requestSource.getMailbox();
         ExceptionHandler sourceExceptionHandler = requestSource.getExceptionHandler();
-        if (request instanceof AsyncRequest) {
-            asyncSend(requestSource, request, rp, sourceExceptionHandler);
-            return;
-        }
         if (sourceMailbox == mailbox) {
             syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             return;
