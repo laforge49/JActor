@@ -181,7 +181,7 @@ abstract public class JLPCActor implements Actor {
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
         Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
-            syncProcess(request, rp, sourceExceptionHandler, rs);
+            syncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
         if (sourceMailbox == null) {
@@ -261,51 +261,6 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Process a request when the mailbox is shared.
-     *
-     * @param request                The request.
-     * @param rp                     Processes the response.
-     * @param sourceExceptionHandler Exception handler of the source actor.
-     * @param requestSource          The source of the request.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final private void syncProcess(final Object request,
-                                   final RP rp,
-                                   final ExceptionHandler sourceExceptionHandler,
-                                   final RequestSource requestSource)
-            throws Exception {
-        if (rp.isEvent()) {
-            try {
-                processRequest(request, rp);
-            } catch (Exception ex) {
-            }
-            return;
-        }
-        try {
-            RP rp1 = new RP() {
-                @Override
-                public void processResponse(Object response) throws Exception {
-                    try {
-                        rp.processResponse(response);
-                    } catch (Exception e) {
-                        throw new TransparentException(e);
-                    }
-                }
-            };
-            processRequest(request, rp1);
-        } catch (TransparentException t) {
-            final Exception e = (Exception) t.getCause();
-            requestSource.setExceptionHandler(sourceExceptionHandler);
-            throw e;
-        } catch (Exception e) {
-            requestSource.setExceptionHandler(sourceExceptionHandler);
-            if (sourceExceptionHandler == null) throw e;
-            sourceExceptionHandler.process(e);
-        }
-        requestSource.setExceptionHandler(sourceExceptionHandler);
-    }
-
-    /**
      * Process a request from another mailbox synchronously.
      *
      * @param rs                     The source of the request.
@@ -369,13 +324,15 @@ abstract public class JLPCActor implements Actor {
             processRequest(request, erp);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
-            final Exception e = (Exception) t.getCause();
-            throw e;
+            requestSource.setExceptionHandler(sourceExceptionHandler);
+            throw (Exception) t.getCause();
         } catch (Exception e) {
-            final ExceptionHandler eh = getExceptionHandler();
+            requestSource.setExceptionHandler(sourceExceptionHandler);
+            ExceptionHandler eh = getExceptionHandler();
             if (eh == null) throw e;
             eh.process(e);
         }
+        requestSource.setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
