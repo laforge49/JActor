@@ -91,6 +91,7 @@ Several components are provided:
     Factory - For creating actors with a single component include.
     Properties - For creating a table of name/value pairs.
     PubSub - Publish and subscribe.
+    NBLock - A non-blocking lock for gaining exclusive access to a resource.
 
 Message Passing Benchmarks
 
