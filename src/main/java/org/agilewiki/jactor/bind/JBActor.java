@@ -585,7 +585,7 @@ public class JBActor implements Actor {
             return;
         }
         if (sourceMailbox == mailbox) {
-            syncProcess(request, rp, sourceExceptionHandler, requestSource, binding);
+            syncSend(requestSource, request, rp, sourceExceptionHandler, binding);
             return;
         }
         if (sourceMailbox == null) {
@@ -665,52 +665,15 @@ public class JBActor implements Actor {
     }
 
     /**
-     * Process a request when the mailbox is shared.
-     *
-     * @param request                The request.
-     * @param rp                     Processes the response.
-     * @param sourceExceptionHandler Exception handler of the source actor.
-     * @param requestSource          The source of the request.
-     * @param binding                Binds a request class.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final private void syncProcess(final Object request,
-                                   final RP rp,
-                                   final ExceptionHandler sourceExceptionHandler,
-                                   final RequestSource requestSource,
-                                   final Binding binding)
-            throws Exception {
-        if (rp.isEvent()) {
-            try {
-                processRequest(request, rp, binding);
-            } catch (Exception ex) {
-            }
-            return;
-        }
-        try {
-            processRequest(request, rp, binding);
-        } catch (TransparentException t) {
-            final Exception e = (Exception) t.getCause();
-            requestSource.setExceptionHandler(sourceExceptionHandler);
-            throw e;
-        } catch (Exception e) {
-            requestSource.setExceptionHandler(sourceExceptionHandler);
-            if (sourceExceptionHandler == null) throw e;
-            sourceExceptionHandler.process(e);
-        }
-        requestSource.setExceptionHandler(sourceExceptionHandler);
-    }
-
-    /**
      * Process a request from another mailbox synchronously.
      *
-     * @param rs                     The source of the request.
+     * @param requestSource          The source of the request.
      * @param request                The request.
      * @param rp                     Processes the response.
      * @param binding                Binds a request class.
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
-    final private void syncSend(final RequestSource rs,
+    final private void syncSend(final RequestSource requestSource,
                                 final Object request,
                                 final RP rp,
                                 final ExceptionHandler sourceExceptionHandler,
@@ -737,9 +700,9 @@ public class JBActor implements Actor {
                     }
                 } else {
                     if (response != null && response instanceof Exception)
-                        asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
+                        asyncException((Exception) response, sourceExceptionHandler, requestSource.getMailbox());
                     else try {
-                        Mailbox sourceMailbox = rs.getMailbox();
+                        Mailbox sourceMailbox = requestSource.getMailbox();
                         EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
                         EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
                         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
@@ -747,7 +710,7 @@ public class JBActor implements Actor {
                         if (srcController == controller) {
                             rp.processResponse(response);
                         } else if (!eventQueue.acquireControl(srcController)) {
-                            asyncResponse(rs, request, response, rp);
+                            asyncResponse(requestSource, request, response, rp);
                         } else {
                             try {
                                 rp.processResponse(response);
@@ -758,7 +721,7 @@ public class JBActor implements Actor {
                             }
                         }
                     } catch (Exception ex) {
-                        asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                        asyncException(ex, sourceExceptionHandler, requestSource.getMailbox());
                     }
                 }
             }
@@ -767,13 +730,15 @@ public class JBActor implements Actor {
             processRequest(request, erp, binding);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
-            final Exception e = (Exception) t.getCause();
-            throw e;
+            requestSource.setExceptionHandler(sourceExceptionHandler);
+            throw (Exception) t.getCause();
         } catch (Exception e) {
-            final ExceptionHandler eh = getExceptionHandler();
+            requestSource.setExceptionHandler(sourceExceptionHandler);
+            ExceptionHandler eh = getExceptionHandler();
             if (eh == null) throw e;
             eh.process(e);
         }
+        requestSource.setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
