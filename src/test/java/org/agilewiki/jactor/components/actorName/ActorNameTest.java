@@ -15,7 +15,7 @@ public class ActorNameTest extends TestCase {
             (new Include(ActorName.class)).call(a);
             (new SetActorName("foo")).call(a);
             Open.req.call(a);
-            String nm = (new GetActorName()).call(a);
+            String nm = GetActorName.req.call(a);
             System.out.println(nm);
         } catch (Exception e) {
             e.printStackTrace();

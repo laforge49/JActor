@@ -27,7 +27,7 @@ public class Bar extends Component {
             public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                  Hi request)
                     throws Exception {
-                myName = (new GetActorName()).call(thisActor);
+                myName = GetActorName.req.call(thisActor);
                 System.out.println("Hello world! --" + myName);
             }
         });

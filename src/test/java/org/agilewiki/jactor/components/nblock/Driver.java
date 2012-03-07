@@ -17,7 +17,8 @@ public class Driver extends Component {
     public void bindery() throws Exception {
         thisActor.bind(DoIt.class.getName(), new MethodBinding<DoIt, Object>() {
             @Override
-            public void processRequest(final Internals internals, DoIt request, final RP<Object> rp) throws Exception {
+            public void processRequest(final Internals internals, DoIt request, final RP<Object> rp)
+                    throws Exception {
 
                 final RP<Object> rpc = new RP<Object>() {
                     int count = 3;

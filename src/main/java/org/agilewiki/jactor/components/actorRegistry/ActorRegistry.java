@@ -71,7 +71,7 @@ public class ActorRegistry extends Component {
                                                          RegisterActor request)
                             throws Exception {
                         final JCActor actor = request.getActor();
-                        String name = (new GetActorName()).call(actor);
+                        String name = GetActorName.req.call(actor);
                         JCActor old = registry.putIfAbsent(name, actor);
                         if (old != null && old != actor)
                             throw new UnsupportedOperationException("Duplicate actor name.");
