@@ -27,7 +27,6 @@ import org.agilewiki.jactor.bind.InitializationRequest;
 
 /**
  * An Include request instantiates and adds an object to the composite actor unless already present.
- * And if the object is a component, process its includes and then open it.
  * The response is always null.
  */
 final public class Include extends InitializationRequest<Object> {

@@ -55,13 +55,13 @@ public class Component {
     }
 
     /**
-     * Open is called when a Open initialization request is processed,
+     * Opening is called when a Open initialization request is processed,
      * but before the actor is marked as active.
      *
      * @param internals The actor's internals.
      * @throws Exception Any exceptions thrown during the open.
      */
-    public void open(Internals internals)
+    public void opening(Internals internals)
             throws Exception {
     }
 

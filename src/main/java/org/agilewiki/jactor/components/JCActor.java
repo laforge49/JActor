@@ -100,7 +100,7 @@ final public class JCActor extends JBActor {
     }
 
     /**
-     * Calls open on each component, then marks the actor as active,
+     * Calls open on each component, marks the actor as active,
      * and then calls opened on each component.
      *
      * @param internals The actor's internals.
@@ -111,7 +111,7 @@ final public class JCActor extends JBActor {
         Iterator<Component> it = components.iterator();
         while (it.hasNext()) {
             Component c = it.next();
-            c.open(internals);
+            c.opening(internals);
         }
         super.open(internals);
         it = components.iterator();
