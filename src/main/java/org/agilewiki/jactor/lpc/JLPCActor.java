@@ -243,12 +243,12 @@ abstract public class JLPCActor implements Actor {
                 if (response != null && response instanceof Exception) {
                     asyncException(
                             (Exception) response,
-                            sourceExceptionHandler,
+                            rs.getExceptionHandler(),
                             rs.getMailbox());
                 } else try {
                     rp.processResponse(response);
                 } catch (Exception ex) {
-                    asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                    asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
                 }
             }
         };
@@ -294,7 +294,7 @@ abstract public class JLPCActor implements Actor {
                     }
                 } else {
                     if (response != null && response instanceof Exception)
-                        asyncException((Exception) response, sourceExceptionHandler, rs.getMailbox());
+                        asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
                     else try {
                         Mailbox sourceMailbox = rs.getMailbox();
                         EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
@@ -315,7 +315,7 @@ abstract public class JLPCActor implements Actor {
                             }
                         }
                     } catch (Exception ex) {
-                        asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                        asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
                     }
                 }
             }

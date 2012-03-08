@@ -643,12 +643,12 @@ public class JBActor implements Actor {
                 if (response != null && response instanceof Exception) {
                     asyncException(
                             (Exception) response,
-                            sourceExceptionHandler,
+                            rs.getExceptionHandler(),
                             rs.getMailbox());
                 } else try {
                     rp.processResponse(response);
                 } catch (Exception ex) {
-                    asyncException(ex, sourceExceptionHandler, rs.getMailbox());
+                    asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
                 }
             }
         };
@@ -696,7 +696,7 @@ public class JBActor implements Actor {
                     }
                 } else {
                     if (response != null && response instanceof Exception)
-                        asyncException((Exception) response, sourceExceptionHandler, requestSource.getMailbox());
+                        asyncException((Exception) response, requestSource.getExceptionHandler(), requestSource.getMailbox());
                     else try {
                         Mailbox sourceMailbox = requestSource.getMailbox();
                         EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
@@ -717,7 +717,7 @@ public class JBActor implements Actor {
                             }
                         }
                     } catch (Exception ex) {
-                        asyncException(ex, sourceExceptionHandler, requestSource.getMailbox());
+                        asyncException(ex, requestSource.getExceptionHandler(), requestSource.getMailbox());
                     }
                 }
             }

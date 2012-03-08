@@ -28,16 +28,16 @@ public class Process extends Component {
             public void processRequest(final Internals internals, DoItEx request, final RP<Object> rp)
                     throws Exception {
                 final String me = GetActorName.req.call(internals, thisActor);
-                internals.setExceptionHandler(new ExceptionHandler() {
-                    @Override
-                    public void process(Exception exception) throws Exception {
-                        System.out.println(me + " got exception " + exception);
-                        Unlock.req.send(internals, thisActor, rp);
-                    }
-                });
                 Lock.req.send(internals, thisActor, new RP<Object>() {
                     @Override
                     public void processResponse(Object response) throws Exception {
+                        internals.setExceptionHandler(new ExceptionHandler() {
+                            @Override
+                            public void process(Exception exception) throws Exception {
+                                System.out.println(me + " got exception " + exception);
+                                Unlock.req.send(internals, thisActor, rp);
+                            }
+                        });
                         System.out.println("start " + me);
                         Thread.sleep(100);
                         throw new Exception("from " + me);
