@@ -278,6 +278,7 @@ abstract public class JLPCActor implements Actor {
                 processRequest(request, rp);
             } catch (Exception ex) {
             }
+            requestSource.setExceptionHandler(sourceExceptionHandler);
             return;
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {

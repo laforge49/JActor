@@ -680,6 +680,7 @@ public class JBActor implements Actor {
                 processRequest(request, rp, binding);
             } catch (Exception ex) {
             }
+            requestSource.setExceptionHandler(sourceExceptionHandler);
             return;
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
