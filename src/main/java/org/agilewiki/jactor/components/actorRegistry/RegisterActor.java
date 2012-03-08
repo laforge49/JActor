@@ -27,7 +27,7 @@ import org.agilewiki.jactor.bind.ConcurrentRequest;
 import org.agilewiki.jactor.components.JCActor;
 
 /**
- * <p></p>Sent to an actor with an ActorRegistry component to register an actor
+ * <p>Sent to an actor with an ActorRegistry component to register an actor
  * which has been assigned an actor name.</p>
  * <p>Only one actor can be registered for a given name.</p>
  */
