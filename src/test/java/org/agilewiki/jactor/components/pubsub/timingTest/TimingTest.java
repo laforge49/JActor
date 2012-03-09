@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsub.timingTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.Actor;
@@ -11,7 +11,10 @@ import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.pubsub.Subscribe;
 import org.agilewiki.jactor.parallel.JAParallel;
 
-public class AsyncTimingTest extends TestCase {
+/**
+ * Test code.
+ */
+public class TimingTest extends TestCase {
     public void test() {
 
         int c = 1;
@@ -20,23 +23,23 @@ public class AsyncTimingTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        //int c = 100000;
+        //int c = 1000000;
         //int b = 1;
         //int s = 10;
         //int p = 4;
         //int t = 4;
-        //4 parallel runs of 100000 bursts of 1 requests sent to 10 subscribers
-        //publications per sec = 2751031
-        //response time 1.5 microseconds
+        //4 parallel runs of 1000000 bursts of 1 requests sent to 10 subscribers
+        //publications per sec = 18867924
+        //response time 212 nanoseconds
 
-        //int c = 1000;
+        //int c = 10000;
         //int b = 1;
         //int s = 1000;
         //int p = 4;
         //int t = 4;
-        //4 parallel runs of 1000 bursts of 1 requests sent to 1000 subscribers
-        //publications per sec = 1642036
-        //response time 2.4 microseconds
+        //4 parallel runs of 10000 bursts of 1 requests sent to 1000 subscribers
+        //publications per sec = 23852116
+        //response time 168 nanoseconds
 
         //int c = 1000;
         //int b = 1000;
@@ -44,7 +47,7 @@ public class AsyncTimingTest extends TestCase {
         //int p = 4;
         //int t = 4;
         //4 parallel runs of 1000 bursts of 1000 requests sent to 10 subscribers
-        //publications per sec = 11305822
+        //publications per sec = 31595576
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -59,7 +62,7 @@ public class AsyncTimingTest extends TestCase {
                 drivers[i] = driver;
                 int j = 0;
                 while (j < s) {
-                    Actor subscriber = new NullSubscriber(mailboxFactory.createAsyncMailbox());
+                    Actor subscriber = new NullSubscriber(mailboxFactory.createMailbox());
                     subscriber.setInitialBufferCapacity(b + 10);
                     (new Subscribe(subscriber)).call(driver);
                     j += 1;

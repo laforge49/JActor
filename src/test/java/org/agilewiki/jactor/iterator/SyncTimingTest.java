@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.RP;
 
+/**
+ * Test code.
+ */
 public class SyncTimingTest extends TestCase {
     public void testSync() throws Exception {
         final long c = 1L;

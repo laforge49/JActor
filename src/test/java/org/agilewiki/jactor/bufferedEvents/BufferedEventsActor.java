@@ -24,7 +24,7 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 /**
- * An actor which passes blocks of one-way message (events).
+ * Test code: An actor which passes blocks of one-way message (events).
  *
  * @param <E> The type of event.
  */

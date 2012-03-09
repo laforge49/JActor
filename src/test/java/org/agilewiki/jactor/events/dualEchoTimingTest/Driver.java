@@ -5,6 +5,9 @@ import org.agilewiki.jactor.events.EventDestination;
 import org.agilewiki.jactor.events.JAEventActor;
 import org.agilewiki.jactor.events.Sender;
 
+/**
+ * Test code.
+ */
 public final class Driver extends JAEventActor<Object> {
 
     private Sender sender1;

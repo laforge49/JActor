@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock.exceptions;
+package org.agilewiki.jactor.components.nblock.exceptionsTest;
 
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;
@@ -9,6 +9,9 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.SetActorName;
 
+/**
+ * Test code.
+ */
 public class Driver extends Component {
     /**
      * Bind request classes.

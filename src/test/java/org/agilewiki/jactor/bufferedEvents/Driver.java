@@ -2,6 +2,9 @@ package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * Test code.
+ */
 final public class Driver extends JABufferedEventsActor<Object> {
 
     private Sender[] senders;

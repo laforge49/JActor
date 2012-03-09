@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 /**
- * Used mostly in testing to send a request to an actor and wait for a response.
+ * Test code: Used mostly in testing to send a request to an actor and wait for a response.
  */
 final public class JAPCFuture {
     /**

@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock.exceptions;
+package org.agilewiki.jactor.components.nblock.exceptionsTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
@@ -10,6 +10,9 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.nbLock.NBLock;
 
+/**
+ * Test code.
+ */
 public class NBLockExceptionsTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
@@ -31,5 +34,8 @@ public class NBLockExceptionsTest extends TestCase {
     }
 }
 
+/**
+ * Test code.
+ */
 class DoItEx extends Request<Object> {
 }

@@ -2,6 +2,9 @@ package org.agilewiki.jactor.bufferedEvents;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * Test code.
+ */
 public class Sender extends JABufferedEventsActor<Object> {
 
     private Echo echo;

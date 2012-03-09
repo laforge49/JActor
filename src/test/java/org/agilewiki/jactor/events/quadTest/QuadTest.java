@@ -6,6 +6,9 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.Echo;
 import org.agilewiki.jactor.events.JAEventFuture;
 
+/**
+ * Test code.
+ */
 final public class QuadTest extends TestCase {
     public void testTiming() {
         ThreadManager threadManager = JAThreadManager.newThreadManager(8);

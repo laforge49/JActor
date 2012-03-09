@@ -29,7 +29,7 @@ import org.agilewiki.jactor.events.JActor;
 import java.util.ArrayList;
 
 /**
- * Implements BufferedEventsActor.
+ * Test code: Implements BufferedEventsActor.
  *
  * @param <E> The type of event.
  */

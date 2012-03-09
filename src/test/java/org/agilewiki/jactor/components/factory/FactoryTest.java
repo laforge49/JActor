@@ -8,6 +8,9 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorRegistry.ActorRegistry;
 
+/**
+ * Test code.
+ */
 public class FactoryTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

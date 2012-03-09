@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsub.timingTest;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
@@ -12,6 +12,9 @@ import org.agilewiki.jactor.components.pubsub.Publish;
 
 import java.util.ArrayList;
 
+/**
+ * Test code.
+ */
 final public class Driver1 extends Component {
     @Override
     public ArrayList<Include> includes() {

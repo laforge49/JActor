@@ -4,6 +4,9 @@ import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 
+/**
+ * Test code.
+ */
 public class C1 extends Component {
     @Override
     public void bindery()

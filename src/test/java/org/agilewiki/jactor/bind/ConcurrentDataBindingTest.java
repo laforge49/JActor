@@ -5,6 +5,9 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 
+/**
+ * Test code.
+ */
 public class ConcurrentDataBindingTest extends TestCase {
     public void test1() {
         System.err.println("test1");

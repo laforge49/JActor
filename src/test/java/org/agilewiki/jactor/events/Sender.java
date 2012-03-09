@@ -2,6 +2,9 @@ package org.agilewiki.jactor.events;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * Test code.
+ */
 public class Sender extends JAEventActor<Object> {
 
     private Echo echo;

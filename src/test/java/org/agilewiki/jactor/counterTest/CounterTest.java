@@ -6,6 +6,9 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 
+/**
+ * Test code.
+ */
 public class CounterTest extends TestCase {
     public void testShared() throws Exception {
 

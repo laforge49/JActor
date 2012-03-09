@@ -9,6 +9,9 @@ import org.agilewiki.jactor.components.actorName.GetActorName;
 
 import java.util.ArrayList;
 
+/**
+ * Test code.
+ */
 public class Bar extends Component {
     private String myName;
 

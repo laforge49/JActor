@@ -5,6 +5,9 @@ import org.agilewiki.jactor.events.Echo;
 import org.agilewiki.jactor.events.EventDestination;
 import org.agilewiki.jactor.events.JAEventActor;
 
+/**
+ * Test code.
+ */
 public class Sender extends JAEventActor<Object> {
 
     private Echo echo;

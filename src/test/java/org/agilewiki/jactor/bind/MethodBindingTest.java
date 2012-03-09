@@ -3,6 +3,9 @@ package org.agilewiki.jactor.bind;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
+/**
+ * Test code.
+ */
 public class MethodBindingTest extends TestCase {
     public void test1() {
         System.err.println("test1");

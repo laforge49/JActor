@@ -5,6 +5,9 @@ import org.agilewiki.jactor.apc.JAPCFuture;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * Test code.
+ */
 final public class APCTimingTest extends TestCase {
     public void testTiming() {
         int c = 2;

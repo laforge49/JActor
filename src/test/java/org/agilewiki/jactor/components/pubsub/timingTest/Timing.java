@@ -1,7 +1,10 @@
-package org.agilewiki.jactor.components.pubsub.timing;
+package org.agilewiki.jactor.components.pubsub.timingTest;
 
 import org.agilewiki.jactor.Request;
 
+/**
+ * Test code.
+ */
 final public class Timing extends Request<Object> {
     private int count;
     private int burst;

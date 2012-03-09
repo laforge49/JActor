@@ -7,6 +7,9 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.StateMachine;
 import org.agilewiki.jactor.stateMachine._Operation;
 
+/**
+ * Test code.
+ */
 final public class Driver extends JLPCActor {
     SMBuilder smb = new SMBuilder();
 

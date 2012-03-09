@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 /**
- * Used mostly for testing, JABufferedEventsFuture is used to send
+ * Test code: JABufferedEventsFuture is used to send
  * events to a BufferedEventsDestination, like JABufferedEventsActor, and then wait
  * for a return event.
  *

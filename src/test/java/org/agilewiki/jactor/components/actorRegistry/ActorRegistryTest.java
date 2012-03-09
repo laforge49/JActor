@@ -9,6 +9,9 @@ import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.actorName.ActorName;
 import org.agilewiki.jactor.components.actorName.SetActorName;
 
+/**
+ * Test code.
+ */
 public class ActorRegistryTest extends TestCase {
     public void test1() {
         System.out.println("test1");

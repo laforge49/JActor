@@ -6,6 +6,9 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.JAEventFuture;
 import org.agilewiki.jactor.events.Sender;
 
+/**
+ * Test code.
+ */
 final public class EchoTimingTest extends TestCase {
     public void testTiming() {
         int c = 10;

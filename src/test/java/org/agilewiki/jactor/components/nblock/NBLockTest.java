@@ -10,6 +10,9 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.nbLock.NBLock;
 
+/**
+ * Test code.
+ */
 public class NBLockTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
@@ -31,5 +34,8 @@ public class NBLockTest extends TestCase {
     }
 }
 
+/**
+ * Test code.
+ */
 class DoIt extends Request<Object> {
 }

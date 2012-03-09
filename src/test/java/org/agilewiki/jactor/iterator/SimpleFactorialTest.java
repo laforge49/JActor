@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.RP;
 
+/**
+ * Test code.
+ */
 public class SimpleFactorialTest extends TestCase {
     public void testFactorial() throws Exception {
         final int max = 5;

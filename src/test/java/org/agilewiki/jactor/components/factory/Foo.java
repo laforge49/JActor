@@ -4,6 +4,9 @@ import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 
+/**
+ * Test code.
+ */
 public class Foo extends Component {
     @Override
     public void bindery() throws Exception {

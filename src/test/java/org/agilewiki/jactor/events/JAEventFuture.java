@@ -26,7 +26,7 @@ package org.agilewiki.jactor.events;
 import java.util.concurrent.Semaphore;
 
 /**
- * Used mostly for testing, JAEventFuture is used to send
+ * Test code: Used mostly for testing, JAEventFuture is used to send
  * events to an EventDestination, like JAEventActor, and then wait
  * for a return event.
  *

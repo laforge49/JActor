@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock.exceptions;
+package org.agilewiki.jactor.components.nblock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
@@ -13,6 +13,9 @@ import org.agilewiki.jactor.components.nbLock.Unlock;
 
 import java.util.ArrayList;
 
+/**
+ * Test code.
+ */
 public class Process extends Component {
     @Override
     public ArrayList<Include> includes() {

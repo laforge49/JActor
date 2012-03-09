@@ -3,6 +3,9 @@ package org.agilewiki.jactor.bind;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
+/**
+ * Test code.
+ */
 public class EventTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

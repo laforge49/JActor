@@ -7,6 +7,9 @@ import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.nbLock.Lock;
 import org.agilewiki.jactor.components.nbLock.Unlock;
 
+/**
+ * Test code.
+ */
 public class Driver extends Component {
     /**
      * Bind request classes.

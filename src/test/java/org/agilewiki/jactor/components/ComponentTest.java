@@ -6,6 +6,9 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.bind.Open;
 
+/**
+ * Test code.
+ */
 public class ComponentTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

@@ -2,6 +2,9 @@ package org.agilewiki.jactor.components;
 
 import java.util.ArrayList;
 
+/**
+ * Test code.
+ */
 public class C2 extends Component {
     @Override
     public ArrayList<Include> includes() {

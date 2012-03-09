@@ -4,6 +4,9 @@ import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.apc.JAPCActor;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
+/**
+ * Test code.
+ */
 final public class Echo extends JAPCActor {
 
     public Echo(ThreadManager threadManager) {

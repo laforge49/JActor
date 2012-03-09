@@ -26,7 +26,7 @@ package org.agilewiki.jactor.events;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 
 /**
- * An actor which passes one-way message (events).
+ * Test code: An actor which passes one-way message (events).
  *
  * @param <E> The type of event.
  */
