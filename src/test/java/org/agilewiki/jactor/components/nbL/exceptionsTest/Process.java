@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock.exceptionsTest;
+package org.agilewiki.jactor.components.nbL.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;

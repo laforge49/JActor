@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock;
+package org.agilewiki.jactor.components.nbL;
 
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;

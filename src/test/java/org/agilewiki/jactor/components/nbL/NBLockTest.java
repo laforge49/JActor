@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nblock;
+package org.agilewiki.jactor.components.nbL;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
