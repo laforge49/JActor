@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.iterator;
+package org.agilewiki.jactor.iteratorTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;

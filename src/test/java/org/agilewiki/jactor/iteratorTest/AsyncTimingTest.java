@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.iterator;
+package org.agilewiki.jactor.iteratorTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAIterator;
@@ -7,16 +7,17 @@ import org.agilewiki.jactor.RP;
 /**
  * Test code.
  */
-public class SyncTimingTest extends TestCase {
+public class AsyncTimingTest extends TestCase {
     public void testSync() throws Exception {
         final long c = 1L;
 
         //final long c = 1000000000L;
-        //iterations per sec = 218962119
-        //each iteration takes 4.567 nanoseconds
+        //iterations per sec = 143410296
+        //each iteration takes 6.973 nanoseconds
 
         final long t0 = System.currentTimeMillis();
-        RP done = new RP() {
+
+        final RP done = new RP() {
             @Override
             public void processResponse(Object unwrappedResponse) throws Exception {
                 final long t1 = System.currentTimeMillis();
@@ -26,15 +27,22 @@ public class SyncTimingTest extends TestCase {
             }
         };
 
-        (new JAIterator() {
+        class It extends JAIterator {
             long i;
+            RP rp;
 
             @Override
             protected void process(RP rp) throws Exception {
-                i += 1;
-                if (i < c) rp.processResponse(null);
-                else rp.processResponse(this);
+                this.rp = rp;
             }
-        }).iterate(done);
+        }
+
+        final It it = new It();
+        it.iterate(done);
+        while (it.i < c) {
+            it.i += 1;
+            it.rp.processResponse(null);
+        }
+        it.rp.processResponse(this);
     }
 }

@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.iterator.factorialTest;
+package org.agilewiki.jactor.iteratorTest.factorialTest;
 
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.Mailbox;
