@@ -3,6 +3,9 @@ package org.agilewiki.jactor.lpc.exceptionsTest;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
+/**
+ * Test code.
+ */
 public class SharedMailboxTest extends TestCase {
     public void testExceptions() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

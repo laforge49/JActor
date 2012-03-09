@@ -2,6 +2,9 @@ package org.agilewiki.jactor.multithreadingTest.exceptions;
 
 import org.agilewiki.jactor.bind.SynchronousRequest;
 
+/**
+ * Test code.
+ */
 public class SyncDivide extends SynchronousRequest<Integer> {
     private int n;
     private int d;

@@ -7,6 +7,9 @@ import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.pubsub.PubSubResponseProcessor;
 
+/**
+ * Test code.
+ */
 public class ParallelResponsePrinter extends Component {
     @Override
     public void bindery() throws Exception {

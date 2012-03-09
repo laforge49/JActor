@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
+/**
+ * Test code.
+ */
 public class SetFTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

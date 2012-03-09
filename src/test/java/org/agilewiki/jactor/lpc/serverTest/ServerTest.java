@@ -6,6 +6,9 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.Random;
 
+/**
+ * Test code.
+ */
 public class ServerTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
@@ -24,6 +27,9 @@ public class ServerTest extends TestCase {
     }
 }
 
+/**
+ * Test code.
+ */
 class Driver extends JLPCActor {
     Driver(Mailbox mailbox) {
         super(mailbox);

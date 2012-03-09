@@ -3,6 +3,9 @@ package org.agilewiki.jactor.lpc;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
+/**
+ * Test code.
+ */
 public class SSATest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

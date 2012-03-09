@@ -1,5 +1,8 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
+/**
+ * Test code.
+ */
 public class Add {
     public Add(int value) {
         this.value = value;

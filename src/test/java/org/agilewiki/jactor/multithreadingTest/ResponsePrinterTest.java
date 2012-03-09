@@ -10,6 +10,9 @@ import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.synchronousProgrammingTest.Greeter;
 import org.agilewiki.jactor.synchronousProgrammingTest.Hi;
 
+/**
+ * Test code.
+ */
 public class ResponsePrinterTest extends TestCase {
     public void test1() {
         System.out.println("start ResponsePrinterTest 1");

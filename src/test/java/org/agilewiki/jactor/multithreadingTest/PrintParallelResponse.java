@@ -3,6 +3,9 @@ package org.agilewiki.jactor.multithreadingTest;
 import org.agilewiki.jactor.Request;
 import org.agilewiki.jactor.components.JCActor;
 
+/**
+ * Test code.
+ */
 public class PrintParallelResponse<RESPONSE> extends Request<Object> {
     private int count;
     private PrintResponse<RESPONSE> printResponse;

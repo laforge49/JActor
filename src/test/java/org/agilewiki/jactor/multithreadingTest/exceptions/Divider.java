@@ -7,6 +7,9 @@ import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.SynchronousMethodBinding;
 import org.agilewiki.jactor.components.Component;
 
+/**
+ * Test code.
+ */
 public class Divider extends Component {
     @Override
     public void bindery() throws Exception {

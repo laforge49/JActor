@@ -7,6 +7,9 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.junit.Test;
 
+/**
+ * Test code.
+ */
 public class ExceptionTest {
     @Test
     public void test() {

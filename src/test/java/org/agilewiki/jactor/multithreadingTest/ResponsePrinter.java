@@ -7,6 +7,9 @@ import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
 
+/**
+ * Test code.
+ */
 public class ResponsePrinter extends Component {
     @Override
     public void bindery() throws Exception {

@@ -8,6 +8,9 @@ import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 
+/**
+ * Test code.
+ */
 public class GreeterTest extends TestCase {
     public void test1() {
         System.out.println("start GreeterTest 1");

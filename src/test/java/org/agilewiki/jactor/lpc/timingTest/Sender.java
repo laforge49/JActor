@@ -6,6 +6,9 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
+/**
+ * Test code.
+ */
 public class Sender extends JLPCActor {
 
     private Actor echo;

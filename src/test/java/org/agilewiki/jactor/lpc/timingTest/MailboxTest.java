@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.parallel.JAParallel;
 
+/**
+ * Test code.
+ */
 public class MailboxTest extends TestCase {
     public void testTiming() {
         int c = 1;

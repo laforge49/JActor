@@ -6,6 +6,9 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.Random;
 
+/**
+ * Test code.
+ */
 public class Worker extends JLPCActor {
     public Worker(Mailbox mailbox) {
         super(mailbox);

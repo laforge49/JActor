@@ -5,6 +5,9 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
+/**
+ * Test code.
+ */
 public class Driver1 extends JLPCActor {
     public Driver1(Mailbox mailbox) {
         super(mailbox);

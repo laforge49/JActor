@@ -1,5 +1,8 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
+/**
+ * Test code.
+ */
 public class Multiply {
     public Multiply(int value) {
         this.value = value;

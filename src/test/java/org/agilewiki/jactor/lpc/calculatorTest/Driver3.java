@@ -7,6 +7,9 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.ObjectFunc;
 import org.agilewiki.jactor.stateMachine.StateMachine;
 
+/**
+ * Test code.
+ */
 public class Driver3 extends JLPCActor {
     public Driver3(Mailbox mailbox) {
         super(mailbox);

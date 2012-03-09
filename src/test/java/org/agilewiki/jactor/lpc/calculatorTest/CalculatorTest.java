@@ -3,6 +3,9 @@ package org.agilewiki.jactor.lpc.calculatorTest;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 
+/**
+ * Test code.
+ */
 public class CalculatorTest extends TestCase {
     public void test1() {
         System.err.println("test 1");

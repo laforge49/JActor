@@ -2,6 +2,9 @@ package org.agilewiki.jactor.multithreadingTest.exceptions;
 
 import org.agilewiki.jactor.Request;
 
+/**
+ * Test code.
+ */
 public class Divide extends Request<Integer> {
     private int n;
     private int d;

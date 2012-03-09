@@ -4,6 +4,9 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
+/**
+ * Test code.
+ */
 final public class Echo extends JLPCActor {
 
     public Echo(Mailbox mailbox) {

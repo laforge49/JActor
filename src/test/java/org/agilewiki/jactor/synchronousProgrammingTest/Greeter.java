@@ -4,6 +4,9 @@ import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.SynchronousMethodBinding;
 import org.agilewiki.jactor.components.Component;
 
+/**
+ * Test code.
+ */
 public class Greeter extends Component {
     @Override
     public void bindery() throws Exception {
