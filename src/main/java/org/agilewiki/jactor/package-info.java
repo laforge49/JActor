@@ -256,7 +256,7 @@
  *     Benchmarks for parallelism are probably the simplest of all, as the responses do not need to be aggregated. The
  *     JAParallel class was developed specifically to support this,
  *     <a target="_blank"
- * href="https://github.com/laforge49/JActor/blob/master/src/test/java/org/agilewiki/jactor/lpc/timing/SharedMailboxTest.java"
+ * href="https://github.com/laforge49/JActor/blob/master/src/test/java/org/agilewiki/jactor/lpc/timingTest/SharedMailboxTest.java"
  * >SharedMailboxTest</a> being a good case in point.
  * </p>
  *
