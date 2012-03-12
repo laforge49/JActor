@@ -166,7 +166,7 @@ public class JBActor implements Actor {
          */
         @Override
         public Object call(JBActor actor, ConcurrentRequest request) throws Exception {
-            return actor.acceptCall(requestSource, request);
+            return actor.acceptCall(request);
         }
 
         /**
@@ -446,20 +446,18 @@ public class JBActor implements Actor {
     /**
      * Processes a concurrent request
      *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
+     * @param request The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public Object acceptCall(APCRequestSource apcRequestSource, ConcurrentRequest request)
+    final public Object acceptCall(ConcurrentRequest request)
             throws Exception {
-        RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
         if (binding == null) {
             if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
             }
-            return parent.acceptCall(requestSource, request);
+            return parent.acceptCall(request);
         }
         if (!active) {
             throw new UnsupportedOperationException("actor is not yet active");

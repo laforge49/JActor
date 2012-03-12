@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nbL.exceptionsTest;
+package org.agilewiki.jactor.components.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
@@ -30,7 +30,7 @@ public class Process extends Component {
             @Override
             public void processRequest(final Internals internals, DoItEx request, final RP<Object> rp)
                     throws Exception {
-                final String me = GetActorName.req.call(internals, thisActor);
+                final String me = GetActorName.req.call(thisActor);
                 Lock.req.send(internals, thisActor, new RP<Object>() {
                     @Override
                     public void processResponse(Object response) throws Exception {

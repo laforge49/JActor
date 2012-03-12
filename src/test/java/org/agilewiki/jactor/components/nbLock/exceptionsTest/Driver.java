@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nbL.exceptionsTest;
+package org.agilewiki.jactor.components.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;

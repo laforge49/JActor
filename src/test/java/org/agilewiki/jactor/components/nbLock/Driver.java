@@ -1,11 +1,9 @@
-package org.agilewiki.jactor.components.nbL;
+package org.agilewiki.jactor.components.nbLock;
 
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.nbLock.Lock;
-import org.agilewiki.jactor.components.nbLock.Unlock;
 
 /**
  * Test code.
