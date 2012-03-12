@@ -64,7 +64,7 @@ public class SharedMailboxTest extends TestCase {
             System.out.println("null test time " + (t2 - t1));
             System.out.println("" + p + " parallel runs of " + (2L * c * b) + " messages each.");
             System.out.println("" + (2L * c * b * p) + " messages sent with " + t + " threads.");
-            if (t1 != t0) {
+            if (t1 != t0 && t1 - t0 - t2 + t1 > 0) {
                 System.out.println("msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0)));
                 System.out.println("adjusted msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0 - t2 + t1)));
             }

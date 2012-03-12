@@ -59,7 +59,11 @@ import java.util.ArrayList;
  * }
  * </pre>
  */
-abstract public class JLPCActor implements Actor {
+abstract public class JLPCActor implements Actor, RequestProcessor, RequestSource {
+    /**
+     * The type of actor.
+     */
+    private String actorType;
 
     /**
      * The inbox and outbox of the actor.
@@ -67,82 +71,78 @@ abstract public class JLPCActor implements Actor {
     private Mailbox mailbox;
 
     /**
-     * Handles callbacks from the mailbox.
+     * The current exception handler, or null.
      */
-    final private RequestProcessor requestProcessor = new RequestProcessor() {
-        private ExceptionHandler exceptionHandler;
-
-        @Override
-        final public ExceptionHandler getExceptionHandler() {
-            return exceptionHandler;
-        }
-
-        @Override
-        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-            this.exceptionHandler = exceptionHandler;
-        }
-
-        @Override
-        final public void haveEvents() {
-            mailbox.dispatchEvents();
-        }
-
-        @Override
-        final public void processRequest(final JARequest request) throws Exception {
-            if (request.isEvent())
-                JLPCActor.this.processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
-            else JLPCActor.this.processRequest(request.getUnwrappedRequest(), new RP() {
-                @Override
-                public void processResponse(Object unwrappedResponse) {
-                    JARequest old = mailbox.getCurrentRequest();
-                    mailbox.setCurrentRequest(request);
-                    mailbox.response(unwrappedResponse);
-                    mailbox.setCurrentRequest(old);
-                }
-            });
-        }
-    };
+    private ExceptionHandler exceptionHandler;
 
     /**
-     * Serves as the originator of requests sent to other actors.
-     */
-    final private RequestSource requestSource = new RequestSource() {
-        @Override
-        final public Mailbox getMailbox() {
-            return mailbox;
-        }
-
-        @Override
-        final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
-                                       final JAResponse japcResponse) {
-            eventQueue.send(mailbox, japcResponse);
-        }
-
-        @Override
-        final public void send(final BufferedEventsDestination<JAMessage> destination,
-                               final JARequest japcRequest) {
-            mailbox.send(destination, japcRequest);
-        }
-
-        @Override
-        final public ExceptionHandler getExceptionHandler() {
-            return requestProcessor.getExceptionHandler();
-        }
-
-        @Override
-        final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-            requestProcessor.setExceptionHandler(exceptionHandler);
-        }
-    };
-
-    /**
-     * Create a JLPCActor
+     * Returns the actor type.
      *
-     * @param mailbox A mailbox which may be shared with other actors.
+     * @return The actor type, or null.
      */
-    public JLPCActor(final Mailbox mailbox) {
-        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
-        this.mailbox = mailbox;
+    final public String getActorType() {
+        return actorType;
+    }
+
+    /**
+     * Assigns the actorType.
+     * Once assigned, it can not be changed.
+     *
+     * @param actorType The actor type.
+     */
+    final public void setActorType(String actorType) {
+        if (this.actorType != null)
+            throw new UnsupportedOperationException("The actorType can not be changed");
+        this.actorType = actorType;
+    }
+
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
+    @Override
+    final public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
+    }
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    @Override
+    final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
+    }
+
+    /**
+     * A notification that there are incoming requests and responses that are ready for processing.
+     */
+    @Override
+    final public void haveEvents() {
+        mailbox.dispatchEvents();
+    }
+
+    /**
+     * Process a wrapped request.
+     *
+     * @param request The wrapped request.
+     * @throws Exception An exception thrown while processing the request.
+     */
+    @Override
+    final public void processRequest(final JARequest request) throws Exception {
+        if (request.isEvent())
+            processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
+        else processRequest(request.getUnwrappedRequest(), new RP() {
+            @Override
+            public void processResponse(Object unwrappedResponse) {
+                JARequest old = mailbox.getCurrentRequest();
+                mailbox.setCurrentRequest(request);
+                mailbox.response(unwrappedResponse);
+                mailbox.setCurrentRequest(old);
+            }
+        });
     }
 
     /**
@@ -150,8 +150,43 @@ abstract public class JLPCActor implements Actor {
      *
      * @return The actor's mailbox.
      */
-    public Mailbox getMailbox() {
+    @Override
+    final public Mailbox getMailbox() {
         return mailbox;
+    }
+
+    /**
+     * Enqueues the response in the responder's outbox.
+     *
+     * @param eventQueue   The responder's outbox.
+     * @param japcResponse The wrapped response to be enqueued.
+     */
+    @Override
+    final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
+                                   final JAResponse japcResponse) {
+        eventQueue.send(mailbox, japcResponse);
+    }
+
+    /**
+     * Sends a request to a mailbox.
+     *
+     * @param destination The mailbox which is to receive the request.
+     * @param japcRequest The wrapped request to be sent.
+     */
+    @Override
+    final public void send(final BufferedEventsDestination<JAMessage> destination,
+                           final JARequest japcRequest) {
+        mailbox.send(destination, japcRequest);
+    }
+
+    /**
+     * Create a LiteActor
+     *
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public JLPCActor(final Mailbox mailbox) {
+        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
+        this.mailbox = mailbox;
     }
 
     /**
@@ -173,9 +208,9 @@ abstract public class JLPCActor implements Actor {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void acceptRequest(final APCRequestSource apcRequestSource,
-                              final Object request,
-                              final RP rp)
+    final public void acceptRequest(final APCRequestSource apcRequestSource,
+                                    final Object request,
+                                    final RP rp)
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
@@ -254,7 +289,7 @@ abstract public class JLPCActor implements Actor {
         };
         final JARequest jaRequest = new JARequest(
                 rs,
-                requestProcessor,
+                this,
                 request,
                 rp1);
         rs.send(mailbox, jaRequest);
@@ -278,14 +313,14 @@ abstract public class JLPCActor implements Actor {
                 processRequest(request, rp);
             } catch (Exception ex) {
             }
-            requestSource.setExceptionHandler(sourceExceptionHandler);
+            setExceptionHandler(sourceExceptionHandler);
             return;
         }
         final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
             @Override
             public void processResponse(final Object response)
                     throws Exception {
-                requestSource.setExceptionHandler(sourceExceptionHandler);
+                setExceptionHandler(sourceExceptionHandler);
                 if (!async) {
                     sync = true;
                     try {
@@ -325,15 +360,15 @@ abstract public class JLPCActor implements Actor {
             processRequest(request, erp);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
-            requestSource.setExceptionHandler(sourceExceptionHandler);
+            setExceptionHandler(sourceExceptionHandler);
             throw (Exception) t.getCause();
         } catch (Exception e) {
-            requestSource.setExceptionHandler(sourceExceptionHandler);
+            setExceptionHandler(sourceExceptionHandler);
             ExceptionHandler eh = getExceptionHandler();
             if (eh == null) throw e;
             eh.process(e);
         }
-        requestSource.setExceptionHandler(sourceExceptionHandler);
+        setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
@@ -350,7 +385,7 @@ abstract public class JLPCActor implements Actor {
                                      RP rp) {
         final JARequest jaRequest = new JARequest(
                 rs,
-                requestProcessor,
+                this,
                 request,
                 rp);
         mailbox.setCurrentRequest(jaRequest);
@@ -369,7 +404,7 @@ abstract public class JLPCActor implements Actor {
                               final Object request,
                               final RP rp)
             throws Exception {
-        actor.acceptRequest(requestSource, request, rp);
+        actor.acceptRequest(this, request, rp);
     }
 
     /**
@@ -389,7 +424,7 @@ abstract public class JLPCActor implements Actor {
     /**
      * Creates a _SMBuilder.
      */
-    public class SMBuilder extends _SMBuilder {
+    final public class SMBuilder extends _SMBuilder {
         @Override
         final public void send(Actor actor, Object request, RP rp)
                 throws Exception {
@@ -407,21 +442,14 @@ abstract public class JLPCActor implements Actor {
     }
 
     /**
-     * Returns the exception handler.
+     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
      *
-     * @return The exception handler.
+     * @param name The key for the data item.
+     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
      */
-    final protected ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
-    }
-
-    /**
-     * Assign an exception handler.
-     *
-     * @param exceptionHandler The exception handler.
-     */
-    final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-        requestProcessor.setExceptionHandler(exceptionHandler);
+    @Override
+    final public boolean hasDataItem(String name) {
+        return false;
     }
 
     /**
@@ -433,15 +461,4 @@ abstract public class JLPCActor implements Actor {
      */
     abstract protected void processRequest(Object request, RP rp)
             throws Exception;
-
-    /**
-     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
-     */
-    @Override
-    public boolean hasDataItem(String name) {
-        return false;
-    }
 }
