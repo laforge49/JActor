@@ -23,21 +23,23 @@
  */
 package org.agilewiki.jactor.components.factory;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.*;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * <p>A component for defining actor types and creating instances,
- * where an actor type has a name and a component class.</p>
+ * where an actor type has a name and a class.</p>
  */
 public class Factory extends Component {
     /**
-     * A table which maps type names to component classes.
+     * A table which maps type names to classes.
      */
     private ConcurrentSkipListMap<String, Class> types = new ConcurrentSkipListMap<String, Class>();
 
@@ -59,17 +61,19 @@ public class Factory extends Component {
                         String actorType = defineActorType.getActorType();
                         if (types.containsKey(actorType))
                             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-                        Class rootComponentClass = defineActorType.getRootComponentClass();
-                        types.put(actorType, rootComponentClass);
+                        Class clazz = defineActorType.getClazz();
+                        if (!Component.class.isAssignableFrom(clazz) && !Actor.class.isAssignableFrom(clazz))
+                            throw new IllegalArgumentException(clazz.getName());
+                        types.put(actorType, clazz);
                     }
                 });
 
         thisActor.bind(
                 NewActor.class.getName(),
-                new ConcurrentMethodBinding<NewActor, JCActor>() {
+                new ConcurrentMethodBinding<NewActor, Actor>() {
                     @Override
-                    public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                            NewActor request)
+                    public Actor concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                          NewActor request)
                             throws Exception {
                         String actorType = request.getActorType();
                         Mailbox mailbox = request.getMailbox();
@@ -79,18 +83,26 @@ public class Factory extends Component {
                             if (parent == null) parent = requestReceiver.getThisActor();
                             request = new NewActor(actorType, mailbox, parent);
                         }
-                        Class componentClass = types.get(actorType);
-                        if (componentClass == null) {
+                        Class clazz = types.get(actorType);
+                        if (clazz == null) {
                             if (parentHasSameComponent())
                                 return request.call(requestReceiver.getParent());
                             throw new IllegalArgumentException("Unknown actor type: " + actorType);
                         }
-                        Include include = new Include(componentClass);
-                        JCActor actor = new JCActor(mailbox);
-                        actor.setActorType(actorType);
-                        actor.setParent(parent);
-                        include.call(actor);
-                        return actor;
+                        if (Component.class.isAssignableFrom(clazz)) {
+                            Include include = new Include(clazz);
+                            JCActor actor = new JCActor(mailbox);
+                            actor.setActorType(actorType);
+                            actor.setParent(parent);
+                            include.call(actor);
+                            return actor;
+                        }
+                        Constructor c = clazz.getConstructor(Mailbox.class);
+                        Actor a = (Actor) c.newInstance(mailbox);
+                        a.setActorType(actorType);
+                        if (a instanceof JBActor)
+                            ((JBActor) a).setParent(parent);
+                        return a;
                     }
                 });
     }

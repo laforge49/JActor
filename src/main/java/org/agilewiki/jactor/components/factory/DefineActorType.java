@@ -38,17 +38,17 @@ final public class DefineActorType extends InitializationRequest<Object> {
     /**
      * The class used to configure an actor.
      */
-    private Class rootComponentClass;
+    private Class clazz;
 
     /**
      * Create a DefineActorType request.
      *
-     * @param actorType          An actor type name.
-     * @param rootComponentClass The class used to configure an actor.
+     * @param actorType An actor type name.
+     * @param clazz     The class used to configure an actor.
      */
-    public DefineActorType(String actorType, Class rootComponentClass) {
+    public DefineActorType(String actorType, Class clazz) {
         this.actorType = actorType;
-        this.rootComponentClass = rootComponentClass;
+        this.clazz = clazz;
     }
 
     /**
@@ -65,7 +65,7 @@ final public class DefineActorType extends InitializationRequest<Object> {
      *
      * @return The class used to configure an actor.
      */
-    public Class getRootComponentClass() {
-        return rootComponentClass;
+    public Class getClazz() {
+        return clazz;
     }
 }

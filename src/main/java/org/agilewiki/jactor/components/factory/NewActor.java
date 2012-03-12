@@ -23,17 +23,17 @@
  */
 package org.agilewiki.jactor.components.factory;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
 import org.agilewiki.jactor.bind.JBActor;
-import org.agilewiki.jactor.components.JCActor;
 
 /**
  * <p>NewActor is a request to create and configure an actor.</p>
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
  */
-public class NewActor extends ConcurrentRequest<JCActor> {
+public class NewActor extends ConcurrentRequest<Actor> {
     /**
      * An actor type name.
      */

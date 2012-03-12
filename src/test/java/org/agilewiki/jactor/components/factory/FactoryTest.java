@@ -20,7 +20,7 @@ public class FactoryTest extends TestCase {
             (new Include(ActorRegistry.class)).call(f);
             (new DefineActorType("Foo", Foo.class)).call(f);
             Open.req.call(f);
-            JCActor a = (new NewActor("Foo")).call(f);
+            JCActor a = (JCActor) (new NewActor("Foo")).call(f);
             Open.req.call(a);
             (new Hi()).call(a);
         } catch (Exception e) {
