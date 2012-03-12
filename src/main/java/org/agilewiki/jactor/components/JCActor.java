@@ -41,11 +41,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * </p>
  */
 final public class JCActor extends JBActor {
-    /**
-     * The type of actor.
-     */
-    private String actorType;
-
     private ArrayList<Component> components = new ArrayList<Component>();
 
     /**
@@ -135,26 +130,5 @@ final public class JCActor extends JBActor {
             } catch (Exception e) {
             }
         }
-    }
-
-    /**
-     * Returns the actor type.
-     *
-     * @return The actor type, or null.
-     */
-    public String getActorType() {
-        return actorType;
-    }
-
-    /**
-     * Assigns the actorType.
-     * Once assigned, it can not be changed.
-     *
-     * @param actorType The actor type.
-     */
-    public void setActorType(String actorType) {
-        if (this.actorType != null)
-            throw new UnsupportedOperationException("The actorType can not be changed");
-        this.actorType = actorType;
     }
 }

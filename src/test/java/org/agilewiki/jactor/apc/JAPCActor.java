@@ -35,6 +35,10 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
  * Test code: An asynchronous implementation of Actor.
  */
 abstract public class JAPCActor implements Actor {
+    /**
+     * The type of actor.
+     */
+    private String actorType;
 
     /**
      * The inbox and outbox of the actor.
@@ -158,5 +162,28 @@ abstract public class JAPCActor implements Actor {
     @Override
     public Mailbox getMailbox() {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns the actor type.
+     *
+     * @return The actor type, or null.
+     */
+    @Override
+    public String getActorType() {
+        return actorType;
+    }
+
+    /**
+     * Assigns the actorType.
+     * Once assigned, it can not be changed.
+     *
+     * @param actorType The actor type.
+     */
+    @Override
+    public void setActorType(String actorType) {
+        if (this.actorType != null)
+            throw new UnsupportedOperationException("The actorType can not be changed");
+        this.actorType = actorType;
     }
 }

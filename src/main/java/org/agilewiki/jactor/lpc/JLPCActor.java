@@ -80,6 +80,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      *
      * @return The actor type, or null.
      */
+    @Override
     final public String getActorType() {
         return actorType;
     }
@@ -90,6 +91,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      *
      * @param actorType The actor type.
      */
+    @Override
     final public void setActorType(String actorType) {
         if (this.actorType != null)
             throw new UnsupportedOperationException("The actorType can not be changed");

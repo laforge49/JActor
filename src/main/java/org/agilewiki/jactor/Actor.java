@@ -80,4 +80,19 @@ public interface Actor {
      * @return The actor's mailbox.
      */
     public Mailbox getMailbox();
+
+    /**
+     * Returns the actor type.
+     *
+     * @return The actor type, or null.
+     */
+    public String getActorType();
+
+    /**
+     * Assigns the actorType.
+     * Once assigned, it can not be changed.
+     *
+     * @param actorType The actor type.
+     */
+    public void setActorType(String actorType);
 }

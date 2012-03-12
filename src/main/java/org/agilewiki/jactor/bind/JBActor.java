@@ -49,6 +49,11 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class JBActor implements Actor {
     /**
+     * The type of actor.
+     */
+    private String actorType;
+
+    /**
      * True when the first non-initialization request is received.
      */
     private boolean active;
@@ -858,5 +863,28 @@ public class JBActor implements Actor {
      */
     final protected void setExceptionHandler(final ExceptionHandler exceptionHandler) {
         requestProcessor.setExceptionHandler(exceptionHandler);
+    }
+
+    /**
+     * Returns the actor type.
+     *
+     * @return The actor type, or null.
+     */
+    @Override
+    public String getActorType() {
+        return actorType;
+    }
+
+    /**
+     * Assigns the actorType.
+     * Once assigned, it can not be changed.
+     *
+     * @param actorType The actor type.
+     */
+    @Override
+    public void setActorType(String actorType) {
+        if (this.actorType != null)
+            throw new UnsupportedOperationException("The actorType can not be changed");
+        this.actorType = actorType;
     }
 }
