@@ -39,20 +39,20 @@ public class Driver extends Component {
                 JCActor p1 = new JCActor(thisActor.getMailbox());
                 p1.setParent(thisActor);
                 (new Include(Process.class)).call(p1);
-                (new SetActorName("1")).call(internals, p1);
-                Open.req.call(internals, p1);
+                (new SetActorName("1")).call(p1);
+                Open.req.call(p1);
 
                 JCActor p2 = new JCActor(thisActor.getMailbox());
                 p2.setParent(thisActor);
                 (new Include(Process.class)).call(p2);
-                (new SetActorName("2")).call(internals, p2);
-                Open.req.call(internals, p2);
+                (new SetActorName("2")).call(p2);
+                Open.req.call(p2);
 
                 JCActor p3 = new JCActor(thisActor.getMailbox());
                 p3.setParent(thisActor);
                 (new Include(Process.class)).call(p3);
-                (new SetActorName("3")).call(internals, p3);
-                Open.req.call(internals, p3);
+                (new SetActorName("3")).call(p3);
+                Open.req.call(p3);
 
                 request.send(internals, p1, rpc);
                 request.send(internals, p2, rpc);

@@ -23,8 +23,6 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.apc.APCRequestSource;
-
 /**
  * A request that can be passed to an actor for processing
  * via the Internals.call or Actor.acceptCall methods,
@@ -41,33 +39,6 @@ public class InitializationRequest<RESPONSE_TYPE> extends ExternallyCallableRequ
      */
     public RESPONSE_TYPE call(JBActor targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(null, this);
-    }
-
-    /**
-     * Send an initialization request.
-     * (Override this method for requests with known return types.)
-     *
-     * @param sourceInternals The internals of the sending actor.
-     * @param targetActor     The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
-        return (RESPONSE_TYPE) sourceInternals.call(targetActor, this);
-    }
-
-    /**
-     * Send an initialization request.
-     * (Override this method for requests with known return types.)
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public RESPONSE_TYPE call(APCRequestSource requestSource, JBActor targetActor)
-            throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(this);
     }
 }
