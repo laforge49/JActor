@@ -27,7 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * A request that can be passed to an actor for processing,
+ * A request that can be passed to a JBActor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
 public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
