@@ -24,14 +24,12 @@
 package org.agilewiki.jactor.bind;
 
 /**
- * A request that can be passed to an actor for processing
- * via the Internals.call or Actor.acceptCall methods,
- * but only until a non-initialization request is received.
+ * A request that can be passed synchronously to a JBActor for processing,
+ * but only until the actor is initialized.
  */
 public class InitializationRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<RESPONSE_TYPE> {
     /**
      * Send an initialization request.
-     * (Override this method for requests with known return types.)
      *
      * @param targetActor The target actor.
      * @return The response.

@@ -23,19 +23,23 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
+
 /**
- * A request that can be passed to a JBActor for synchronous processing.
+ * A request that can be passed synchronously to an Actor for processing,
+ * but only until the actor is initialized.
  */
-public class ConcurrentRequest<RESPONSE_TYPE> extends ExternallyCallableRequest<RESPONSE_TYPE> {
+public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Actor>
+        extends InitializationRequest<RESPONSE_TYPE> {
     /**
-     * Send a concurrent request.
+     * Send an initialization request.
      *
      * @param targetActor The target actor.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(JBActor targetActor)
+    public RESPONSE_TYPE call(TARGET_ACTOR_TYPE targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(this);
+        throw new UnsupportedOperationException();
     }
 }
