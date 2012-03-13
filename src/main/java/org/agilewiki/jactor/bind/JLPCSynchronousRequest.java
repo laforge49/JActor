@@ -41,7 +41,8 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(Internals sourceInternals, TARGET_ACTOR_TYPE targetActor) {
+    final public RESPONSE_TYPE call(Internals sourceInternals, TARGET_ACTOR_TYPE targetActor)
+            throws Exception {
         return call(sourceInternals.getThisActor().getMailbox(), targetActor);
     }
 
@@ -53,7 +54,8 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(RequestSource requestSource, TARGET_ACTOR_TYPE targetActor) {
+    final public RESPONSE_TYPE call(RequestSource requestSource, TARGET_ACTOR_TYPE targetActor)
+            throws Exception {
         return call(requestSource.getMailbox(), targetActor);
     }
 
@@ -65,7 +67,8 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(Actor srcActor, TARGET_ACTOR_TYPE targetActor) {
+    final public RESPONSE_TYPE call(Actor srcActor, TARGET_ACTOR_TYPE targetActor)
+            throws Exception {
         return call(srcActor.getMailbox(), targetActor);
     }
 
@@ -77,7 +80,8 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final protected RESPONSE_TYPE call(Mailbox sourceMailbox, TARGET_ACTOR_TYPE targetActor) {
+    final protected RESPONSE_TYPE call(Mailbox sourceMailbox, TARGET_ACTOR_TYPE targetActor)
+            throws Exception {
         if (sourceMailbox != targetActor.getMailbox())
             throw new UnsupportedOperationException("Mailboxes are not the same.");
         return call(targetActor);
@@ -90,7 +94,8 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    protected RESPONSE_TYPE call(TARGET_ACTOR_TYPE targetActor) {
+    protected RESPONSE_TYPE call(TARGET_ACTOR_TYPE targetActor)
+            throws Exception {
         throw new UnsupportedOperationException();
     }
 }
