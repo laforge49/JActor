@@ -448,6 +448,8 @@ public class JBActor implements Actor {
      */
     final public Object acceptCall(Mailbox srcMailbox, SynchronousRequest request)
             throws Exception {
+        if (srcMailbox == null)
+            throw new IllegalArgumentException("Source mailbox may not be null");
         Binding binding = getBinding(request);
         if (binding == null) {
             if (parent == null) {

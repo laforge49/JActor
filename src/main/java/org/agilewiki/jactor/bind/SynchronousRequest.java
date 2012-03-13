@@ -23,17 +23,16 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
- * A request that can be passed to an actor for processing
- * via the Internals.call or Actor.acceptCall methods,
+ * A request that can be passed to an actor for processing,
  * but only when sender and receiver use the same mailbox.
  */
 public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
     /**
      * Send a synchronous request.
-     * (Override this method for requests with known return types.)
      *
      * @param sourceInternals The internals of the sending actor.
      * @param targetActor     The target actor.
@@ -46,7 +45,6 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
 
     /**
      * Send a synchronous request.
-     * (Override this method for requests with known return types.)
      *
      * @param requestSource The sender of the request.
      * @param targetActor   The target actor.
@@ -56,5 +54,18 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
     public RESPONSE_TYPE call(RequestSource requestSource, JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(requestSource.getMailbox(), this);
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param srcActor    The sender of the request.
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Actor srcActor, JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(srcActor.getMailbox(), this);
     }
 }
