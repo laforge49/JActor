@@ -25,6 +25,7 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
+import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
@@ -74,6 +75,34 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      * The current exception handler, or null.
      */
     private ExceptionHandler exceptionHandler;
+
+    /**
+     * The parent actor, for dependency injection.
+     */
+    private JBActor parent;
+
+    /**
+     * Returns the actor's parent.
+     *
+     * @return The actor's parent, or null.
+     */
+    @Override
+    final public JBActor getParent() {
+        return parent;
+    }
+
+    /**
+     * Assign the parent actor.
+     * Once assigned, it can not be changed.
+     *
+     * @param parent The parent actor.
+     */
+    @Override
+    final public void setParent(JBActor parent) {
+        if (this.parent != null)
+            throw new UnsupportedOperationException("The parent can not be changed.");
+        this.parent = parent;
+    }
 
     /**
      * Returns the actor type.

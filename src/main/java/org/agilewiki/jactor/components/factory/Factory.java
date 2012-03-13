@@ -100,8 +100,7 @@ public class Factory extends Component {
                         Constructor c = clazz.getConstructor(Mailbox.class);
                         Actor a = (Actor) c.newInstance(mailbox);
                         a.setActorType(actorType);
-                        if (a instanceof JBActor)
-                            ((JBActor) a).setParent(parent);
+                        a.setParent(parent);
                         return a;
                     }
                 });

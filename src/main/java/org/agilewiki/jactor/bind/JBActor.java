@@ -377,7 +377,8 @@ public class JBActor implements Actor {
      *
      * @param parent The parent actor to which unrecognized requests are forwarded.
      */
-    public void setParent(JBActor parent) {
+    @Override
+    final public void setParent(JBActor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         if (active)
@@ -390,6 +391,7 @@ public class JBActor implements Actor {
      *
      * @return The actor's parent, or null.
      */
+    @Override
     final public JBActor getParent() {
         return parent;
     }
