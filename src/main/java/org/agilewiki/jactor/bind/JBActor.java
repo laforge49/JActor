@@ -147,48 +147,6 @@ public class JBActor implements Actor {
      */
     final private Internals internals = new Internals() {
         /**
-         * Send an initialization request.
-         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         * @return The response.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        @Override
-        public Object call(JBActor actor, InitializationRequest request) throws Exception {
-            return actor.acceptCall(request);
-        }
-
-        /**
-         * Send a concurrent request.
-         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         * @return The response.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        @Override
-        public Object call(JBActor actor, ConcurrentRequest request) throws Exception {
-            return actor.acceptCall(request);
-        }
-
-        /**
-         * Send a synchronous request.
-         * An exception will be thrown if the class of the request is not bound to a ConcurrentMethodBinding.
-         *
-         * @param actor   The target actor.
-         * @param request The request.
-         * @return The response.
-         * @throws Exception Any uncaught exceptions raised while processing the request.
-         */
-        @Override
-        public Object call(JBActor actor, SynchronousRequest request) throws Exception {
-            return actor.acceptCall(requestSource, request);
-        }
-
-        /**
          * Send a request to another actor.
          *
          * @param actor   The target actor.
@@ -483,33 +441,32 @@ public class JBActor implements Actor {
     /**
      * Processes a synchronous request
      *
-     * @param apcRequestSource The originator of the request.
-     * @param request          The request.
+     * @param srcMailbox The mailbox of the originator of the request.
+     * @param request    The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public Object acceptCall(APCRequestSource apcRequestSource, SynchronousRequest request)
+    final public Object acceptCall(Mailbox srcMailbox, SynchronousRequest request)
             throws Exception {
-        RequestSource requestSource = (RequestSource) apcRequestSource;
         Binding binding = getBinding(request);
         if (binding == null) {
             if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
             }
-            return parent.acceptCall(requestSource, request);
+            return parent.acceptCall(srcMailbox, request);
         }
         if (!active) {
             throw new UnsupportedOperationException("actor is not yet active");
         }
-        if (requestSource.getMailbox() != getMailbox()) throw new UnsupportedOperationException(
+        if (srcMailbox != getMailbox()) throw new UnsupportedOperationException(
                 "A synchronous request may not be called when the mailboxes are not the same");
         if (binding instanceof SynchronousMethodBinding) {
             SynchronousMethodBinding synchronousMethodBinding = (SynchronousMethodBinding) binding;
-            return synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+            return synchronousMethodBinding.synchronousProcessRequest(internals, request);
         }
         if (binding instanceof VoidSynchronousMethodBinding) {
             VoidSynchronousMethodBinding synchronousMethodBinding = (VoidSynchronousMethodBinding) binding;
-            synchronousMethodBinding.synchronousProcessRequest(internals, (SynchronousRequest) request);
+            synchronousMethodBinding.synchronousProcessRequest(internals, request);
             return null;
         }
         throw new UnsupportedOperationException(

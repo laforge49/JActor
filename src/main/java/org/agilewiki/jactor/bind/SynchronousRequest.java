@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * A request that can be passed to an actor for processing
@@ -41,7 +41,7 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
-        return (RESPONSE_TYPE) sourceInternals.call(targetActor, this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(sourceInternals.getThisActor().getMailbox(), this);
     }
 
     /**
@@ -53,8 +53,8 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(APCRequestSource requestSource, JBActor targetActor)
+    public RESPONSE_TYPE call(RequestSource requestSource, JBActor targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource, this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource.getMailbox(), this);
     }
 }
