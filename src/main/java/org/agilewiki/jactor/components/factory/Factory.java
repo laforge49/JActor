@@ -41,7 +41,7 @@ public class Factory extends Component {
     /**
      * A table which maps type names to classes.
      */
-    private ConcurrentSkipListMap<String, Class> types = new ConcurrentSkipListMap<String, Class>();
+    private ConcurrentSkipListMap<String, Object> types = new ConcurrentSkipListMap<String, Object>();
 
     /**
      * Bind request classes.
@@ -62,9 +62,15 @@ public class Factory extends Component {
                         if (types.containsKey(actorType))
                             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
                         Class clazz = defineActorType.getClazz();
-                        if (!Component.class.isAssignableFrom(clazz) && !Actor.class.isAssignableFrom(clazz))
-                            throw new IllegalArgumentException(clazz.getName());
-                        types.put(actorType, clazz);
+                        if (Component.class.isAssignableFrom(clazz)) {
+                            types.put(actorType, clazz);
+                            return;
+                        }
+                        if (Actor.class.isAssignableFrom(clazz)) {
+                            types.put(actorType, clazz.getConstructor(Mailbox.class));
+                            return;
+                        }
+                        throw new IllegalArgumentException(clazz.getName());
                     }
                 });
 
@@ -83,13 +89,14 @@ public class Factory extends Component {
                             if (parent == null) parent = requestReceiver.getThisActor();
                             request = new NewActor(actorType, mailbox, parent);
                         }
-                        Class clazz = types.get(actorType);
-                        if (clazz == null) {
+                        Object c = types.get(actorType);
+                        if (c == null) {
                             if (parentHasSameComponent())
                                 return request.call(requestReceiver.getParent());
                             throw new IllegalArgumentException("Unknown actor type: " + actorType);
                         }
-                        if (Component.class.isAssignableFrom(clazz)) {
+                        if (c instanceof Class) {
+                            Class clazz = (Class) c;
                             Include include = new Include(clazz);
                             JCActor actor = new JCActor(mailbox);
                             actor.setActorType(actorType);
@@ -97,8 +104,8 @@ public class Factory extends Component {
                             include.call(actor);
                             return actor;
                         }
-                        Constructor c = clazz.getConstructor(Mailbox.class);
-                        Actor a = (Actor) c.newInstance(mailbox);
+                        Constructor constructor = (Constructor) c;
+                        Actor a = (Actor) constructor.newInstance(mailbox);
                         a.setActorType(actorType);
                         a.setParent(parent);
                         return a;
