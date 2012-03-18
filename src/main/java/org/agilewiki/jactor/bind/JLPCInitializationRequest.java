@@ -23,13 +23,11 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.Actor;
-
 /**
  * A request that can be passed synchronously to an Actor for processing,
  * but only until the actor is initialized.
  */
-public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Actor>
+public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends InitializationRequest<RESPONSE_TYPE> {
     /**
      * Send an initialization request.
@@ -38,7 +36,7 @@ public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends 
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(TARGET_ACTOR_TYPE targetActor)
+    public RESPONSE_TYPE call(TARGET_TYPE targetActor)
             throws Exception {
         throw new UnsupportedOperationException();
     }

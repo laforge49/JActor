@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * A request that can be passed to an Actor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
-public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Actor>
+public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends SynchronousRequest<RESPONSE_TYPE> {
     /**
      * Send a synchronous request.
@@ -41,7 +41,7 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(Internals sourceInternals, TARGET_ACTOR_TYPE targetActor)
+    final public RESPONSE_TYPE call(Internals sourceInternals, TARGET_TYPE targetActor)
             throws Exception {
         return call(sourceInternals.getThisActor().getMailbox(), targetActor);
     }
@@ -54,7 +54,7 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(RequestSource requestSource, TARGET_ACTOR_TYPE targetActor)
+    final public RESPONSE_TYPE call(RequestSource requestSource, TARGET_TYPE targetActor)
             throws Exception {
         return call(requestSource.getMailbox(), targetActor);
     }
@@ -67,7 +67,7 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(Actor srcActor, TARGET_ACTOR_TYPE targetActor)
+    final public RESPONSE_TYPE call(Actor srcActor, TARGET_TYPE targetActor)
             throws Exception {
         return call(srcActor.getMailbox(), targetActor);
     }
@@ -80,9 +80,9 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final protected RESPONSE_TYPE call(Mailbox sourceMailbox, TARGET_ACTOR_TYPE targetActor)
+    final protected RESPONSE_TYPE call(Mailbox sourceMailbox, TARGET_TYPE targetActor)
             throws Exception {
-        if (sourceMailbox != targetActor.getMailbox())
+        if (sourceMailbox != ((Actor) targetActor).getMailbox())
             throw new UnsupportedOperationException("Mailboxes are not the same.");
         return call(targetActor);
     }
@@ -94,7 +94,7 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_ACTOR_TYPE extends Act
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    protected RESPONSE_TYPE call(TARGET_ACTOR_TYPE targetActor)
+    protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
             throws Exception {
         throw new UnsupportedOperationException();
     }
