@@ -26,7 +26,6 @@ package org.agilewiki.jactor.components.factory;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.ConcurrentRequest;
-import org.agilewiki.jactor.bind.JBActor;
 
 /**
  * <p>NewActor is a request to create and configure an actor.</p>
@@ -47,7 +46,7 @@ public class NewActor extends ConcurrentRequest<Actor> {
     /**
      * The parent actor to which unrecognized requests are forwarded, or null.
      */
-    private JBActor parent;
+    private Actor parent;
 
     /**
      * Create a NewActor request.
@@ -75,7 +74,7 @@ public class NewActor extends ConcurrentRequest<Actor> {
      * @param mailbox   A mailbox which may be shared with other actors, or null.
      * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
      */
-    public NewActor(String actorType, Mailbox mailbox, JBActor parent) {
+    public NewActor(String actorType, Mailbox mailbox, Actor parent) {
         if (actorType == null) {
             throw new IllegalArgumentException("actorType may not be null");
         }
@@ -107,7 +106,7 @@ public class NewActor extends ConcurrentRequest<Actor> {
      *
      * @return The parent actor to which unrecognized requests are forwarded, or null.
      */
-    public JBActor getParent() {
+    public Actor getParent() {
         return parent;
     }
 }

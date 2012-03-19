@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.apc.APCRequestSource;
@@ -51,4 +52,11 @@ public interface RequestSource extends APCRequestSource {
      * @param exceptionHandler The exception handler.
      */
     public void setExceptionHandler(ExceptionHandler exceptionHandler);
+
+    /**
+     * Returns this actor.
+     *
+     * @return This actor.
+     */
+    public Actor getThisActor();
 }

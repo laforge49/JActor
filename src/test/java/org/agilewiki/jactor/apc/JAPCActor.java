@@ -27,7 +27,6 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
@@ -49,7 +48,7 @@ abstract public class JAPCActor implements Actor {
     /**
      * The parent actor to which unrecognized requests are forwarded.
      */
-    private JBActor parent;
+    private Actor parent;
 
     /**
      * Handles callbacks from the mailbox.
@@ -200,7 +199,7 @@ abstract public class JAPCActor implements Actor {
      * @param parent The parent actor to which unrecognized requests are forwarded.
      */
     @Override
-    final public void setParent(JBActor parent) {
+    final public void setParent(Actor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         this.parent = parent;
@@ -212,7 +211,7 @@ abstract public class JAPCActor implements Actor {
      * @return The actor's parent, or null.
      */
     @Override
-    final public JBActor getParent() {
+    final public Actor getParent() {
         return parent;
     }
 }

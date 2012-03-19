@@ -99,6 +99,11 @@ final public class JAFuture {
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }
+
+        @Override
+        final public Actor getThisActor() {
+            throw new UnsupportedOperationException();
+        }
     };
 
     /**

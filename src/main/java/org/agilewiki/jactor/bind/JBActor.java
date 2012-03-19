@@ -78,7 +78,7 @@ public class JBActor implements Actor {
          * @return The actor's parent, or null.
          */
         @Override
-        final public JBActor getParent() {
+        final public Actor getParent() {
             return JBActor.this.getParent();
         }
 
@@ -208,7 +208,7 @@ public class JBActor implements Actor {
     /**
      * The parent actor to which unrecognized requests are forwarded.
      */
-    private JBActor parent;
+    private Actor parent;
 
     /**
      * The inbox and outbox of the actor.
@@ -284,6 +284,16 @@ public class JBActor implements Actor {
         final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             requestProcessor.setExceptionHandler(exceptionHandler);
         }
+
+        /**
+         * Returns this actor.
+         *
+         * @return This actor.
+         */
+        @Override
+        final public JBActor getThisActor() {
+            return JBActor.this;
+        }
     };
 
     /**
@@ -336,7 +346,7 @@ public class JBActor implements Actor {
      * @param parent The parent actor to which unrecognized requests are forwarded.
      */
     @Override
-    final public void setParent(JBActor parent) {
+    final public void setParent(Actor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         if (active)
@@ -350,7 +360,7 @@ public class JBActor implements Actor {
      * @return The actor's parent, or null.
      */
     @Override
-    final public JBActor getParent() {
+    final public Actor getParent() {
         return parent;
     }
 
@@ -389,7 +399,7 @@ public class JBActor implements Actor {
             if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
             }
-            return parent.acceptCall(request);
+            return request.call(parent);
         }
         if (active)
             throw new UnsupportedOperationException("actor is already active");
@@ -420,7 +430,7 @@ public class JBActor implements Actor {
             if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
             }
-            return parent.acceptCall(request);
+            return request.call(parent);
         }
         if (!active) {
             throw new UnsupportedOperationException("actor is not yet active");
@@ -441,13 +451,16 @@ public class JBActor implements Actor {
     /**
      * Processes a synchronous request
      *
-     * @param srcMailbox The mailbox of the originator of the request.
-     * @param request    The request.
+     * @param srcActor The mailbox of the originator of the request.
+     * @param request  The request.
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public Object acceptCall(Mailbox srcMailbox, SynchronousRequest request)
+    final public Object acceptCall(Actor srcActor, SynchronousRequest request)
             throws Exception {
+        if (srcActor == null)
+            throw new UnsupportedOperationException();
+        Mailbox srcMailbox = srcActor.getMailbox();
         if (srcMailbox == null)
             throw new IllegalArgumentException("Source mailbox may not be null");
         Binding binding = getBinding(request);
@@ -455,7 +468,7 @@ public class JBActor implements Actor {
             if (parent == null) {
                 throw new UnsupportedOperationException(request.getClass().getName());
             }
-            return parent.acceptCall(srcMailbox, request);
+            return request.call(srcActor, parent);
         }
         if (!active) {
             throw new UnsupportedOperationException("actor is not yet active");

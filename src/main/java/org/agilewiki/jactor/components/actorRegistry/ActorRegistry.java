@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -100,7 +100,7 @@ public class ActorRegistry extends Component {
                         String name = request.getName();
                         JCActor registeredActor = registry.get(name);
                         if (registeredActor == null && parentHasSameComponent()) {
-                            JBActor parent = requestReceiver.getParent();
+                            Actor parent = requestReceiver.getParent();
                             return request.call(parent);
                         }
                         return registeredActor;

@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.JBActor;
 
 /**
  * <p>
@@ -102,7 +101,7 @@ public interface Actor {
      *
      * @return The actor's parent, or null.
      */
-    public JBActor getParent();
+    public Actor getParent();
 
     /**
      * Assign the parent actor.
@@ -110,5 +109,5 @@ public interface Actor {
      *
      * @param parent The parent actor.
      */
-    public void setParent(JBActor parent);
+    public void setParent(Actor parent);
 }

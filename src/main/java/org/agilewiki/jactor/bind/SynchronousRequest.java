@@ -40,7 +40,7 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(sourceInternals.getThisActor().getMailbox(), this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(sourceInternals.getThisActor(), this);
     }
 
     /**
@@ -53,7 +53,7 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      */
     public RESPONSE_TYPE call(RequestSource requestSource, JBActor targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource.getMailbox(), this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource.getThisActor(), this);
     }
 
     /**
@@ -66,7 +66,7 @@ public class SynchronousRequest<RESPONSE_TYPE> extends ConstrainedRequest<RESPON
      */
     public RESPONSE_TYPE call(Actor srcActor, JBActor targetActor)
             throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(srcActor.getMailbox(), this);
+        return (RESPONSE_TYPE) targetActor.acceptCall(srcActor, this);
     }
 
     /**

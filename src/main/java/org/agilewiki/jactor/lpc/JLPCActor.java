@@ -25,7 +25,6 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
-import org.agilewiki.jactor.bind.JBActor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
@@ -79,7 +78,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
     /**
      * The parent actor, for dependency injection.
      */
-    private JBActor parent;
+    private Actor parent;
 
     /**
      * Returns the actor's parent.
@@ -87,7 +86,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      * @return The actor's parent, or null.
      */
     @Override
-    final public JBActor getParent() {
+    final public Actor getParent() {
         return parent;
     }
 
@@ -98,7 +97,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      * @param parent The parent actor.
      */
     @Override
-    final public void setParent(JBActor parent) {
+    final public void setParent(Actor parent) {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
         this.parent = parent;
@@ -480,7 +479,9 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      */
     @Override
     final public boolean hasDataItem(String name) {
-        return false;
+        if (parent == null)
+            return false;
+        return parent.hasDataItem(name);
     }
 
     /**
@@ -492,4 +493,14 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      */
     abstract protected void processRequest(Object request, RP rp)
             throws Exception;
+
+    /**
+     * Returns this actor.
+     *
+     * @return This actor.
+     */
+    @Override
+    final public Actor getThisActor() {
+        return this;
+    }
 }
