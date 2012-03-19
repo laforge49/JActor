@@ -23,6 +23,8 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
+
 /**
  * A request that can be passed synchronously to a JBActor for processing,
  * but only until the actor is initialized.
@@ -38,5 +40,22 @@ public class InitializationRequest<RESPONSE_TYPE> extends ExternallyCallableRequ
     public RESPONSE_TYPE call(JBActor targetActor)
             throws Exception {
         return (RESPONSE_TYPE) targetActor.acceptCall(this);
+    }
+
+    /**
+     * Send an initialization request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Actor targetActor)
+            throws Exception {
+        if (targetActor instanceof JBActor)
+            return call((JBActor) targetActor);
+        Actor parent = targetActor.getParent();
+        if (parent != null)
+            return call(parent);
+        throw new UnsupportedOperationException();
     }
 }

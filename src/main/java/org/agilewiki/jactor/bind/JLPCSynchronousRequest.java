@@ -106,4 +106,63 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     abstract protected boolean isTargetType(Actor targetActor);
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param sourceInternals The internals of the sending actor.
+     * @param targetActor     The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Internals sourceInternals, Actor targetActor) throws Exception {
+        if (targetActor instanceof JBActor)
+            return call(sourceInternals, (JBActor) targetActor);
+        if (isTargetType(targetActor))
+            return call(sourceInternals, (TARGET_TYPE) targetActor);
+        Actor parent = targetActor.getParent();
+        if (parent != null)
+            return call(sourceInternals, parent);
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(RequestSource requestSource, Actor targetActor)
+            throws Exception {
+        if (targetActor instanceof JBActor)
+            return call(requestSource, (JBActor) targetActor);
+        if (isTargetType(targetActor))
+            return call(requestSource, (TARGET_TYPE) targetActor);
+        Actor parent = targetActor.getParent();
+        if (parent != null)
+            return call(requestSource, parent);
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param srcActor    The sender of the request.
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Actor srcActor, Actor targetActor)
+            throws Exception {
+        if (targetActor instanceof JBActor)
+            return call(srcActor, (JBActor) targetActor);
+        if (isTargetType(targetActor))
+            return call(srcActor, (TARGET_TYPE) targetActor);
+        Actor parent = targetActor.getParent();
+        if (parent != null)
+            return call(srcActor, parent);
+        throw new UnsupportedOperationException();
+    }
 }

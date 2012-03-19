@@ -49,4 +49,24 @@ abstract public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     abstract protected boolean isTargetType(Actor targetActor);
+
+    /**
+     * Send a concurrent request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public RESPONSE_TYPE call(Actor targetActor)
+            throws Exception {
+        if (targetActor instanceof JBActor)
+            return call((JBActor) targetActor);
+        if (isTargetType(targetActor))
+            return call((TARGET_TYPE) targetActor);
+        Actor parent = targetActor.getParent();
+        if (parent != null)
+            return call(parent);
+        throw new UnsupportedOperationException();
+    }
 }
