@@ -115,7 +115,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(Internals sourceInternals, Actor targetActor) throws Exception {
+    final public RESPONSE_TYPE call(Internals sourceInternals, Actor targetActor) throws Exception {
         if (targetActor instanceof JBActor)
             return call(sourceInternals, (JBActor) targetActor);
         if (isTargetType(targetActor))
@@ -134,7 +134,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(RequestSource requestSource, Actor targetActor)
+    final public RESPONSE_TYPE call(RequestSource requestSource, Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)
             return call(requestSource, (JBActor) targetActor);
@@ -154,7 +154,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(Actor srcActor, Actor targetActor)
+    final public RESPONSE_TYPE call(Actor srcActor, Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)
             return call(srcActor, (JBActor) targetActor);
@@ -174,7 +174,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
+    final public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)
             return (RESPONSE_TYPE) future.send(targetActor, this);
@@ -195,7 +195,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
+    final public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
         if (targetActor instanceof JBActor) {
             senderInternals.send(targetActor, this, rp);
@@ -222,7 +222,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
+    final public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
         if (targetActor instanceof JBActor) {
             targetActor.acceptRequest(requestSource, this, rp);
@@ -248,7 +248,7 @@ abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void sendEvent(Actor targetActor)
+    final public void sendEvent(Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor) {
             targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);

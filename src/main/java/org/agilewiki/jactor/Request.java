@@ -25,6 +25,7 @@ package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.JBActor;
 
 /**
  * A request.
@@ -76,6 +77,56 @@ public class Request<RESPONSE_TYPE> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public void sendEvent(Actor targetActor)
+            throws Exception {
+        targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
+    }
+
+    /**
+     * Send a request and waits for a response.
+     *
+     * @param future      The future.
+     * @param targetActor The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public RESPONSE_TYPE send(JAFuture future, JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) future.send(targetActor, this);
+    }
+
+    /**
+     * Send a request.
+     *
+     * @param senderInternals The sending actor's internals.
+     * @param targetActor     The target actor.
+     * @param rp              The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void send(Internals senderInternals, JBActor targetActor, RP<RESPONSE_TYPE> rp)
+            throws Exception {
+        senderInternals.send(targetActor, this, rp);
+    }
+
+    /**
+     * Send a request.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @param rp            The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void send(APCRequestSource requestSource, JBActor targetActor, RP<RESPONSE_TYPE> rp)
+            throws Exception {
+        targetActor.acceptRequest(requestSource, this, rp);
+    }
+
+
+    /**
+     * Send a request event.
+     *
+     * @param targetActor The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void sendEvent(JBActor targetActor)
             throws Exception {
         targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
     }

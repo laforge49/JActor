@@ -60,7 +60,7 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public RESPONSE_TYPE call(Actor targetActor)
+    final public RESPONSE_TYPE call(Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)
             return call((JBActor) targetActor);
@@ -80,7 +80,7 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
+    final public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)
             return (RESPONSE_TYPE) future.send(targetActor, this);
@@ -101,7 +101,7 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
+    final public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
         if (targetActor instanceof JBActor) {
             senderInternals.send(targetActor, this, rp);
@@ -128,7 +128,7 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
+    final public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
         if (targetActor instanceof JBActor) {
             targetActor.acceptRequest(requestSource, this, rp);
@@ -154,7 +154,7 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void sendEvent(Actor targetActor)
+    final public void sendEvent(Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor) {
             targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
