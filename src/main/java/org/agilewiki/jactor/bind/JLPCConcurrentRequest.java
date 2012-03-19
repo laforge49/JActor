@@ -23,10 +23,12 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
+
 /**
  * A request that can be passed to an Actor for synchronous processing.
  */
-public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends ConcurrentRequest<RESPONSE_TYPE> {
     /**
      * Send a concurrent request.
@@ -39,4 +41,12 @@ public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
             throws Exception {
         throw new Exception();
     }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    abstract protected boolean isTargetType(Actor targetActor);
 }

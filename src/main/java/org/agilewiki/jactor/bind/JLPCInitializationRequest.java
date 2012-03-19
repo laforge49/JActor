@@ -23,11 +23,13 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.Actor;
+
 /**
  * A request that can be passed synchronously to an Actor for processing,
  * but only until the actor is initialized.
  */
-public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends InitializationRequest<RESPONSE_TYPE> {
     /**
      * Send an initialization request.
@@ -40,4 +42,12 @@ public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
             throws Exception {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    abstract protected boolean isTargetType(Actor targetActor);
 }

@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * A request that can be passed to an Actor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
-public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends SynchronousRequest<RESPONSE_TYPE> {
     /**
      * Send a synchronous request.
@@ -98,4 +98,12 @@ public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
             throws Exception {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    abstract protected boolean isTargetType(Actor targetActor);
 }
