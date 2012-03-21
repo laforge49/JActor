@@ -139,14 +139,6 @@ abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
     }
 
     /**
-     * Returns true when targetActor is an instanceof TARGET_TYPE
-     *
-     * @param targetActor The actor to be called.
-     * @return True when targetActor is an instanceof TARGET_TYPE.
-     */
-    abstract protected boolean isTargetType(Actor targetActor);
-
-    /**
      * Send a synchronous request.
      *
      * @param sourceInternals The internals of the sending actor.

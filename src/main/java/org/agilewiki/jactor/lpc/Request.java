@@ -31,7 +31,15 @@ import org.agilewiki.jactor.bind.JBActor;
 /**
  * A request.
  */
-public class Request<RESPONSE_TYPE, TARGET_TYPE> {
+abstract public class Request<RESPONSE_TYPE, TARGET_TYPE> {
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    abstract protected boolean isTargetType(Actor targetActor);
+
     /**
      * Send a request and waits for a response.
      *

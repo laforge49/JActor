@@ -58,14 +58,6 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
     }
 
     /**
-     * Returns true when targetActor is an instanceof TARGET_TYPE
-     *
-     * @param targetActor The actor to be called.
-     * @return True when targetActor is an instanceof TARGET_TYPE.
-     */
-    abstract protected boolean isTargetType(Actor targetActor);
-
-    /**
      * Send a concurrent request.
      *
      * @param targetActor The target actor.
