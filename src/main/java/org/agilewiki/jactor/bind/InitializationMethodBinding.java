@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.InitializationRequest;
 import org.agilewiki.jactor.RP;
 
 /**
@@ -31,7 +32,7 @@ import org.agilewiki.jactor.RP;
  * </p>
  */
 abstract public class InitializationMethodBinding
-        <REQUEST_TYPE extends InitializationRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
+        <REQUEST_TYPE extends InitializationRequest<RESPONSE_TYPE, ?>, RESPONSE_TYPE>
         extends MethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * Process the request.

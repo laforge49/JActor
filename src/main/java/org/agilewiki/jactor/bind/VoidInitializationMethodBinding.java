@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.InitializationRequest;
 import org.agilewiki.jactor.RP;
 
 /**
@@ -30,7 +31,8 @@ import org.agilewiki.jactor.RP;
  * Binds an InitializationRequest class to a purely synchronous method.
  * </p>
  */
-abstract public class VoidInitializationMethodBinding<REQUEST_TYPE extends InitializationRequest<Object>>
+abstract public class VoidInitializationMethodBinding<REQUEST_TYPE
+        extends InitializationRequest<Object, ?>>
         extends MethodBinding<REQUEST_TYPE, Object> {
     /**
      * Process the request.

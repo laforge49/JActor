@@ -21,17 +21,30 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bind;
+package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.bind.ExternallyCallableRequest;
+import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.JBActor;
 
 /**
- * A request that can be passed synchronously to an Actor for processing,
+ * A request that can be passed synchronously to a JBActor for processing,
  * but only until the actor is initialized.
  */
-abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
-        extends InitializationRequest<RESPONSE_TYPE> {
+abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE> extends ExternallyCallableRequest<RESPONSE_TYPE> {
+    /**
+     * Send an initialization request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(this);
+    }
+
     /**
      * Send an initialization request.
      *
@@ -59,7 +72,6 @@ abstract public class JLPCInitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     final public RESPONSE_TYPE call(Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)

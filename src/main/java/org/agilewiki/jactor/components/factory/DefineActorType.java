@@ -23,13 +23,13 @@
  */
 package org.agilewiki.jactor.components.factory;
 
-import org.agilewiki.jactor.bind.InitializationRequest;
+import org.agilewiki.jactor.bind.JBInitializationRequest;
 
 /**
  * DefineActorType is a request to register a component that can be used
  * to create and configure new types of actors.
  */
-final public class DefineActorType extends InitializationRequest<Object> {
+final public class DefineActorType extends JBInitializationRequest<Object> {
     /**
      * An actor type name.
      */

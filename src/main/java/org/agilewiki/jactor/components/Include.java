@@ -23,13 +23,13 @@
  */
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.bind.InitializationRequest;
+import org.agilewiki.jactor.bind.JBInitializationRequest;
 
 /**
  * An Include request instantiates and adds an object to the composite actor unless already present.
  * The response is always null.
  */
-final public class Include extends InitializationRequest<Object> {
+final public class Include extends JBInitializationRequest<Object> {
     private Class clazz;
 
     /**

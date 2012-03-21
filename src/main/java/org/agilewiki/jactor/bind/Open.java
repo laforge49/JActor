@@ -28,6 +28,6 @@ package org.agilewiki.jactor.bind;
  * Actors must receive an Open request before they can process
  * any non-initialization requests.
  */
-public final class Open extends InitializationRequest<Object> {
+public final class Open extends JBInitializationRequest<Object> {
     public final static Open req = new Open();
 }
