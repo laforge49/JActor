@@ -23,13 +23,14 @@
  */
 package org.agilewiki.jactor.components.pubsub;
 
+import org.agilewiki.jactor.bind.JBRequest;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Broadcast a request to all subscribers.
  * The response is the number of subscribers to which the request was broadcast.
  */
-public class Publish extends Request<Object> {
+public class Publish extends JBRequest<Object> {
     /**
      * The request to be broadcast.
      */

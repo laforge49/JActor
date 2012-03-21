@@ -27,5 +27,5 @@ package org.agilewiki.jactor.lpc;
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */
 abstract public class ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE>
-        extends Request<RESPONSE_TYPE> {
+        extends Request<RESPONSE_TYPE, TARGET_TYPE> {
 }

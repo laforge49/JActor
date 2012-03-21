@@ -19,7 +19,7 @@ public class ResponsePrinter extends Component {
                                        PrintResponse request,
                                        final RP rp)
                     throws Exception {
-                Request wrappedRequest = request.getRequest();
+                Request<?, ?> wrappedRequest = request.getRequest();
                 JCActor actor = request.getActor();
                 wrappedRequest.send(internals, actor, new RP() {
                     @Override

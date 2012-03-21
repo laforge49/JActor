@@ -4,10 +4,10 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.bind.JBRequest;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
@@ -36,5 +36,5 @@ public class NBLockTest extends TestCase {
 /**
  * Test code.
  */
-class DoIt extends Request<Object> {
+class DoIt extends JBRequest<Object> {
 }

@@ -1,11 +1,11 @@
 package org.agilewiki.jactor.components.pubsub.timingTest;
 
-import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.bind.JBRequest;
 
 /**
  * Test code.
  */
-final public class Timing extends Request<Object> {
+final public class Timing extends JBRequest<Object> {
     private int count;
     private int burst;
 

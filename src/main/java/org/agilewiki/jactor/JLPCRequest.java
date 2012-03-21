@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.Request;
 /**
  * A request that supports LPC inheritance
  */
-abstract public class JLPCRequest<RESPONSE_TYPE, TARGET_TYPE> extends Request<RESPONSE_TYPE> {
+abstract public class JLPCRequest<RESPONSE_TYPE, TARGET_TYPE> extends Request<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Returns true when targetActor is an instanceof TARGET_TYPE
      *

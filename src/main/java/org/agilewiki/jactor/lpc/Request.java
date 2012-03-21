@@ -31,7 +31,7 @@ import org.agilewiki.jactor.bind.JBActor;
 /**
  * A request.
  */
-public class Request<RESPONSE_TYPE> {
+public class Request<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send a request and waits for a response.
      *

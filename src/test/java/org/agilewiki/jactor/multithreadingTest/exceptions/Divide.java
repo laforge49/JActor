@@ -1,11 +1,11 @@
 package org.agilewiki.jactor.multithreadingTest.exceptions;
 
-import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.bind.JBRequest;
 
 /**
  * Test code.
  */
-public class Divide extends Request<Integer> {
+public class Divide extends JBRequest<Integer> {
     private int n;
     private int d;
 

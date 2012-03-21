@@ -23,11 +23,11 @@
  */
 package org.agilewiki.jactor.components.nbLock;
 
-import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.bind.JBRequest;
 
 /**
  * Release exclusive use of a resource.
  */
-final public class Unlock extends Request<Object> {
+final public class Unlock extends JBRequest<Object> {
     public final static Unlock req = new Unlock();
 }

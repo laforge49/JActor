@@ -1,9 +1,9 @@
 package org.agilewiki.jactor.components.pubsub.timingTest;
 
-import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.bind.JBRequest;
 
 /**
  * Test code.
  */
-final public class NullRequest extends Request {
+final public class NullRequest extends JBRequest {
 }
