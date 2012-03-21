@@ -28,6 +28,6 @@ import org.agilewiki.jactor.Request;
 /**
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */
-public class ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE>
         extends Request<RESPONSE_TYPE> {
 }
