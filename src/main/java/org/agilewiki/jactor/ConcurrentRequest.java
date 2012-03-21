@@ -21,16 +21,30 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bind;
+package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.bind.ExternallyCallableRequest;
+import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.JBActor;
 
 /**
- * A request that can be passed to an Actor for synchronous processing.
+ * A request that can be passed to a JBActor for synchronous processing.
  */
-abstract public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
-        extends ConcurrentRequest<RESPONSE_TYPE> {
+abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
+        extends ExternallyCallableRequest<RESPONSE_TYPE> {
+    /**
+     * Send a concurrent request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(this);
+    }
+
     /**
      * Send a concurrent request.
      *
@@ -58,7 +72,6 @@ abstract public class JLPCConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    @Override
     final public RESPONSE_TYPE call(Actor targetActor)
             throws Exception {
         if (targetActor instanceof JBActor)

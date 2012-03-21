@@ -24,13 +24,13 @@
 package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
  * Unsubscribe from a publisher.
  * The result is true when a subscriber has been unsubscribed.
  */
-public class Unsubscribe extends ConcurrentRequest<Boolean> {
+public class Unsubscribe extends JBConcurrentRequest<Boolean> {
     /**
      * The subscribing actor.
      */

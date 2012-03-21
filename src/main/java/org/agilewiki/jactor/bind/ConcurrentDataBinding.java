@@ -23,13 +23,15 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.ConcurrentRequest;
+
 /**
  * Binds a request class to a concurrent data item.
  * Requests are processed immediately,
  * even if the actor has an asynchronous mailbox.
  */
 final public class ConcurrentDataBinding
-        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
+        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE, ?>, RESPONSE_TYPE>
         extends ConcurrentMethodBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * The name of a concurrent data item.

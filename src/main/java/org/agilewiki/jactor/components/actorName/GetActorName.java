@@ -23,11 +23,11 @@
  */
 package org.agilewiki.jactor.components.actorName;
 
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
  * Returns the actor name, or null, when sent to an actor with an ActorName component.
  */
-final public class GetActorName extends ConcurrentRequest<String> {
+final public class GetActorName extends JBConcurrentRequest<String> {
     public final static GetActorName req = new GetActorName();
 }

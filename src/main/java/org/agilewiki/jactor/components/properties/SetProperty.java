@@ -23,12 +23,12 @@
  */
 package org.agilewiki.jactor.components.properties;
 
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
  * This request assigns a value to a property.
  */
-public class SetProperty extends ConcurrentRequest<Object> {
+public class SetProperty extends JBConcurrentRequest<Object> {
     /**
      * The name of the property.
      */

@@ -40,7 +40,7 @@ public class ConcurrentDataBindingTest extends TestCase {
         }
     }
 
-    class Hi extends ConcurrentRequest<String> {
+    class Hi extends JBConcurrentRequest<String> {
     }
 
     class A extends JBActor {

@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
+import org.agilewiki.jactor.ConcurrentRequest;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -32,7 +33,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
  * </p>
  */
 abstract public class ConcurrentMethodBinding
-        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE>, RESPONSE_TYPE>
+        <REQUEST_TYPE extends ConcurrentRequest<RESPONSE_TYPE, ?>, RESPONSE_TYPE>
         extends ConcurrentBinding<REQUEST_TYPE, RESPONSE_TYPE> {
     /**
      * <p>

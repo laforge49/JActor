@@ -29,7 +29,7 @@ public class EventTest extends TestCase {
     class Hi extends Request<String> {
     }
 
-    class Ho extends ConcurrentRequest<String> {
+    class Ho extends JBConcurrentRequest<String> {
     }
 
     class A extends JBActor {

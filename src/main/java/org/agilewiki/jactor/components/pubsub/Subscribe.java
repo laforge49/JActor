@@ -24,13 +24,13 @@
 package org.agilewiki.jactor.components.pubsub;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.ConcurrentRequest;
+import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
  * Subscribe to a publisher
  * The result returned is true when a new subscriber has been added.
  */
-public class Subscribe extends ConcurrentRequest<Boolean> {
+public class Subscribe extends JBConcurrentRequest<Boolean> {
     /**
      * The subscribing actor.
      */
