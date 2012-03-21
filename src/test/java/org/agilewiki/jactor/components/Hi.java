@@ -1,6 +1,6 @@
 package org.agilewiki.jactor.components;
 
-import org.agilewiki.jactor.Request;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.

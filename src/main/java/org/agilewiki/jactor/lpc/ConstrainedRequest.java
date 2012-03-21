@@ -23,8 +23,6 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.Request;
-
 /**
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */

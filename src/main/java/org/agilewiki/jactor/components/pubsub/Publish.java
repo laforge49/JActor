@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.components.pubsub;
 
-import org.agilewiki.jactor.Request;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Broadcast a request to all subscribers.

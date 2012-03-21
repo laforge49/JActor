@@ -26,6 +26,7 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * A request that supports LPC inheritance

@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.multithreadingTest;
 
-import org.agilewiki.jactor.Request;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.

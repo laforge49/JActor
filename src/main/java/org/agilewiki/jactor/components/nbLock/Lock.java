@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.components.nbLock;
 
-import org.agilewiki.jactor.Request;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Gain exclusive use of a resource.

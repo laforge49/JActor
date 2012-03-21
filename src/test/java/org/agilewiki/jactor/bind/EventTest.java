@@ -2,6 +2,7 @@ package org.agilewiki.jactor.bind;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
