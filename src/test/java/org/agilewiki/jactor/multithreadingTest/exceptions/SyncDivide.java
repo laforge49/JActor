@@ -1,11 +1,11 @@
 package org.agilewiki.jactor.multithreadingTest.exceptions;
 
-import org.agilewiki.jactor.bind.SynchronousRequest;
+import org.agilewiki.jactor.bind.JBSynchronousRequest;
 
 /**
  * Test code.
  */
-public class SyncDivide extends SynchronousRequest<Integer> {
+public class SyncDivide extends JBSynchronousRequest<Integer> {
     private int n;
     private int d;
 

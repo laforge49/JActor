@@ -1,10 +1,10 @@
 package org.agilewiki.jactor.synchronousProgrammingTest;
 
 import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.SynchronousRequest;
 import org.agilewiki.jactor.bind.VoidSynchronousMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * Test code.

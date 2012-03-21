@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ import org.agilewiki.jactor.RP;
  * </p>
  */
 abstract public class VoidSynchronousMethodBinding
-        <REQUEST_TYPE extends SynchronousRequest<Object>>
+        <REQUEST_TYPE extends SynchronousRequest<Object, ?>>
         extends MethodBinding<REQUEST_TYPE, Object> {
     /**
      * A safe method for processing requests sent to the actor.

@@ -1,13 +1,13 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.lpc.ConcurrentRequest;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
- * A concurrent request not handled by a JLPCActor subclass.
+ * A synchronous request not handled by a JLPCActor subclass.
  */
-public class JBConcurrentRequest<RESPONSE_TYPE>
-        extends ConcurrentRequest<RESPONSE_TYPE, NoJLPCActor> {
+public class JBSynchronousRequest<RESPONSE_TYPE>
+        extends SynchronousRequest<RESPONSE_TYPE, NoJLPCActor> {
     /**
      * Returns true when targetActor is an instanceof TARGET_TYPE
      *

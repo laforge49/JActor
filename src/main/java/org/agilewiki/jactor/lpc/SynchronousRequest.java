@@ -21,18 +21,57 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bind;
+package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.lpc.RequestSource;
+import org.agilewiki.jactor.bind.ConstrainedRequest;
+import org.agilewiki.jactor.bind.Internals;
+import org.agilewiki.jactor.bind.JBActor;
 
 /**
- * A request that can be passed to an Actor for synchronous processing,
+ * A request that can be passed to a JBActor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
-abstract public class JLPCSynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
-        extends SynchronousRequest<RESPONSE_TYPE> {
+abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
+    /**
+     * Send a synchronous request.
+     *
+     * @param sourceInternals The internals of the sending actor.
+     * @param targetActor     The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Internals sourceInternals, JBActor targetActor) throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(sourceInternals.getThisActor(), this);
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(RequestSource requestSource, JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(requestSource.getThisActor(), this);
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param srcActor    The sender of the request.
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    public RESPONSE_TYPE call(Actor srcActor, JBActor targetActor)
+            throws Exception {
+        return (RESPONSE_TYPE) targetActor.acceptCall(srcActor, this);
+    }
+
     /**
      * Send a synchronous request.
      *
