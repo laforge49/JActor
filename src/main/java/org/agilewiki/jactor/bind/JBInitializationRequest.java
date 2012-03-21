@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.InitializationRequest;
+import org.agilewiki.jactor.lpc.InitializationRequest;
 
 /**
  * An initialization request not handled by a JLPCActor subclass.

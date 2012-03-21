@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ConcurrentRequest;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * A binding for processing concurrent requests.

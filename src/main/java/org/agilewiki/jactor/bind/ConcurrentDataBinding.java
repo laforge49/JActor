@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * Binds a request class to a concurrent data item.

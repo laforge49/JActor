@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.bind;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.ConcurrentRequest;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * A concurrent request not handled by a JLPCActor subclass.

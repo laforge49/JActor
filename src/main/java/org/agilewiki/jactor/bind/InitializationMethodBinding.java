@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.bind;
 
-import org.agilewiki.jactor.InitializationRequest;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.InitializationRequest;
 
 /**
  * <p>
