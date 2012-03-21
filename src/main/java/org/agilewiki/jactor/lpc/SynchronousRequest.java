@@ -25,7 +25,6 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.ConstrainedRequest;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 
@@ -33,7 +32,8 @@ import org.agilewiki.jactor.bind.JBActor;
  * A request that can be passed to a JBActor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
-abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE> extends ConstrainedRequest<RESPONSE_TYPE> {
+abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
+        extends ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send a synchronous request.
      *

@@ -21,12 +21,13 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.bind;
+package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.Request;
 
 /**
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */
-public class ConstrainedRequest<RESPONSE_TYPE> extends Request<RESPONSE_TYPE> {
+public class ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE>
+        extends Request<RESPONSE_TYPE> {
 }

@@ -25,7 +25,6 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.ExternallyCallableRequest;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.JBActor;
 
@@ -33,7 +32,8 @@ import org.agilewiki.jactor.bind.JBActor;
  * A request that can be passed synchronously to a JBActor for processing,
  * but only until the actor is initialized.
  */
-abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE> extends ExternallyCallableRequest<RESPONSE_TYPE> {
+abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
+        extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send an initialization request.
      *
