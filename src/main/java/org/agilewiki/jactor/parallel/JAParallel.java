@@ -51,7 +51,6 @@ final public class JAParallel extends JLPCActor {
     public JAParallel(Mailbox mailbox, Actor[] actors) {
         super(mailbox);
         this.actors = actors;
-        int p = actors.length;
     }
 
     /**

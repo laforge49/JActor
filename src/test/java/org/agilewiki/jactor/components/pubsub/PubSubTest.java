@@ -19,7 +19,9 @@ public class PubSubTest extends TestCase {
             (new Include(PubSub.class)).call(publisher);
             Open.req.call(publisher);
             Actor subscriber1 = new Subscriber(mailbox);
+            Open.req.call(subscriber1);
             Actor subscriber2 = new Subscriber(mailbox);
+            Open.req.call(subscriber2);
             (new Subscribe(subscriber1)).call(publisher);
             (new Subscribe(subscriber2)).call(publisher);
             (new Publish(new PSRequest())).send(future, publisher);

@@ -69,6 +69,7 @@ public class SharedTimingTest extends TestCase {
                 int j = 0;
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(sharedMailbox);
+                    Open.req.call(subscriber);
                     (new Subscribe(subscriber)).call(driver);
                     j += 1;
                 }

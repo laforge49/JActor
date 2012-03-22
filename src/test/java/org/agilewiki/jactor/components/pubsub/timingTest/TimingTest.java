@@ -64,6 +64,7 @@ public class TimingTest extends TestCase {
                 while (j < s) {
                     Actor subscriber = new NullSubscriber(mailboxFactory.createMailbox());
                     subscriber.setInitialBufferCapacity(b + 10);
+                    Open.req.call(subscriber);
                     (new Subscribe(subscriber)).call(driver);
                     j += 1;
                 }
