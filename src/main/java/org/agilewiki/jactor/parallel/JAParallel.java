@@ -27,6 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Supports parallel request processing.
@@ -56,7 +57,7 @@ final public class JAParallel extends JLPCActor {
     /**
      * Sends either the same request to all the actors or a different request to each actor.
      *
-     * @param request The request or an array of requests.
+     * @param request The request or an array of requests, or a wrapper of same.
      * @param rd1     Process the response sent when responses from all the actors have been received.
      * @throws Exception Any uncaught exception thrown when the request is processed.
      */
@@ -66,6 +67,28 @@ final public class JAParallel extends JLPCActor {
         int p = actors.length;
         responseCounter = new JAResponseCounter(p, rd1);
         int i = 0;
+
+        if (request instanceof Run1Parallel) {
+            Request req = ((Run1Parallel) request).getRequest();
+            while (i < p) {
+                req.send(this, actors[i], responseCounter);
+                i += 1;
+            }
+            return;
+        }
+
+        if (request instanceof RunParallel) {
+            Request[] requests = ((RunParallel) request).getRequests();
+            if (requests.length != p)
+                throw new IllegalArgumentException("Request and actor arrays not the same length");
+            while (i < p) {
+                requests[i].send(this, actors[i], responseCounter);
+                i += 1;
+            }
+            return;
+        }
+
+        //Provided for backward compatibility
         if (request instanceof Object[]) {
             Object[] requests = (Object[]) request;
             if (requests.length != p)
