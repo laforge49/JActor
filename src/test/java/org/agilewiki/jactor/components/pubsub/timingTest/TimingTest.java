@@ -10,6 +10,7 @@ import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.pubsub.Subscribe;
 import org.agilewiki.jactor.parallel.JAParallel;
+import org.agilewiki.jactor.parallel.Run1Parallel;
 
 /**
  * Test code.
@@ -72,10 +73,11 @@ public class TimingTest extends TestCase {
             }
             JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), drivers);
             Timing timing = new Timing(c, b);
-            timing.send(future, parallel);
-            timing.send(future, parallel);
+            Run1Parallel run1Parallel = new Run1Parallel(timing);
+            run1Parallel.send(future, parallel);
+            run1Parallel.send(future, parallel);
             long t0 = System.currentTimeMillis();
-            timing.send(future, parallel);
+            run1Parallel.send(future, parallel);
             long t1 = System.currentTimeMillis();
             System.out.println("" + p + " parallel runs of " + c + " bursts of " + b + " requests sent to " + s + " subscribers");
             if (t1 != t0)
