@@ -50,10 +50,8 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(TARGET_TYPE targetActor)
-            throws Exception {
-        throw new Exception();
-    }
+    abstract public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception;
 
     /**
      * Send a concurrent request.

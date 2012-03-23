@@ -133,10 +133,8 @@ abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
-            throws Exception {
-        throw new UnsupportedOperationException();
-    }
+    abstract protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception;
 
     /**
      * Send a synchronous request.
