@@ -6,7 +6,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import java.lang.reflect.Constructor;
 
 /**
- * Creates a JLPCActor.
+ * Creates a JLPCActor using a Constructor.
  */
 final class _JLPCActorFactory extends JLPCActorFactory {
     /**
