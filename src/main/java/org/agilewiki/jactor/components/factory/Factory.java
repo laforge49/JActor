@@ -76,6 +76,24 @@ public class Factory extends Component {
                 });
 
         thisActor.bind(
+                GetActorFactory.class.getName(),
+                new ConcurrentMethodBinding<GetActorFactory, ActorFactory>() {
+                    @Override
+                    public ActorFactory concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                                 GetActorFactory request)
+                            throws Exception {
+                        String actorType = request.getActorType();
+                        ActorFactory af = types.get(actorType);
+                        if (af == null) {
+                            if (parentHasSameComponent())
+                                return request.call(requestReceiver.getParent());
+                            throw new IllegalArgumentException("Unknown actor type: " + actorType);
+                        }
+                        return af;
+                    }
+                });
+
+        thisActor.bind(
                 NewActor.class.getName(),
                 new ConcurrentMethodBinding<NewActor, Actor>() {
                     @Override
