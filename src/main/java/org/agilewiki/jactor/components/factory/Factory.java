@@ -53,6 +53,19 @@ public class Factory extends Component {
         super.bindery();
 
         thisActor.bind(
+                RegisterJLPCActorFactory.class.getName(),
+                new VoidInitializationMethodBinding<RegisterJLPCActorFactory>() {
+                    @Override
+                    public void initializationProcessRequest(Internals internals, RegisterJLPCActorFactory registerJLPCActorFactory)
+                            throws Exception {
+                        String actorType = registerJLPCActorFactory.getActorType();
+                        if (types.containsKey(actorType))
+                            throw new IllegalArgumentException("Actor type is already defined: " + actorType);
+                        types.put(actorType, registerJLPCActorFactory.getJlpcActorFactory());
+                    }
+                });
+
+        thisActor.bind(
                 DefineActorType.class.getName(),
                 new VoidInitializationMethodBinding<DefineActorType>() {
                     @Override
