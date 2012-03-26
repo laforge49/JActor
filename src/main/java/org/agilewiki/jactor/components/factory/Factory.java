@@ -68,7 +68,7 @@ public class Factory extends Component {
                         }
                         if (Actor.class.isAssignableFrom(clazz)) {
                             Constructor componentConstructor = clazz.getConstructor(Mailbox.class);
-                            types.put(actorType, new JLPCActorFactory(actorType, componentConstructor));
+                            types.put(actorType, new _JLPCActorFactory(actorType, componentConstructor));
                             return;
                         }
                         throw new IllegalArgumentException(clazz.getName());

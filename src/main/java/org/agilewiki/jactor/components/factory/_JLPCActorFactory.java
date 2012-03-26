@@ -1,14 +1,14 @@
 package org.agilewiki.jactor.components.factory;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.lang.reflect.Constructor;
 
 /**
  * Creates a JLPCActor.
  */
-public class JLPCActorFactory extends ActorFactory {
+class _JLPCActorFactory extends tJLPCActorFactory {
     /**
      * The constructor used to create the actor.
      */
@@ -20,23 +20,19 @@ public class JLPCActorFactory extends ActorFactory {
      * @param actorType   The actor type.
      * @param constructor The constructor used to create the actor.
      */
-    public JLPCActorFactory(String actorType, Constructor constructor) {
+    public _JLPCActorFactory(String actorType, Constructor constructor) {
         super(actorType);
         this.constructor = constructor;
     }
 
     /**
-     * Create an actor.
+     * Create a JLPCActor.
      *
      * @param mailbox The mailbox of the new actor.
-     * @param parent  The parent of the new actor.
      * @return The new actor.
      */
-    @Override
-    public Actor newActor(Mailbox mailbox, Actor parent) throws Exception {
-        Actor a = (Actor) constructor.newInstance(mailbox);
-        a.setActorType(actorType);
-        a.setParent(parent);
-        return a;
+    protected JLPCActor instantiateActor(Mailbox mailbox)
+            throws Exception {
+        return (JLPCActor) constructor.newInstance(mailbox);
     }
 }

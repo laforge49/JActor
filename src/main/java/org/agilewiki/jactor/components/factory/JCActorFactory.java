@@ -26,14 +26,14 @@ public class JCActorFactory extends ActorFactory {
     }
 
     /**
-     * Create an actor.
+     * Create and configure an actor.
      *
      * @param mailbox The mailbox of the new actor.
      * @param parent  The parent of the new actor.
      * @return The new actor.
      */
     @Override
-    public Actor newActor(Mailbox mailbox, Actor parent) throws Exception {
+    public JCActor newActor(Mailbox mailbox, Actor parent) throws Exception {
         Include include = new Include(componentClass);
         JCActor actor = new JCActor(mailbox);
         actor.setActorType(actorType);

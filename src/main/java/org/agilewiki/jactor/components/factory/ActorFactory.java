@@ -31,7 +31,7 @@ abstract public class ActorFactory {
     }
 
     /**
-     * Create an actor.
+     * Create and configure an actor.
      *
      * @param mailbox The mailbox of the new actor.
      * @param parent  The parent of the new actor.

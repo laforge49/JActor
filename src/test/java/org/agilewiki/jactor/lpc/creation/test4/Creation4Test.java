@@ -15,11 +15,11 @@ import org.agilewiki.jactor.lpc.creation.A;
 
 public class Creation4Test extends TestCase {
     public void test() {
-        System.out.println("####################################################");
+        //System.out.println("####################################################");
 
-        //long c = 1;
+        long c = 1;
 
-        long c = 100000000;
+        //long c = 100000000;
         //iterations per second = 142,045,454
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
