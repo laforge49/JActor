@@ -19,11 +19,10 @@ public class RegisterJLPCActorFactory extends JBInitializationRequest<Object> {
     /**
      * Create the request.
      *
-     * @param actorType        The actor type name.
      * @param jlpcActorFactory The JLPCActorFactory.
      */
-    public RegisterJLPCActorFactory(String actorType, JLPCActorFactory jlpcActorFactory) {
-        this.actorType = actorType;
+    public RegisterJLPCActorFactory(JLPCActorFactory jlpcActorFactory) {
+        this.actorType = jlpcActorFactory.getActorType();
         this.jlpcActorFactory = jlpcActorFactory;
     }
 
