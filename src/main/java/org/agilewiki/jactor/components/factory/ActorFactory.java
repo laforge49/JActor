@@ -26,7 +26,7 @@ abstract public class ActorFactory {
      *
      * @return The actor type.
      */
-    public String getActorType() {
+    final public String getActorType() {
         return actorType;
     }
 

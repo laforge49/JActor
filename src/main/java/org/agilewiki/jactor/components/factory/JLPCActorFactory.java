@@ -34,7 +34,7 @@ abstract public class JLPCActorFactory extends ActorFactory {
      * @return The new actor.
      */
     @Override
-    public JLPCActor newActor(Mailbox mailbox, Actor parent) throws Exception {
+    final public JLPCActor newActor(Mailbox mailbox, Actor parent) throws Exception {
         JLPCActor a = instantiateActor(mailbox);
         a.setActorType(actorType);
         a.setParent(parent);

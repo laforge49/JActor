@@ -8,7 +8,7 @@ import org.agilewiki.jactor.components.JCActor;
 /**
  * Creates a JCActor.
  */
-public class JCActorFactory extends ActorFactory {
+final public class JCActorFactory extends ActorFactory {
     /**
      * The class of the root component.
      */

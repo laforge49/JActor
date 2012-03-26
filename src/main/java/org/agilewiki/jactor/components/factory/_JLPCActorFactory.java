@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 /**
  * Creates a JLPCActor.
  */
-class _JLPCActorFactory extends JLPCActorFactory {
+final class _JLPCActorFactory extends JLPCActorFactory {
     /**
      * The constructor used to create the actor.
      */
