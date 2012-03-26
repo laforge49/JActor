@@ -30,21 +30,18 @@ import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
 import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.JCActor;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * <p>A component for defining actor types and creating instances,
- * where an actor type has a name and a class.</p>
+ * A component for defining actor types and creating instances.
  */
 public class Factory extends Component {
     /**
-     * A table which maps type names to classes.
+     * A table which maps type names to actor factories.
      */
-    private ConcurrentSkipListMap<String, Object> types = new ConcurrentSkipListMap<String, Object>();
+    private ConcurrentSkipListMap<String, ActorFactory> types = new ConcurrentSkipListMap<String, ActorFactory>();
 
     /**
      * Bind request classes.
@@ -66,11 +63,12 @@ public class Factory extends Component {
                             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
                         Class clazz = defineActorType.getClazz();
                         if (Component.class.isAssignableFrom(clazz)) {
-                            types.put(actorType, clazz);
+                            types.put(actorType, new JCActorFactory(actorType, clazz));
                             return;
                         }
                         if (Actor.class.isAssignableFrom(clazz)) {
-                            types.put(actorType, clazz.getConstructor(Mailbox.class));
+                            Constructor componentConstructor = clazz.getConstructor(Mailbox.class);
+                            types.put(actorType, new JLPCActorFactory(actorType, componentConstructor));
                             return;
                         }
                         throw new IllegalArgumentException(clazz.getName());
@@ -92,26 +90,13 @@ public class Factory extends Component {
                             if (parent == null) parent = requestReceiver.getThisActor();
                             request = new NewActor(actorType, mailbox, parent);
                         }
-                        Object c = types.get(actorType);
-                        if (c == null) {
+                        ActorFactory af = types.get(actorType);
+                        if (af == null) {
                             if (parentHasSameComponent())
                                 return request.call(requestReceiver.getParent());
                             throw new IllegalArgumentException("Unknown actor type: " + actorType);
                         }
-                        if (c instanceof Class) {
-                            Class clazz = (Class) c;
-                            Include include = new Include(clazz);
-                            JCActor actor = new JCActor(mailbox);
-                            actor.setActorType(actorType);
-                            actor.setParent(parent);
-                            include.call(actor);
-                            return actor;
-                        }
-                        Constructor constructor = (Constructor) c;
-                        Actor a = (Actor) constructor.newInstance(mailbox);
-                        a.setActorType(actorType);
-                        a.setParent(parent);
-                        return a;
+                        return af.newActor(mailbox, parent);
                     }
                 });
     }

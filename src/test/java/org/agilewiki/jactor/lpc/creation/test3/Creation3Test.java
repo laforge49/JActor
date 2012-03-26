@@ -18,7 +18,7 @@ public class Creation3Test extends TestCase {
         long c = 1;
 
         //long c = 10000000;
-        //iterations per second = 3,841,721
+        //iterations per second = 3,947,887
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
