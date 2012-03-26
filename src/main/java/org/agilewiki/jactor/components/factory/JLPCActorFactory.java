@@ -7,13 +7,13 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Creates a JLPCActor.
  */
-abstract public class tJLPCActorFactory extends ActorFactory {
+abstract public class JLPCActorFactory extends ActorFactory {
     /**
      * Create an ActorFactory.
      *
      * @param actorType The actor type.
      */
-    public tJLPCActorFactory(String actorType) {
+    public JLPCActorFactory(String actorType) {
         super(actorType);
     }
 
