@@ -31,11 +31,16 @@ import org.agilewiki.jactor.components.JCActor;
 /**
  * Creates a JCActor.
  */
-final public class JCActorFactory extends ActorFactory {
+final public class JCActorFactory implements ActorFactory {
     /**
      * The class of the root component.
      */
     private Class componentClass;
+
+    /**
+     * The actor type.
+     */
+    protected String actorType;
 
     /**
      * Create an ActorFactory.
@@ -44,8 +49,18 @@ final public class JCActorFactory extends ActorFactory {
      * @param componentClass The class of the root component.
      */
     public JCActorFactory(String actorType, Class componentClass) {
-        super(actorType);
+        this.actorType = actorType;
         this.componentClass = componentClass;
+    }
+
+    /**
+     * Returns the actor type.
+     *
+     * @return The actor type.
+     */
+    @Override
+    final public String getActorType() {
+        return actorType;
     }
 
     /**

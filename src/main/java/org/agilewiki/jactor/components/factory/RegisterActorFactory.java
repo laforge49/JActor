@@ -26,9 +26,9 @@ package org.agilewiki.jactor.components.factory;
 import org.agilewiki.jactor.bind.JBInitializationRequest;
 
 /**
- * Register a JLPCActorFactory.
+ * Register an ActorFactory.
  */
-public class RegisterJLPCActorFactory extends JBInitializationRequest<Object> {
+public class RegisterActorFactory extends JBInitializationRequest<Object> {
     /**
      * An actor type name.
      */
@@ -37,16 +37,16 @@ public class RegisterJLPCActorFactory extends JBInitializationRequest<Object> {
     /**
      * The JLPCActorFactory.
      */
-    private JLPCActorFactory jlpcActorFactory;
+    private ActorFactory actorFactory;
 
     /**
      * Create the request.
      *
-     * @param jlpcActorFactory The JLPCActorFactory.
+     * @param actorFactory The JLPCActorFactory.
      */
-    public RegisterJLPCActorFactory(JLPCActorFactory jlpcActorFactory) {
-        this.actorType = jlpcActorFactory.getActorType();
-        this.jlpcActorFactory = jlpcActorFactory;
+    public RegisterActorFactory(ActorFactory actorFactory) {
+        this.actorType = actorFactory.getActorType();
+        this.actorFactory = actorFactory;
     }
 
     /**
@@ -63,7 +63,7 @@ public class RegisterJLPCActorFactory extends JBInitializationRequest<Object> {
      *
      * @return The JLPCActorFactory.
      */
-    public JLPCActorFactory getJlpcActorFactory() {
-        return jlpcActorFactory;
+    public ActorFactory getActorFactory() {
+        return actorFactory;
     }
 }

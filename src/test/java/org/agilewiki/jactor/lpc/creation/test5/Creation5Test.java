@@ -10,7 +10,7 @@ import org.agilewiki.jactor.components.JCActor;
 import org.agilewiki.jactor.components.factory.ActorFactory;
 import org.agilewiki.jactor.components.factory.Factory;
 import org.agilewiki.jactor.components.factory.GetActorFactory;
-import org.agilewiki.jactor.components.factory.RegisterJLPCActorFactory;
+import org.agilewiki.jactor.components.factory.RegisterActorFactory;
 import org.agilewiki.jactor.lpc.creation.AFactory;
 
 public class Creation5Test extends TestCase {
@@ -26,7 +26,7 @@ public class Creation5Test extends TestCase {
         try {
             JCActor f = new JCActor(mailboxFactory.createMailbox());
             (new Include(Factory.class)).call(f);
-            (new RegisterJLPCActorFactory(new AFactory("A"))).call(f);
+            (new RegisterActorFactory(new AFactory("A"))).call(f);
             Open.req.call(f);
             loop(c, f);
             loop(c, f);

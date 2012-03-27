@@ -30,14 +30,29 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Creates a JLPCActor.
  */
-abstract public class JLPCActorFactory extends ActorFactory {
+abstract public class JLPCActorFactory implements ActorFactory {
+    /**
+     * The actor type.
+     */
+    protected String actorType;
+
     /**
      * Create an ActorFactory.
      *
      * @param actorType The actor type.
      */
     public JLPCActorFactory(String actorType) {
-        super(actorType);
+        this.actorType = actorType;
+    }
+
+    /**
+     * Returns the actor type.
+     *
+     * @return The actor type.
+     */
+    @Override
+    final public String getActorType() {
+        return actorType;
     }
 
     /**
