@@ -4,30 +4,25 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.bind.Open;
-import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.factory.Factory;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.DefineActorType;
 import org.agilewiki.jactor.factory.GetActorFactory;
+import org.agilewiki.jactor.factory.JFactory;
 import org.agilewiki.jactor.lpc.creation.A;
 
 public class Creation4Test extends TestCase {
     public void test() {
-        //System.out.println("####################################################");
+        System.out.println("####################################################");
 
         long c = 1;
 
         //long c = 100000000;
-        //iterations per second = 142,045,454
+        //iterations per second = 200,400,801 (was 142,045,454 when Factory component was used)
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JCActor f = new JCActor(mailboxFactory.createMailbox());
-            (new Include(Factory.class)).call(f);
+            JFactory f = new JFactory(mailboxFactory.createMailbox());
             (new DefineActorType("A", A.class)).call(f);
-            Open.req.call(f);
             loop(c, f);
             loop(c, f);
             long t0 = System.currentTimeMillis();
@@ -43,7 +38,7 @@ public class Creation4Test extends TestCase {
         }
     }
 
-    void loop(long c, JCActor f) throws Exception {
+    void loop(long c, JFactory f) throws Exception {
         GetActorFactory gaf = new GetActorFactory("A");
         ActorFactory af = gaf.call(f);
         MailboxFactory mailboxFactory = f.getMailboxFactory();

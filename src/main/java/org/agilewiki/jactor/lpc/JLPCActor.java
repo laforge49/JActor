@@ -498,7 +498,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      *
      * @return The mailbox factory.
      */
-    final protected MailboxFactory getMailboxFactory() {
+    final public MailboxFactory getMailboxFactory() {
         return mailbox.getMailboxFactory();
     }
 
