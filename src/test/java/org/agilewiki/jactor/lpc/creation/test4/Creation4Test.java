@@ -12,7 +12,7 @@ import org.agilewiki.jactor.lpc.creation.A;
 
 public class Creation4Test extends TestCase {
     public void test() {
-        System.out.println("####################################################");
+        //System.out.println("####################################################");
 
         long c = 1;
 
