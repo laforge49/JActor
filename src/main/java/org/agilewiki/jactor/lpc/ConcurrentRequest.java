@@ -64,8 +64,9 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
             throws Exception {
         if (targetActor instanceof JBActor)
             return call((JBActor) targetActor);
-        if (isTargetType(targetActor))
+        if (isTargetType(targetActor)) {
             return call((TARGET_TYPE) targetActor);
+        }
         Actor parent = targetActor.getParent();
         if (parent != null)
             return call(parent);
