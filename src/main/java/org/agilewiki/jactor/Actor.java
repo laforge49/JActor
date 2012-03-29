@@ -109,5 +109,6 @@ public interface Actor {
      *
      * @param parent The parent actor.
      */
-    public void setParent(Actor parent);
+    public void setParent(Actor parent)
+            throws Exception;
 }

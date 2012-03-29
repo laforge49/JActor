@@ -27,6 +27,8 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.components.factory.NewActor;
+import org.agilewiki.jactor.components.factory.Requirement;
 import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
@@ -91,16 +93,45 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
     }
 
     /**
-     * Assign the parent actor.
+     * Process the requirements and assign the parent actor.
      * Once assigned, it can not be changed.
      *
      * @param parent The parent actor.
      */
     @Override
-    final public void setParent(Actor parent) {
+    final public void setParent(Actor parent)
+            throws Exception {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
+        Requirement[] requirements = requirements();
+        if (requirements == null || requirements.length == 0) {
+            this.parent = parent;
+            return;
+        }
+        if (parent == null)
+            throw new UnsupportedOperationException("The parent can not null--the actor has requirements.");
+        int i = 0;
+        while (i < requirements.length) {
+            Requirement requirement = requirements[i];
+            Request request = requirement.request;
+            if (request.getTargetActor(parent) == null) {
+                String actorType = requirement.actorType;
+                NewActor newActor = new NewActor(actorType, mailbox, parent);
+                parent = newActor.call(parent);
+            }
+            i += 1;
+        }
         this.parent = parent;
+    }
+
+    /**
+     * Returns the actor's requirements.
+     *
+     * @return The actor's requirents.
+     */
+    protected Requirement[] requirements()
+            throws Exception {
+        return null;
     }
 
     /**
