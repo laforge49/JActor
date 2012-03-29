@@ -21,29 +21,41 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.lpc.JLPCActor;
+
+import java.lang.reflect.Constructor;
 
 /**
- * Creates an actor.
+ * Creates a JLPCActor using a Constructor.
  */
-public interface ActorFactory {
+final public class _ActorFactory extends JLPCActorFactory {
     /**
-     * Returns the actor type.
-     *
-     * @return The actor type.
+     * The constructor used to create the actor.
      */
-    public String getActorType();
+    private Constructor constructor;
 
     /**
-     * Create and configure an actor.
+     * Create an ActorFactory.
+     *
+     * @param actorType   The actor type.
+     * @param constructor The constructor used to create the actor.
+     */
+    public _ActorFactory(String actorType, Constructor constructor) {
+        super(actorType);
+        this.constructor = constructor;
+    }
+
+    /**
+     * Create a JLPCActor.
      *
      * @param mailbox The mailbox of the new actor.
-     * @param parent  The parent of the new actor.
      * @return The new actor.
      */
-    public Actor newActor(Mailbox mailbox, Actor parent)
-            throws Exception;
+    protected JLPCActor instantiateActor(Mailbox mailbox)
+            throws Exception {
+        return (JLPCActor) constructor.newInstance(mailbox);
+    }
 }

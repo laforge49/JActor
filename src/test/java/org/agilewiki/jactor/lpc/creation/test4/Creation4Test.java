@@ -7,10 +7,10 @@ import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.factory.ActorFactory;
-import org.agilewiki.jactor.components.factory.DefineActorType;
 import org.agilewiki.jactor.components.factory.Factory;
-import org.agilewiki.jactor.components.factory.GetActorFactory;
+import org.agilewiki.jactor.factory.ActorFactory;
+import org.agilewiki.jactor.factory.DefineActorType;
+import org.agilewiki.jactor.factory.GetActorFactory;
 import org.agilewiki.jactor.lpc.creation.A;
 
 public class Creation4Test extends TestCase {

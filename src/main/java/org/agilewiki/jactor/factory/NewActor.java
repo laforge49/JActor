@@ -21,18 +21,18 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * <p>NewActor is a request to create and configure an actor.</p>
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
  */
-public class NewActor extends JBConcurrentRequest<Actor> {
+public class NewActor extends ConcurrentRequest<Actor, JFactory> {
     /**
      * An actor type name.
      */
@@ -108,5 +108,28 @@ public class NewActor extends JBConcurrentRequest<Actor> {
      */
     public Actor getParent() {
         return parent;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Actor call(JFactory targetActor)
+            throws Exception {
+        return targetActor.newActor(this);
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof JFactory;
     }
 }

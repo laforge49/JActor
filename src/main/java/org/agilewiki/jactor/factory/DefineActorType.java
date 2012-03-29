@@ -21,26 +21,35 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.InitializationRequest;
 
 /**
- * Returns the actor factory assigned to a given actor type.
+ * DefineActorType is a request to register a component that can be used
+ * to create and configure new types of actors.
  */
-public class GetActorFactory extends JBConcurrentRequest<ActorFactory> {
+final public class DefineActorType extends InitializationRequest<Object, JFactory> {
     /**
      * An actor type name.
      */
     private String actorType;
 
     /**
-     * Create a request.
+     * The class used to configure an actor.
+     */
+    private Class clazz;
+
+    /**
+     * Create a DefineActorType request.
      *
      * @param actorType An actor type name.
+     * @param clazz     The class used to configure an actor.
      */
-    public GetActorFactory(String actorType) {
+    public DefineActorType(String actorType, Class clazz) {
         this.actorType = actorType;
+        this.clazz = clazz;
     }
 
     /**
@@ -50,5 +59,38 @@ public class GetActorFactory extends JBConcurrentRequest<ActorFactory> {
      */
     public String getActorType() {
         return actorType;
+    }
+
+    /**
+     * Returns the class used to configure an actor.
+     *
+     * @return The class used to configure an actor.
+     */
+    public Class getClazz() {
+        return clazz;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(JFactory targetActor)
+            throws Exception {
+        targetActor.defineActorType(actorType, clazz);
+        return null;
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof JFactory;
     }
 }

@@ -21,42 +21,32 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
-import org.agilewiki.jactor.lpc.JLPCActor;
-
-import java.lang.reflect.Constructor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
- * Creates a JLPCActor using a Constructor.
+ * Provides a request which must be supported and the type of actor which.does.
  */
-final class _JLPCActorFactory extends JLPCActorFactory {
+final public class Requirement {
     /**
-     * The constructor used to create the actor.
+     * A request the must be supported.
      */
-    private Constructor constructor;
+    public final Request request;
 
     /**
-     * Create an ActorFactory.
-     *
-     * @param actorType   The actor type.
-     * @param constructor The constructor used to create the actor.
+     * A type of actor which supports the request.
      */
-    public _JLPCActorFactory(String actorType, Constructor constructor) {
-        super(actorType);
-        this.constructor = constructor;
-    }
+    public final String actorType;
 
     /**
-     * Create a JLPCActor.
+     * Create a Requirement.
      *
-     * @param mailbox The mailbox of the new actor.
-     * @return The new actor.
+     * @param request   A request the must be supported.
+     * @param actorType A type of actor which supports the request.
      */
-    protected JLPCActor instantiateActor(Mailbox mailbox)
-            throws Exception {
-        return (JLPCActor) constructor.newInstance(mailbox);
+    public Requirement(Request request, String actorType) {
+        this.request = request;
+        this.actorType = actorType;
     }
 }

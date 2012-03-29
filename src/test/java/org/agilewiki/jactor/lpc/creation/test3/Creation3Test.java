@@ -6,9 +6,9 @@ import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.factory.DefineActorType;
 import org.agilewiki.jactor.components.factory.Factory;
-import org.agilewiki.jactor.components.factory.NewActor;
+import org.agilewiki.jactor.factory.DefineActorType;
+import org.agilewiki.jactor.factory.NewActor;
 import org.agilewiki.jactor.lpc.creation.A;
 
 public class Creation3Test extends TestCase {

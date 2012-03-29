@@ -21,14 +21,15 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.bind.JBInitializationRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.InitializationRequest;
 
 /**
  * Register an ActorFactory.
  */
-public class RegisterActorFactory extends JBInitializationRequest<Object> {
+public class RegisterActorFactory extends InitializationRequest<Object, JFactory> {
     /**
      * An actor type name.
      */
@@ -65,5 +66,29 @@ public class RegisterActorFactory extends JBInitializationRequest<Object> {
      */
     public ActorFactory getActorFactory() {
         return actorFactory;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(JFactory targetActor)
+            throws Exception {
+        targetActor.registerActorFactory(actorType, actorFactory);
+        return null;
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof JFactory;
     }
 }

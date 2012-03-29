@@ -27,9 +27,9 @@ import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
-import org.agilewiki.jactor.components.factory.NewActor;
-import org.agilewiki.jactor.components.factory.Requirement;
 import org.agilewiki.jactor.events.EventQueue;
+import org.agilewiki.jactor.factory.NewActor;
+import org.agilewiki.jactor.factory.Requirement;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 

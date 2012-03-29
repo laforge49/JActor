@@ -27,6 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
  * Creates a JCActor.

@@ -1,7 +1,7 @@
 package org.agilewiki.jactor.lpc.creation;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.components.factory.JLPCActorFactory;
+import org.agilewiki.jactor.factory.JLPCActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class AFactory extends JLPCActorFactory {
