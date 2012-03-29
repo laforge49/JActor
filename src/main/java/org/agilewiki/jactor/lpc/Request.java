@@ -41,6 +41,19 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE> {
     abstract protected boolean isTargetType(Actor targetActor);
 
     /**
+     * Searches the parent stack for the matching TARGET_TYPE.
+     *
+     * @param parent A stack of actors, or null.
+     * @return The matching parent, or null.
+     */
+    final public TARGET_TYPE getTargetActor(Actor parent) {
+        while (parent != null && !isTargetType(parent)) {
+            parent = parent.getParent();
+        }
+        return (TARGET_TYPE) parent;
+    }
+
+    /**
      * Send a request and waits for a response.
      *
      * @param future      The future.
