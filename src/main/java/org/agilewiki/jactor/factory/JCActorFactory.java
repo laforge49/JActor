@@ -21,42 +21,62 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.factory;
+package org.agilewiki.jactor.factory;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
-import org.agilewiki.jactor.lpc.JLPCActor;
-
-import java.lang.reflect.Constructor;
+import org.agilewiki.jactor.components.Include;
+import org.agilewiki.jactor.components.JCActor;
 
 /**
- * Creates a JLPCActor using a Constructor.
+ * Creates a JCActor.
  */
-final class _JLPCActorFactory extends JLPCActorFactory {
+final public class JCActorFactory implements ActorFactory {
     /**
-     * The constructor used to create the actor.
+     * The class of the root component.
      */
-    private Constructor constructor;
+    private Class componentClass;
+
+    /**
+     * The actor type.
+     */
+    protected String actorType;
 
     /**
      * Create an ActorFactory.
      *
-     * @param actorType   The actor type.
-     * @param constructor The constructor used to create the actor.
+     * @param actorType      The actor type.
+     * @param componentClass The class of the root component.
      */
-    public _JLPCActorFactory(String actorType, Constructor constructor) {
-        super(actorType);
-        this.constructor = constructor;
+    public JCActorFactory(String actorType, Class componentClass) {
+        this.actorType = actorType;
+        this.componentClass = componentClass;
     }
 
     /**
-     * Create a JLPCActor.
+     * Returns the actor type.
+     *
+     * @return The actor type.
+     */
+    @Override
+    final public String getActorType() {
+        return actorType;
+    }
+
+    /**
+     * Create and configure an actor.
      *
      * @param mailbox The mailbox of the new actor.
+     * @param parent  The parent of the new actor.
      * @return The new actor.
      */
-    protected JLPCActor instantiateActor(Mailbox mailbox)
-            throws Exception {
-        return (JLPCActor) constructor.newInstance(mailbox);
+    @Override
+    public JCActor newActor(Mailbox mailbox, Actor parent) throws Exception {
+        Include include = new Include(componentClass);
+        JCActor actor = new JCActor(mailbox);
+        actor.setActorType(actorType);
+        actor.setParent(parent);
+        include.call(actor);
+        return actor;
     }
 }
