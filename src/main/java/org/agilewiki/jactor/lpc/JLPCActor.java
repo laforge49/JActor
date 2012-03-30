@@ -28,7 +28,7 @@ import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
-import org.agilewiki.jactor.factory.NewActor;
+import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.Requirement;
 import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
@@ -115,9 +115,8 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
             Requirement requirement = requirements[i];
             Request request = requirement.request;
             if (request.getTargetActor(parent) == null) {
-                String actorType = requirement.actorType;
-                NewActor newActor = new NewActor(actorType, mailbox, parent);
-                parent = newActor.call(parent);
+                ActorFactory actorFactory = requirement.actorFactory;
+                parent = actorFactory.newActor(mailbox, parent);
             }
             i += 1;
         }

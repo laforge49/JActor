@@ -26,7 +26,7 @@ package org.agilewiki.jactor.factory;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
- * Provides a request which must be supported and the type of actor which.does.
+ * Provides a request which must be supported and the factory of an actor which.does.
  */
 final public class Requirement {
     /**
@@ -35,18 +35,18 @@ final public class Requirement {
     public final Request request;
 
     /**
-     * A type of actor which supports the request.
+     * The factory of an actor which supports the request.
      */
-    public final String actorType;
+    public final ActorFactory actorFactory;
 
     /**
      * Create a Requirement.
      *
-     * @param request   A request the must be supported.
-     * @param actorType A type of actor which supports the request.
+     * @param request      A request the must be supported.
+     * @param actorFactory The factory of an actor which supports the request.
      */
-    public Requirement(Request request, String actorType) {
+    public Requirement(Request request, ActorFactory actorFactory) {
         this.request = request;
-        this.actorType = actorType;
+        this.actorFactory = actorFactory;
     }
 }
