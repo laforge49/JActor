@@ -99,7 +99,7 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
      * @param parent The parent actor.
      */
     @Override
-    final public void setParent(Actor parent)
+    public void setParent(Actor parent)
             throws Exception {
         if (this.parent != null)
             throw new UnsupportedOperationException("The parent can not be changed.");
