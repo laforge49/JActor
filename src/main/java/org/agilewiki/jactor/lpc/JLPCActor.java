@@ -108,13 +108,11 @@ abstract public class JLPCActor implements Actor, RequestProcessor, RequestSourc
             this.parent = parent;
             return;
         }
-        if (parent == null)
-            throw new UnsupportedOperationException("The parent can not null--the actor has requirements.");
         int i = 0;
         while (i < requirements.length) {
             Requirement requirement = requirements[i];
             Request request = requirement.request;
-            if (request.getTargetActor(parent) == null) {
+            if (parent == null || request.getTargetActor(parent) == null) {
                 ActorFactory actorFactory = requirement.actorFactory;
                 parent = actorFactory.newActor(mailbox, parent);
             }
