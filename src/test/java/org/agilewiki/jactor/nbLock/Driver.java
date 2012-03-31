@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nbLock;
+package org.agilewiki.jactor.nbLock;
 
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bind.Internals;

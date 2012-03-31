@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nbLock.exceptionsTest;
+package org.agilewiki.jactor.nbLock;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
@@ -8,24 +8,23 @@ import org.agilewiki.jactor.bind.JBRequest;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.nbLock.NBLock;
 
 /**
  * Test code.
  */
-public class NBLockExceptionsTest extends TestCase {
+public class NBLockTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            JCActor nblock = new JCActor(mailboxFactory.createAsyncMailbox());
+            JCActor nblock = new JCActor(mailboxFactory.createMailbox());
             (new Include(NBLock.class)).call(nblock);
             Open.req.call(nblock);
-            JCActor driver = new JCActor(mailboxFactory.createAsyncMailbox());
+            JCActor driver = new JCActor(mailboxFactory.createMailbox());
             driver.setParent(nblock);
             (new Include(Driver.class)).call(driver);
             Open.req.call(driver);
-            (new DoItEx()).send(future, driver);
+            (new DoIt()).send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -37,5 +36,5 @@ public class NBLockExceptionsTest extends TestCase {
 /**
  * Test code.
  */
-class DoItEx extends JBRequest<Object> {
+class DoIt extends JBRequest<Object> {
 }

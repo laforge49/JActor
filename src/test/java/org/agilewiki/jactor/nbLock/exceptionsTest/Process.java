@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.nbLock.exceptionsTest;
+package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
@@ -8,8 +8,8 @@ import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.actorName.ActorName;
 import org.agilewiki.jactor.components.actorName.GetActorName;
-import org.agilewiki.jactor.components.nbLock.Lock;
-import org.agilewiki.jactor.components.nbLock.Unlock;
+import org.agilewiki.jactor.nbLock.Lock;
+import org.agilewiki.jactor.nbLock.Unlock;
 
 import java.util.ArrayList;
 
