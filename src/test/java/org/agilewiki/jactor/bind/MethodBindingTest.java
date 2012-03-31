@@ -40,7 +40,7 @@ public class MethodBindingTest extends TestCase {
         }
     }
 
-    class Hi extends JBRequest<String> {
+    class Hi extends AsyncRequest<String> {
     }
 
     class A extends JBActor {

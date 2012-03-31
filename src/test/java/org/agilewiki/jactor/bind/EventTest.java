@@ -26,7 +26,7 @@ public class EventTest extends TestCase {
         }
     }
 
-    class Hi extends JBRequest<String> {
+    class Hi extends AsyncRequest<String> {
     }
 
     class Ho extends JBConcurrentRequest<String> {

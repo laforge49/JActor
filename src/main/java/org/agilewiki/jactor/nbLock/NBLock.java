@@ -23,48 +23,57 @@
  */
 package org.agilewiki.jactor.nbLock;
 
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.ArrayDeque;
 
 /**
  * <p>Non-blocking Lock.</p>
  */
-public final class NBLock extends Component {
+public final class NBLock extends JLPCActor {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();
 
     /**
-     * Bind request classes.
+     * Create a LiteActor
      *
-     * @throws Exception Any exceptions thrown while binding.
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public NBLock(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(Lock.class.getName(), new MethodBinding<Lock, Object>() {
-            @Override
-            public void processRequest(Internals internals, Lock request, RP<Object> rp)
-                    throws Exception {
-                deque.addLast(rp);
-                if (deque.size() == 1) {
-                    rp.processResponse(null);
-                }
-            }
-        });
+    protected void processRequest(Object request, RP rp) throws Exception {
 
-        thisActor.bind(Unlock.class.getName(), new MethodBinding<Unlock, Object>() {
-            @Override
-            public void processRequest(Internals internals, Unlock request, RP<Object> rp)
-                    throws Exception {
-                deque.removeFirst();
+        Class reqcls = request.getClass();
+
+        if (reqcls == Lock.class) {
+            deque.addLast(rp);
+            if (deque.size() == 1) {
                 rp.processResponse(null);
-                RP<Object> rp1 = deque.peekFirst();
-                if (rp1 != null) {
-                    rp1.processResponse(null);
-                }
             }
-        });
+            return;
+        }
+
+        if (reqcls == Unlock.class) {
+            deque.removeFirst();
+            rp.processResponse(null);
+            RP<Object> rp1 = deque.peekFirst();
+            if (rp1 != null) {
+                rp1.processResponse(null);
+            }
+            return;
+        }
+
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 }

@@ -1,12 +1,12 @@
 package org.agilewiki.jactor.multithreadingTest;
 
-import org.agilewiki.jactor.bind.JBRequest;
+import org.agilewiki.jactor.bind.AsyncRequest;
 import org.agilewiki.jactor.components.JCActor;
 
 /**
  * Test code.
  */
-public class PrintParallelResponse<RESPONSE> extends JBRequest<Object> {
+public class PrintParallelResponse<RESPONSE> extends AsyncRequest<Object> {
     private int count;
     private PrintResponse<RESPONSE> printResponse;
     private JCActor[] responsePrinters;

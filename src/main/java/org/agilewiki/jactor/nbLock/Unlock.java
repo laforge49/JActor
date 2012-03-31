@@ -23,11 +23,11 @@
  */
 package org.agilewiki.jactor.nbLock;
 
-import org.agilewiki.jactor.bind.JBRequest;
+import org.agilewiki.jactor.bind.AsyncRequest;
 
 /**
  * Release exclusive use of a resource.
  */
-final public class Unlock extends JBRequest<Object> {
+final public class Unlock extends AsyncRequest<Object> {
     public final static Unlock req = new Unlock();
 }

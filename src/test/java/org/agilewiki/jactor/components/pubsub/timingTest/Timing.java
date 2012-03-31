@@ -1,13 +1,13 @@
 package org.agilewiki.jactor.components.pubsub.timingTest;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.JBRequest;
+import org.agilewiki.jactor.bind.AsyncRequest;
 import org.agilewiki.jactor.parallel.JAParallel;
 
 /**
  * Test code.
  */
-final public class Timing extends JBRequest<Object> {
+final public class Timing extends AsyncRequest<Object> {
     private int count;
     private int burst;
 

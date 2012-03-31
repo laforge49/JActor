@@ -6,7 +6,7 @@ import org.agilewiki.jactor.lpc.Request;
 /**
  * A request not handled by a JLPCActor subclass.
  */
-public class JBRequest<RESPONSE_TYPE>
+public class AsyncRequest<RESPONSE_TYPE>
         extends Request<RESPONSE_TYPE, NoJLPCActor> {
     /**
      * Returns true when targetActor is an instanceof TARGET_TYPE
