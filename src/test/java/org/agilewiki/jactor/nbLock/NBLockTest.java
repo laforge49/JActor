@@ -5,10 +5,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.bind.AsyncRequest;
-import org.agilewiki.jactor.bind.Open;
-import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
@@ -18,11 +15,7 @@ public class NBLockTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            Actor nblock = new NBLock(mailboxFactory.createMailbox());
-            JCActor driver = new JCActor(mailboxFactory.createMailbox());
-            driver.setParent(nblock);
-            (new Include(Driver.class)).call(driver);
-            Open.req.call(driver);
+            Actor driver = new Driver(mailboxFactory.createMailbox());
             (new DoIt()).send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,5 +28,15 @@ public class NBLockTest extends TestCase {
 /**
  * Test code.
  */
-class DoIt extends AsyncRequest<Object> {
+class DoIt extends Request<Object, Driver> {
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Driver;
+    }
 }

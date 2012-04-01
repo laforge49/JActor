@@ -23,11 +23,22 @@
  */
 package org.agilewiki.jactor.nbLock;
 
-import org.agilewiki.jactor.bind.AsyncRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Release exclusive use of a resource.
  */
-final public class Unlock extends AsyncRequest<Object> {
+final public class Unlock extends Request<Object, NBLock> {
     public final static Unlock req = new Unlock();
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof NBLock;
+    }
 }

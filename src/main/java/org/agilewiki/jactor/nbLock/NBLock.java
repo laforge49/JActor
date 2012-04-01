@@ -32,7 +32,7 @@ import java.util.ArrayDeque;
 /**
  * <p>Non-blocking Lock.</p>
  */
-public final class NBLock extends JLPCActor {
+public class NBLock extends JLPCActor {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();
 
     /**

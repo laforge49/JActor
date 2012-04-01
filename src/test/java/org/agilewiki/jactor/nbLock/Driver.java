@@ -1,67 +1,80 @@
 package org.agilewiki.jactor.nbLock;
 
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.components.Component;
 
 /**
  * Test code.
  */
-public class Driver extends Component {
+public class Driver extends NBLock {
     /**
-     * Bind request classes.
+     * Create a LiteActor
      *
-     * @throws Exception Any exceptions thrown while binding.
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public Driver(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(DoIt.class.getName(), new MethodBinding<DoIt, Object>() {
-            @Override
-            public void processRequest(final Internals internals, DoIt request, final RP<Object> rp)
-                    throws Exception {
+    protected void processRequest(Object request, final RP rp)
+            throws Exception {
 
-                final RP<Object> rpc = new RP<Object>() {
-                    int count = 3;
+        Class reqcls = request.getClass();
 
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        count -= 1;
-                        if (count == 0)
-                            rp.processResponse(null);
-                    }
-                };
+        if (reqcls == DoIt.class) {
 
-                Lock.req.send(internals, thisActor, new RP<Object>() {
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        System.out.println("start 1");
-                        Thread.sleep(100);
-                        System.out.println("  end 1");
-                        Unlock.req.send(internals, thisActor, rpc);
-                    }
-                });
+            final RP<Object> rpc = new RP<Object>() {
+                int count = 3;
 
-                Lock.req.send(internals, thisActor, new RP<Object>() {
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        System.out.println("start 2");
-                        Thread.sleep(100);
-                        System.out.println("  end 2");
-                        Unlock.req.send(internals, thisActor, rpc);
-                    }
-                });
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    count -= 1;
+                    if (count == 0)
+                        rp.processResponse(null);
+                }
+            };
 
-                Lock.req.send(internals, thisActor, new RP<Object>() {
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        System.out.println("start 3");
-                        Thread.sleep(100);
-                        System.out.println("  end 3");
-                        Unlock.req.send(internals, thisActor, rpc);
-                    }
-                });
-            }
-        });
+            Lock.req.send(this, this, new RP<Object>() {
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    System.out.println("start 1");
+                    Thread.sleep(100);
+                    System.out.println("  end 1");
+                    Unlock.req.send(Driver.this, Driver.this, rpc);
+                }
+            });
+
+            Lock.req.send(this, this, new RP<Object>() {
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    System.out.println("start 2");
+                    Thread.sleep(100);
+                    System.out.println("  end 2");
+                    Unlock.req.send(Driver.this, Driver.this, rpc);
+                }
+            });
+
+            Lock.req.send(this, this, new RP<Object>() {
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    System.out.println("start 3");
+                    Thread.sleep(100);
+                    System.out.println("  end 3");
+                    Unlock.req.send(Driver.this, Driver.this, rpc);
+                }
+            });
+
+            return;
+        }
+
+        super.processRequest(request, rp);
     }
 }
