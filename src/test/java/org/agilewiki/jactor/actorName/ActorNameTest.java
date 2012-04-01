@@ -15,7 +15,7 @@ public class ActorNameTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JCActor a = new JCActor(mailboxFactory.createMailbox());
-            (new Include(ActorName.class)).call(a);
+            (new Include(JActorName.class)).call(a);
             (new SetActorName("foo")).call(a);
             Open.req.call(a);
             String nm = GetActorName.req.call(a);

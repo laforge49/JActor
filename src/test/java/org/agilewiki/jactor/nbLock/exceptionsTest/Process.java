@@ -2,8 +2,8 @@ package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.actorName.ActorName;
 import org.agilewiki.jactor.actorName.GetActorName;
+import org.agilewiki.jactor.actorName.JActorName;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
@@ -20,7 +20,7 @@ public class Process extends Component {
     @Override
     public ArrayList<Include> includes() {
         ArrayList<Include> rv = new ArrayList<Include>();
-        rv.add(new Include(ActorName.class));
+        rv.add(new Include(JActorName.class));
         return rv;
     }
 
