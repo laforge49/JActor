@@ -6,7 +6,7 @@ import org.agilewiki.jactor.RP;
 /**
  * Test code.
  */
-public class Driver extends NBLock {
+public class Driver extends JANBLock {
     /**
      * Create a LiteActor
      *

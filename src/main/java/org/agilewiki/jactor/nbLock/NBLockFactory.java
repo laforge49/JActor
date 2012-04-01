@@ -42,6 +42,6 @@ public class NBLockFactory extends JLPCActorFactory {
 
     @Override
     protected JLPCActor instantiateActor(Mailbox mailbox) throws Exception {
-        return new NBLock(mailbox);
+        return new JANBLock(mailbox);
     }
 }

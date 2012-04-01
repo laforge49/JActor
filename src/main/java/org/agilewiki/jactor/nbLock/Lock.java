@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.Request;
 /**
  * Gain exclusive use of a resource.
  */
-final public class Lock extends Request<Object, NBLock> {
+final public class Lock extends Request<Object, JANBLock> {
     public final static Lock req = new Lock();
 
     /**
@@ -39,6 +39,6 @@ final public class Lock extends Request<Object, NBLock> {
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     protected boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof NBLock;
+        return targetActor instanceof JANBLock;
     }
 }

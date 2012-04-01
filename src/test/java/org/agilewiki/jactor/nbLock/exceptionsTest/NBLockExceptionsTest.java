@@ -9,7 +9,7 @@ import org.agilewiki.jactor.bind.AsyncRequest;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.nbLock.NBLock;
+import org.agilewiki.jactor.nbLock.JANBLock;
 
 /**
  * Test code.
@@ -19,7 +19,7 @@ public class NBLockExceptionsTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            Actor nblock = new NBLock(mailboxFactory.createAsyncMailbox());
+            Actor nblock = new JANBLock(mailboxFactory.createAsyncMailbox());
             JCActor driver = new JCActor(mailboxFactory.createAsyncMailbox());
             driver.setParent(nblock);
             (new Include(Driver.class)).call(driver);

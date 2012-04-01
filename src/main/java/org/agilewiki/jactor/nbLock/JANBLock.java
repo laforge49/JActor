@@ -32,7 +32,7 @@ import java.util.ArrayDeque;
 /**
  * <p>Non-blocking Lock.</p>
  */
-public class NBLock extends JLPCActor {
+public class JANBLock extends JLPCActor {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();
 
     /**
@@ -40,7 +40,7 @@ public class NBLock extends JLPCActor {
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public NBLock(final Mailbox mailbox) {
+    public JANBLock(final Mailbox mailbox) {
         super(mailbox);
     }
 
