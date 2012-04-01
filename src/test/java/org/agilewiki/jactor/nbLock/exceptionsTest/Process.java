@@ -2,12 +2,12 @@ package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.actorName.ActorName;
+import org.agilewiki.jactor.actorName.GetActorName;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.actorName.ActorName;
-import org.agilewiki.jactor.components.actorName.GetActorName;
 import org.agilewiki.jactor.nbLock.Lock;
 import org.agilewiki.jactor.nbLock.Unlock;
 

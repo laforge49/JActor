@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.components.actorName;
+package org.agilewiki.jactor.actorName;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;

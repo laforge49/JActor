@@ -21,34 +21,13 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.actorName;
+package org.agilewiki.jactor.actorName;
 
-import org.agilewiki.jactor.bind.JBInitializationRequest;
+import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
- * Assigns an immutable name to an actor when sent to an actor with an ActorName component.
+ * Returns the actor name, or null, when sent to an actor with an ActorName component.
  */
-final public class SetActorName extends JBInitializationRequest<Object> {
-    /**
-     * The name to be assigned to the actor.
-     */
-    private String name;
-
-    /**
-     * Create a SetActorName request.
-     *
-     * @param name The name to be assigned to the actor.
-     */
-    public SetActorName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of an actor.
-     *
-     * @return The name to be assigned to the actor.
-     */
-    public String getName() {
-        return name;
-    }
+final public class GetActorName extends JBConcurrentRequest<String> {
+    public final static GetActorName req = new GetActorName();
 }

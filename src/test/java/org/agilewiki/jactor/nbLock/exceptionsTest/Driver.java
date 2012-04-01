@@ -1,13 +1,13 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.actorName.SetActorName;
 import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.actorName.SetActorName;
 
 /**
  * Test code.

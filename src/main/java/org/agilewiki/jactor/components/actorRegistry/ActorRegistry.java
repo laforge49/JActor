@@ -24,12 +24,12 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.actorName.GetActorName;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.actorName.GetActorName;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentSkipListMap;
