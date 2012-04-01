@@ -3,6 +3,7 @@ package org.agilewiki.jactor.components.actorRegistry;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.actorName.ActorName;
 import org.agilewiki.jactor.actorName.JActorName;
 import org.agilewiki.jactor.actorName.SetActorName;
 import org.agilewiki.jactor.bind.Open;
@@ -17,10 +18,8 @@ public class ActorRegistryTest extends TestCase {
         System.out.println("test1");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
-            (new Include(JActorName.class)).call(a);
+            ActorName a = new JActorName(mailboxFactory.createMailbox());
             (new SetActorName("foo")).call(a);
-            Open.req.call(a);
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             (new Include(ActorRegistry.class)).call(r);
             Open.req.call(r);
@@ -44,10 +43,8 @@ public class ActorRegistryTest extends TestCase {
             JCActor pr = new JCActor(mailboxFactory.createMailbox());
             (new Include(ActorRegistry.class)).call(pr);
             Open.req.call(pr);
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
-            (new Include(JActorName.class)).call(a);
+            ActorName a = new JActorName(mailboxFactory.createMailbox());
             (new SetActorName("foo")).call(a);
-            Open.req.call(a);
             (new RegisterActor(a)).call(pr);
             JCActor r = new JCActor(mailboxFactory.createMailbox());
             r.setParent(pr);

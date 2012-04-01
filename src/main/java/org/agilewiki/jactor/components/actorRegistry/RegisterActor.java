@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
+import org.agilewiki.jactor.actorName.ActorName;
 import org.agilewiki.jactor.bind.JBConcurrentRequest;
-import org.agilewiki.jactor.components.JCActor;
 
 /**
  * <p>Sent to an actor with an ActorRegistry component to register an actor
@@ -35,14 +35,14 @@ final public class RegisterActor extends JBConcurrentRequest<Object> {
     /**
      * The actor to be registered.
      */
-    private JCActor actor;
+    private ActorName actor;
 
     /**
      * Create a RegisterActor request.
      *
      * @param actor The actor to be registered.
      */
-    public RegisterActor(JCActor actor) {
+    public RegisterActor(ActorName actor) {
         this.actor = actor;
     }
 
@@ -51,7 +51,7 @@ final public class RegisterActor extends JBConcurrentRequest<Object> {
      *
      * @return The actor to be registered.
      */
-    public JCActor getActor() {
+    public ActorName getActor() {
         return actor;
     }
 }

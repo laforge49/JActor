@@ -23,12 +23,13 @@
  */
 package org.agilewiki.jactor.actorName;
 
-import org.agilewiki.jactor.bind.JBInitializationRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.InitializationRequest;
 
 /**
  * Assigns an immutable name to an actor when sent to an actor with an ActorName component.
  */
-final public class SetActorName extends JBInitializationRequest<Object> {
+final public class SetActorName extends InitializationRequest<Object, ActorName> {
     /**
      * The name to be assigned to the actor.
      */
@@ -50,5 +51,29 @@ final public class SetActorName extends JBInitializationRequest<Object> {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(ActorName targetActor)
+            throws Exception {
+        targetActor.setActorName(name);
+        return null;
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof ActorName;
     }
 }

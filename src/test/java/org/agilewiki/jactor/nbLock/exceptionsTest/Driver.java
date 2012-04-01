@@ -1,63 +1,57 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.actorName.SetActorName;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.Open;
-import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
-public class Driver extends Component {
-    /**
-     * Bind request classes.
-     *
-     * @throws Exception Any exceptions thrown while binding.
-     */
+public class Driver
+        extends JLPCActor
+        implements Does {
+    public Driver(Mailbox mailbox) {
+        super(mailbox);
+    }
+
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(DoItEx.class.getName(), new MethodBinding<DoItEx, Object>() {
-            @Override
-            public void processRequest(final Internals internals, DoItEx request, final RP<Object> rp)
-                    throws Exception {
+    protected void processRequest(Object request, final RP rp) throws Exception {
+        Class reqcls = request.getClass();
 
-                final RP<Object> rpc = new RP<Object>() {
-                    int count = 3;
+        if (reqcls == DoItEx.class) {
+            DoItEx req = (DoItEx) request;
 
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        count -= 1;
-                        if (count == 0)
-                            rp.processResponse(null);
-                    }
-                };
+            final RP<Object> rpc = new RP<Object>() {
+                int count = 3;
 
-                JCActor p1 = new JCActor(thisActor.getMailbox());
-                p1.setParent(thisActor);
-                (new Include(Process.class)).call(p1);
-                (new SetActorName("1")).call(p1);
-                Open.req.call(p1);
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    count -= 1;
+                    if (count == 0)
+                        rp.processResponse(null);
+                }
+            };
 
-                JCActor p2 = new JCActor(thisActor.getMailbox());
-                p2.setParent(thisActor);
-                (new Include(Process.class)).call(p2);
-                (new SetActorName("2")).call(p2);
-                Open.req.call(p2);
+            Actor p1 = new Process(getMailbox());
+            p1.setParent(this);
+            (new SetActorName("1")).call(p1);
 
-                JCActor p3 = new JCActor(thisActor.getMailbox());
-                p3.setParent(thisActor);
-                (new Include(Process.class)).call(p3);
-                (new SetActorName("3")).call(p3);
-                Open.req.call(p3);
+            Actor p2 = new Process(getMailbox());
+            p2.setParent(this);
+            (new SetActorName("2")).call(p2);
 
-                request.send(internals, p1, rpc);
-                request.send(internals, p2, rpc);
-                request.send(internals, p3, rpc);
-            }
-        });
+            Actor p3 = new Process(getMailbox());
+            p3.setParent(this);
+            (new SetActorName("3")).call(p3);
+
+            req.send(this, p1, rpc);
+            req.send(this, p2, rpc);
+            req.send(this, p3, rpc);
+            return;
+        }
+
+        throw new UnsupportedOperationException(reqcls.getName());
     }
 }

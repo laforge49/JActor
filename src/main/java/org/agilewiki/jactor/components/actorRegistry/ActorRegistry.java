@@ -24,14 +24,13 @@
 package org.agilewiki.jactor.components.actorRegistry;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.actorName.ActorName;
 import org.agilewiki.jactor.actorName.GetActorName;
 import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
 import org.agilewiki.jactor.bind.RequestReceiver;
 import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
 import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.JCActor;
 
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -50,8 +49,8 @@ public class ActorRegistry extends Component {
     /**
      * Table of registered actors.
      */
-    private ConcurrentSkipListMap<String, JCActor> registry =
-            new ConcurrentSkipListMap<String, JCActor>();
+    private ConcurrentSkipListMap<String, ActorName> registry =
+            new ConcurrentSkipListMap<String, ActorName>();
 
     /**
      * Bind request classes.
@@ -70,9 +69,9 @@ public class ActorRegistry extends Component {
                     public void concurrentProcessRequest(RequestReceiver requestReceiver,
                                                          RegisterActor request)
                             throws Exception {
-                        final JCActor actor = request.getActor();
+                        final ActorName actor = request.getActor();
                         String name = GetActorName.req.call(actor);
-                        JCActor old = registry.putIfAbsent(name, actor);
+                        ActorName old = registry.putIfAbsent(name, actor);
                         if (old != null && old != actor)
                             throw new UnsupportedOperationException("Duplicate actor name.");
                     }
@@ -92,34 +91,34 @@ public class ActorRegistry extends Component {
 
         thisActor.bind(
                 GetRegisteredActor.class.getName(),
-                new ConcurrentMethodBinding<GetRegisteredActor, JCActor>() {
+                new ConcurrentMethodBinding<GetRegisteredActor, Actor>() {
                     @Override
-                    public JCActor concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                            GetRegisteredActor request)
+                    public Actor concurrentProcessRequest(RequestReceiver requestReceiver,
+                                                          GetRegisteredActor request)
                             throws Exception {
                         String name = request.getName();
-                        JCActor registeredActor = registry.get(name);
+                        ActorName registeredActor = registry.get(name);
                         if (registeredActor == null && parentHasSameComponent()) {
                             Actor parent = requestReceiver.getParent();
                             return request.call(parent);
                         }
-                        return registeredActor;
+                        return (Actor) registeredActor;
                     }
                 });
     }
 
-    /**
+    /*
      * Calls close on all the registered actors.
      *
      * @throws Exception All exceptions thrown will be ignored.
-     */
     @Override
     public void close() throws Exception {
-        Iterator<JCActor> it = registry.values().iterator();
+        Iterator<ActorName> it = registry.values().iterator();
         while (it.hasNext()) {
-            JCActor actor = it.next();
+            Actor actor = (Actor) it.next();
             actor.close();
         }
         super.close();
     }
+     */
 }

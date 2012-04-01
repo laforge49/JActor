@@ -23,11 +23,35 @@
  */
 package org.agilewiki.jactor.actorName;
 
-import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * Returns the actor name, or null, when sent to an actor with an ActorName component.
  */
-final public class GetActorName extends JBConcurrentRequest<String> {
+final public class GetActorName extends ConcurrentRequest<String, ActorName> {
     public final static GetActorName req = new GetActorName();
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public String call(ActorName targetActor)
+            throws Exception {
+        return targetActor.getActorName();
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof ActorName;
+    }
 }

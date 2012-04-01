@@ -23,43 +23,74 @@
  */
 package org.agilewiki.jactor.actorName;
 
-import org.agilewiki.jactor.bind.ConcurrentDataBinding;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.VoidInitializationMethodBinding;
-import org.agilewiki.jactor.components.Component;
-
-import java.util.concurrent.ConcurrentSkipListMap;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Implements immutable actor object names.
  * Supported request messages: SetActorName and GetActorName.
  */
-public class JActorName extends Component {
+public class JActorName extends JLPCActor implements ActorName {
+    /**
+     * The actor name, or null.
+     */
+    private String actorName;
 
     /**
-     * Bind request classes.
+     * Create a LiteActor
      *
-     * @throws Exception Any exceptions thrown while binding.
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public JActorName(Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    /**
+     * Returns the actor name, or null.
+     *
+     * @return The actor name, or null.
      */
     @Override
-    public void bindery()
-            throws Exception {
-        super.bindery();
+    public String getActorName() {
+        return actorName;
+    }
 
-        thisActor.bind(SetActorName.class.getName(), new VoidInitializationMethodBinding<SetActorName>() {
-            @Override
-            public void initializationProcessRequest(Internals internals, SetActorName request)
-                    throws Exception {
-                ConcurrentSkipListMap<String, Object> data = thisActor.getData();
-                if (data.get("ActorName") != null)
-                    throw new UnsupportedOperationException("Already named");
-                String name = request.getName();
-                data.put("ActorName", name);
-            }
-        });
+    /**
+     * Assigns an actor name, unless already assigned.
+     * (Not thread safe!)
+     *
+     * @param actorName The actor name.
+     */
+    @Override
+    public void setActorName(String actorName) throws Exception {
+        if (this.actorName != null)
+            throw new UnsupportedOperationException("Already named: " + this.actorName);
+        this.actorName = actorName;
+    }
 
-        thisActor.bind(
-                GetActorName.class.getName(),
-                new ConcurrentDataBinding<GetActorName, String>("ActorName"));
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    protected void processRequest(Object request, RP rp) throws Exception {
+        Class reqcls = request.getClass();
+
+        if (reqcls == GetActorName.class) {
+            rp.processResponse(getActorName());
+            return;
+        }
+
+        if (reqcls == SetActorName.class) {
+            setActorName(((SetActorName) request).getName());
+            rp.processResponse(null);
+            return;
+        }
+
+        throw new UnsupportedOperationException(reqcls.getName());
     }
 }
