@@ -30,5 +30,11 @@ import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
  * A publisher actor.
  */
 public interface Publisher extends TargetActor {
+    /**
+     * Subscribe to the publisher.
+     *
+     * @param subscriber The subscribing actor.
+     * @return True when a new subscriber has been added.
+     */
     public boolean subscribe(Subscriber subscriber);
 }
