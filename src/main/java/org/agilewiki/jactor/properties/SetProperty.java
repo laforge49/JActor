@@ -21,34 +21,50 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.properties;
+package org.agilewiki.jactor.properties;
 
 import org.agilewiki.jactor.bind.JBConcurrentRequest;
 
 /**
- * The result of this request is the property value, or null.
+ * This request assigns a value to a property.
  */
-public class GetProperty<RESPONSE_TYPE> extends JBConcurrentRequest<RESPONSE_TYPE> {
+public class SetProperty extends JBConcurrentRequest<Object> {
     /**
      * The name of the property.
      */
     private String propertyName;
 
     /**
-     * Create a GetProperty request.
-     *
-     * @param propertyName The name of the property.
+     * The value of the property.
      */
-    public GetProperty(String propertyName) {
+    private Object propertyValue;
+
+    /**
+     * Create a SetProperty request.
+     *
+     * @param propertyName  The name of the property.
+     * @param propertyValue The value of the property.
+     */
+    public SetProperty(String propertyName, Object propertyValue) {
         this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
     }
 
     /**
-     * Returns the property name.
+     * Returns the property name/
      *
      * @return The property name.
      */
     public String getPropertyName() {
         return propertyName;
+    }
+
+    /**
+     * Returns the property value.
+     *
+     * @return The property value, or null.
+     */
+    public Object getPropertyValue() {
+        return propertyValue;
     }
 }
