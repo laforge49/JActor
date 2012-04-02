@@ -30,9 +30,19 @@ import org.agilewiki.jactor.pubsub.publisher.Publisher;
  * A subscriber actor.
  */
 public interface Subscriber extends ActorName {
+    /**
+     * This actor has been granted a subscription.
+     *
+     * @param publisher The publisher that has been subscribed to.
+     */
     public void subscribed(Publisher publisher)
             throws Exception;
 
+    /**
+     * This actor's subscription has been dropped.
+     *
+     * @param publisher The publisher which has dropped the subscription.
+     */
     public void unsubscribed(Publisher publisher)
             throws Exception;
 }
