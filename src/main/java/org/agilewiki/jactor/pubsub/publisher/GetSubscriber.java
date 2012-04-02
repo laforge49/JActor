@@ -23,37 +23,48 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.lpc.TargetActor;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
- * A publisher actor.
+ * Get a subscriber with the given name.
  */
-public interface Publisher extends TargetActor {
+public class GetSubscriber extends SynchronousRequest<Subscriber, Publisher> {
     /**
-     * Subscribe to the publisher.
-     *
-     * @param subscriber The subscribing actor.
-     * @return True when a new subscriber has been added.
+     * The name of the subscribing actor.
      */
-    public boolean subscribe(Subscriber subscriber)
-            throws Exception;
+    final public String subscriberName;
 
     /**
-     * Unsubscribe from the publisher.
+     * Create a Subscribe request.
      *
      * @param subscriberName The name of the subscribing actor.
-     * @return True when an actor is unsubscribed.
      */
-    public boolean unsubscribe(String subscriberName)
-            throws Exception;
+    public GetSubscriber(String subscriberName) {
+        this.subscriberName = subscriberName;
+    }
 
     /**
-     * Get a subscriber.
+     * Send a synchronous request.
      *
-     * @param subscriberName The name of the subscriber.
-     * @return The subscriber, or null.
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Boolean Any uncaught exceptions raised while processing the request.
      */
-    public Subscriber getSubscriber(String subscriberName)
-            throws Exception;
+    @Override
+    protected Subscriber call(Publisher targetActor)
+            throws Exception {
+        return targetActor.getSubscriber(subscriberName);
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Publisher;
+    }
 }
