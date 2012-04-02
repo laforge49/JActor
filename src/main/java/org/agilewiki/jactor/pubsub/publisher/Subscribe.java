@@ -23,12 +23,49 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.lpc.TargetActor;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
- * A publisher actor.
+ * Subscribe to a publisher.
+ * The result returned is true when a new subscriber has been added.
  */
-public interface Publisher extends TargetActor {
-    public boolean subscribe(Subscriber subscriber);
+public class Subscribe extends SynchronousRequest<Boolean, Publisher> {
+    /**
+     * The subscribing actor.
+     */
+    final public Subscriber subscriber;
+
+    /**
+     * Create a Subscribe request.
+     *
+     * @param subscriber The subscribing actor.
+     */
+    public Subscribe(Subscriber subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Boolean Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    protected Boolean call(Publisher targetActor)
+            throws Exception {
+        return targetActor.subscribe(subscriber);
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Publisher;
+    }
 }
