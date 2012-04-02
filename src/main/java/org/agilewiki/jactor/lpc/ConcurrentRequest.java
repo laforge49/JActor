@@ -29,7 +29,7 @@ import org.agilewiki.jactor.bind.JBActor;
 /**
  * A request that can be passed to a JBActor for synchronous processing.
  */
-abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send a concurrent request.

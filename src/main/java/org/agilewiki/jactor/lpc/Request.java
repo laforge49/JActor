@@ -31,7 +31,7 @@ import org.agilewiki.jactor.bind.JBActor;
 /**
  * A request.
  */
-abstract public class Request<RESPONSE_TYPE, TARGET_TYPE> {
+abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
     /**
      * Returns true when targetActor is an instanceof TARGET_TYPE
      *

@@ -23,9 +23,11 @@
  */
 package org.agilewiki.jactor.lpc;
 
+import org.agilewiki.jactor.Actor;
+
 /**
- * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
+ * Used by Request to extend TARGET_TYPE instead of Actor
+ * as a means of avoiding ambiguous method signatures.
  */
-abstract public class ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
-        extends Request<RESPONSE_TYPE, TARGET_TYPE> {
+public interface TargetActor extends Actor {
 }

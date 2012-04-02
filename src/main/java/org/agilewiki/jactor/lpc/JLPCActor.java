@@ -61,7 +61,7 @@ import java.util.ArrayList;
  * }
  * </pre>
  */
-abstract public class JLPCActor implements Actor, RequestProcessor, RequestSource {
+abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
      * The type of actor.
      */

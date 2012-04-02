@@ -32,7 +32,7 @@ import org.agilewiki.jactor.bind.JBActor;
  * A request that can be passed to a JBActor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
-abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send a synchronous request.

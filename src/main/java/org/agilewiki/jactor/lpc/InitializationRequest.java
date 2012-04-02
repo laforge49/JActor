@@ -30,7 +30,7 @@ import org.agilewiki.jactor.bind.JBActor;
  * A request that can be passed synchronously to a JBActor for processing,
  * but only until the actor is initialized.
  */
-abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE>
+abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**
      * Send an initialization request.

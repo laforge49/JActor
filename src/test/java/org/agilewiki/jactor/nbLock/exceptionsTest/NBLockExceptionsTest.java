@@ -6,6 +6,7 @@ import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.lpc.TargetActor;
 import org.agilewiki.jactor.nbLock.JANBLock;
 
 /**
@@ -31,7 +32,7 @@ public class NBLockExceptionsTest extends TestCase {
 /**
  * Test code.
  */
-interface Does {
+interface Does extends TargetActor {
 }
 
 /**

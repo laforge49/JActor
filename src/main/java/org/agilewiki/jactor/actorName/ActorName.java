@@ -1,9 +1,11 @@
 package org.agilewiki.jactor.actorName;
 
+import org.agilewiki.jactor.lpc.TargetActor;
+
 /**
  * Immutable actor names.
  */
-public interface ActorName {
+public interface ActorName extends TargetActor {
     /**
      * Returns the actor name, or null.
      *
