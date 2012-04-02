@@ -28,7 +28,7 @@ import org.agilewiki.jactor.lpc.TargetActor;
 /**
  * Manages a property set.
  */
-public interface _Properties<RESPONSE_TYPE> extends TargetActor {
+public interface Properties<RESPONSE_TYPE> extends TargetActor {
     /**
      * Get the value of a property.
      *

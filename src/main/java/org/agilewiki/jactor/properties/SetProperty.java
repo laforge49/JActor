@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
  * This request assigns a value to a property.
  */
 public class SetProperty<RESPONSE_TYPE>
-        extends ConcurrentRequest<Object, _Properties> {
+        extends ConcurrentRequest<Object, Properties> {
     /**
      * The name of the property.
      */
@@ -78,7 +78,7 @@ public class SetProperty<RESPONSE_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(_Properties targetActor)
+    public Object call(Properties targetActor)
             throws Exception {
         targetActor.setProperty(propertyName, propertyValue);
         return null;
@@ -91,6 +91,6 @@ public class SetProperty<RESPONSE_TYPE>
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     protected boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof _Properties;
+        return targetActor instanceof Properties;
     }
 }

@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
  * The result of this request is the property value, or null.
  */
 public class GetProperty<RESPONSE_TYPE>
-        extends ConcurrentRequest<RESPONSE_TYPE, _Properties<RESPONSE_TYPE>> {
+        extends ConcurrentRequest<RESPONSE_TYPE, Properties<RESPONSE_TYPE>> {
     /**
      * The name of the property.
      */
@@ -62,7 +62,7 @@ public class GetProperty<RESPONSE_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public RESPONSE_TYPE call(_Properties<RESPONSE_TYPE> targetActor)
+    public RESPONSE_TYPE call(Properties<RESPONSE_TYPE> targetActor)
             throws Exception {
         return targetActor.getProperty(this);
     }
@@ -74,6 +74,6 @@ public class GetProperty<RESPONSE_TYPE>
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     protected boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof _Properties;
+        return targetActor instanceof Properties;
     }
 }

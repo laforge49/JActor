@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class JAProperties<RESPONSE_TYPE>
         extends JLPCActor
-        implements _Properties<RESPONSE_TYPE> {
+        implements Properties<RESPONSE_TYPE> {
     /**
      * Table of registered actors.
      */
@@ -64,7 +64,7 @@ public class JAProperties<RESPONSE_TYPE>
         String propertyName = getProperty.getPropertyName();
         if (properties.containsKey(propertyName))
             return properties.get(propertyName);
-        _Properties<RESPONSE_TYPE> p = getProperty.getTargetActor(getParent());
+        Properties<RESPONSE_TYPE> p = getProperty.getTargetActor(getParent());
         if (p == null)
             return null;
         return getProperty.call(p);
