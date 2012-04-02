@@ -23,8 +23,8 @@
  */
 package org.agilewiki.jactor.components.actorRegistry;
 
-import org.agilewiki.jactor.actorName.ActorName;
 import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.pubsub.actorName.ActorName;
 
 /**
  * <p>Sent to an actor with an ActorRegistry component to register an actor

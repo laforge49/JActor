@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.actorName;
+package org.agilewiki.jactor.pubsub.actorName;
 
 import org.agilewiki.jactor.lpc.TargetActor;
 
