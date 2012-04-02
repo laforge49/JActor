@@ -23,12 +23,14 @@
  */
 package org.agilewiki.jactor.properties;
 
-import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * This request assigns a value to a property.
  */
-public class SetProperty extends JBConcurrentRequest<Object> {
+public class SetProperty<RESPONSE_TYPE>
+        extends ConcurrentRequest<Object, _Properties> {
     /**
      * The name of the property.
      */
@@ -37,7 +39,7 @@ public class SetProperty extends JBConcurrentRequest<Object> {
     /**
      * The value of the property.
      */
-    private Object propertyValue;
+    private RESPONSE_TYPE propertyValue;
 
     /**
      * Create a SetProperty request.
@@ -45,7 +47,7 @@ public class SetProperty extends JBConcurrentRequest<Object> {
      * @param propertyName  The name of the property.
      * @param propertyValue The value of the property.
      */
-    public SetProperty(String propertyName, Object propertyValue) {
+    public SetProperty(String propertyName, RESPONSE_TYPE propertyValue) {
         this.propertyName = propertyName;
         this.propertyValue = propertyValue;
     }
@@ -64,7 +66,31 @@ public class SetProperty extends JBConcurrentRequest<Object> {
      *
      * @return The property value, or null.
      */
-    public Object getPropertyValue() {
+    public RESPONSE_TYPE getPropertyValue() {
         return propertyValue;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public Object call(_Properties targetActor)
+            throws Exception {
+        targetActor.setProperty(propertyName, propertyValue);
+        return null;
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof _Properties;
     }
 }

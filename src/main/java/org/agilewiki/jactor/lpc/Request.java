@@ -46,11 +46,11 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      * @param parent A stack of actors, or null.
      * @return The matching parent, or null.
      */
-    final public Actor getTargetActor(Actor parent) {
+    final public TARGET_TYPE getTargetActor(Actor parent) {
         while (parent != null && !isTargetType(parent)) {
             parent = parent.getParent();
         }
-        return parent;
+        return (TARGET_TYPE) parent;
     }
 
     /**

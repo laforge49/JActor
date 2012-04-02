@@ -23,11 +23,9 @@
  */
 package org.agilewiki.jactor.properties;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.ConcurrentMethodBinding;
-import org.agilewiki.jactor.bind.RequestReceiver;
-import org.agilewiki.jactor.bind.VoidConcurrentMethodBinding;
-import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -36,50 +34,76 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * found and its parent also has a Properties component, then the request is passed up to
  * the parent.
  */
-public class Properties extends Component {
+public class Properties<RESPONSE_TYPE>
+        extends JLPCActor
+        implements _Properties<RESPONSE_TYPE> {
     /**
      * Table of registered actors.
      */
-    private ConcurrentSkipListMap<String, Object> properties =
-            new ConcurrentSkipListMap<String, Object>();
+    private ConcurrentSkipListMap<String, RESPONSE_TYPE> properties =
+            new ConcurrentSkipListMap<String, RESPONSE_TYPE>();
 
     /**
-     * Bind request classes.
+     * Create a LiteActor
      *
-     * @throws Exception Any exceptions thrown while binding.
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public Properties(Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    /**
+     * Get the value of a property.
+     *
+     * @param getProperty The request.
+     * @return The value of the property, or null.
      */
     @Override
-    public void bindery() throws Exception {
-        super.bindery();
+    public RESPONSE_TYPE getProperty(GetProperty<RESPONSE_TYPE> getProperty)
+            throws Exception {
+        String propertyName = getProperty.getPropertyName();
+        if (properties.containsKey(propertyName))
+            return properties.get(propertyName);
+        _Properties<RESPONSE_TYPE> p = getProperty.getTargetActor(getParent());
+        if (p == null)
+            return null;
+        return getProperty.call(p);
+    }
 
-        thisActor.bind(
-                SetProperty.class.getName(),
-                new VoidConcurrentMethodBinding<SetProperty>() {
-                    @Override
-                    public void concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                         SetProperty request)
-                            throws Exception {
-                        String propertyName = request.getPropertyName();
-                        Object propertyValue = request.getPropertyValue();
-                        properties.put(propertyName, propertyValue);
-                    }
-                });
+    /**
+     * Assign a value to a property.
+     *
+     * @param propertyName  The name of the property.
+     * @param propertyValue The value to be assigned.
+     */
+    @Override
+    public void setProperty(String propertyName, RESPONSE_TYPE propertyValue) {
+        properties.put(propertyName, propertyValue);
+    }
 
-        thisActor.bind(
-                GetProperty.class.getName(),
-                new ConcurrentMethodBinding<GetProperty<Object>, Object>() {
-                    @Override
-                    public Object concurrentProcessRequest(RequestReceiver requestReceiver,
-                                                           GetProperty request)
-                            throws Exception {
-                        String name = request.getPropertyName();
-                        Object value = properties.get(name);
-                        if (value == null && parentHasSameComponent()) {
-                            Actor parent = requestReceiver.getParent();
-                            return request.call(parent);
-                        }
-                        return value;
-                    }
-                });
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    protected void processRequest(Object request, RP rp) throws Exception {
+        Class curReq = request.getClass();
+
+        if (curReq == GetProperty.class) {
+            rp.processResponse(getProperty((GetProperty<RESPONSE_TYPE>) request));
+            return;
+        }
+
+        if (curReq == SetProperty.class) {
+            SetProperty<RESPONSE_TYPE> req = (SetProperty<RESPONSE_TYPE>) request;
+            setProperty(req.getPropertyName(), req.getPropertyValue());
+            rp.processResponse(null);
+            return;
+        }
+
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 }

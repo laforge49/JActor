@@ -23,12 +23,14 @@
  */
 package org.agilewiki.jactor.properties;
 
-import org.agilewiki.jactor.bind.JBConcurrentRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
 /**
  * The result of this request is the property value, or null.
  */
-public class GetProperty<RESPONSE_TYPE> extends JBConcurrentRequest<RESPONSE_TYPE> {
+public class GetProperty<RESPONSE_TYPE>
+        extends ConcurrentRequest<RESPONSE_TYPE, _Properties<RESPONSE_TYPE>> {
     /**
      * The name of the property.
      */
@@ -50,5 +52,28 @@ public class GetProperty<RESPONSE_TYPE> extends JBConcurrentRequest<RESPONSE_TYP
      */
     public String getPropertyName() {
         return propertyName;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    public RESPONSE_TYPE call(_Properties<RESPONSE_TYPE> targetActor)
+            throws Exception {
+        return targetActor.getProperty(this);
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof _Properties;
     }
 }
