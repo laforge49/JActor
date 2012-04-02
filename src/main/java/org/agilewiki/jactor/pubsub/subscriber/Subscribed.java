@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Bill La Forge
+ * Copyright 2012 Bill La Forge
  *
  * This file is part of AgileWiki and is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,26 +23,35 @@
  */
 package org.agilewiki.jactor.pubsub.subscriber;
 
-import org.agilewiki.jactor.pubsub.actorName.ActorName;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.publisher.Publisher;
 
 /**
- * An actor that can be given a subscription.
+ * The target actor now has a subscription.
  */
-public interface Subscriber extends ActorName {
+final public class Subscribed extends Request<Object, Subscriber> {
     /**
-     * This actor has been granted a subscription.
-     *
-     * @param publisher The publisher that has been subscribed to.
+     * The publisher to which the target actor has subscribed.
      */
-    public void subscribed(Publisher publisher)
-            throws Exception;
+    public final Publisher publisher;
 
     /**
-     * This actor's subscription has been dropped.
+     * Create a Subscribed request.
      *
-     * @param publisher The publisher which has dropped the subscription.
+     * @param publisher The publisher to which the target actor has subscribed.
      */
-    public void unsubscribed(Publisher publisher)
-            throws Exception;
+    public Subscribed(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Subscriber;
+    }
 }
