@@ -23,28 +23,48 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.lpc.TargetActor;
-import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
- * A publisher actor.
+ * Unsubscribe from a publisher.
+ * The result returned is true when a subscriber has been removed.
  */
-public interface Publisher extends TargetActor {
+public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
     /**
-     * Subscribe to the publisher.
-     *
-     * @param subscriber The subscribing actor.
-     * @return True when a new subscriber has been added.
+     * The name of the subscribing actor.
      */
-    public boolean subscribe(Subscriber subscriber)
-            throws Exception;
+    final public String subscriberName;
 
     /**
-     * Unsubscribe from the publisher.
+     * Create a Subscribe request.
      *
      * @param subscriberName The name of the subscribing actor.
-     * @return True when an actor is unsubscribed.
      */
-    public boolean unsubscribe(String subscriberName)
-            throws Exception;
+    public Unsubscribe(String subscriberName) {
+        this.subscriberName = subscriberName;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Boolean Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    protected Boolean call(Publisher targetActor)
+            throws Exception {
+        return targetActor.unsubscribe(subscriberName);
+    }
+
+    /**
+     * Returns true when targetActor is an instanceof TARGET_TYPE
+     *
+     * @param targetActor The actor to be called.
+     * @return True when targetActor is an instanceof TARGET_TYPE.
+     */
+    protected boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Publisher;
+    }
 }
