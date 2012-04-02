@@ -21,26 +21,26 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.pubsub.actorName;
+package org.agilewiki.jactor.pubsub.subscriber;
 
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.factory.JLPCActorFactory;
 
 /**
- * Creates a Properties actor.
+ * Creates a JASubscriber actor.
  */
-public class JActorNameFactory extends JLPCActorFactory {
+public class JASubscriberFactory extends JLPCActorFactory {
     /**
      * The default name of the JFactory actor.
      */
-    public final static String TYPE = "AN";
+    public final static String TYPE = "S";
 
     /**
      * Create an ActorFactory.
      *
      * @param actorType The actor type.
      */
-    public JActorNameFactory(String actorType) {
+    public JASubscriberFactory(String actorType) {
         super(actorType);
     }
 
@@ -51,8 +51,8 @@ public class JActorNameFactory extends JLPCActorFactory {
      * @return The new actor.
      */
     @Override
-    protected JActorName instantiateActor(Mailbox mailbox)
+    protected JASubscriber instantiateActor(Mailbox mailbox)
             throws Exception {
-        return new JActorName(mailbox);
+        return new JASubscriber(mailbox);
     }
 }
