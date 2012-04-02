@@ -3,12 +3,12 @@ package org.agilewiki.jactor.components.actorRegistry;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.actorName.ActorName;
-import org.agilewiki.jactor.actorName.JActorName;
-import org.agilewiki.jactor.actorName.SetActorName;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.pubsub.actorName.ActorName;
+import org.agilewiki.jactor.pubsub.actorName.JActorName;
+import org.agilewiki.jactor.pubsub.actorName.SetActorName;
 
 /**
  * Test code.

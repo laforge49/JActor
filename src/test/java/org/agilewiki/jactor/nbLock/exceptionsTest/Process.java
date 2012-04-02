@@ -3,11 +3,11 @@ package org.agilewiki.jactor.nbLock.exceptionsTest;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.actorName.ActorName;
-import org.agilewiki.jactor.actorName.GetActorName;
-import org.agilewiki.jactor.actorName.JActorName;
 import org.agilewiki.jactor.nbLock.Lock;
 import org.agilewiki.jactor.nbLock.Unlock;
+import org.agilewiki.jactor.pubsub.actorName.ActorName;
+import org.agilewiki.jactor.pubsub.actorName.GetActorName;
+import org.agilewiki.jactor.pubsub.actorName.JActorName;
 
 /**
  * Test code.

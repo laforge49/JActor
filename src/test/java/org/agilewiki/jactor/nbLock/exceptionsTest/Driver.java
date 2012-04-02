@@ -3,8 +3,8 @@ package org.agilewiki.jactor.nbLock.exceptionsTest;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.actorName.SetActorName;
 import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.pubsub.actorName.SetActorName;
 
 /**
  * Test code.
