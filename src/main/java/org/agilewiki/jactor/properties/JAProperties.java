@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * found and its parent also has a Properties component, then the request is passed up to
  * the parent.
  */
-public class Properties<RESPONSE_TYPE>
+public class JAProperties<RESPONSE_TYPE>
         extends JLPCActor
         implements _Properties<RESPONSE_TYPE> {
     /**
@@ -48,7 +48,7 @@ public class Properties<RESPONSE_TYPE>
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public Properties(Mailbox mailbox) {
+    public JAProperties(Mailbox mailbox) {
         super(mailbox);
     }
 
