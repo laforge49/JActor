@@ -21,27 +21,12 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.pubsub.actorName;
+package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.lpc.TargetActor;
 
 /**
- * Immutable actor names.
+ * A publisher actor.
  */
-public interface ActorName extends TargetActor {
-    /**
-     * Returns the actor name, or null.
-     *
-     * @return The actor name, or null.
-     */
-    public String getActorName()
-            throws Exception;
-
-    /**
-     * Assigns an actor name, unless already assigned.
-     *
-     * @param actorName The actor name.
-     */
-    public void setActorName(String actorName)
-            throws Exception;
+public interface Publisher extends TargetActor {
 }
