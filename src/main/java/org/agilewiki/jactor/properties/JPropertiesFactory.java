@@ -21,27 +21,39 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.nbLock;
+package org.agilewiki.jactor.properties;
 
 import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.factory.JFactory;
 import org.agilewiki.jactor.factory.JLPCActorFactory;
-import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
- * Creates a NBLock actor.
+ * Creates a Properties actor.
  */
-public class NBLockFactory extends JLPCActorFactory {
+public class JPropertiesFactory extends JLPCActorFactory {
     /**
-     * The default type of the NBLock actor.
+     * The default name of the JFactory actor.
      */
-    public final static String TYPE = "NBLock";
+    public final static String TYPE = "P";
 
-    public NBLockFactory(String actorType) {
+    /**
+     * Create an ActorFactory.
+     *
+     * @param actorType The actor type.
+     */
+    public JPropertiesFactory(String actorType) {
         super(actorType);
     }
 
+    /**
+     * Create a JLPCActor.
+     *
+     * @param mailbox The mailbox of the new actor.
+     * @return The new actor.
+     */
     @Override
-    protected JLPCActor instantiateActor(Mailbox mailbox) throws Exception {
-        return new JANBLock(mailbox);
+    protected JFactory instantiateActor(Mailbox mailbox)
+            throws Exception {
+        return new JFactory(mailbox);
     }
 }

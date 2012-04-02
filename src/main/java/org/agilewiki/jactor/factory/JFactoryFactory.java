@@ -33,7 +33,7 @@ public class JFactoryFactory extends JLPCActorFactory {
     /**
      * The default name of the JFactory actor.
      */
-    public final static String TYPE = "JF";
+    public final static String TYPE = "F";
 
     /**
      * Create an ActorFactory.

@@ -23,24 +23,37 @@
  */
 package org.agilewiki.jactor.pubsub.actorName;
 
-import org.agilewiki.jactor.lpc.TargetActor;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.factory.JFactory;
+import org.agilewiki.jactor.factory.JLPCActorFactory;
 
 /**
- * Immutable actor names.
+ * Creates a Properties actor.
  */
-public interface ActorName extends TargetActor {
+public class JActorNameFactory extends JLPCActorFactory {
     /**
-     * Returns the actor name, or null.
-     *
-     * @return The actor name, or null.
+     * The default name of the JFactory actor.
      */
-    public String getActorName();
+    public final static String TYPE = "AN";
 
     /**
-     * Assigns an actor name, unless already assigned.
+     * Create an ActorFactory.
      *
-     * @param actorName The actor name.
+     * @param actorType The actor type.
      */
-    public void setActorName(String actorName)
-            throws Exception;
+    public JActorNameFactory(String actorType) {
+        super(actorType);
+    }
+
+    /**
+     * Create a JLPCActor.
+     *
+     * @param mailbox The mailbox of the new actor.
+     * @return The new actor.
+     */
+    @Override
+    protected JFactory instantiateActor(Mailbox mailbox)
+            throws Exception {
+        return new JFactory(mailbox);
+    }
 }
