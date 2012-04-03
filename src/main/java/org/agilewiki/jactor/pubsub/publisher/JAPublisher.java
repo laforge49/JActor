@@ -28,6 +28,7 @@ import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
+import org.agilewiki.jactor.pubsub.subscriber.Unsubscribed;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -121,6 +122,8 @@ public class JAPublisher
     @Override
     public void unsubscribed(Publisher publisher)
             throws Exception {
+        Unsubscribed unsubscribed = new Unsubscribed(this);
+        publish(unsubscribed);
     }
 
     /**
