@@ -26,6 +26,9 @@ public class PublishTest extends TestCase {
             c = publish.send(future, p);
             assertEquals(0, c);
             (new Subscribe(s)).send(future, p);
+            GetSubscriber getSubscriber = new GetSubscriber("foo");
+            Subscriber s1 = getSubscriber.send(future, p);
+            assertEquals(s, s1);
             c = publish.send(future, p);
             assertEquals(1, c);
             (new Unsubscribe("foo")).send(future, p);
