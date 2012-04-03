@@ -42,6 +42,9 @@ public class PublishTest extends TestCase {
     }
 }
 
+/**
+ * Test code.
+ */
 class Sub extends JASubscriber {
     Sub(Mailbox mailbox) {
         super(mailbox);
@@ -58,6 +61,9 @@ class Sub extends JASubscriber {
     }
 }
 
+/**
+ * Test code.
+ */
 class Req extends Request<Object, Sub> {
 
     @Override
