@@ -23,13 +23,13 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.lpc.TargetActor;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
  * A publisher actor.
  */
-public interface Publisher extends TargetActor {
+public interface Publisher extends Subscriber {
     /**
      * Subscribe to the publisher.
      *
@@ -55,5 +55,14 @@ public interface Publisher extends TargetActor {
      * @return The subscriber, or null.
      */
     public Subscriber getSubscriber(String subscriberName)
+            throws Exception;
+
+    /**
+     * Publish a request to all the appropriate subscribers.
+     *
+     * @param publishRequest The request to be published.
+     * @return The number of subscribers which received the request.
+     */
+    public int publish(Request publishRequest)
             throws Exception;
 }

@@ -25,12 +25,13 @@ package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * Broadcast a request to all applicable subscribers.
  * The response is the number of subscribers to which the request was broadcast.
  */
-public class Publish extends Request<Integer, Publisher> {
+public class Publish extends SynchronousRequest<Integer, Publisher> {
     /**
      * The request to be published.
      */
@@ -43,6 +44,19 @@ public class Publish extends Request<Integer, Publisher> {
      */
     public Publish(Request publishRequest) {
         this.publishRequest = publishRequest;
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Boolean Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    protected Integer call(Publisher targetActor)
+            throws Exception {
+        return targetActor.publish(publishRequest);
     }
 
     /**

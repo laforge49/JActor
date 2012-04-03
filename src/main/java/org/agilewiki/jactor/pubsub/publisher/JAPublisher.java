@@ -99,17 +99,28 @@ public class JAPublisher
      * @param publishRequest The request to be published.
      * @return The number of subscribers which received the request.
      */
-    protected int publish(Request publishRequest, RP rp)
+    public int publish(Request publishRequest)
             throws Exception {
         int c = 0;
         Iterator<Subscriber> it = subscribers.values().iterator();
         while (it.hasNext()) {
             Subscriber subscriber = it.next();
             if (publishRequest.isTargetType(subscriber)) {
-                publishRequest.send(this, subscriber, rp);
+                c += 1;
+                publishRequest.sendEvent(subscriber);
             }
         }
         return c;
+    }
+
+    /**
+     * This actor's subscription has been dropped.
+     *
+     * @param publisher The publisher which has dropped the subscription.
+     */
+    @Override
+    public void unsubscribed(Publisher publisher)
+            throws Exception {
     }
 
     /**
@@ -144,7 +155,7 @@ public class JAPublisher
 
         if (reqcls == Publish.class) {
             Publish publish = (Publish) request;
-            publish(publish.publishRequest, rp);
+            rp.processResponse(publish(publish.publishRequest));
             return;
         }
 
