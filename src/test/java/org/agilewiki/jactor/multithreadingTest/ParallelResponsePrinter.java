@@ -5,7 +5,7 @@ import org.agilewiki.jactor.bind.Internals;
 import org.agilewiki.jactor.bind.MethodBinding;
 import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.components.pubsub.PubSubResponseProcessor;
+import org.agilewiki.jactor.parallel.JAResponseCounter2;
 
 /**
  * Test code.
@@ -25,7 +25,7 @@ public class ParallelResponsePrinter extends Component {
                         int count = request.getCount();
                         JCActor[] responsePrinters = request.getResponsePrinters();
                         PrintResponse printResponse = request.getPrintResponse();
-                        PubSubResponseProcessor psrp = new PubSubResponseProcessor(rp);
+                        JAResponseCounter2 psrp = new JAResponseCounter2(rp);
                         int i = 0;
                         while (i < count) {
                             System.out.println(i);

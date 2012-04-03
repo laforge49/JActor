@@ -21,7 +21,7 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.components.pubsub;
+package org.agilewiki.jactor.parallel;
 
 import org.agilewiki.jactor.RP;
 
@@ -29,7 +29,7 @@ import org.agilewiki.jactor.RP;
  * Counts the number of requests sent and the number of responses received
  * and responds with the count of requests sent when the iteration is finished.
  */
-public class PubSubResponseProcessor extends RP {
+public class JAResponseCounter2 extends RP {
     /**
      * The number of requests sent.
      */
@@ -55,7 +55,7 @@ public class PubSubResponseProcessor extends RP {
      *
      * @param xrp The external response processor.
      */
-    public PubSubResponseProcessor(RP xrp) {
+    public JAResponseCounter2(RP xrp) {
         this.xrp = xrp;
     }
 

@@ -7,8 +7,6 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.bind.Open;
 import org.agilewiki.jactor.components.Include;
 import org.agilewiki.jactor.components.JCActor;
-import org.agilewiki.jactor.synchronousProgrammingTest.Greeter;
-import org.agilewiki.jactor.synchronousProgrammingTest.Hi;
 
 /**
  * Test code.

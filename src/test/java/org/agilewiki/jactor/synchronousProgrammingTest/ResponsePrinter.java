@@ -1,28 +1,32 @@
 package org.agilewiki.jactor.synchronousProgrammingTest;
 
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.VoidSynchronousMethodBinding;
-import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * Test code.
  */
-public class ResponsePrinter extends Component {
+public class ResponsePrinter extends JLPCActor {
+    public ResponsePrinter(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    public void printResponse(SynchronousRequest<?, JLPCActor> request, Actor actor)
+            throws Exception {
+        System.out.println(request.call((Actor) this, actor));
+    }
+
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(
-                PrintResponse.class.getName(),
-                new VoidSynchronousMethodBinding<PrintResponse<Object>>() {
-                    @Override
-                    public void synchronousProcessRequest(Internals internals, PrintResponse request)
-                            throws Exception {
-                        SynchronousRequest wrappedRequest = request.getRequest();
-                        JCActor actor = request.getActor();
-                        Object response = wrappedRequest.call(internals, actor);
-                        System.out.println(response);
-                    }
-                });
+    protected void processRequest(Object request, RP rp) throws Exception {
+        if (request.getClass() == PrintResponse.class) {
+            PrintResponse printResponse = (PrintResponse) request;
+            printResponse(printResponse.getRequest(), printResponse.getActor());
+            rp.processResponse(null);
+            return;
+        }
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 }

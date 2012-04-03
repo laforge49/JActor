@@ -1,25 +1,37 @@
 package org.agilewiki.jactor.synchronousProgrammingTest;
 
-import org.agilewiki.jactor.bind.JBSynchronousRequest;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * Test code.
  */
-public class PrintResponse<RESPONSE> extends JBSynchronousRequest<Object> {
-    private JBSynchronousRequest<RESPONSE> request;
-    private JCActor actor;
+public class PrintResponse extends SynchronousRequest<Object, ResponsePrinter> {
+    private SynchronousRequest request;
+    private Actor actor;
 
-    public PrintResponse(JBSynchronousRequest<RESPONSE> request, JCActor actor) {
+    public PrintResponse(SynchronousRequest request, Actor actor) {
         this.request = request;
         this.actor = actor;
     }
 
-    public JBSynchronousRequest<RESPONSE> getRequest() {
+    public SynchronousRequest getRequest() {
         return request;
     }
 
-    public JCActor getActor() {
+    public Actor getActor() {
         return actor;
+    }
+
+    @Override
+    protected Object call(ResponsePrinter targetActor)
+            throws Exception {
+        targetActor.printResponse(request, actor);
+        return null;
+    }
+
+    @Override
+    public boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof ResponsePrinter;
     }
 }
