@@ -12,7 +12,7 @@ public class JFactoryTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor f = new JFactory(mailboxFactory.createMailbox());
+            Actor f = new JAFactory(mailboxFactory.createMailbox());
             (new DefineActorType("Foo", Foo.class)).call(f);
             Actor a = (new NewActor("Foo")).call(f);
             (new Hi()).call(a);

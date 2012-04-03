@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
 /**
  * Returns the actor factory assigned to a given actor type.
  */
-public class GetActorFactory extends ConcurrentRequest<ActorFactory, JFactory> {
+public class GetActorFactory extends ConcurrentRequest<ActorFactory, JAFactory> {
     /**
      * An actor type name.
      */
@@ -61,7 +61,7 @@ public class GetActorFactory extends ConcurrentRequest<ActorFactory, JFactory> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public ActorFactory call(JFactory targetActor)
+    public ActorFactory call(JAFactory targetActor)
             throws Exception {
         return targetActor.getActorFactory(this);
     }
@@ -73,6 +73,6 @@ public class GetActorFactory extends ConcurrentRequest<ActorFactory, JFactory> {
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     public boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof JFactory;
+        return targetActor instanceof JAFactory;
     }
 }

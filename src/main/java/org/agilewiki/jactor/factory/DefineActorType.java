@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.InitializationRequest;
  * DefineActorType is a request to register a component that can be used
  * to create and configure new types of actors.
  */
-final public class DefineActorType extends InitializationRequest<Object, JFactory> {
+final public class DefineActorType extends InitializationRequest<Object, JAFactory> {
     /**
      * An actor type name.
      */
@@ -78,7 +78,7 @@ final public class DefineActorType extends InitializationRequest<Object, JFactor
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(JFactory targetActor)
+    public Object call(JAFactory targetActor)
             throws Exception {
         targetActor.defineActorType(actorType, clazz);
         return null;
@@ -91,6 +91,6 @@ final public class DefineActorType extends InitializationRequest<Object, JFactor
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     public boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof JFactory;
+        return targetActor instanceof JAFactory;
     }
 }

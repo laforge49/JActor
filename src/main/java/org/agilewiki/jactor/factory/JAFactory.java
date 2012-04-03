@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 /**
  * An actor for defining actor types and creating instances.
  */
-public class JFactory extends JLPCActor {
+public class JAFactory extends JLPCActor {
     /**
      * A table which maps type names to actor factories.
      */
@@ -46,7 +46,7 @@ public class JFactory extends JLPCActor {
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public JFactory(Mailbox mailbox) {
+    public JAFactory(Mailbox mailbox) {
         super(mailbox);
     }
 
@@ -106,7 +106,7 @@ public class JFactory extends JLPCActor {
         String actorType = request.getActorType();
         ActorFactory af = types.get(actorType);
         if (af == null) {
-            Actor a = request.getTargetActor(JFactory.this.getParent());
+            Actor a = request.getTargetActor(JAFactory.this.getParent());
             if (a != null)
                 return request.call(a);
             throw new IllegalArgumentException("Unknown actor type: " + actorType);

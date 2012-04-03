@@ -32,7 +32,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
  */
-public class NewActor extends ConcurrentRequest<Actor, JFactory> {
+public class NewActor extends ConcurrentRequest<Actor, JAFactory> {
     /**
      * An actor type name.
      */
@@ -118,7 +118,7 @@ public class NewActor extends ConcurrentRequest<Actor, JFactory> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Actor call(JFactory targetActor)
+    public Actor call(JAFactory targetActor)
             throws Exception {
         return targetActor.newActor(this);
     }
@@ -130,6 +130,6 @@ public class NewActor extends ConcurrentRequest<Actor, JFactory> {
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     public boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof JFactory;
+        return targetActor instanceof JAFactory;
     }
 }

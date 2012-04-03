@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.InitializationRequest;
 /**
  * Register an ActorFactory.
  */
-public class RegisterActorFactory extends InitializationRequest<Object, JFactory> {
+public class RegisterActorFactory extends InitializationRequest<Object, JAFactory> {
     /**
      * An actor type name.
      */
@@ -76,7 +76,7 @@ public class RegisterActorFactory extends InitializationRequest<Object, JFactory
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(JFactory targetActor)
+    public Object call(JAFactory targetActor)
             throws Exception {
         targetActor.registerActorFactory(actorType, actorFactory);
         return null;
@@ -89,6 +89,6 @@ public class RegisterActorFactory extends InitializationRequest<Object, JFactory
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
     public boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof JFactory;
+        return targetActor instanceof JAFactory;
     }
 }

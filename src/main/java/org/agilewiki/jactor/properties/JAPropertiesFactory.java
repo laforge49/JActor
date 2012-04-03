@@ -33,7 +33,7 @@ public class JAPropertiesFactory extends JLPCActorFactory {
     /**
      * The default name of the JFactory actor.
      */
-    public final static String TYPE = "P";
+    public final static String TYPE = "JAProperties";
 
     /**
      * Create an ActorFactory.

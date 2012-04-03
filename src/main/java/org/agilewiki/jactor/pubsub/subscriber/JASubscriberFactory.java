@@ -33,7 +33,7 @@ public class JASubscriberFactory extends JLPCActorFactory {
     /**
      * The default name of the JFactory actor.
      */
-    public final static String TYPE = "S";
+    public final static String TYPE = "JASubscriber";
 
     /**
      * Create an ActorFactory.

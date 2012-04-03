@@ -6,7 +6,7 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.GetActorFactory;
-import org.agilewiki.jactor.factory.JFactory;
+import org.agilewiki.jactor.factory.JAFactory;
 import org.agilewiki.jactor.factory.RegisterActorFactory;
 import org.agilewiki.jactor.factory.timing.AFactory;
 
@@ -21,7 +21,7 @@ public class Creation5Test extends TestCase {
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JFactory f = new JFactory(mailboxFactory.createMailbox());
+            JAFactory f = new JAFactory(mailboxFactory.createMailbox());
             (new RegisterActorFactory(new AFactory("A"))).call(f);
             loop(c, f);
             loop(c, f);
@@ -38,7 +38,7 @@ public class Creation5Test extends TestCase {
         }
     }
 
-    void loop(long c, JFactory f) throws Exception {
+    void loop(long c, JAFactory f) throws Exception {
         GetActorFactory gaf = new GetActorFactory("A");
         ActorFactory af = gaf.call(f);
         MailboxFactory mailboxFactory = f.getMailboxFactory();

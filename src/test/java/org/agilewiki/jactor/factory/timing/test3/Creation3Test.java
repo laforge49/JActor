@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.factory.DefineActorType;
-import org.agilewiki.jactor.factory.JFactory;
+import org.agilewiki.jactor.factory.JAFactory;
 import org.agilewiki.jactor.factory.NewActor;
 import org.agilewiki.jactor.factory.timing.A;
 
@@ -19,7 +19,7 @@ public class Creation3Test extends TestCase {
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JFactory f = new JFactory(mailboxFactory.createMailbox());
+            JAFactory f = new JAFactory(mailboxFactory.createMailbox());
             (new DefineActorType("A", A.class)).call(f);
             loop(c, f);
             loop(c, f);
@@ -36,7 +36,7 @@ public class Creation3Test extends TestCase {
         }
     }
 
-    void loop(long c, JFactory f) throws Exception {
+    void loop(long c, JAFactory f) throws Exception {
         NewActor na = new NewActor("A");
         int i = 0;
         while (i < c) {
