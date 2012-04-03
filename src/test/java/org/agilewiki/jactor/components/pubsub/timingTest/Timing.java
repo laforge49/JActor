@@ -25,7 +25,7 @@ final public class Timing extends AsyncRequest<Object> {
     }
 
     @Override
-    protected boolean isTargetType(Actor targetActor) {
+    public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof JAParallel;
     }
 }

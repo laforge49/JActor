@@ -31,7 +31,7 @@ public class Run1Parallel extends Request<Object, JAParallel> {
     }
 
     @Override
-    protected boolean isTargetType(Actor targetActor) {
+    public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof JAParallel;
     }
 }

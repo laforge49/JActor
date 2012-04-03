@@ -38,7 +38,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      * @param targetActor The actor to be called.
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
-    abstract protected boolean isTargetType(Actor targetActor);
+    abstract public boolean isTargetType(Actor targetActor);
 
     /**
      * Searches the parent stack for the matching TARGET_TYPE.

@@ -65,7 +65,7 @@ public class Subscribe extends SynchronousRequest<Boolean, Publisher> {
      * @param targetActor The actor to be called.
      * @return True when targetActor is an instanceof TARGET_TYPE.
      */
-    protected boolean isTargetType(Actor targetActor) {
+    public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Publisher;
     }
 }

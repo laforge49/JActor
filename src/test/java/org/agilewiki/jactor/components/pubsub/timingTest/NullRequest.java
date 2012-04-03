@@ -9,7 +9,7 @@ import org.agilewiki.jactor.parallel.JAParallel;
  */
 final public class NullRequest extends Request<Object, JAParallel> {
     @Override
-    protected boolean isTargetType(Actor targetActor) {
+    public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof JAParallel;
     }
 }
