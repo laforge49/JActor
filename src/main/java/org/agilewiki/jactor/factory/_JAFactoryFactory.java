@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Creates a JAFactory.
  */
-public class JAFactoryFactory extends JLPCActorFactory {
+public class _JAFactoryFactory extends JLPCActorFactory {
     /**
      * The default name of the JFactory actor.
      */
@@ -40,7 +40,7 @@ public class JAFactoryFactory extends JLPCActorFactory {
      *
      * @param actorType The actor type.
      */
-    public JAFactoryFactory(String actorType) {
+    public _JAFactoryFactory(String actorType) {
         super(actorType);
     }
 
