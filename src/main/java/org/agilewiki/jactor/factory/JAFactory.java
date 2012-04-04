@@ -26,7 +26,6 @@ package org.agilewiki.jactor.factory;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.components.Component;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.lang.reflect.Constructor;
@@ -118,10 +117,6 @@ public class JAFactory extends JLPCActor {
             throws Exception {
         if (types.containsKey(actorType))
             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-        if (Component.class.isAssignableFrom(clazz)) {
-            types.put(actorType, new JCActorFactory(actorType, clazz));
-            return;
-        }
         if (Actor.class.isAssignableFrom(clazz)) {
             Constructor componentConstructor = clazz.getConstructor(Mailbox.class);
             types.put(actorType, new _ActorFactory(actorType, componentConstructor));
