@@ -1,42 +1,41 @@
 package org.agilewiki.jactor.multithreadingTest;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.parallel.JAResponseCounter2;
 
 /**
  * Test code.
  */
-public class ParallelResponsePrinter extends Component {
+public class ParallelResponsePrinter extends JLPCActor {
+    public ParallelResponsePrinter(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
     @Override
-    public void bindery() throws Exception {
+    protected void processRequest(Object request, RP rp) throws Exception {
+        Class reqcls = request.getClass();
 
-        thisActor.bind(
-                PrintParallelResponse.class.getName(),
-                new MethodBinding<PrintParallelResponse<Object>, Object>() {
-                    @Override
-                    public void processRequest(Internals internals,
-                                               PrintParallelResponse request,
-                                               RP rp)
-                            throws Exception {
-                        int count = request.getCount();
-                        JCActor[] responsePrinters = request.getResponsePrinters();
-                        PrintResponse printResponse = request.getPrintResponse();
-                        JAResponseCounter2 psrp = new JAResponseCounter2(rp);
-                        int i = 0;
-                        while (i < count) {
-                            System.out.println(i);
-                            printResponse.send(internals, responsePrinters[i], psrp);
-                            i += 1;
-                        }
-                        psrp.sent = count;
-                        psrp.finished();
-                        System.out.println(count + " sends");
-                    }
-                });
+        if (reqcls == PrintParallelResponse.class) {
+            PrintParallelResponse req = (PrintParallelResponse) request;
+            int count = req.getCount();
+            Actor[] responsePrinters = req.getResponsePrinters();
+            PrintResponse printResponse = req.getPrintResponse();
+            JAResponseCounter2 psrp = new JAResponseCounter2(rp);
+            int i = 0;
+            while (i < count) {
+                System.out.println(i);
+                printResponse.send(this, responsePrinters[i], psrp);
+                i += 1;
+            }
+            psrp.sent = count;
+            psrp.finished();
+            System.out.println(count + " sends");
+            return;
+        }
 
+        throw new UnsupportedOperationException(reqcls.getName());
     }
 }

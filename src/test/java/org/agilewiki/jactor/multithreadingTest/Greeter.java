@@ -1,20 +1,31 @@
 package org.agilewiki.jactor.multithreadingTest;
 
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.SynchronousMethodBinding;
-import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
-public class Greeter extends Component {
+public class Greeter extends JLPCActor {
+    public Greeter(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
+    public String hi() {
+        return "Hello world!";
+    }
+
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(Hi.class.getName(), new SynchronousMethodBinding<Hi, String>() {
-            @Override
-            public String synchronousProcessRequest(Internals internals, Hi request) throws Exception {
-                return "Hello world!";
-            }
-        });
+    protected void processRequest(Object request, RP rp)
+            throws Exception {
+        Class reqcls = request.getClass();
+
+        if (reqcls == Hi.class) {
+            rp.processResponse(hi());
+            return;
+        }
+
+        throw new UnsupportedOperationException(reqcls.getName());
     }
 }

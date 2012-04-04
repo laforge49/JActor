@@ -1,9 +1,20 @@
 package org.agilewiki.jactor.multithreadingTest;
 
-import org.agilewiki.jactor.bind.JBSynchronousRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.SynchronousRequest;
 
 /**
  * Test code.
  */
-public class Hi extends JBSynchronousRequest<String> {
+public class Hi extends SynchronousRequest<String, Greeter> {
+    @Override
+    protected String _call(Greeter targetActor)
+            throws Exception {
+        return targetActor.hi();
+    }
+
+    @Override
+    public boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Greeter;
+    }
 }

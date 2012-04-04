@@ -4,9 +4,6 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.bind.Open;
-import org.agilewiki.jactor.components.Include;
-import org.agilewiki.jactor.components.JCActor;
 
 /**
  * Test code.
@@ -17,12 +14,8 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            JCActor a = new JCActor(mailbox);
-            (new Include(Greeter.class)).call(a);
-            Open.req.call(a);
-            JCActor b = new JCActor(mailbox);
-            (new Include(ResponsePrinter.class)).call(b);
-            Open.req.call(b);
+            Greeter a = new Greeter(mailbox);
+            ResponsePrinter b = new ResponsePrinter(mailbox);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -39,12 +32,8 @@ public class ResponsePrinterTest extends TestCase {
         try {
             Mailbox mailbox1 = mailboxFactory.createMailbox();
             Mailbox mailbox2 = mailboxFactory.createMailbox();
-            JCActor a = new JCActor(mailbox1);
-            (new Include(Greeter.class)).call(a);
-            Open.req.call(a);
-            JCActor b = new JCActor(mailbox2);
-            (new Include(ResponsePrinter.class)).call(b);
-            Open.req.call(b);
+            Greeter a = new Greeter(mailbox1);
+            ResponsePrinter b = new ResponsePrinter(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -61,12 +50,8 @@ public class ResponsePrinterTest extends TestCase {
         try {
             Mailbox mailbox1 = mailboxFactory.createMailbox();
             Mailbox mailbox2 = mailboxFactory.createAsyncMailbox();
-            JCActor a = new JCActor(mailbox1);
-            (new Include(Greeter.class)).call(a);
-            Open.req.call(a);
-            JCActor b = new JCActor(mailbox2);
-            (new Include(ResponsePrinter.class)).call(b);
-            Open.req.call(b);
+            Greeter a = new Greeter(mailbox1);
+            ResponsePrinter b = new ResponsePrinter(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -82,23 +67,16 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
-
-            (new Include(Greeter.class)).call(a);
-            Open.req.call(a);
+            Greeter a = new Greeter(mailboxFactory.createMailbox());
             int count = 5;
-            JCActor[] bs = new JCActor[count];
+            ResponsePrinter[] bs = new ResponsePrinter[count];
             int i = 0;
             while (i < count) {
-                JCActor b = new JCActor(mailboxFactory.createAsyncMailbox());
-                (new Include(ResponsePrinter.class)).call(b);
-                Open.req.call(b);
+                ResponsePrinter b = new ResponsePrinter(mailboxFactory.createAsyncMailbox());
                 bs[i] = b;
                 i += 1;
             }
-            JCActor c = new JCActor(mailboxFactory.createMailbox());
-            (new Include(ParallelResponsePrinter.class)).call(c);
-            Open.req.call(c);
+            ParallelResponsePrinter c = new ParallelResponsePrinter(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
@@ -116,23 +94,16 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            JCActor a = new JCActor(mailboxFactory.createMailbox());
-
-            (new Include(Greeter.class)).call(a);
-            Open.req.call(a);
+            Greeter a = new Greeter(mailboxFactory.createMailbox());
             int count = 5;
-            JCActor[] bs = new JCActor[count];
+            ResponsePrinter[] bs = new ResponsePrinter[count];
             int i = 0;
             while (i < count) {
-                JCActor b = new JCActor(mailboxFactory.createAsyncMailbox());
-                (new Include(ResponsePrinter.class)).call(b);
-                Open.req.call(b);
+                ResponsePrinter b = new ResponsePrinter(mailboxFactory.createAsyncMailbox());
                 bs[i] = b;
                 i += 1;
             }
-            JCActor c = new JCActor(mailboxFactory.createMailbox());
-            (new Include(ParallelResponsePrinter.class)).call(c);
-            Open.req.call(c);
+            ParallelResponsePrinter c = new ParallelResponsePrinter(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);

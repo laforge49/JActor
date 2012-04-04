@@ -1,34 +1,38 @@
 package org.agilewiki.jactor.multithreadingTest;
 
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.components.Component;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
  */
-public class ResponsePrinter extends Component {
+public class ResponsePrinter extends JLPCActor {
+    public ResponsePrinter(final Mailbox mailbox) {
+        super(mailbox);
+    }
+
     @Override
-    public void bindery() throws Exception {
-        thisActor.bind(PrintResponse.class.getName(), new MethodBinding<PrintResponse<Object>, Object>() {
-            @Override
-            public void processRequest(Internals internals,
-                                       PrintResponse request,
-                                       final RP rp)
-                    throws Exception {
-                Request<?, ?> wrappedRequest = request.getRequest();
-                JCActor actor = request.getActor();
-                wrappedRequest.send(internals, actor, new RP() {
-                    @Override
-                    public void processResponse(Object response) throws Exception {
-                        System.out.println(response);
-                        rp.processResponse(null);
-                    }
-                });
-            }
-        });
+    protected void processRequest(Object request, final RP rp)
+            throws Exception {
+        Class reqcls = request.getClass();
+
+        if (reqcls == PrintResponse.class) {
+            PrintResponse req = (PrintResponse) request;
+            Request wrappedRequest = req.getRequest();
+            Actor actor = req.getActor();
+            wrappedRequest.send(this, actor, new RP() {
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    System.out.println(response);
+                    rp.processResponse(null);
+                }
+            });
+            return;
+        }
+
+        throw new UnsupportedOperationException(reqcls.getName());
     }
 }

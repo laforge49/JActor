@@ -1,17 +1,16 @@
 package org.agilewiki.jactor.multithreadingTest;
 
-import org.agilewiki.jactor.bind.AsyncRequest;
-import org.agilewiki.jactor.components.JCActor;
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
  */
-public class PrintResponse<RESPONSE_TYPE> extends AsyncRequest<Object> {
+public class PrintResponse<RESPONSE_TYPE> extends Request<Object, ResponsePrinter> {
     private Request<RESPONSE_TYPE, ?> request;
-    private JCActor actor;
+    private Actor actor;
 
-    public PrintResponse(Request<RESPONSE_TYPE, ?> request, JCActor actor) {
+    public PrintResponse(Request<RESPONSE_TYPE, ?> request, Actor actor) {
         this.request = request;
         this.actor = actor;
     }
@@ -20,7 +19,12 @@ public class PrintResponse<RESPONSE_TYPE> extends AsyncRequest<Object> {
         return request;
     }
 
-    public JCActor getActor() {
+    public Actor getActor() {
         return actor;
+    }
+
+    @Override
+    public boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof ResponsePrinter;
     }
 }
