@@ -40,7 +40,7 @@ final public class GetActorName extends ConcurrentRequest<String, ActorName> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public String call(ActorName targetActor)
+    protected String _call(ActorName targetActor)
             throws Exception {
         return targetActor.getActorName();
     }

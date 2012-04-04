@@ -1,76 +1,68 @@
 package org.agilewiki.jactor.multithreadingTest.exceptions;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.MethodBinding;
-import org.agilewiki.jactor.bind.SynchronousMethodBinding;
-import org.agilewiki.jactor.components.Component;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
-public class Divider extends Component {
+public class Divider extends JLPCActor {
+    public Divider(Mailbox mailbox) {
+        super(mailbox);
+    }
+
     @Override
-    public void bindery() throws Exception {
+    protected void processRequest(Object request, final RP rp) throws Exception {
+        Class reqcls = request.getClass();
 
-        thisActor.bind(
-                SyncDivide.class.getName(),
-                new SynchronousMethodBinding<SyncDivide, Integer>() {
-                    @Override
-                    public Integer synchronousProcessRequest(Internals internals,
-                                                             SyncDivide request)
-                            throws Exception {
-                        return request.getN() / request.getD();
-                    }
-                });
+        if (reqcls == SyncDivide.class) {
+            SyncDivide req = (SyncDivide) request;
+            rp.processResponse(syncDivide(req.getN(), req.getD()));
+            return;
+        }
 
-        thisActor.bind(
-                Divide.class.getName(),
-                new MethodBinding<Divide, Integer>() {
-                    @Override
-                    public void processRequest(Internals internals,
-                                               Divide request,
-                                               RP rp)
-                            throws Exception {
-                        rp.processResponse(request.getN() / request.getD());
-                    }
-                });
+        if (reqcls == Divide.class) {
+            Divide req = (Divide) request;
+            rp.processResponse(req.getN() / req.getD());
+            return;
+        }
 
-        thisActor.bind(
-                ISyncDivide.class.getName(),
-                new SynchronousMethodBinding<ISyncDivide, Integer>() {
-                    @Override
-                    public Integer synchronousProcessRequest(Internals internals,
-                                                             ISyncDivide request)
-                            throws Exception {
-                        SyncDivide syncDivide = new SyncDivide(request.getN(), request.getD());
-                        try {
-                            return syncDivide.call(internals, thisActor);
-                        } catch (Exception x) {
-                            return null;
-                        }
-                    }
-                });
+        if (reqcls == ISyncDivide.class) {
+            ISyncDivide req = (ISyncDivide) request;
+            rp.processResponse(iSyncDivide(req.getN(), req.getD()));
+            return;
+        }
 
-        thisActor.bind(
-                IDivide.class.getName(),
-                new MethodBinding<IDivide, Integer>() {
-                    @Override
-                    public void processRequest(Internals internals,
-                                               IDivide request,
-                                               final RP rp)
-                            throws Exception {
-                        internals.setExceptionHandler(new ExceptionHandler() {
-                            @Override
-                            public void process(Exception exception) throws Exception {
-                                rp.processResponse(null);
-                            }
-                        });
-                        Divide divide = new Divide(request.getN(), request.getD());
-                        divide.send(internals, thisActor, rp);
-                    }
-                });
+        if (reqcls == IDivide.class) {
+            IDivide req = (IDivide) request;
+            setExceptionHandler(new ExceptionHandler() {
+                @Override
+                public void process(Exception exception) throws Exception {
+                    rp.processResponse(null);
+                }
+            });
+            Divide divide = new Divide(req.getN(), req.getD());
+            divide.send(this, this, rp);
+            return;
+        }
 
+        throw new UnsupportedOperationException(reqcls.getName());
+    }
+
+    public int syncDivide(int n, int d) {
+        return n / d;
+    }
+
+    public Integer iSyncDivide(int n, int d)
+            throws Exception {
+        SyncDivide syncDivide = new SyncDivide(n, d);
+        try {
+            return syncDivide.call((Actor) this, this);
+        } catch (Exception x) {
+            return null;
+        }
     }
 }

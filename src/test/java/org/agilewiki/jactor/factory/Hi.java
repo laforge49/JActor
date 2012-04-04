@@ -16,7 +16,7 @@ final public class Hi extends ConcurrentRequest<Object, Foo> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(Foo targetActor)
+    protected Object _call(Foo targetActor)
             throws Exception {
         targetActor.hi();
         return null;

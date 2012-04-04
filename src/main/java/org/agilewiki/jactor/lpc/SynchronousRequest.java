@@ -133,7 +133,19 @@ abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends Targ
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
+    final protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception {
+        return _call(targetActor);
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected RESPONSE_TYPE _call(TARGET_TYPE targetActor)
             throws Exception;
 
     /**

@@ -53,7 +53,7 @@ public class GetSubscriber extends SynchronousRequest<Subscriber, Publisher> {
      * @throws Boolean Any uncaught exceptions raised while processing the request.
      */
     @Override
-    protected Subscriber call(Publisher targetActor)
+    protected Subscriber _call(Publisher targetActor)
             throws Exception {
         return targetActor.getSubscriber(subscriberName);
     }

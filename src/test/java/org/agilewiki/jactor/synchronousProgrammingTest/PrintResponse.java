@@ -24,7 +24,7 @@ public class PrintResponse extends SynchronousRequest<Object, ResponsePrinter> {
     }
 
     @Override
-    protected Object call(ResponsePrinter targetActor)
+    protected Object _call(ResponsePrinter targetActor)
             throws Exception {
         targetActor.printResponse(request, actor);
         return null;

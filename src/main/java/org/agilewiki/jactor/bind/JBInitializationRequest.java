@@ -16,7 +16,7 @@ public class JBInitializationRequest<RESPONSE_TYPE>
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public RESPONSE_TYPE call(NoJLPCActor targetActor)
+    protected RESPONSE_TYPE _call(NoJLPCActor targetActor)
             throws Exception {
         throw new UnsupportedOperationException();
     }

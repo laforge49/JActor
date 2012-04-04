@@ -76,7 +76,7 @@ public class RegisterActorFactory extends InitializationRequest<Object, JAFactor
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(JAFactory targetActor)
+    protected Object _call(JAFactory targetActor)
             throws Exception {
         targetActor.registerActorFactory(actorType, actorFactory);
         return null;

@@ -61,7 +61,7 @@ final public class SetActorName extends InitializationRequest<Object, ActorName>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(ActorName targetActor)
+    protected Object _call(ActorName targetActor)
             throws Exception {
         targetActor.setActorName(name);
         return null;

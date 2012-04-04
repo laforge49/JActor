@@ -118,7 +118,7 @@ public class NewActor extends ConcurrentRequest<Actor, JAFactory> {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Actor call(JAFactory targetActor)
+    protected Actor _call(JAFactory targetActor)
             throws Exception {
         return targetActor.newActor(this);
     }

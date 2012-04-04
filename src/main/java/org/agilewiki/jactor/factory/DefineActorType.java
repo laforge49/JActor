@@ -78,7 +78,7 @@ final public class DefineActorType extends InitializationRequest<Object, JAFacto
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(JAFactory targetActor)
+    protected Object _call(JAFactory targetActor)
             throws Exception {
         targetActor.defineActorType(actorType, clazz);
         return null;

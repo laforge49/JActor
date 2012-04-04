@@ -51,7 +51,19 @@ abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends T
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+    final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception {
+        return _call(targetActor);
+    }
+
+    /**
+     * Send an initialization request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected RESPONSE_TYPE _call(TARGET_TYPE targetActor)
             throws Exception;
 
     /**

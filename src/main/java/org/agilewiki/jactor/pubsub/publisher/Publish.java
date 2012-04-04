@@ -54,7 +54,7 @@ public class Publish extends SynchronousRequest<Integer, Publisher> {
      * @throws Boolean Any uncaught exceptions raised while processing the request.
      */
     @Override
-    protected Integer call(Publisher targetActor)
+    protected Integer _call(Publisher targetActor)
             throws Exception {
         return targetActor.publish(publishRequest);
     }

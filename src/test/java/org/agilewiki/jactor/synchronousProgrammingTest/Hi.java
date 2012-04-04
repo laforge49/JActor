@@ -8,7 +8,7 @@ import org.agilewiki.jactor.lpc.SynchronousRequest;
  */
 public class Hi extends SynchronousRequest<String, Greeter> {
     @Override
-    protected String call(Greeter targetActor) throws Exception {
+    protected String _call(Greeter targetActor) throws Exception {
         return targetActor.hi();
     }
 

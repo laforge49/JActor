@@ -78,7 +78,7 @@ public class SetProperty<RESPONSE_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public Object call(Properties targetActor)
+    protected Object _call(Properties targetActor)
             throws Exception {
         targetActor.setProperty(propertyName, propertyValue);
         return null;

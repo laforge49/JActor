@@ -50,7 +50,19 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends Targe
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+    final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception {
+        return _call(targetActor);
+    }
+
+    /**
+     * Send a concurrent request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    abstract protected RESPONSE_TYPE _call(TARGET_TYPE targetActor)
             throws Exception;
 
     /**

@@ -53,7 +53,7 @@ public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
      * @throws Boolean Any uncaught exceptions raised while processing the request.
      */
     @Override
-    protected Boolean call(Publisher targetActor)
+    protected Boolean _call(Publisher targetActor)
             throws Exception {
         return targetActor.unsubscribe(subscriberName);
     }

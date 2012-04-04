@@ -61,7 +61,7 @@ public class GetActorFactory extends ConcurrentRequest<ActorFactory, JAFactory> 
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public ActorFactory call(JAFactory targetActor)
+    protected ActorFactory _call(JAFactory targetActor)
             throws Exception {
         return targetActor.getActorFactory(this);
     }

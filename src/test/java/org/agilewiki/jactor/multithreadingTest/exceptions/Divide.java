@@ -1,11 +1,12 @@
 package org.agilewiki.jactor.multithreadingTest.exceptions;
 
-import org.agilewiki.jactor.bind.AsyncRequest;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Test code.
  */
-public class Divide extends AsyncRequest<Integer> {
+public class Divide extends Request<Integer, Divider> {
     private int n;
     private int d;
 
@@ -20,5 +21,10 @@ public class Divide extends AsyncRequest<Integer> {
     public Divide(int n, int d) {
         this.n = n;
         this.d = d;
+    }
+
+    @Override
+    public boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof Divider;
     }
 }

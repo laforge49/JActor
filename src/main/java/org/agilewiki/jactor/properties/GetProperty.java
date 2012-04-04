@@ -62,7 +62,7 @@ public class GetProperty<RESPONSE_TYPE>
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    public RESPONSE_TYPE call(Properties<RESPONSE_TYPE> targetActor)
+    protected RESPONSE_TYPE _call(Properties<RESPONSE_TYPE> targetActor)
             throws Exception {
         return targetActor.getProperty(this);
     }
