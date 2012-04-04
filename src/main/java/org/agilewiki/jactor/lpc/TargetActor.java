@@ -24,10 +24,18 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ExceptionHandler;
 
 /**
  * Used by Request to extend TARGET_TYPE instead of Actor
  * as a means of avoiding ambiguous method signatures.
  */
 public interface TargetActor extends Actor {
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    public void setExceptionHandler(ExceptionHandler exceptionHandler);
 }

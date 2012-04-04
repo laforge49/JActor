@@ -190,6 +190,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public void processRequest(final JARequest request) throws Exception {
+        setExceptionHandler(null);
         if (request.isEvent())
             processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
         else processRequest(request.getUnwrappedRequest(), new RP() {
@@ -368,6 +369,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             throws Exception {
         if (rp.isEvent()) {
             try {
+                setExceptionHandler(null);
                 processRequest(request, rp);
             } catch (Exception ex) {
             }
@@ -415,6 +417,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             }
         };
         try {
+            setExceptionHandler(null);
             processRequest(request, erp);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {

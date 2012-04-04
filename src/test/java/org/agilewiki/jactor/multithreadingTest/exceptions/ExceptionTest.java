@@ -12,12 +12,6 @@ public class ExceptionTest {
     public void test() {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             Divider a = new Divider(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
 
@@ -33,16 +27,17 @@ public class ExceptionTest {
                 System.out.println("test 2 => " + x.toString());
             }
 
-            System.out.println("test 3 => " + (new ISyncDivide(3, 0)).send(future, a));
+            Integer r = (new ISyncDivide(3, 0)).send(future, a);
+            System.out.println("test 3 => " + r);
+            r = (new IDivide(3, 0)).send(future, a);
+            System.out.println("test 4 => " + r);
 
-            System.out.println("test 4 => " + (new IDivide(3, 0)).send(future, a));
-            /*
             try {
                 (new Divide(3, 0)).send(future, a);
             } catch (Exception x) {
                 System.out.println("test 5 => " + x.toString());
             }
-            */
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
