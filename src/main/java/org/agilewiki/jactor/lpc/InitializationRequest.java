@@ -24,7 +24,6 @@
 package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.bind.JBActor;
 
 /**
  * A request that can be passed synchronously to a JBActor for processing,
@@ -32,18 +31,6 @@ import org.agilewiki.jactor.bind.JBActor;
  */
 abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
-    /**
-     * Send an initialization request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    public RESPONSE_TYPE call(JBActor targetActor)
-            throws Exception {
-        return (RESPONSE_TYPE) targetActor.acceptCall(this);
-    }
-
     /**
      * Send an initialization request.
      *
@@ -75,8 +62,6 @@ abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends T
      */
     final public RESPONSE_TYPE call(Actor targetActor)
             throws Exception {
-        if (targetActor instanceof JBActor)
-            return call((JBActor) targetActor);
         if (isTargetType(targetActor))
             return call((TARGET_TYPE) targetActor);
         Actor parent = targetActor.getParent();

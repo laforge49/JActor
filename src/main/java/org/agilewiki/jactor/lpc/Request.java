@@ -25,8 +25,6 @@ package org.agilewiki.jactor.lpc;
 
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.bind.Internals;
-import org.agilewiki.jactor.bind.JBActor;
 
 /**
  * A request.
@@ -60,60 +58,8 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      * @param targetActor The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE send(JAFuture future, JBActor targetActor)
-            throws Exception {
-        return (RESPONSE_TYPE) future.send(targetActor, this);
-    }
-
-    /**
-     * Send a request.
-     *
-     * @param senderInternals The sending actor's internals.
-     * @param targetActor     The target actor.
-     * @param rp              The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void send(Internals senderInternals, JBActor targetActor, RP<RESPONSE_TYPE> rp)
-            throws Exception {
-        senderInternals.send(targetActor, this, rp);
-    }
-
-    /**
-     * Send a request.
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @param rp            The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void send(APCRequestSource requestSource, JBActor targetActor, RP<RESPONSE_TYPE> rp)
-            throws Exception {
-        targetActor.acceptRequest(requestSource, this, rp);
-    }
-
-
-    /**
-     * Send a request event.
-     *
-     * @param targetActor The target actor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void sendEvent(JBActor targetActor)
-            throws Exception {
-        targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
-    }
-
-    /**
-     * Send a request and waits for a response.
-     *
-     * @param future      The future.
-     * @param targetActor The target actor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
     final public RESPONSE_TYPE send(JAFuture future, Actor targetActor)
             throws Exception {
-        if (targetActor instanceof JBActor)
-            return (RESPONSE_TYPE) future.send(targetActor, this);
         if (isTargetType(targetActor))
             return (RESPONSE_TYPE) future.send(targetActor, this);
         Actor parent = targetActor.getParent();
@@ -135,10 +81,6 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      */
     final public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
-        if (targetActor instanceof JBActor) {
-            senderInternals.send(targetActor, this, rp);
-            return;
-        }
         if (isTargetType(targetActor)) {
             senderInternals.send(targetActor, this, rp);
             return;
@@ -164,10 +106,6 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      */
     final public void send(APCRequestSource requestSource, Actor targetActor, RP<RESPONSE_TYPE> rp)
             throws Exception {
-        if (targetActor instanceof JBActor) {
-            targetActor.acceptRequest(requestSource, this, rp);
-            return;
-        }
         if (isTargetType(targetActor)) {
             targetActor.acceptRequest(requestSource, this, rp);
             return;
@@ -192,10 +130,6 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      */
     final public void sendEvent(Actor targetActor)
             throws Exception {
-        if (targetActor instanceof JBActor) {
-            targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
-            return;
-        }
         if (isTargetType(targetActor)) {
             targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
             return;
