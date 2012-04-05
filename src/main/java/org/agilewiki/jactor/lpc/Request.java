@@ -72,28 +72,15 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
     }
 
     /**
-     * Send a request.
+     * Send a request and waits for a response.
      *
-     * @param senderInternals The sending actor's internals.
-     * @param targetActor     The target actor.
-     * @param rp              The response processor.
+     * @param future      The future.
+     * @param targetActor The target actor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public void send(Internals senderInternals, Actor targetActor, RP<RESPONSE_TYPE> rp)
+    final public RESPONSE_TYPE send(JAFuture future, TARGET_TYPE targetActor)
             throws Exception {
-        if (isTargetType(targetActor)) {
-            senderInternals.send(targetActor, this, rp);
-            return;
-        }
-        Actor parent = targetActor.getParent();
-        if (parent != null) {
-            send(senderInternals, parent, rp);
-            return;
-        }
-        throw new UnsupportedOperationException(
-                "request: " + getClass().getName() +
-                        " target actor: " + targetActor.getClass().getName() +
-                        " target actor type: " + targetActor.getActorType());
+        return (RESPONSE_TYPE) future.send((Actor) targetActor, this);
     }
 
     /**
@@ -123,6 +110,19 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
 
 
     /**
+     * Send a request.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @param rp            The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void send(APCRequestSource requestSource, TARGET_TYPE targetActor, RP<RESPONSE_TYPE> rp)
+            throws Exception {
+        ((Actor) targetActor).acceptRequest(requestSource, this, rp);
+    }
+
+    /**
      * Send a request event.
      *
      * @param targetActor The target actor.
@@ -143,44 +143,6 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
                 "request: " + getClass().getName() +
                         " target actor: " + targetActor.getClass().getName() +
                         " target actor type: " + targetActor.getActorType());
-    }
-
-    /**
-     * Send a request and waits for a response.
-     *
-     * @param future      The future.
-     * @param targetActor The target actor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE send(JAFuture future, TARGET_TYPE targetActor)
-            throws Exception {
-        return (RESPONSE_TYPE) future.send((Actor) targetActor, this);
-    }
-
-    /**
-     * Send a request.
-     *
-     * @param senderInternals The sending actor's internals.
-     * @param targetActor     The target actor.
-     * @param rp              The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void send(Internals senderInternals, TARGET_TYPE targetActor, RP<RESPONSE_TYPE> rp)
-            throws Exception {
-        senderInternals.send((Actor) targetActor, this, rp);
-    }
-
-    /**
-     * Send a request.
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @param rp            The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public void send(APCRequestSource requestSource, TARGET_TYPE targetActor, RP<RESPONSE_TYPE> rp)
-            throws Exception {
-        ((Actor) targetActor).acceptRequest(requestSource, this, rp);
     }
 
     /**
