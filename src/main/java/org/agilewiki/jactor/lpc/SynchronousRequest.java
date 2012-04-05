@@ -31,104 +31,7 @@ import org.agilewiki.jactor.Mailbox;
  * but only when sender and receiver use the same mailbox.
  */
 abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
-        extends ConstrainedRequest<RESPONSE_TYPE, TARGET_TYPE> {
-    /**
-     * Send a synchronous request.
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(RequestSource requestSource, TARGET_TYPE targetActor)
-            throws Exception {
-        return call(requestSource.getMailbox(), targetActor);
-    }
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param srcActor    The sender of the request.
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(Actor srcActor, TARGET_TYPE targetActor)
-            throws Exception {
-        return call(srcActor.getMailbox(), targetActor);
-    }
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param sourceMailbox The sender of the request.
-     * @param targetActor   The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final protected RESPONSE_TYPE call(Mailbox sourceMailbox, TARGET_TYPE targetActor)
-            throws Exception {
-        if (sourceMailbox != ((Actor) targetActor).getMailbox())
-            throw new UnsupportedOperationException("Mailboxes are not the same.");
-        return call(targetActor);
-    }
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
-            throws Exception {
-        return _call(targetActor);
-    }
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    abstract protected RESPONSE_TYPE _call(TARGET_TYPE targetActor)
-            throws Exception;
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param sourceInternals The internals of the sending actor.
-     * @param targetActor     The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(Internals sourceInternals, Actor targetActor) throws Exception {
-        if (isTargetType(targetActor))
-            return call(sourceInternals, (TARGET_TYPE) targetActor);
-        Actor parent = targetActor.getParent();
-        if (parent != null)
-            return call(sourceInternals, parent);
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Send a synchronous request.
-     *
-     * @param requestSource The sender of the request.
-     * @param targetActor   The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(RequestSource requestSource, Actor targetActor)
-            throws Exception {
-        if (isTargetType(targetActor))
-            return call(requestSource, (TARGET_TYPE) targetActor);
-        Actor parent = targetActor.getParent();
-        if (parent != null)
-            return call(requestSource, parent);
-        throw new UnsupportedOperationException();
-    }
+        extends CallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
 
     /**
      * Send a synchronous request.
@@ -146,5 +49,33 @@ abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends Targ
         if (parent != null)
             return call(srcActor, parent);
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param srcActor    The sender of the request.
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public RESPONSE_TYPE call(Actor srcActor, TARGET_TYPE targetActor)
+            throws Exception {
+        Mailbox sourceMailbox = srcActor.getMailbox();
+        if (sourceMailbox != targetActor.getMailbox())
+            throw new UnsupportedOperationException("Mailboxes are not the same.");
+        return call(targetActor);
+    }
+
+    /**
+     * Send a synchronous request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception {
+        return _call(targetActor);
     }
 }

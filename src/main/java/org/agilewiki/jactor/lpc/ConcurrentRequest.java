@@ -23,50 +23,9 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.Actor;
-
 /**
  * A request that can be passed to a JBActor for synchronous processing.
  */
 abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
-    /**
-     * Send a concurrent request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
-            throws Exception {
-        return _call(targetActor);
-    }
-
-    /**
-     * Send a concurrent request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    abstract protected RESPONSE_TYPE _call(TARGET_TYPE targetActor)
-            throws Exception;
-
-    /**
-     * Send a concurrent request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    final public RESPONSE_TYPE call(Actor targetActor)
-            throws Exception {
-        if (isTargetType(targetActor)) {
-            return call((TARGET_TYPE) targetActor);
-        }
-        Actor parent = targetActor.getParent();
-        if (parent != null)
-            return call(parent);
-        throw new UnsupportedOperationException();
-    }
 }
