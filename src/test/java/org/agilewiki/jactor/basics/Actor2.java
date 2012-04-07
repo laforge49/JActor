@@ -4,7 +4,7 @@ import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class Actor2 extends JLPCActor {
+public class Actor2 extends JLPCActor implements Greeter {
     public Actor2(Mailbox mailbox) {
         super(mailbox);
     }
