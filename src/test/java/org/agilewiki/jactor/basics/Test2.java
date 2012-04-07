@@ -6,14 +6,15 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 
-public class Test1 extends TestCase {
+public class Test2 extends TestCase {
     public void test() throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         Mailbox mailbox = mailboxFactory.createMailbox();
         Actor1 actor1 = new Actor1(mailbox);
+        Actor2 actor2 = new Actor2(mailbox);
+        actor2.setParent(actor1);
         JAFuture future = new JAFuture();
-        String result = Hi1.req.send(future, actor1);
-        assertEquals("Hello world!", result);
+        Greet1.req.send(future, actor2);
         mailboxFactory.close();
     }
 }
