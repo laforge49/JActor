@@ -5,7 +5,7 @@ import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 public class Actor1 extends JLPCActor {
-    public Actor1(final Mailbox mailbox) {
+    public Actor1(Mailbox mailbox) {
         super(mailbox);
     }
 
