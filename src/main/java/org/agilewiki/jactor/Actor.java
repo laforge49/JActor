@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * <p>
@@ -101,7 +102,7 @@ public interface Actor {
      *
      * @return The actor's parent, or null.
      */
-    public Actor getParent();
+    public JLPCActor getParent();
 
     /**
      * Assign the parent actor.

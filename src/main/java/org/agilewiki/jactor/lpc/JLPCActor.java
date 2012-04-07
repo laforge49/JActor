@@ -80,7 +80,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     /**
      * The parent actor, for dependency injection.
      */
-    private Actor parent;
+    private JLPCActor parent;
 
     /**
      * Returns the actor's parent.
@@ -88,7 +88,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @return The actor's parent, or null.
      */
     @Override
-    final public Actor getParent() {
+    final public JLPCActor getParent() {
         return parent;
     }
 
@@ -105,7 +105,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             throw new UnsupportedOperationException("The parent can not be changed.");
         Requirement[] requirements = requirements();
         if (requirements == null || requirements.length == 0) {
-            this.parent = parent;
+            this.parent = (JLPCActor) parent;
             return;
         }
         int i = 0;
@@ -118,7 +118,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             }
             i += 1;
         }
-        this.parent = parent;
+        this.parent = (JLPCActor) parent;
     }
 
     /**
