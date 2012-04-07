@@ -3,7 +3,7 @@ package org.agilewiki.jactor.basics;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.Request;
 
-public class Greet1 extends Request<String, Actor2> {
+public class Greet1 extends Request<Object, Actor2> {
     public static final Greet1 req = new Greet1();
 
     @Override
