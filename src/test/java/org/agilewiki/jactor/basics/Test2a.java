@@ -6,7 +6,7 @@ import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 
-public class Test3 extends TestCase {
+public class Test2a extends TestCase {
     public void test() throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         Mailbox mailbox = mailboxFactory.createMailbox();
