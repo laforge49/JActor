@@ -63,6 +63,11 @@ import java.util.ArrayList;
  */
 abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
+     * True when initialized.
+     */
+    private boolean initialized;
+
+    /**
      * The type of actor.
      */
     private String actorType;
@@ -90,6 +95,22 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     @Override
     final public JLPCActor getParent() {
         return parent;
+    }
+
+    /**
+     * Returns true when initialized.
+     *
+     * @return True when initialized.
+     */
+    final public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * Marks the actor as initialized.
+     */
+    final public void initialized() {
+        initialized = true;
     }
 
     /**
@@ -521,6 +542,13 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     private void _processRequest(Object request, RP rp)
             throws Exception {
+        if (isInitialized()) {
+            if (request instanceof InitializationRequest) {
+                throw new IllegalStateException("already initialized");
+            }
+        } else if (!(request instanceof InitializationRequest)) {
+            initialized();
+        }
         setExceptionHandler(null);
         processRequest(request, rp);
     }

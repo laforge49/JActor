@@ -28,4 +28,16 @@ package org.agilewiki.jactor.lpc;
  */
 abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
+    /**
+     * Send an initialization request.
+     *
+     * @param targetActor The target actor.
+     * @return The response.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception {
+        targetActor.initialized();
+        return _call(targetActor);
+    }
 }

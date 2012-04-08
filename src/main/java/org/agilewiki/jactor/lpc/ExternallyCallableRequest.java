@@ -14,10 +14,8 @@ abstract public class ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE exten
      * @return The response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
-            throws Exception {
-        return _call(targetActor);
-    }
+    abstract public RESPONSE_TYPE call(TARGET_TYPE targetActor)
+            throws Exception;
 
     /**
      * Send an initialization request.

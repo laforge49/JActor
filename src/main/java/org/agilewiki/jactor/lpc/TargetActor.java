@@ -38,4 +38,16 @@ public interface TargetActor extends Actor {
      * @param exceptionHandler The exception handler.
      */
     public void setExceptionHandler(ExceptionHandler exceptionHandler);
+
+    /**
+     * Marks the actor as initialized.
+     */
+    public void initialized();
+
+    /**
+     * Returns true when initialized.
+     *
+     * @return True when initialized.
+     */
+    public boolean isInitialized();
 }
