@@ -190,10 +190,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public void processRequest(final JARequest request) throws Exception {
-        setExceptionHandler(null);
         if (request.isEvent())
-            processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
-        else processRequest(request.getUnwrappedRequest(), new RP() {
+            _processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
+        else _processRequest(request.getUnwrappedRequest(), new RP() {
             @Override
             public void processResponse(Object unwrappedResponse) {
                 JARequest old = mailbox.getCurrentRequest();
@@ -369,8 +368,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             throws Exception {
         if (rp.isEvent()) {
             try {
-                setExceptionHandler(null);
-                processRequest(request, rp);
+                _processRequest(request, rp);
             } catch (Exception ex) {
             }
             setExceptionHandler(sourceExceptionHandler);
@@ -417,8 +415,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             }
         };
         try {
-            setExceptionHandler(null);
-            processRequest(request, erp);
+            _processRequest(request, erp);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
             setExceptionHandler(sourceExceptionHandler);
@@ -513,6 +510,19 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         if (parent == null)
             return false;
         return parent.hasDataItem(name);
+    }
+
+    /**
+     * The application method for processing requests sent to the actor.
+     *
+     * @param request A request.
+     * @param rp      The response processor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    private void _processRequest(Object request, RP rp)
+            throws Exception {
+        setExceptionHandler(null);
+        processRequest(request, rp);
     }
 
     /**
