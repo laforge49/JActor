@@ -16,9 +16,12 @@ public class Test4 extends TestCase {
         JAFuture future = new JAFuture();
         boolean result = Validate1.req.send(future, actor4);
         assertFalse(result);
-        Actor1 actor1 = new Actor1(mailbox);
-        actor2.setParent(actor1);
-        result = Validate1.req.send(future, actor4);
+        Actor1 actor1a = new Actor1(mailbox);
+        Actor2 actor2a = new Actor2(mailbox);
+        actor2a.setParent(actor1a);
+        Actor4 actor4a = new Actor4(mailbox);
+        actor4a.setParent(actor2a);
+        result = Validate1.req.send(future, actor4a);
         assertTrue(result);
         mailboxFactory.close();
     }
