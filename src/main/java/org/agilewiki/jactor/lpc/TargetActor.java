@@ -40,14 +40,14 @@ public interface TargetActor extends Actor {
     public void setExceptionHandler(ExceptionHandler exceptionHandler);
 
     /**
-     * Marks the actor as initialized.
+     * Marks the actor as active.
      */
-    public void initialized();
+    public void activate();
 
     /**
-     * Returns true when initialized.
+     * Returns true when active.
      *
-     * @return True when initialized.
+     * @return True when active.
      */
-    public boolean isInitialized();
+    public boolean isActive();
 }

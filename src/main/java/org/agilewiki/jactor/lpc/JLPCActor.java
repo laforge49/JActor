@@ -63,7 +63,7 @@ import java.util.ArrayList;
  */
 abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
-     * True when initialized.
+     * True when activate.
      */
     private boolean initialized;
 
@@ -98,18 +98,18 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
-     * Returns true when initialized.
+     * Returns true when active.
      *
-     * @return True when initialized.
+     * @return True when active.
      */
-    final public boolean isInitialized() {
+    final public boolean isActive() {
         return initialized;
     }
 
     /**
-     * Marks the actor as initialized.
+     * Marks the actor as active.
      */
-    final public void initialized() {
+    final public void activate() {
         initialized = true;
     }
 
@@ -542,12 +542,12 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     private void _processRequest(Object request, RP rp)
             throws Exception {
-        if (isInitialized()) {
+        if (isActive()) {
             if (request instanceof InitializationRequest) {
-                throw new IllegalStateException("already initialized");
+                throw new IllegalStateException("already activate");
             }
         } else if (!(request instanceof InitializationRequest)) {
-            initialized();
+            activate();
         }
         setExceptionHandler(null);
         processRequest(request, rp);

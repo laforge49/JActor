@@ -25,7 +25,7 @@ package org.agilewiki.jactor.lpc;
 
 /**
  * A request that can be passed synchronously to a JBActor for processing,
- * but only until the actor is initialized.
+ * but only until the actor is activate.
  */
 abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends ExternallyCallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
@@ -38,8 +38,8 @@ abstract public class InitializationRequest<RESPONSE_TYPE, TARGET_TYPE extends T
      */
     final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
             throws Exception {
-        if (targetActor.isInitialized()) {
-            throw new IllegalStateException("already initialized");
+        if (targetActor.isActive()) {
+            throw new IllegalStateException("already activate");
         }
         return _call(targetActor);
     }
