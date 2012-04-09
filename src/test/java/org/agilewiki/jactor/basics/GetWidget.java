@@ -3,6 +3,9 @@ package org.agilewiki.jactor.basics;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.ConcurrentRequest;
 
+/**
+ * Test code.
+ */
 public class GetWidget extends ConcurrentRequest<String, Actor5> {
     public static GetWidget req = new GetWidget();
 

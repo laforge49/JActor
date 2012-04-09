@@ -5,6 +5,9 @@ import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
+/**
+ * Test code.
+ */
 public class Actor3 extends JLPCActor implements Greeter {
     public Actor3(Mailbox mailbox) {
         super(mailbox);

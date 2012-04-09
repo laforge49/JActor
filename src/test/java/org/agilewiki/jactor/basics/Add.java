@@ -3,6 +3,9 @@ package org.agilewiki.jactor.basics;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.Request;
 
+/**
+ * Test code.
+ */
 public class Add extends Request<Integer, Actor6a> {
     public final int x;
     public final int y;

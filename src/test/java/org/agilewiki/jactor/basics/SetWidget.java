@@ -3,6 +3,9 @@ package org.agilewiki.jactor.basics;
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.InitializationRequest;
 
+/**
+ * Test code.
+ */
 public class SetWidget extends InitializationRequest<Object, Actor5> {
     public final String widget;
 
