@@ -108,7 +108,7 @@ public class JAPublisher
             Subscriber subscriber = it.next();
             if (publishRequest.isTargetType(subscriber)) {
                 c += 1;
-                publishRequest.sendEvent(subscriber);
+                publishRequest.sendEvent(this, subscriber);
             }
         }
         return c;

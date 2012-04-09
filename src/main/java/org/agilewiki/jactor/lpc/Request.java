@@ -155,4 +155,40 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
             throws Exception {
         ((Actor) targetActor).acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
     }
+
+    /**
+     * Send a request event.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void sendEvent(APCRequestSource requestSource, Actor targetActor)
+            throws Exception {
+        if (isTargetType(targetActor)) {
+            targetActor.acceptRequest(requestSource, this, JANoResponse.nrp);
+            return;
+        }
+        Actor parent = targetActor.getParent();
+        if (parent != null) {
+            sendEvent(requestSource, parent);
+            return;
+        }
+        throw new UnsupportedOperationException(
+                "request: " + getClass().getName() +
+                        " target actor: " + targetActor.getClass().getName() +
+                        " target actor type: " + targetActor.getActorType());
+    }
+
+    /**
+     * Send a request event.
+     *
+     * @param requestSource The sender of the request.
+     * @param targetActor   The target actor.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    final public void sendEvent(APCRequestSource requestSource, TARGET_TYPE targetActor)
+            throws Exception {
+        ((Actor) targetActor).acceptRequest(requestSource, this, JANoResponse.nrp);
+    }
 }
