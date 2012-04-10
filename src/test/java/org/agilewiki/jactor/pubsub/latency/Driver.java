@@ -3,7 +3,6 @@ package org.agilewiki.jactor.pubsub.latency;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.pubsub.actorName.SetActorName;
 import org.agilewiki.jactor.pubsub.publisher.JAPublisher;
 import org.agilewiki.jactor.pubsub.publisher.Publish;
 import org.agilewiki.jactor.pubsub.publisher.Subscribe;
@@ -50,8 +49,7 @@ public class Driver extends JLPCActor implements Src {
             while (i < s) {
                 Sub sub = new Sub(getMailbox());
                 sub.setInitialBufferCapacity(1000);
-                SetActorName san = new SetActorName("" + i);
-                san.sendEvent(sub);
+                sub.setActorName("" + i);
                 sub.mod = m;
                 sub.src = this;
                 Subscribe subscribe = new Subscribe(sub);

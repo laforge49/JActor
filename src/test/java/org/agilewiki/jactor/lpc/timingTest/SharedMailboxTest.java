@@ -35,7 +35,7 @@ public class SharedMailboxTest extends TestCase {
         //burst size of 1000
         //16 parallel runs of 200000000 messages each.
         //3200000000 messages sent with 4 threads.
-        //msgs per sec = 1005340873
+        //msgs per sec = 1,005,340,873 (now 136,123,872)
         //.99 nanoseconds per message
         //5 clock cycles per message
 

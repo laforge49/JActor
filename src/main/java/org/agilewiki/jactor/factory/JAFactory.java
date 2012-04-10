@@ -66,18 +66,6 @@ public class JAFactory extends JLPCActor {
             rp.processResponse(getActorFactory((GetActorFactory) request));
             return;
         }
-        if (request instanceof DefineActorType) {
-            DefineActorType req = (DefineActorType) request;
-            defineActorType(req.getActorType(), req.getClazz());
-            rp.processResponse(null);
-            return;
-        }
-        if (request instanceof RegisterActorFactory) {
-            RegisterActorFactory req = (RegisterActorFactory) request;
-            registerActorFactory(req.getActorType(), req.getActorFactory());
-            rp.processResponse(null);
-            return;
-        }
     }
 
     protected Actor newActor(NewActor request)
@@ -113,7 +101,7 @@ public class JAFactory extends JLPCActor {
         return af;
     }
 
-    protected void defineActorType(String actorType, Class clazz)
+    public void defineActorType(String actorType, Class clazz)
             throws Exception {
         if (types.containsKey(actorType))
             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
@@ -125,8 +113,9 @@ public class JAFactory extends JLPCActor {
         throw new IllegalArgumentException(clazz.getName());
     }
 
-    protected void registerActorFactory(String actorType, ActorFactory actorFactory)
+    public void registerActorFactory(ActorFactory actorFactory)
             throws Exception {
+        String actorType = actorFactory.getActorType();
         if (types.containsKey(actorType))
             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
         types.put(actorType, actorFactory);

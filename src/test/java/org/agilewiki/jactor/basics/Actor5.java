@@ -31,13 +31,6 @@ public class Actor5 extends JLPCActor {
             return;
         }
 
-        if (reqcls == SetWidget.class) {
-            SetWidget req = (SetWidget) request;
-            setWidget(req.widget);
-            rp.processResponse(null);
-            return;
-        }
-
         throw new UnsupportedOperationException(reqcls.getName());
     }
 }

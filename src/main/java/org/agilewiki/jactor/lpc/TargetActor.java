@@ -38,16 +38,4 @@ public interface TargetActor extends Actor {
      * @param exceptionHandler The exception handler.
      */
     public void setExceptionHandler(ExceptionHandler exceptionHandler);
-
-    /**
-     * Marks the actor as active.
-     */
-    public void activate();
-
-    /**
-     * Returns true when active.
-     *
-     * @return True when active.
-     */
-    public boolean isActive();
 }

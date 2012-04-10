@@ -3,7 +3,6 @@ package org.agilewiki.jactor.factory.timing.test3;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
-import org.agilewiki.jactor.factory.DefineActorType;
 import org.agilewiki.jactor.factory.JAFactory;
 import org.agilewiki.jactor.factory.NewActor;
 import org.agilewiki.jactor.factory.timing.A;
@@ -20,7 +19,7 @@ public class Creation3Test extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JAFactory f = new JAFactory(mailboxFactory.createMailbox());
-            (new DefineActorType("A", A.class)).call(f);
+            f.defineActorType("A", A.class);
             loop(c, f);
             loop(c, f);
             long t0 = System.currentTimeMillis();

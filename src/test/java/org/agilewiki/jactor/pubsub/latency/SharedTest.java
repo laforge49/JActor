@@ -13,13 +13,13 @@ import org.agilewiki.jactor.pubsub.publisher.JAPublisher;
 public class SharedTest extends TestCase {
     public void test() throws Exception {
 
-        //int r = 1;
-        //int s = 1;
-        //int m = 1;
+        int r = 1;
+        int s = 1;
+        int m = 1;
 
-        int r = 1000;
-        int s = 100;
-        int m = 1000;
+        //int r = 1000;
+        //int s = 100;
+        //int m = 1000;
 
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);

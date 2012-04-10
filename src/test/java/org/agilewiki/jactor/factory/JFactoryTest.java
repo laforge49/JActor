@@ -12,8 +12,8 @@ public class JFactoryTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor f = new JAFactory(mailboxFactory.createMailbox());
-            (new DefineActorType("Foo", Foo.class)).call(f);
+            JAFactory f = new JAFactory(mailboxFactory.createMailbox());
+            f.defineActorType("Foo", Foo.class);
             Actor a = (new NewActor("Foo")).call(f);
             (new Hi()).call(a);
         } catch (Exception e) {

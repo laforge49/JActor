@@ -1,10 +1,8 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.pubsub.actorName.SetActorName;
 
 /**
  * Test code.
@@ -34,17 +32,17 @@ public class Driver
                 }
             };
 
-            Actor p1 = new Process(getMailbox());
+            Process p1 = new Process(getMailbox());
             p1.setParent(this);
-            (new SetActorName("1")).call(p1);
+            p1.setActorName("1");
 
-            Actor p2 = new Process(getMailbox());
+            Process p2 = new Process(getMailbox());
             p2.setParent(this);
-            (new SetActorName("2")).call(p2);
+            p2.setActorName("2");
 
-            Actor p3 = new Process(getMailbox());
+            Process p3 = new Process(getMailbox());
             p3.setParent(this);
-            (new SetActorName("3")).call(p3);
+            p3.setActorName("3");
 
             req.send(this, p1, rpc);
             req.send(this, p2, rpc);

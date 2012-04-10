@@ -37,7 +37,6 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends Targe
      */
     final public RESPONSE_TYPE call(TARGET_TYPE targetActor)
             throws Exception {
-        targetActor.activate();
         return _call(targetActor);
     }
 }

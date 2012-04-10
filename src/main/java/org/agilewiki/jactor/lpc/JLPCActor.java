@@ -63,11 +63,6 @@ import java.util.ArrayList;
  */
 abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
-     * True when activate.
-     */
-    private boolean initialized;
-
-    /**
      * The type of actor.
      */
     private String actorType;
@@ -95,22 +90,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     @Override
     final public JLPCActor getParent() {
         return parent;
-    }
-
-    /**
-     * Returns true when active.
-     *
-     * @return True when active.
-     */
-    final public boolean isActive() {
-        return initialized;
-    }
-
-    /**
-     * Marks the actor as active.
-     */
-    final public void activate() {
-        initialized = true;
     }
 
     /**
@@ -542,13 +521,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     private void _processRequest(Object request, RP rp)
             throws Exception {
-        if (isActive()) {
-            if (request instanceof InitializationRequest) {
-                throw new IllegalStateException("already activate");
-            }
-        } else if (!(request instanceof InitializationRequest)) {
-            activate();
-        }
         setExceptionHandler(null);
         processRequest(request, rp);
     }

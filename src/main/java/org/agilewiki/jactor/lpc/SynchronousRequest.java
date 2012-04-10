@@ -76,7 +76,6 @@ abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends Targ
      */
     final protected RESPONSE_TYPE call(TARGET_TYPE targetActor)
             throws Exception {
-        targetActor.activate();
         return _call(targetActor);
     }
 }

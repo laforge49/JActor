@@ -7,7 +7,6 @@ import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.GetActorFactory;
 import org.agilewiki.jactor.factory.JAFactory;
-import org.agilewiki.jactor.factory.RegisterActorFactory;
 import org.agilewiki.jactor.factory.timing.AFactory;
 
 public class Creation5Test extends TestCase {
@@ -22,7 +21,7 @@ public class Creation5Test extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JAFactory f = new JAFactory(mailboxFactory.createMailbox());
-            (new RegisterActorFactory(new AFactory("A"))).call(f);
+            f.registerActorFactory(new AFactory("A"));
             loop(c, f);
             loop(c, f);
             long t0 = System.currentTimeMillis();

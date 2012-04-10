@@ -3,7 +3,6 @@ package org.agilewiki.jactor.pubsub.publish;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.Request;
-import org.agilewiki.jactor.pubsub.actorName.SetActorName;
 import org.agilewiki.jactor.pubsub.publisher.*;
 import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
@@ -20,8 +19,8 @@ public class PublishTest extends TestCase {
             Req req = new Req();
             Publish publish = new Publish(req);
             int c = 0;
-            Subscriber s = new Sub(mailbox);
-            (new SetActorName("foo")).call(s);
+            Sub s = new Sub(mailbox);
+            s.setActorName("foo");
             Publisher p = new JAPublisher(mailbox);
             c = publish.send(future, p);
             assertEquals(0, c);

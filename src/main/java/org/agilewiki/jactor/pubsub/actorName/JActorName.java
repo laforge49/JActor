@@ -85,12 +85,6 @@ public class JActorName extends JLPCActor implements ActorName {
             return;
         }
 
-        if (reqcls == SetActorName.class) {
-            setActorName(((SetActorName) request).getName());
-            rp.processResponse(null);
-            return;
-        }
-
         throw new UnsupportedOperationException(reqcls.getName());
     }
 }
