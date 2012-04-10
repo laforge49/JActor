@@ -166,7 +166,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
     final public void sendEvent(APCRequestSource requestSource, Actor targetActor)
             throws Exception {
         if (isTargetType(targetActor)) {
-            targetActor.acceptRequest(requestSource, this, JANoResponse.nrp);
+            targetActor.acceptEvent(requestSource, this);
             return;
         }
         Actor parent = targetActor.getParent();

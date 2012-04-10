@@ -14,11 +14,11 @@ public class Actor5 extends JLPCActor {
         super(mailbox);
     }
 
-    String getWidget() {
+    public String getWidget() {
         return widget;
     }
 
-    void setWidget(String widget) {
+    public void setWidget(String widget) {
         this.widget = widget;
     }
 

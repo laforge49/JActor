@@ -61,6 +61,16 @@ public interface Actor {
             throws Exception;
 
     /**
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
+     *
+     * @param requestSource The originator of the request.
+     * @param request       The unwrapped request to be sent.
+     */
+    public void acceptEvent(APCRequestSource requestSource,
+                            Object request)
+            throws Exception;
+
+    /**
      * Set the initial capacity for buffered outgoing messages.
      *
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.

@@ -27,7 +27,7 @@ public class SharedMailboxTest extends TestCase {
         //3.2 nanosecond latency
         //8 clock cycle latency
 
-        //int c = 100000;
+        //int c = 40000;//100000;
         //int b = 1000;
         //int p = 16;
         //int t = 4;
@@ -54,7 +54,7 @@ public class SharedMailboxTest extends TestCase {
             }
             JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), senders);
             JAFuture future = new JAFuture();
-            future.send(parallel, future);
+            //future.send(parallel, future);
             future.send(parallel, future);
             long t0 = System.currentTimeMillis();
             future.send(parallel, future);

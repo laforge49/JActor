@@ -301,6 +301,47 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
+     * Wraps and enqueues an unwrapped request in the requester's inbox.
+     *
+     * @param apcRequestSource The originator of the request.
+     * @param request          The request to be sent.
+     * @throws Exception Any uncaught exceptions raised while processing the request.
+     */
+    @Override
+    final public void acceptEvent(final APCRequestSource apcRequestSource,
+                                  final Object request)
+            throws Exception {
+        RequestSource rs = (RequestSource) apcRequestSource;
+        ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
+        Mailbox sourceMailbox = rs.getMailbox();
+        if (sourceMailbox == mailbox) {
+            syncSendEvent(rs, request, sourceExceptionHandler);
+            return;
+        }
+        if (sourceMailbox == null) {
+            asyncSendEvent(rs, request, sourceExceptionHandler);
+            return;
+        }
+        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+        if (eventQueue.getController() == srcController) {
+            syncSendEvent(rs, request, sourceExceptionHandler);
+            return;
+        }
+        if (!eventQueue.acquireControl(srcController)) {
+            asyncSendEvent(rs, request, sourceExceptionHandler);
+            return;
+        }
+        try {
+            syncSendEvent(rs, request, sourceExceptionHandler);
+        } finally {
+            mailbox.dispatchEvents();
+            mailbox.sendPendingMessages();
+            eventQueue.relinquishControl();
+        }
+    }
+
+    /**
      * Process an exception when the response is asynchronous.
      *
      * @param ex            Any exceptions thrown while processing the request or response.
@@ -329,7 +370,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                  final RP rp,
                                  final ExceptionHandler sourceExceptionHandler) {
         RP rp1 = rp;
-        if (!rp.isEvent()) rp1 = new RP() {
+        rp1 = new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 rs.setExceptionHandler(sourceExceptionHandler);
@@ -354,6 +395,83 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
+     * Process a request asynchronously.
+     *
+     * @param rs                     The source of the request.
+     * @param request                The request.
+     * @param sourceExceptionHandler Exception handler of the source actor.
+     */
+    final private void asyncSendEvent(final RequestSource rs,
+                                      final Object request,
+                                      final ExceptionHandler sourceExceptionHandler) {
+        final JARequest jaRequest = new JARequest(
+                rs,
+                this,
+                request,
+                JANoResponse.nrp);
+        rs.send(mailbox, jaRequest);
+    }
+
+    class SyncExtendedRspProcessor extends ExtendedResponseProcessor {
+        RequestSource rs;
+        Object request;
+        RP rp;
+        ExceptionHandler sourceExceptionHandler;
+
+        SyncExtendedRspProcessor(RequestSource rs, Object request, RP rp, ExceptionHandler sourceExceptionHandler) {
+            this.rs = rs;
+            this.request = request;
+            this.rp = rp;
+            this.sourceExceptionHandler = sourceExceptionHandler;
+        }
+
+        /**
+         * Receives and processes a response.
+         *
+         * @param response The response.
+         * @throws Exception Any uncaught exceptions raised when processing the response.
+         */
+        @Override
+        public void processResponse(Object response)
+                throws Exception {
+            setExceptionHandler(sourceExceptionHandler);
+            if (!async) {
+                sync = true;
+                try {
+                    rp.processResponse(response);
+                } catch (Exception e) {
+                    throw new TransparentException(e);
+                }
+            } else {
+                if (response != null && response instanceof Exception)
+                    asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
+                else try {
+                    Mailbox sourceMailbox = rs.getMailbox();
+                    EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
+                    EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
+                    EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+                    EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
+                    if (srcController == controller) {
+                        rp.processResponse(response);
+                    } else if (!eventQueue.acquireControl(srcController)) {
+                        asyncResponse(rs, request, response, rp);
+                    } else {
+                        try {
+                            rp.processResponse(response);
+                        } finally {
+                            mailbox.dispatchEvents();
+                            mailbox.sendPendingMessages();
+                            eventQueue.relinquishControl();
+                        }
+                    }
+                } catch (Exception ex) {
+                    asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
+                }
+            }
+        }
+    }
+
+    /**
      * Process a request from another mailbox synchronously.
      *
      * @param rs                     The source of the request.
@@ -366,54 +484,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                 final RP rp,
                                 final ExceptionHandler sourceExceptionHandler)
             throws Exception {
-        if (rp.isEvent()) {
-            try {
-                _processRequest(request, rp);
-            } catch (Exception ex) {
-            }
-            setExceptionHandler(sourceExceptionHandler);
-            return;
-        }
-        final ExtendedResponseProcessor erp = new ExtendedResponseProcessor() {
-            @Override
-            public void processResponse(final Object response)
-                    throws Exception {
-                setExceptionHandler(sourceExceptionHandler);
-                if (!async) {
-                    sync = true;
-                    try {
-                        rp.processResponse(response);
-                    } catch (Exception e) {
-                        throw new TransparentException(e);
-                    }
-                } else {
-                    if (response != null && response instanceof Exception)
-                        asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
-                    else try {
-                        Mailbox sourceMailbox = rs.getMailbox();
-                        EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
-                        EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
-                        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-                        EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
-                        if (srcController == controller) {
-                            rp.processResponse(response);
-                        } else if (!eventQueue.acquireControl(srcController)) {
-                            asyncResponse(rs, request, response, rp);
-                        } else {
-                            try {
-                                rp.processResponse(response);
-                            } finally {
-                                mailbox.dispatchEvents();
-                                mailbox.sendPendingMessages();
-                                eventQueue.relinquishControl();
-                            }
-                        }
-                    } catch (Exception ex) {
-                        asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
-                    }
-                }
-            }
-        };
+        final SyncExtendedRspProcessor erp = new SyncExtendedRspProcessor(rs, request, rp, sourceExceptionHandler);
         try {
             _processRequest(request, erp);
             if (!erp.sync) erp.async = true;
@@ -427,6 +498,25 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             eh.process(e);
         }
         setExceptionHandler(sourceExceptionHandler);
+    }
+
+    /**
+     * Process a request from another mailbox synchronously.
+     *
+     * @param rs                     The source of the request.
+     * @param request                The request.
+     * @param sourceExceptionHandler Exception handler of the source actor.
+     */
+    final private void syncSendEvent(final RequestSource rs,
+                                     final Object request,
+                                     final ExceptionHandler sourceExceptionHandler)
+            throws Exception {
+        try {
+            _processRequest(request, JANoResponse.nrp);
+        } catch (Exception ex) {
+        }
+        setExceptionHandler(sourceExceptionHandler);
+        return;
     }
 
     /**
