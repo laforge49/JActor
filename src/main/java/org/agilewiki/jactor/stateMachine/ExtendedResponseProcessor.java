@@ -28,7 +28,7 @@ import org.agilewiki.jactor.RP;
 /**
  * Supports processing sensitive to how a response is returned.
  */
-abstract public class ExtendedResponseProcessor extends RP {
+abstract public class ExtendedResponseProcessor<RESPONSE_TYPE> extends RP<RESPONSE_TYPE> {
     /**
      * Set true when a response is received synchronously.
      */

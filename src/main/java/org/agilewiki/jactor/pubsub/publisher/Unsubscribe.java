@@ -25,6 +25,7 @@ package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.SynchronousRequest;
+import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
  * Unsubscribe from a publisher.
@@ -34,15 +35,15 @@ public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
     /**
      * The name of the subscribing actor.
      */
-    final public String subscriberName;
+    final public Subscriber subscriber;
 
     /**
      * Create a Subscribe request.
      *
-     * @param subscriberName The name of the subscribing actor.
+     * @param subscriber The subscribing actor.
      */
-    public Unsubscribe(String subscriberName) {
-        this.subscriberName = subscriberName;
+    public Unsubscribe(Subscriber subscriber) {
+        this.subscriber = subscriber;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
     @Override
     protected Boolean _call(Publisher targetActor)
             throws Exception {
-        return targetActor.unsubscribe(subscriberName);
+        return targetActor.unsubscribe(subscriber);
     }
 
     /**

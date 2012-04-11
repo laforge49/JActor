@@ -23,7 +23,10 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.JAEvent;
+import org.agilewiki.jactor.JAFuture;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.apc.APCRequestSource;
 
 /**
@@ -131,7 +134,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
     final public void sendEvent(Actor targetActor)
             throws Exception {
         if (isTargetType(targetActor)) {
-            targetActor.acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
+            targetActor.acceptEvent(JAEvent.requestSource, this);
             return;
         }
         Actor parent = targetActor.getParent();
@@ -153,7 +156,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      */
     final public void sendEvent(TARGET_TYPE targetActor)
             throws Exception {
-        ((Actor) targetActor).acceptRequest(JAEvent.requestSource, this, JANoResponse.nrp);
+        ((Actor) targetActor).acceptEvent(JAEvent.requestSource, this);
     }
 
     /**
@@ -189,6 +192,6 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
      */
     final public void sendEvent(APCRequestSource requestSource, TARGET_TYPE targetActor)
             throws Exception {
-        ((Actor) targetActor).acceptRequest(requestSource, this, JANoResponse.nrp);
+        ((Actor) targetActor).acceptEvent(requestSource, this);
     }
 }

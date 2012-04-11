@@ -25,11 +25,13 @@ package org.agilewiki.jactor.parallel;
 
 import org.agilewiki.jactor.RP;
 
+import java.util.ArrayList;
+
 /**
  * Counts the number of responses received
  * and responds with the count of requests sent when the iteration is finished.
  */
-public class JAResponseCounter2 extends RP {
+public class JAResponseCounter3 extends RP {
     /**
      * The number of requests sent.
      */
@@ -50,12 +52,22 @@ public class JAResponseCounter2 extends RP {
      */
     private RP xrp;
 
+    private ArrayList<JAResponseCounter3> pool;
+
+    public JAResponseCounter3(ArrayList<JAResponseCounter3> pool) {
+        this.pool = pool;
+        pool.add(this);
+    }
+
     /**
-     * Create a PubSubResponseProcessor.
+     * Initialize.
      *
-     * @param xrp The external response processor.
+     * @param xrp The external RP
      */
-    public JAResponseCounter2(RP xrp) {
+    public void setup(RP xrp) {
+        sent = 0;
+        received = 0;
+        complete = false;
         this.xrp = xrp;
     }
 
@@ -65,10 +77,13 @@ public class JAResponseCounter2 extends RP {
      * @throws Exception Any excpetions raised while processing the external response.
      */
     public void finished() throws Exception {
-        if (received == sent)
+        if (received == sent) {
+            pool.add(this);
             xrp.processResponse(new Integer(sent));
-        else
+            xrp = null;
+        } else {
             complete = true;
+        }
     }
 
     /**
@@ -81,7 +96,9 @@ public class JAResponseCounter2 extends RP {
     public void processResponse(Object response) throws Exception {
         received += 1;
         if (complete && received == sent) {
+            pool.add(this);
             xrp.processResponse(new Integer(sent));
+            xrp = null;
         }
     }
 }

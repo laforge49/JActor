@@ -30,7 +30,7 @@ public class PublishTest extends TestCase {
             assertEquals(s, s1);
             c = publish.send(future, p);
             assertEquals(1, c);
-            (new Unsubscribe("foo")).send(future, p);
+            (new Unsubscribe(s)).send(future, p);
             c = publish.send(future, p);
             assertEquals(0, c);
         } catch (Exception e) {

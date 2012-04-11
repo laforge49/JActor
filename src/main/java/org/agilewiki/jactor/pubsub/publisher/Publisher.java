@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
@@ -34,7 +35,7 @@ public interface Publisher extends Subscriber {
      * Subscribe to the publisher.
      *
      * @param subscriber The subscribing actor.
-     * @return True when a new subscriber has been added.
+     * @return True when a new name has been added.
      */
     public boolean subscribe(Subscriber subscriber)
             throws Exception;
@@ -42,10 +43,10 @@ public interface Publisher extends Subscriber {
     /**
      * Unsubscribe from the publisher.
      *
-     * @param subscriberName The name of the subscribing actor.
+     * @param subscriber The subscribing actor.
      * @return True when an actor is unsubscribed.
      */
-    public boolean unsubscribe(String subscriberName)
+    public boolean unsubscribe(Subscriber subscriber)
             throws Exception;
 
     /**
@@ -61,8 +62,9 @@ public interface Publisher extends Subscriber {
      * Publish a request to all the appropriate subscribers.
      *
      * @param publishRequest The request to be published.
+     * @param rp             The response processor.
      * @return The number of subscribers which received the request.
      */
-    public int publish(Request publishRequest)
+    public void publish(Request publishRequest, RP rp)
             throws Exception;
 }

@@ -6,6 +6,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.pubsub.publisher.JAPublisher;
 import org.agilewiki.jactor.pubsub.publisher.Publish;
 import org.agilewiki.jactor.pubsub.publisher.Subscribe;
+import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 
 /**
  * Test code.
@@ -13,9 +14,7 @@ import org.agilewiki.jactor.pubsub.publisher.Subscribe;
 public class Driver extends JLPCActor implements Src {
     public int r;
     public int s;
-    public int m;
     public JAPublisher pub;
-    private RP done;
     private int count;
     private Publish publish = new Publish(Ping.req);
 
@@ -23,46 +22,48 @@ public class Driver extends JLPCActor implements Src {
         super(mailbox);
     }
 
-    private void ack() throws Exception {
-        if (count == r * s) {
-            done.processResponse(null);
-            return;
-        }
-        if (count % s == 0) {
-            int i = 0;
-            while (i < m) {
-                publish.sendEvent(pub);
-                i += 1;
+    public void sender(final RP done, ExtendedResponseProcessor<Integer> erp) throws Exception {
+        while (true) {
+            if (count == r) {
+                done.processResponse(null);
+                return;
+            }
+            count += 1;
+            erp.sync = false;
+            erp.async = false;
+            publish.send(this, pub, erp);
+            if (!erp.sync) {
+                erp.async = true;
+                return;
             }
         }
-        count += 1;
     }
 
     @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
+    protected void processRequest(Object request, final RP rp) throws Exception {
         Class reqcls = request.getClass();
 
         if (reqcls == Go.class) {
-            done = rp;
             count = 0;
             int i = 0;
             while (i < s) {
                 Sub sub = new Sub(getMailbox());
-                sub.setInitialBufferCapacity(1000);
                 sub.setActorName("" + i);
-                sub.mod = m;
                 sub.src = this;
                 Subscribe subscribe = new Subscribe(sub);
-                subscribe.sendEvent(pub);
+                subscribe.sendEvent(this, pub);
                 i += 1;
             }
-            ack();
-            return;
-        }
-
-        if (reqcls == Ack.class) {
-            ack();
-            rp.processResponse(null);
+            ExtendedResponseProcessor<Integer> erp = new ExtendedResponseProcessor<Integer>() {
+                @Override
+                public void processResponse(Integer response) throws Exception {
+                    if (!async)
+                        sync = true;
+                    else
+                        sender(rp, this);
+                }
+            };
+            sender(rp, erp);
             return;
         }
 

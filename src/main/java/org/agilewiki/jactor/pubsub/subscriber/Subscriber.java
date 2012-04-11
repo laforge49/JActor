@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.pubsub.subscriber;
 
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.pubsub.actorName.ActorName;
 import org.agilewiki.jactor.pubsub.publisher.Publisher;
 
@@ -42,7 +43,8 @@ public interface Subscriber extends ActorName {
      * This actor's subscription has been dropped.
      *
      * @param publisher The publisher which has dropped the subscription.
+     * @param rp        The response processor.
      */
-    public void unsubscribed(Publisher publisher)
+    public void unsubscribed(Publisher publisher, RP rp)
             throws Exception;
 }

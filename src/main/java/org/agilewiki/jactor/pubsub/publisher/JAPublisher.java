@@ -26,12 +26,12 @@ package org.agilewiki.jactor.pubsub.publisher;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.parallel.JAResponseCounter3;
 import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 import org.agilewiki.jactor.pubsub.subscriber.Unsubscribed;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Implements Publisher.
@@ -42,7 +42,9 @@ public class JAPublisher
     /**
      * Table of subscribers, keyed by actor name.
      */
-    protected HashMap<String, Subscriber> subscribers = new HashMap<String, Subscriber>();
+    protected ArrayList<Subscriber> subscribers = new ArrayList<Subscriber>();
+
+    private ArrayList<JAResponseCounter3> pool = new ArrayList<JAResponseCounter3>();
 
     /**
      * Create a JAPublisher.
@@ -57,29 +59,28 @@ public class JAPublisher
      * Subscribe to the publisher.
      *
      * @param subscriber The subscribing actor.
-     * @return True when a new subscriber has been added.
+     * @return True when a new name has been added.
      */
     @Override
     public boolean subscribe(Subscriber subscriber)
             throws Exception {
         String actorName = subscriber.getActorName();
-        if (subscribers.containsKey(actorName))
+        if (getSubscriber(actorName) != null)
             return false;
-        subscribers.put(actorName, subscriber);
+        subscribers.add(subscriber);
         return true;
     }
 
     /**
      * Unsubscribe from the publisher.
      *
-     * @param subscriberName The name of the subscribing actor.
+     * @param subscriber The subscribing actor.
      * @return True when an actor is unsubscribed.
      */
     @Override
-    public boolean unsubscribe(String subscriberName)
+    public boolean unsubscribe(Subscriber subscriber)
             throws Exception {
-        Subscriber subscriber = subscribers.remove(subscriberName);
-        return subscriber != null;
+        return subscribers.remove(subscriber);
     }
 
     /**
@@ -91,39 +92,56 @@ public class JAPublisher
     @Override
     public Subscriber getSubscriber(String subscriberName)
             throws Exception {
-        return subscribers.get(subscriberName);
+        int i = 0;
+        while (i < subscribers.size()) {
+            Subscriber s = subscribers.get(i);
+            if (s.getActorName().equals(subscriberName))
+                return s;
+            i += 1;
+        }
+        return null;
     }
 
     /**
      * Publish a request to all the appropriate subscribers.
      *
      * @param publishRequest The request to be published.
+     * @param rp             The response processor.
      * @return The number of subscribers which received the request.
      */
-    public int publish(Request publishRequest)
+    public void publish(Request publishRequest, RP rp)
             throws Exception {
-        int c = 0;
-        Iterator<Subscriber> it = subscribers.values().iterator();
-        while (it.hasNext()) {
-            Subscriber subscriber = it.next();
-            if (publishRequest.isTargetType(subscriber)) {
-                c += 1;
-                publishRequest.sendEvent(this, subscriber);
-            }
+        JAResponseCounter3 rc;
+        int ps = pool.size();
+        if (ps == 0)
+            rc = new JAResponseCounter3(pool);
+        else {
+            rc = pool.remove(ps - 1);
         }
-        return c;
+        rc.setup(rp);
+        int i = 0;
+        while (i < subscribers.size()) {
+            Subscriber s = subscribers.get(i);
+            if (publishRequest.isTargetType(s)) {
+                rc.sent += 1;
+                publishRequest.send(this, s, rc);
+            }
+            i += 1;
+        }
+        rc.finished();
     }
 
     /**
      * This actor's subscription has been dropped.
      *
      * @param publisher The publisher which has dropped the subscription.
+     * @param rp        The response processor.
      */
     @Override
-    public void unsubscribed(Publisher publisher)
+    public void unsubscribed(Publisher publisher, RP rp)
             throws Exception {
         Unsubscribed unsubscribed = new Unsubscribed(this);
-        publish(unsubscribed);
+        publish(unsubscribed, rp);
     }
 
     /**
@@ -146,7 +164,7 @@ public class JAPublisher
 
         if (reqcls == Unsubscribe.class) {
             Unsubscribe unsubscribe = (Unsubscribe) request;
-            rp.processResponse(unsubscribe(unsubscribe.subscriberName));
+            rp.processResponse(unsubscribe(unsubscribe.subscriber));
             return;
         }
 
@@ -158,7 +176,7 @@ public class JAPublisher
 
         if (reqcls == Publish.class) {
             Publish publish = (Publish) request;
-            rp.processResponse(publish(publish.publishRequest));
+            publish(publish.publishRequest, rp);
             return;
         }
 

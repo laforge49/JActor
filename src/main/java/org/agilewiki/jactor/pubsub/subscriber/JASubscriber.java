@@ -56,10 +56,12 @@ public class JASubscriber
      * This actor's subscription has been dropped.
      *
      * @param publisher The publisher which has dropped the subscription.
+     * @param rp        The response processor.
      */
     @Override
-    public void unsubscribed(Publisher publisher)
+    public void unsubscribed(Publisher publisher, RP rp)
             throws Exception {
+        rp.processResponse(null);
     }
 
     /**
@@ -82,8 +84,7 @@ public class JASubscriber
 
         if (reqcls == Unsubscribed.class) {
             Publisher publisher = ((Unsubscribed) request).publisher;
-            unsubscribed(publisher);
-            rp.processResponse(null);
+            unsubscribed(publisher, rp);
             return;
         }
 
