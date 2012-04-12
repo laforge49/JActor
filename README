@@ -75,23 +75,6 @@ If an actor receives a request of a type that it does not recognize and that act
 has been assigned a parent actor, then the request is immediately forwarded to the
 parent actor.
 
-Request Message Binding and Actor Composition
-
-Actors can be composed from one or more components, where each component maps the
-request classes that it handles to the logic for processing those requests.
-
-Components
-
-Several components are provided:
-
-    ActorName - Used to assign a name to an actor.
-    ActorRegistry - Locates actors by name and closes them when the registry is
-                    closed.
-    Factory - For creating actors with a single component include.
-    Properties - For creating a table of name/value pairs.
-    PubSub - Publish and subscribe.
-    NBLock - A non-blocking lock for gaining exclusive access to a resource.
-
 Message Passing Benchmarks
 
                          Shared Mailbox       Across Mailboxes
