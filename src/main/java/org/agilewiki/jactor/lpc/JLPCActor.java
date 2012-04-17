@@ -624,14 +624,4 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     abstract protected void processRequest(Object request, RP rp)
             throws Exception;
-
-    /**
-     * Returns this actor.
-     *
-     * @return This actor.
-     */
-    @Override
-    final public Actor getThisActor() {
-        return this;
-    }
 }

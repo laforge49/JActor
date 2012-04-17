@@ -75,7 +75,7 @@ public class JAFactory extends JLPCActor {
         Actor parent = request.getParent();
         if (mailbox == null || parent == null) {
             if (mailbox == null) mailbox = getMailbox();
-            if (parent == null) parent = getThisActor();
+            if (parent == null) parent = this;
             request = new NewActor(actorType, mailbox, parent);
         }
         ActorFactory af = types.get(actorType);
