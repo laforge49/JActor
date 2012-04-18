@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Creates a JLPCActor.
  */
-abstract public class JLPCActorFactory implements ActorFactory {
+abstract public class JLPCActorFactory {
     /**
      * The actor type.
      */
