@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 /**
  * An actor for defining actor types and creating instances.
  */
-public class JAFactory extends JLPCActor {
+public class JAFactory extends JLPCActor implements Factory {
     /**
      * A table which maps type names to actor factories.
      */
@@ -68,7 +68,14 @@ public class JAFactory extends JLPCActor {
         }
     }
 
-    protected Actor newActor(NewActor request)
+    /**
+     * Creates a new actor.
+     *
+     * @param request The request.
+     * @return The new actor.
+     */
+    @Override
+    public Actor newActor(NewActor request)
             throws Exception {
         String actorType = request.getActorType();
         Mailbox mailbox = request.getMailbox();
@@ -88,7 +95,14 @@ public class JAFactory extends JLPCActor {
         return af.newActor(mailbox, parent);
     }
 
-    protected ActorFactory getActorFactory(GetActorFactory request)
+    /**
+     * Returns the requested actor factory.
+     *
+     * @param request The request.
+     * @return The registered actor factory.
+     */
+    @Override
+    public ActorFactory getActorFactory(GetActorFactory request)
             throws Exception {
         String actorType = request.getActorType();
         ActorFactory af = types.get(actorType);
@@ -101,6 +115,13 @@ public class JAFactory extends JLPCActor {
         return af;
     }
 
+    /**
+     * Bind an actor type to a Class.
+     *
+     * @param actorType The actor type.
+     * @param clazz     The class of the actor.
+     */
+    @Override
     public void defineActorType(String actorType, Class clazz)
             throws Exception {
         if (types.containsKey(actorType))
@@ -113,6 +134,12 @@ public class JAFactory extends JLPCActor {
         throw new IllegalArgumentException(clazz.getName());
     }
 
+    /**
+     * Register an actor factory.
+     *
+     * @param actorFactory An actor factory.
+     */
+    @Override
     public void registerActorFactory(ActorFactory actorFactory)
             throws Exception {
         String actorType = actorFactory.getActorType();

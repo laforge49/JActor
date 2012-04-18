@@ -24,55 +24,44 @@
 package org.agilewiki.jactor.factory;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.lpc.ConcurrentRequest;
+import org.agilewiki.jactor.lpc.TargetActor;
 
 /**
- * Returns the actor factory assigned to a given actor type.
+ * Defines actor types and instantiating
  */
-public class GetActorFactory extends ConcurrentRequest<ActorFactory, Factory> {
+public interface Factory extends TargetActor {
     /**
-     * An actor type name.
+     * Bind an actor type to a Class.
+     *
+     * @param actorType The actor type.
+     * @param clazz     The class of the actor.
      */
-    private String actorType;
+    public void defineActorType(String actorType, Class clazz)
+            throws Exception;
 
     /**
-     * Create a request.
+     * Register an actor factory.
      *
-     * @param actorType An actor type name.
+     * @param actorFactory An actor factory.
      */
-    public GetActorFactory(String actorType) {
-        this.actorType = actorType;
-    }
+    public void registerActorFactory(ActorFactory actorFactory)
+            throws Exception;
 
     /**
-     * Returns an actor type name.
+     * Returns the requested actor factory.
      *
-     * @return An actor type name.
+     * @param request The request.
+     * @return The registered actor factory.
      */
-    public String getActorType() {
-        return actorType;
-    }
+    public ActorFactory getActorFactory(GetActorFactory request)
+            throws Exception;
 
     /**
-     * Send a synchronous request.
+     * Creates a new actor.
      *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
+     * @param request The request.
+     * @return The new actor.
      */
-    @Override
-    protected ActorFactory _call(Factory targetActor)
-            throws Exception {
-        return targetActor.getActorFactory(this);
-    }
-
-    /**
-     * Returns true when targetActor is an instanceof TARGET_TYPE
-     *
-     * @param targetActor The actor to be called.
-     * @return True when targetActor is an instanceof TARGET_TYPE.
-     */
-    public boolean isTargetType(Actor targetActor) {
-        return targetActor instanceof Factory;
-    }
+    public Actor newActor(NewActor request)
+            throws Exception;
 }
