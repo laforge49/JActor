@@ -24,12 +24,12 @@
 package org.agilewiki.jactor.nbLock;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
+import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
  * Creates a NBLock actor.
  */
-public class JNBLockFactory extends JLPCActorFactory {
+public class JNBLockFactory extends ActorFactory {
     /**
      * The default type of the NBLock actor.
      */

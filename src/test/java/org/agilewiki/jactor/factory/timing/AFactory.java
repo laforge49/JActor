@@ -1,10 +1,10 @@
 package org.agilewiki.jactor.factory.timing;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
+import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
-public class AFactory extends JLPCActorFactory {
+public class AFactory extends ActorFactory {
 
     public AFactory(String actorType) {
         super(actorType);

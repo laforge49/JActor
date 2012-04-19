@@ -30,7 +30,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Creates a JLPCActor.
  */
-abstract public class JLPCActorFactory {
+abstract public class ActorFactory {
     /**
      * The actor type.
      */
@@ -41,7 +41,7 @@ abstract public class JLPCActorFactory {
      *
      * @param actorType The actor type.
      */
-    public JLPCActorFactory(String actorType) {
+    public ActorFactory(String actorType) {
         this.actorType = actorType;
     }
 
@@ -50,7 +50,6 @@ abstract public class JLPCActorFactory {
      *
      * @return The actor type.
      */
-    @Override
     final public String getActorType() {
         return actorType;
     }
@@ -71,8 +70,7 @@ abstract public class JLPCActorFactory {
      * @param parent  The parent of the new actor.
      * @return The new actor.
      */
-    @Override
-    final public JLPCActor newActor(Mailbox mailbox, Actor parent)
+    public JLPCActor newActor(Mailbox mailbox, Actor parent)
             throws Exception {
         JLPCActor a = instantiateActor(mailbox);
         a.setActorType(actorType);

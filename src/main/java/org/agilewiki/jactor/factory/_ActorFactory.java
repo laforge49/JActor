@@ -31,7 +31,7 @@ import java.lang.reflect.Constructor;
 /**
  * Creates a JLPCActor using a Constructor.
  */
-final public class _ActorFactory extends JLPCActorFactory {
+final public class _ActorFactory extends ActorFactory {
     /**
      * The constructor used to create the actor.
      */

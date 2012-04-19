@@ -24,12 +24,12 @@
 package org.agilewiki.jactor.properties;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
+import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
  * Creates a Properties actor.
  */
-public class JAPropertiesFactory extends JLPCActorFactory {
+public class JAPropertiesFactory extends ActorFactory {
     /**
      * The default name of the JFactory actor.
      */

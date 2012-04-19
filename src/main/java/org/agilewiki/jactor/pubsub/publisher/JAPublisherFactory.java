@@ -24,12 +24,12 @@
 package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.factory.JLPCActorFactory;
+import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
  * Creates a JAPublisher actor.
  */
-public class JAPublisherFactory extends JLPCActorFactory {
+public class JAPublisherFactory extends ActorFactory {
     /**
      * The default name of the JFactory actor.
      */
