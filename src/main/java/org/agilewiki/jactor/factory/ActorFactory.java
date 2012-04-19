@@ -38,6 +38,12 @@ abstract public class ActorFactory {
 
     /**
      * Create an ActorFactory.
+     */
+    public ActorFactory() {
+    }
+
+    /**
+     * Create an ActorFactory.
      *
      * @param actorType The actor type.
      */
