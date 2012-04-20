@@ -63,9 +63,9 @@ import java.util.ArrayList;
  */
 abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
-     * The type of actor.
+     * The factory, or null.
      */
-    private String actorType;
+    private ActorFactory factory;
 
     /**
      * The inbox and outbox of the actor.
@@ -138,20 +138,31 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public String getActorType() {
-        return actorType;
+        if (factory == null)
+            return null;
+        return factory.getActorType();
     }
 
     /**
-     * Assigns the actorType.
-     * Once assigned, it can not be changed.
+     * Returns the factory.
      *
-     * @param actorType The actor type.
+     * @return The factory, or null.
      */
     @Override
-    final public void setActorType(String actorType) {
-        if (this.actorType != null)
-            throw new UnsupportedOperationException("The actorType can not be changed");
-        this.actorType = actorType;
+    final public ActorFactory getFactory() {
+        return factory;
+    }
+
+    /**
+     * Assigns the factory.
+     * Once assigned, it can not be changed.
+     *
+     * @param factory The factory.
+     */
+    final public void setFactory(ActorFactory factory) {
+        if (this.factory != null)
+            throw new UnsupportedOperationException("The factory can not be changed");
+        this.factory = factory;
     }
 
     /**

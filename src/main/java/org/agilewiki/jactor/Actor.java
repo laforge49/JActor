@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
@@ -100,12 +101,11 @@ public interface Actor {
     public String getActorType();
 
     /**
-     * Assigns the actorType.
-     * Once assigned, it can not be changed.
+     * Returns the factory.
      *
-     * @param actorType The actor type.
+     * @return The factory, or null.
      */
-    public void setActorType(String actorType);
+    public ActorFactory getFactory();
 
     /**
      * Returns the actor's parent.

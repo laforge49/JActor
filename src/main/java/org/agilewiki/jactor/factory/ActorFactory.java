@@ -79,7 +79,7 @@ abstract public class ActorFactory {
     public JLPCActor newActor(Mailbox mailbox, Actor parent)
             throws Exception {
         JLPCActor a = instantiateActor(mailbox);
-        a.setActorType(actorType);
+        a.setFactory(this);
         a.setParent(parent);
         return a;
     }
