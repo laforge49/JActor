@@ -63,7 +63,6 @@ public interface Publisher extends Subscriber {
      *
      * @param publishRequest The request to be published.
      * @param rp             The response processor.
-     * @return The number of subscribers which received the request.
      */
     public void publish(Request publishRequest, RP rp)
             throws Exception;
