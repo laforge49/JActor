@@ -34,13 +34,7 @@ abstract public class ActorFactory {
     /**
      * The actor type.
      */
-    protected String actorType;
-
-    /**
-     * Create an ActorFactory.
-     */
-    public ActorFactory() {
-    }
+    public final String actorType;
 
     /**
      * Create an ActorFactory.
@@ -49,15 +43,6 @@ abstract public class ActorFactory {
      */
     public ActorFactory(String actorType) {
         this.actorType = actorType;
-    }
-
-    /**
-     * Returns the actor type.
-     *
-     * @return The actor type.
-     */
-    final public String getActorType() {
-        return actorType;
     }
 
     /**

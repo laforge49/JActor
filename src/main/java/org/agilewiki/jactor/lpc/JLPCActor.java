@@ -140,7 +140,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     final public String getActorType() {
         if (factory == null)
             return null;
-        return factory.getActorType();
+        return factory.actorType;
     }
 
     /**
