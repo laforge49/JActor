@@ -86,7 +86,6 @@ public class JAFactory extends JLPCActor implements Factory {
             request = new NewActor(actorType, mailbox, parent);
         }
         ActorFactory af = types.get(actorType);
-        System.out.println(actorType + " " + af);
         if (af == null) {
             Actor a = request.getTargetActor(getParent());
             if (a != null)
