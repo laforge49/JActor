@@ -56,6 +56,6 @@ abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends Targe
         Actor parent = targetActor.getParent();
         if (parent != null)
             return call(parent);
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(targetActor.getClass().getName() + " has no parent");
     }
 }
