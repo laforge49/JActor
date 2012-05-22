@@ -360,8 +360,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param sourceMailbox The mailbox of the source actor.
      */
     final private void asyncException(Exception ex, ExceptionHandler eh, Mailbox sourceMailbox) {
-        if (eh == null) sourceMailbox.response(ex);
-        else try {
+        if (eh == null) {
+            sourceMailbox.response(ex);
+        } else try {
             eh.process(ex);
         } catch (Exception ex2) {
             sourceMailbox.response(ex2);
@@ -380,16 +381,24 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                  final Object request,
                                  final RP rp,
                                  final ExceptionHandler sourceExceptionHandler) {
+        final Mailbox oldMailbox = rs.getMailbox();
+        JARequest oldRequest = null;
+        if (oldMailbox != null) {
+            oldRequest = oldMailbox.getCurrentRequest();
+        }
+        final JARequest old = oldRequest;
         RP rp1 = rp;
         rp1 = new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
+                if (oldMailbox != null)
+                    oldMailbox.setCurrentRequest(old);
                 rs.setExceptionHandler(sourceExceptionHandler);
                 if (response != null && response instanceof Exception) {
                     asyncException(
                             (Exception) response,
                             rs.getExceptionHandler(),
-                            rs.getMailbox());
+                            oldMailbox);
                 } else try {
                     rp.processResponse(response);
                 } catch (Exception ex) {
@@ -448,7 +457,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             setExceptionHandler(sourceExceptionHandler);
             if (!async) {
                 sync = true;
-                try {
+                if (response != null && response instanceof Exception)
+                    asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
+                else try {
                     rp.processResponse(response);
                 } catch (Exception e) {
                     throw new TransparentException(e);
@@ -496,18 +507,24 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                 final ExceptionHandler sourceExceptionHandler)
             throws Exception {
         final SyncExtendedRspProcessor erp = new SyncExtendedRspProcessor(rs, request, rp, sourceExceptionHandler);
+        JARequest jaRequest = new JARequest(rs, this, request, erp);
+        JARequest old = mailbox.getCurrentRequest();
+        mailbox.setCurrentRequest(jaRequest);
         try {
             _processRequest(request, erp);
             if (!erp.sync) erp.async = true;
         } catch (TransparentException t) {
+            mailbox.setCurrentRequest(old);
             setExceptionHandler(sourceExceptionHandler);
             throw (Exception) t.getCause();
         } catch (Exception e) {
+            mailbox.setCurrentRequest(old);
             setExceptionHandler(sourceExceptionHandler);
             ExceptionHandler eh = getExceptionHandler();
             if (eh == null) throw e;
             eh.process(e);
         }
+        mailbox.setCurrentRequest(old);
         setExceptionHandler(sourceExceptionHandler);
     }
 

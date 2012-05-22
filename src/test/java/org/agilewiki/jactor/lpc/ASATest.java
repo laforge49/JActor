@@ -12,9 +12,9 @@ public class ASATest extends TestCase {
         try {
             Actor a = new A(mailboxFactory.createAsyncMailbox());
             Actor s1 = new S(mailboxFactory.createMailbox(), a);
-            Actor s2 = new S(mailboxFactory.createAsyncMailbox(), s1);
+            Actor a2 = new S(mailboxFactory.createAsyncMailbox(), s1);
             JAFuture future = new JAFuture();
-            System.err.println(future.send(s2, null));
+            System.err.println(future.send(a2, null));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

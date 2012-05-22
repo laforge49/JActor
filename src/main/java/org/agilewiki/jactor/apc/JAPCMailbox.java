@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
@@ -81,7 +82,8 @@ public class JAPCMailbox implements APCMailbox {
                 } else {
                     JAResponse jaResponse = (JAResponse) event;
                     try {
-                        jaResponse.getResponseProcessor().processResponse(jaResponse.getUnwrappedResponse());
+                        RP rp = jaResponse.getResponseProcessor();
+                        rp.processResponse(jaResponse.getUnwrappedResponse());
                     } catch (Exception e) {
                         e.printStackTrace();
                         throw new UnsupportedOperationException(e);
