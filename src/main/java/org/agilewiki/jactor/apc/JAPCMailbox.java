@@ -40,6 +40,11 @@ import java.util.ArrayList;
 public class JAPCMailbox implements APCMailbox {
 
     /**
+     * The current exception handler, or null.
+     */
+    private ExceptionHandler exceptionHandler;
+
+    /**
      * The request message currently being processed.
      */
     private JARequest currentRequest;
@@ -101,6 +106,26 @@ public class JAPCMailbox implements APCMailbox {
      */
     public JAPCMailbox(ThreadManager threadManager, boolean autonomous) {
         this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous));
+    }
+
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
+    @Override
+    final public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
+    }
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    @Override
+    final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
     /**

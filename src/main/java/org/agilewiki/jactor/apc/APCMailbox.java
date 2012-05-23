@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
+import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.events.EventQueue;
 
@@ -32,6 +33,20 @@ import java.util.ArrayList;
  * Serves as the asynchronous transport for APCMessages.
  */
 public interface APCMailbox extends BufferedEventsDestination<JAMessage> {
+
+    /**
+     * Returns the exception handler.
+     *
+     * @return The exception handler.
+     */
+    public ExceptionHandler getExceptionHandler();
+
+    /**
+     * Assign an exception handler.
+     *
+     * @param exceptionHandler The exception handler.
+     */
+    public void setExceptionHandler(ExceptionHandler exceptionHandler);
 
     /**
      * Returns the request message being processed.

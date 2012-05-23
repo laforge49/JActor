@@ -73,11 +73,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     private Mailbox mailbox;
 
     /**
-     * The current exception handler, or null.
-     */
-    private ExceptionHandler exceptionHandler;
-
-    /**
      * The parent actor, for dependency injection.
      */
     private JLPCActor parent;
@@ -172,7 +167,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
+        return mailbox.getExceptionHandler();
     }
 
     /**
@@ -182,7 +177,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
+        mailbox.setExceptionHandler(exceptionHandler);
     }
 
     /**
