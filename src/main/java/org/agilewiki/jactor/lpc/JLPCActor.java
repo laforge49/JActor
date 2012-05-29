@@ -635,7 +635,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     private void _processRequest(Object request, RP rp)
             throws Exception {
         setExceptionHandler(null);
-        processRequest(request, rp);
+        if (request instanceof Request) {
+            Request req = (Request) request;
+            req.processRequest(this, rp);
+        } else
+            processRequest(request, rp);
     }
 
     /**
@@ -645,6 +649,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract protected void processRequest(Object request, RP rp)
-            throws Exception;
+    @Deprecated
+    protected void processRequest(Object request, RP rp)
+            throws Exception {
+        throw new UnsupportedOperationException(request.getClass().getName());
+    }
 }
