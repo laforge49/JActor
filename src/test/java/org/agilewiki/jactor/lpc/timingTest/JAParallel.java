@@ -21,18 +21,17 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor.parallel;
+package org.agilewiki.jactor.lpc.timingTest;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.parallel.JAResponseCounter;
 
 /**
  * Supports parallel request processing.
  */
-final public class JAParallel extends JLPCActor {
+final public class JAParallel extends JLPCActor implements SimpleRequestReceiver, RealRequestReceiver {
     /**
      * The actors to be run in parallel.
      */
@@ -97,7 +96,29 @@ final public class JAParallel extends JLPCActor {
                 send(actors[i], requests[i], responseCounter);
                 i += 1;
             }
-        } else while (i < p) {
+        } else
+            throw new UnsupportedOperationException(request.getClass().getName());
+    }
+
+    @Override
+    public void processRequest(SimpleRequest request, RP rp) throws Exception {
+        int p = actors.length;
+        responseCounter = new JAResponseCounter(p, rp);
+        int i = 0;
+
+        while (i < p) {
+            send(actors[i], request, responseCounter);
+            i += 1;
+        }
+    }
+
+    @Override
+    public void processRequest(RealRequest request, RP rp) throws Exception {
+        int p = actors.length;
+        responseCounter = new JAResponseCounter(p, rp);
+        int i = 0;
+
+        while (i < p) {
             send(actors[i], request, responseCounter);
             i += 1;
         }

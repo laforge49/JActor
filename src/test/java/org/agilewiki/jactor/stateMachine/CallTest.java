@@ -13,7 +13,7 @@ public class CallTest extends TestCase {
         try {
             Actor actor = new Call(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.out.println(future.send(actor, null));
+            System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -21,14 +21,15 @@ public class CallTest extends TestCase {
         }
     }
 
-    class Call extends JLPCActor {
+    class Call extends JLPCActor implements SimpleRequestReceiver {
 
         Call(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest request, RP rp)
+                throws Exception {
             SMBuilder doubler = new SMBuilder();
             doubler._return(new ObjectFunc() {
                 @Override

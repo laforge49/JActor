@@ -13,7 +13,7 @@ public class SetFTest extends TestCase {
         try {
             Actor actor = new SetF1(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.out.println(future.send(actor, null));
+            System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -21,14 +21,14 @@ public class SetFTest extends TestCase {
         }
     }
 
-    class SetF1 extends JLPCActor {
+    class SetF1 extends JLPCActor implements SimpleRequestReceiver {
 
         SetF1(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._set(new ObjectFunc() {
                 @Override

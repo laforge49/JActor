@@ -1,20 +1,18 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
-public class Driver1 extends JLPCActor {
+public class Driver1 extends JLPCActor implements SimpleRequestReceiver {
     public Driver1(Mailbox mailbox) {
         super(mailbox);
     }
 
     @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
+    public void processRequest(SimpleRequest request, final RP rp) throws Exception {
         final Actor calculator = new Calculator(getMailbox());
         send(calculator, new Set(1), new RP() {
             @Override

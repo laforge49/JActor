@@ -2,7 +2,6 @@ package org.agilewiki.jactor.lpc.timingTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.parallel.JAParallel;
 
 /**
  * Test code.
@@ -55,12 +54,12 @@ public class MailboxTest extends TestCase {
             }
             JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), senders);
             JAFuture future = new JAFuture();
-            future.send(parallel, future);
-            future.send(parallel, future);
+            RealRequest.req.send(future, parallel);
+            RealRequest.req.send(future, parallel);
             long t0 = System.currentTimeMillis();
-            future.send(parallel, future);
+            RealRequest.req.send(future, parallel);
             long t1 = System.currentTimeMillis();
-            future.send(parallel, null);
+            SimpleRequest.req.send(future, parallel);
             long t2 = System.currentTimeMillis();
             System.out.println("null test time " + (t2 - t1));
             System.out.println("" + p + " parallel runs of " + (2L * c * b) + " messages each.");

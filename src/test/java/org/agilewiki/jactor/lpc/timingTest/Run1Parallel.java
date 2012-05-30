@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.parallel;
+package org.agilewiki.jactor.lpc.timingTest;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.lpc.Request;

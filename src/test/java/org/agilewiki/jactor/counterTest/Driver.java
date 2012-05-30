@@ -1,16 +1,15 @@
 package org.agilewiki.jactor.counterTest;
 
-import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.stateMachine.ObjectFunc;
 import org.agilewiki.jactor.stateMachine.StateMachine;
 import org.agilewiki.jactor.stateMachine._Operation;
 
 /**
  * Test code.
  */
-final public class Driver extends JLPCActor {
+final public class Driver extends JLPCActor implements SimpleRequestReceiver {
     SMBuilder smb = new SMBuilder();
 
     public Driver(Mailbox mailbox, final CounterActor counterActor, final long runs) {
@@ -40,11 +39,17 @@ final public class Driver extends JLPCActor {
                 });
             }
         });
-        smb._send(counterActor, new GetAndReset());
+        smb._send(counterActor, new GetAndReset(), "count");
+        smb._return(new ObjectFunc() {
+            @Override
+            public Object get(StateMachine sm) {
+                return sm.get("count");
+            }
+        });
     }
 
     @Override
-    public void processRequest(Object request,
+    public void processRequest(SimpleRequest request,
                                final RP rp)
             throws Exception {
         smb.call(rp);

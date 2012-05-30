@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.SimpleRequest;
 
 /**
  * Test code.
@@ -14,7 +15,7 @@ public class FactorialTest extends TestCase {
         try {
             Factorial factorial = new Factorial(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            future.send(factorial, null);
+            SimpleRequest.req.send(future, factorial);
         } finally {
             mailboxFactory.close();
         }

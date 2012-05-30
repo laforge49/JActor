@@ -13,9 +13,9 @@ public class ReturnVTest extends TestCase {
         try {
             JAFuture future = new JAFuture();
             Actor actor1 = new ReturnV1(mailboxFactory.createMailbox());
-            System.out.println(future.send(actor1, null));
+            System.out.println(SimpleRequest.req.send(future, actor1));
             Actor actor2 = new ReturnV2(mailboxFactory.createMailbox());
-            System.out.println(future.send(actor2, null));
+            System.out.println(SimpleRequest.req.send(future, actor2));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -23,14 +23,14 @@ public class ReturnVTest extends TestCase {
         }
     }
 
-    class ReturnV1 extends JLPCActor {
+    class ReturnV1 extends JLPCActor implements SimpleRequestReceiver {
 
         ReturnV1(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             String rv = "Hello world!";
             smb._return(rv);
@@ -41,14 +41,14 @@ public class ReturnVTest extends TestCase {
         }
     }
 
-    class ReturnV2 extends JLPCActor {
+    class ReturnV2 extends JLPCActor implements SimpleRequestReceiver {
 
         ReturnV2(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._return(null);
             smb.call(rp);

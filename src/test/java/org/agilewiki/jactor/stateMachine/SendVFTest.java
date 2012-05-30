@@ -13,7 +13,7 @@ public class SendVFTest extends TestCase {
         try {
             Actor actor = new Send(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.out.println(future.send(actor, null));
+            System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -35,14 +35,14 @@ public class SendVFTest extends TestCase {
         }
     }
 
-    class Send extends JLPCActor {
+    class Send extends JLPCActor implements SimpleRequestReceiver {
 
         Send(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object request, RP rp)
+        public void processRequest(SimpleRequest request, RP rp)
                 throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._send(new Doubler(getMailbox()), new ObjectFunc() {

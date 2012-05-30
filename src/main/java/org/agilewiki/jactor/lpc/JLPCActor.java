@@ -638,8 +638,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         if (request instanceof Request) {
             Request req = (Request) request;
             req.processRequest(this, rp);
-        } else
+        } else {
             processRequest(request, rp);
+        }
     }
 
     /**

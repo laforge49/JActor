@@ -13,7 +13,7 @@ public class IteratorTest extends TestCase {
         try {
             Actor actor = new It(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.out.println(future.send(actor, null));
+            System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -21,14 +21,14 @@ public class IteratorTest extends TestCase {
         }
     }
 
-    class It extends JLPCActor {
+    class It extends JLPCActor implements SimpleRequestReceiver {
 
         It(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             new _Iterator(smb, "rs") {
                 int i;

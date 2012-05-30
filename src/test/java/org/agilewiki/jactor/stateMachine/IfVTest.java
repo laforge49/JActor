@@ -13,7 +13,7 @@ public class IfVTest extends TestCase {
         try {
             Actor actor = new IfV(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
-            System.out.println(future.send(actor, null));
+            System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -21,14 +21,14 @@ public class IfVTest extends TestCase {
         }
     }
 
-    class IfV extends JLPCActor {
+    class IfV extends JLPCActor implements SimpleRequestReceiver {
 
         IfV(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object unwrappedRequest, RP rp) throws Exception {
+        public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();
             boolean condition = true;
             smb._if(condition, "skip");

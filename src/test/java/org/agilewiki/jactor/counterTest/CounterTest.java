@@ -1,10 +1,7 @@
 package org.agilewiki.jactor.counterTest;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.JAFuture;
-import org.agilewiki.jactor.JAMailboxFactory;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.*;
 
 /**
  * Test code.
@@ -26,7 +23,7 @@ public class CounterTest extends TestCase {
             Driver driver = new Driver(sharedMailbox, counterActor, runs);
             JAFuture future = new JAFuture();
             long start = System.currentTimeMillis();
-            Long count = (Long) future.send(driver, null);
+            Long count = (Long) SimpleRequest.req.send(future, driver);
             long finish = System.currentTimeMillis();
             double elapsedTime = (finish - start) / 1000.;
             System.out.println("[java-shared] Number of runs: " + runs);
@@ -53,7 +50,7 @@ public class CounterTest extends TestCase {
             Driver driver = new Driver(mailboxFactory.createMailbox(), counterActor, runs);
             JAFuture future = new JAFuture();
             long start = System.currentTimeMillis();
-            Long count = (Long) future.send(driver, null);
+            Long count = (Long) SimpleRequest.req.send(future, driver);
             long finish = System.currentTimeMillis();
             double elapsedTime = (finish - start) / 1000.;
             System.out.println("[java-unshared] Number of runs: " + runs);

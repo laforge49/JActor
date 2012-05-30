@@ -1,20 +1,18 @@
 package org.agilewiki.jactor.iteratorTest.factorialTest;
 
-import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
-public class Factorial extends JLPCActor {
+public class Factorial extends JLPCActor implements SimpleRequestReceiver {
     public Factorial(Mailbox mailbox) {
         super(mailbox);
     }
 
     @Override
-    public void processRequest(Object req, final RP rp)
+    public void processRequest(SimpleRequest req, final RP rp)
             throws Exception {
         final int max = 5;
         RP printResult = new RP() {

@@ -1,8 +1,6 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.ObjectFunc;
 import org.agilewiki.jactor.stateMachine.StateMachine;
@@ -10,13 +8,13 @@ import org.agilewiki.jactor.stateMachine.StateMachine;
 /**
  * Test code.
  */
-public class Driver3 extends JLPCActor {
+public class Driver3 extends JLPCActor implements SimpleRequestReceiver {
     public Driver3(Mailbox mailbox) {
         super(mailbox);
     }
 
     @Override
-    protected void processRequest(Object request, final RP rp)
+    public void processRequest(SimpleRequest request, final RP rp)
             throws Exception {
         final Actor calculator = new Calculator(getMailbox());
         final SMBuilder smb = new SMBuilder();

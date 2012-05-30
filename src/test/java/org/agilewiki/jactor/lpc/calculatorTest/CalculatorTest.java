@@ -31,7 +31,7 @@ public class CalculatorTest extends TestCase {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor driver = new Driver1(mailbox);
             JAFuture future = new JAFuture();
-            System.err.println(future.send(driver, null));
+            System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -46,7 +46,7 @@ public class CalculatorTest extends TestCase {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor driver = new Driver2(mailbox);
             JAFuture future = new JAFuture();
-            System.err.println(future.send(driver, null));
+            System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -61,7 +61,7 @@ public class CalculatorTest extends TestCase {
             Mailbox mailbox = mailboxFactory.createMailbox();
             Actor driver = new Driver3(mailbox);
             JAFuture future = new JAFuture();
-            System.err.println(future.send(driver, null));
+            System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
