@@ -13,10 +13,8 @@ public class Multiplier extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    public void processRequest(Object req, RP rp)
+    public void processRequest(Multiply m, RP rp)
             throws Exception {
-        Multiply m = (Multiply) req;
         rp.processResponse(new Integer(m.a * m.b));
     }
 }

@@ -13,15 +13,13 @@ public class FactorialCalculation extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(final Object request, final RP rp)
+    protected void processRequest(final Factorial factorial, final RP rp)
             throws Exception {
         final Calculator calculator = new Calculator(getMailbox());
         send(calculator, new Set(1), new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
                 JAIterator it = new JAIterator() {
-                    Factorial factorial = (Factorial) request;
                     int max = factorial.getValue();
                     int count = 0;
 

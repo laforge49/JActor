@@ -27,7 +27,7 @@ final public class Driver extends JLPCActor implements SimpleRequestReceiver {
                             i += 1;
                             AddCount addCount = new AddCount();
                             addCount.number = 100L;
-                            send(counterActor, addCount, rp1);
+                            addCount.send(Driver.this, counterActor, rp1);
                         }
                     }
                 };

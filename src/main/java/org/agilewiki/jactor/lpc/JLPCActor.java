@@ -635,12 +635,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     private void _processRequest(Object request, RP rp)
             throws Exception {
         setExceptionHandler(null);
-        if (request instanceof Request) {
-            Request req = (Request) request;
-            req.processRequest(this, rp);
-        } else {
-            processRequest(request, rp);
-        }
+        Request req = (Request) request;
+        req.processRequest(this, rp);
     }
 
     /**

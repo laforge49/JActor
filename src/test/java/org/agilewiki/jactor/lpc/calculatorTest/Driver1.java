@@ -17,10 +17,10 @@ public class Driver1 extends JLPCActor implements SimpleRequestReceiver {
         send(calculator, new Set(1), new RP() {
             @Override
             public void processResponse(Object response) throws Exception {
-                send(calculator, new Add(2), new RP() {
+                (new Add(2)).send(Driver1.this, calculator, new RP() {
                     @Override
                     public void processResponse(Object response) throws Exception {
-                        send(calculator, new Multiply(3), rp);
+                        (new Multiply(3)).send(Driver1.this, calculator, rp);
                     }
                 });
             }

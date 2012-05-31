@@ -21,16 +21,16 @@ public class SendFVTest extends TestCase {
         }
     }
 
-    class Doubler extends JLPCActor {
+    class Doubler extends JLPCActor implements IntegerReceiver {
 
         Doubler(Mailbox mailbox) {
             super(mailbox);
         }
 
         @Override
-        public void processRequest(Object request, RP rp)
+        public void processRequest(IntegerRequest request, RP rp)
                 throws Exception {
-            int req = (Integer) request;
+            int req = request.value;
             rp.processResponse(req * 2);
         }
     }
@@ -50,7 +50,7 @@ public class SendFVTest extends TestCase {
                 public Actor get(StateMachine sm) {
                     return new Doubler(getMailbox());
                 }
-            }, 21, "rsp");
+            }, new IntegerRequest(21), "rsp");
             smb._return(new ObjectFunc() {
                 @Override
                 public Object get(StateMachine sm) {

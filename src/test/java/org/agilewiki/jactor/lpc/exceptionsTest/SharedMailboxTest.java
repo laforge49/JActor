@@ -15,16 +15,16 @@ public class SharedMailboxTest extends TestCase {
             Actor driver = new Driver(sharedMailbox, doer);
             JAFuture future = new JAFuture();
             try {
-                System.out.println("Test T1");
-                future.send(driver, new T1());
+                System.out.println("Test Go1");
+                Go1.req.send(future, driver);
             } catch (Exception e) {
-                System.out.println("T1: " + e.getMessage());
+                System.out.println("Go1: " + e.getMessage());
             }
             try {
-                System.out.println("Test T2");
-                future.send(driver, new T2());
+                System.out.println("Test Go2");
+                Go2.req.send(future, driver);
             } catch (Exception e) {
-                System.out.println("T2: " + e.getMessage());
+                System.out.println("Go2: " + e.getMessage());
             }
         } finally {
             mailboxFactory.close();

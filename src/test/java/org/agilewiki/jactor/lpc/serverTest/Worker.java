@@ -14,9 +14,7 @@ public class Worker extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-        WorkRequest wr = (WorkRequest) request;
+    protected void processRequest(WorkRequest wr, RP rp) throws Exception {
         System.out.println("start request " + wr.id);
         //sleep some times,simulate db read write
         int delay = 10 * new Random().nextInt(10);

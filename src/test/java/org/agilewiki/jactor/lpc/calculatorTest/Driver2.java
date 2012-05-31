@@ -15,8 +15,8 @@ public class Driver2 extends JLPCActor implements SimpleRequestReceiver {
     public void processRequest(SimpleRequest request, final RP rp)
             throws Exception {
         final Actor calculator = new Calculator(getMailbox());
-        sendEvent(calculator, new Set(1));
-        sendEvent(calculator, new Add(2));
-        send(calculator, new Multiply(3), rp);
+        (new Set(1)).sendEvent(this, calculator);
+        (new Add(2)).sendEvent(this, calculator);
+        (new Multiply(3)).send(this, calculator, rp);
     }
 }

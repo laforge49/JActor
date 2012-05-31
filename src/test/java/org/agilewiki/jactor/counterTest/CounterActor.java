@@ -14,18 +14,18 @@ final public class CounterActor extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    public void processRequest(Object request,
+    public void processRequest(AddCount request,
                                RP rp)
             throws Exception {
-        if (request instanceof AddCount) {
-            AddCount addCount = (AddCount) request;
-            count += addCount.number;
-            rp.processResponse(null);
-        } else {
-            Long current = new Long(count);
-            count = 0;
-            rp.processResponse(current);
-        }
+        count += request.number;
+        rp.processResponse(null);
+    }
+
+    public void processRequest(GetAndReset request,
+                               RP rp)
+            throws Exception {
+        Long current = new Long(count);
+        count = 0;
+        rp.processResponse(current);
     }
 }

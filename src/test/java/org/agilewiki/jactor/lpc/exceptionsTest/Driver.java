@@ -9,7 +9,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Test code.
  */
-public class Driver extends JLPCActor {
+public class Driver extends JLPCActor implements GoReceiver {
     private Actor doer;
 
     public Driver(Mailbox mailbox, Actor doer) {
@@ -18,24 +18,31 @@ public class Driver extends JLPCActor {
     }
 
     @Override
-    public void processRequest(final Object unwrappedRequest, final RP rd)
-            throws Exception {
+    public void processRequest(Go1 request, final RP rp) throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
                 System.out.println("Exception caught by Driver");
-                rd.processResponse(null);
+                rp.processResponse(null);
             }
         });
-        if (unwrappedRequest instanceof T1) {
-            send(doer, unwrappedRequest, rd);
-        } else {
-            send(doer, unwrappedRequest, new RP() {
-                @Override
-                public void processResponse(Object unwrappedResponse) throws Exception {
-                    throw new Exception("Exception thrown in response processing");
-                }
-            });
-        }
+        send(doer, request, rp);
+    }
+
+    @Override
+    public void processRequest(Go2 request, final RP rp) throws Exception {
+        setExceptionHandler(new ExceptionHandler() {
+            @Override
+            public void process(Exception exception) throws Exception {
+                System.out.println("Exception caught by Driver");
+                rp.processResponse(null);
+            }
+        });
+        send(doer, request, new RP() {
+            @Override
+            public void processResponse(Object unwrappedResponse) throws Exception {
+                throw new Exception("Exception thrown in response processing");
+            }
+        });
     }
 }

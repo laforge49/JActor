@@ -18,7 +18,8 @@ public class ServerTest extends TestCase {
             int times = new Random().nextInt(20) + 1;
             System.out.println("run " + times + " tasks");
             Driver driver = new Driver(mailbox);
-            future.send(driver, times);
+            driver.times = times;
+            SimpleRequest.req.send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -30,14 +31,15 @@ public class ServerTest extends TestCase {
 /**
  * Test code.
  */
-class Driver extends JLPCActor {
+class Driver extends JLPCActor implements SimpleRequestReceiver {
+    public int times;
+
     Driver(Mailbox mailbox) {
         super(mailbox);
     }
 
     @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
-        final int times = (Integer) request;
+    public void processRequest(SimpleRequest request, final RP rp) throws Exception {
         RP counter = new RP() {
             int rem = times;
 
