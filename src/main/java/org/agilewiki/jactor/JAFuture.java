@@ -28,6 +28,7 @@ import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.lpc.RequestSource;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ final public class JAFuture {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     public Object send(final Actor actor,
-                       final Object request)
+                       final Request request)
             throws Exception {
         done = new Semaphore(0);
         actor.acceptRequest(requestSource, request, new RP() {

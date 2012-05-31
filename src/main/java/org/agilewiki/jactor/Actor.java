@@ -26,6 +26,7 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.apc.APCRequestSource;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * <p>
@@ -57,7 +58,7 @@ public interface Actor {
      * @param rp            The request processor.
      */
     public void acceptRequest(APCRequestSource requestSource,
-                              Object request,
+                              Request request,
                               RP rp)
             throws Exception;
 
@@ -68,7 +69,7 @@ public interface Actor {
      * @param request       The unwrapped request to be sent.
      */
     public void acceptEvent(APCRequestSource requestSource,
-                            Object request)
+                            Request request)
             throws Exception;
 
     /**

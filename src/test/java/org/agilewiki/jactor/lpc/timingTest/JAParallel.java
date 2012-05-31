@@ -87,17 +87,7 @@ final public class JAParallel extends JLPCActor implements SimpleRequestReceiver
             return;
         }
 
-        //Provided for backward compatibility
-        if (request instanceof Object[]) {
-            Object[] requests = (Object[]) request;
-            if (requests.length != p)
-                throw new IllegalArgumentException("Request and actor arrays not the same length");
-            while (i < p) {
-                send(actors[i], requests[i], responseCounter);
-                i += 1;
-            }
-        } else
-            throw new UnsupportedOperationException(request.getClass().getName());
+        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     @Override

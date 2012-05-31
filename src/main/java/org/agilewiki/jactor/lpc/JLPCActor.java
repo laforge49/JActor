@@ -273,7 +273,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public void acceptRequest(final APCRequestSource apcRequestSource,
-                                    final Object request,
+                                    final Request request,
                                     final RP rp)
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
@@ -315,7 +315,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     @Override
     final public void acceptEvent(final APCRequestSource apcRequestSource,
-                                  final Object request)
+                                  final Request request)
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
@@ -572,7 +572,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     final protected void send(final Actor actor,
-                              final Object request,
+                              final Request request,
                               final RP rp)
             throws Exception {
         actor.acceptRequest(this, request, rp);
@@ -584,7 +584,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param actor   The target actor.
      * @param request The request.
      */
-    final protected void sendEvent(Actor actor, Object request) {
+    final protected void sendEvent(Actor actor, Request request) {
         try {
             send(actor, request, JANoResponse.nrp);
         } catch (Exception ex) {
@@ -597,7 +597,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     final public class SMBuilder extends _SMBuilder {
         @Override
-        final public void send(Actor actor, Object request, RP rp)
+        final public void send(Actor actor, Request request, RP rp)
                 throws Exception {
             JLPCActor.this.send(actor, request, rp);
         }

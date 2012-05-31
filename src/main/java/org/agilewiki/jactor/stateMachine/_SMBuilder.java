@@ -25,6 +25,7 @@ package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.Request;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ abstract public class _SMBuilder {
      * @param targetActor The actor which is to receive the message.
      * @param request     The request.
      */
-    final public void _send(Actor targetActor, Object request) {
+    final public void _send(Actor targetActor, Request request) {
         new _SendVV(this, targetActor, request, null);
     }
 
@@ -98,7 +99,7 @@ abstract public class _SMBuilder {
      * @param request     The request.
      * @param resultName  The name of the result, or null.
      */
-    final public void _send(Actor targetActor, Object request, String resultName) {
+    final public void _send(Actor targetActor, Request request, String resultName) {
         new _SendVV(this, targetActor, request, resultName);
     }
 
@@ -154,7 +155,7 @@ abstract public class _SMBuilder {
      * @param targetActor The (indirect) actor which is to receive the message.
      * @param request     The request.
      */
-    final public void _send(ActorFunc targetActor, Object request) {
+    final public void _send(ActorFunc targetActor, Request request) {
         new _SendFV(this, targetActor, request, null);
     }
 
@@ -165,7 +166,7 @@ abstract public class _SMBuilder {
      * @param request     The request.
      * @param resultName  The name of the result, or null.
      */
-    final public void _send(ActorFunc targetActor, Object request, String resultName) {
+    final public void _send(ActorFunc targetActor, Request request, String resultName) {
         new _SendFV(this, targetActor, request, resultName);
     }
 
@@ -318,5 +319,5 @@ abstract public class _SMBuilder {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    abstract public void send(Actor actor, Object request, RP rp) throws Exception;
+    abstract public void send(Actor actor, Request request, RP rp) throws Exception;
 }

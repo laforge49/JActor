@@ -27,6 +27,7 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAIterator;
 import org.agilewiki.jactor.JANull;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.Request;
 
 import java.util.HashMap;
 
@@ -113,7 +114,7 @@ public class StateMachine {
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public void send(Actor actor, Object request, RP rp)
+    public void send(Actor actor, Request request, RP rp)
             throws Exception {
         smBuilder.send(actor, request, rp);
     }

@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.stateMachine;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * <p>
@@ -53,7 +54,7 @@ final public class _SendVV extends _Send {
     /**
      * The request.
      */
-    private Object request;
+    private Request request;
 
     /**
      * The name of the result, or null.
@@ -68,7 +69,7 @@ final public class _SendVV extends _Send {
      * @param request     The request.
      * @param resultName  The name of the result, or null.
      */
-    public _SendVV(_SMBuilder parentSMB, Actor targetActor, Object request, String resultName) {
+    public _SendVV(_SMBuilder parentSMB, Actor targetActor, Request request, String resultName) {
         this.targetActor = targetActor;
         this.request = request;
         this.resultName = resultName;
@@ -93,7 +94,7 @@ final public class _SendVV extends _Send {
      * @return The request.
      */
     @Override
-    public Object getRequest(StateMachine stateMachine) {
+    public Request getRequest(StateMachine stateMachine) {
         return request;
     }
 
