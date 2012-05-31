@@ -13,8 +13,7 @@ public class Actor4 extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
+    protected void processRequest(Validate1 request, final RP rp) throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
             public void process(Exception exception) throws Exception {
