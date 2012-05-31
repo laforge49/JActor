@@ -12,8 +12,7 @@ public class Actor1 extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
+    protected void processRequest(Hi1 request, RP rp) throws Exception {
         rp.processResponse("Hello world!");
     }
 }

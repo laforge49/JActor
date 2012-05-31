@@ -13,7 +13,7 @@ public class Actor2 extends JLPCActor implements Greeter {
     }
 
     @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
+    public void processRequest(Greet1 request, final RP rp) throws Exception {
         Hi1.req.send(this, getParent(), new RP<String>() {
             @Override
             public void processResponse(String response) throws Exception {
