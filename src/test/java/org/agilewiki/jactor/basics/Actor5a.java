@@ -14,8 +14,7 @@ public class Actor5a extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
+    protected void processRequest(Parallel request, final RP rp) throws Exception {
         MailboxFactory mf = getMailboxFactory();
         Actor5 a = new Actor5(mf.createAsyncMailbox());
         Actor5 b = new Actor5(mf.createAsyncMailbox());

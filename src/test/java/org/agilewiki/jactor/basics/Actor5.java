@@ -14,8 +14,7 @@ public class Actor5 extends JLPCActor {
         super(mailbox);
     }
 
-    @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
+    protected void processRequest(Delay request, final RP rp) throws Exception {
         Thread.sleep(delay);
         rp.processResponse(null);
     }
