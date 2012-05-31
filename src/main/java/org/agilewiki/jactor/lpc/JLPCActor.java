@@ -373,7 +373,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void asyncSend(final RequestSource rs,
-                                 final Object request,
+                                 final Request request,
                                  final RP rp,
                                  final ExceptionHandler sourceExceptionHandler) {
         final Mailbox oldMailbox = rs.getMailbox();
@@ -417,7 +417,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void asyncSendEvent(final RequestSource rs,
-                                      final Object request,
+                                      final Request request,
                                       final ExceptionHandler sourceExceptionHandler) {
         final JARequest jaRequest = new JARequest(
                 rs,
@@ -429,11 +429,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
 
     class SyncExtendedRspProcessor extends ExtendedResponseProcessor {
         RequestSource rs;
-        Object request;
+        Request request;
         RP rp;
         ExceptionHandler sourceExceptionHandler;
 
-        SyncExtendedRspProcessor(RequestSource rs, Object request, RP rp, ExceptionHandler sourceExceptionHandler) {
+        SyncExtendedRspProcessor(RequestSource rs, Request request, RP rp, ExceptionHandler sourceExceptionHandler) {
             this.rs = rs;
             this.request = request;
             this.rp = rp;
@@ -497,7 +497,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void syncSend(final RequestSource rs,
-                                final Object request,
+                                final Request request,
                                 final RP rp,
                                 final ExceptionHandler sourceExceptionHandler)
             throws Exception {
@@ -531,7 +531,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
     final private void syncSendEvent(final RequestSource rs,
-                                     final Object request,
+                                     final Request request,
                                      final ExceptionHandler sourceExceptionHandler)
             throws Exception {
         try {
@@ -551,7 +551,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rp       Processes the response.
      */
     final private void asyncResponse(RequestSource rs,
-                                     Object request,
+                                     Request request,
                                      Object response,
                                      RP rp) {
         final JARequest jaRequest = new JARequest(
@@ -632,7 +632,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    private void _processRequest(Object request, RP rp)
+    private void _processRequest(Request request, RP rp)
             throws Exception {
         setExceptionHandler(null);
         Request req = (Request) request;

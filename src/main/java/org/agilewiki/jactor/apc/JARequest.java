@@ -26,6 +26,7 @@ package org.agilewiki.jactor.apc;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
@@ -47,7 +48,7 @@ final public class JARequest extends JAMessage {
     /**
      * The unwrapped request that was sent to a JLPCActor.
      */
-    private Object unwrappedRequest;
+    private Request unwrappedRequest;
 
     /**
      * An object used to process an unwrapped response.
@@ -70,7 +71,7 @@ final public class JARequest extends JAMessage {
      */
     public JARequest(APCRequestSource requestSource,
                      RequestProcessor requestProcessor,
-                     Object unwrappedRequest,
+                     Request unwrappedRequest,
                      RP responseProcessor) {
         this.requestSource = requestSource;
         this.requestProcessor = requestProcessor;
@@ -101,7 +102,7 @@ final public class JARequest extends JAMessage {
      *
      * @return The unwrapped request.
      */
-    final public Object getUnwrappedRequest() {
+    final public Request getUnwrappedRequest() {
         return unwrappedRequest;
     }
 
