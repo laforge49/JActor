@@ -7,10 +7,10 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Test code.
  */
-public class Actor7 extends JLPCActor {
+public class Actor5 extends JLPCActor {
     public long delay;
 
-    public Actor7(Mailbox mailbox) {
+    public Actor5(Mailbox mailbox) {
         super(mailbox);
     }
 

@@ -8,18 +8,18 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 /**
  * Test code.
  */
-public class Actor7a extends JLPCActor {
+public class Actor5a extends JLPCActor {
 
-    public Actor7a(Mailbox mailbox) {
+    public Actor5a(Mailbox mailbox) {
         super(mailbox);
     }
 
     @Override
     protected void processRequest(Object request, final RP rp) throws Exception {
         MailboxFactory mf = getMailboxFactory();
-        Actor7 a = new Actor7(mf.createAsyncMailbox());
-        Actor7 b = new Actor7(mf.createAsyncMailbox());
-        Actor7 c = new Actor7(mf.createAsyncMailbox());
+        Actor5 a = new Actor5(mf.createAsyncMailbox());
+        Actor5 b = new Actor5(mf.createAsyncMailbox());
+        Actor5 c = new Actor5(mf.createAsyncMailbox());
         a.delay = 10;
         c.delay = 10;
         a.delay = 10;
