@@ -28,6 +28,7 @@ import org.agilewiki.jactor.Actor;
 /**
  * A request that can be passed to a JBActor for synchronous processing.
  */
+@Deprecated
 abstract public class ConcurrentRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends CallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
     /**

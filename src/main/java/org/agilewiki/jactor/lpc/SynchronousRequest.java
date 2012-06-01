@@ -30,6 +30,7 @@ import org.agilewiki.jactor.Mailbox;
  * A request that can be passed to a JBActor for synchronous processing,
  * but only when sender and receiver use the same mailbox.
  */
+@Deprecated
 abstract public class SynchronousRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends CallableRequest<RESPONSE_TYPE, TARGET_TYPE> {
 

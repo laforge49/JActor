@@ -26,6 +26,7 @@ package org.agilewiki.jactor.lpc;
 /**
  * A request that can be passed to an actor for processing via the Internals.call or Actor.acceptCall methods.
  */
+@Deprecated
 abstract public class CallableRequest<RESPONSE_TYPE, TARGET_TYPE extends TargetActor>
         extends Request<RESPONSE_TYPE, TARGET_TYPE> {
     /**
