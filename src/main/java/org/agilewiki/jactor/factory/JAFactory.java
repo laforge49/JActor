@@ -36,6 +36,67 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class JAFactory extends JLPCActor implements Factory {
     /**
+     * Returns the requested actor factory.
+     *
+     * @param actor     The actor which is the factory or which has a factory as an ancestor.
+     * @param actorType The actor type.
+     * @return The registered actor factory.
+     */
+    public static ActorFactory getActorFactory(Actor actor, String actorType)
+            throws Exception {
+        if (!(actor instanceof Factory))
+            actor = actor.getAncestor(Factory.class);
+        if (actor == null)
+            return null;
+        Factory factory = (Factory) actor;
+        return factory.getActorFactory(actorType);
+    }
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actor     The actor which is the factory or which has a factory as an ancestor.
+     * @param actorType The actor type.
+     * @return The new actor.
+     */
+    public static Actor newActor(Actor actor, String actorType)
+            throws Exception {
+        return newActor(actor, actorType, null, null);
+    }
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actor     The actor which is the factory or which has a factory as an ancestor.
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @return The new actor.
+     */
+    public static Actor newActor(Actor actor, String actorType, Mailbox mailbox)
+            throws Exception {
+        return newActor(actor, actorType, mailbox, null);
+    }
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actor     The actor which is the factory or which has a factory as an ancestor.
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
+     * @return The new actor.
+     */
+    public static Actor newActor(Actor actor, String actorType, Mailbox mailbox, Actor parent)
+            throws Exception {
+        if (!(actor instanceof Factory))
+            actor = actor.getAncestor(Factory.class);
+        if (actor == null)
+            return null;
+        Factory factory = (Factory) actor;
+        return factory.newActor(actorType, mailbox, parent);
+    }
+
+    /**
      * A table which maps type names to actor factories.
      */
     private ConcurrentSkipListMap<String, ActorFactory> types = new ConcurrentSkipListMap<String, ActorFactory>();
@@ -57,6 +118,7 @@ public class JAFactory extends JLPCActor implements Factory {
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
+    @Deprecated
     protected void processRequest(Object request, RP rp) throws Exception {
         if (request instanceof NewActor) {
             rp.processResponse(newActor((NewActor) request));
@@ -75,6 +137,7 @@ public class JAFactory extends JLPCActor implements Factory {
      * @return The new actor.
      */
     @Override
+    @Deprecated
     public Actor newActor(NewActor request)
             throws Exception {
         String actorType = request.getActorType();
@@ -96,12 +159,60 @@ public class JAFactory extends JLPCActor implements Factory {
     }
 
     /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType)
+            throws Exception {
+        return newActor(actorType, null, null);
+    }
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType, Mailbox mailbox)
+            throws Exception {
+        return newActor(actorType, mailbox, null);
+    }
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType, Mailbox mailbox, Actor parent)
+            throws Exception {
+        if (mailbox == null || parent == null) {
+            if (mailbox == null) mailbox = getMailbox();
+            if (parent == null) parent = this;
+        }
+        ActorFactory af = types.get(actorType);
+        if (af == null) {
+            Factory a = (Factory) getAncestor(Factory.class);
+            if (a != null)
+                return a.newActor(actorType, mailbox, parent);
+            throw new IllegalArgumentException("Unknown actor type: " + actorType);
+        }
+        return af.newActor(mailbox, parent);
+    }
+
+    /**
      * Returns the requested actor factory.
      *
      * @param request The request.
      * @return The registered actor factory.
      */
     @Override
+    @Deprecated
     public ActorFactory getActorFactory(GetActorFactory request)
             throws Exception {
         String actorType = request.getActorType();
@@ -110,6 +221,25 @@ public class JAFactory extends JLPCActor implements Factory {
             Actor a = request.getTargetActor(JAFactory.this.getParent());
             if (a != null)
                 return request.call(a);
+            throw new IllegalArgumentException("Unknown actor type: " + actorType);
+        }
+        return af;
+    }
+
+    /**
+     * Returns the requested actor factory.
+     *
+     * @param actorType The actor type.
+     * @return The registered actor factory.
+     */
+    @Override
+    public ActorFactory getActorFactory(String actorType)
+            throws Exception {
+        ActorFactory af = types.get(actorType);
+        if (af == null) {
+            Factory a = (Factory) getAncestor(Factory.class);
+            if (a != null)
+                return a.getActorFactory(actorType);
             throw new IllegalArgumentException("Unknown actor type: " + actorType);
         }
         return af;

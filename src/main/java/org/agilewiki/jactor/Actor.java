@@ -123,4 +123,12 @@ public interface Actor {
      */
     public void setParent(Actor parent)
             throws Exception;
+
+    /**
+     * Returns A matching ancestor from the parent chain.
+     *
+     * @param ancestorClass A class which the ancestor is an instanceof.
+     * @return The matching ancestor, or null.
+     */
+    public JLPCActor getAncestor(Class ancestorClass);
 }

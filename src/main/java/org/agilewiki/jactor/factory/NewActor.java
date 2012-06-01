@@ -32,6 +32,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
  * <p>If no mailbox is specified, the mailbox of the actor processing the request is used.
  * And if no parent is specified, the actor processing the request is used.</p>
  */
+@Deprecated
 public class NewActor extends ConcurrentRequest<Actor, Factory> {
     /**
      * An actor type name.

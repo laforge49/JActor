@@ -29,6 +29,7 @@ import org.agilewiki.jactor.lpc.ConcurrentRequest;
 /**
  * Returns the actor factory assigned to a given actor type.
  */
+@Deprecated
 public class GetActorFactory extends ConcurrentRequest<ActorFactory, Factory> {
     /**
      * An actor type name.

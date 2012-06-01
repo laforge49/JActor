@@ -88,6 +88,21 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
+     * Returns A matching ancestor from the parent chain.
+     *
+     * @param ancestorClass A class which the ancestor is an instanceof.
+     * @return The matching ancestor, or null.
+     */
+    @Override
+    public JLPCActor getAncestor(Class ancestorClass) {
+        if (parent == null)
+            return null;
+        if (ancestorClass.isInstance(parent))
+            return parent;
+        return parent.getAncestor(ancestorClass);
+    }
+
+    /**
      * Process the requirements and assign the parent actor.
      * Once assigned, it can not be changed.
      *

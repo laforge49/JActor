@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.factory;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.lpc.TargetActor;
 
 /**
@@ -53,7 +54,17 @@ public interface Factory extends TargetActor {
      * @param request The request.
      * @return The registered actor factory.
      */
+    @Deprecated
     public ActorFactory getActorFactory(GetActorFactory request)
+            throws Exception;
+
+    /**
+     * Returns the requested actor factory.
+     *
+     * @param actorType The actor type.
+     * @return The registered actor factory.
+     */
+    public ActorFactory getActorFactory(String actorType)
             throws Exception;
 
     /**
@@ -62,6 +73,37 @@ public interface Factory extends TargetActor {
      * @param request The request.
      * @return The new actor.
      */
+    @Deprecated
     public Actor newActor(NewActor request)
+            throws Exception;
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType)
+            throws Exception;
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType, Mailbox mailbox)
+            throws Exception;
+
+    /**
+     * Creates a new actor.
+     *
+     * @param actorType The actor type.
+     * @param mailbox   A mailbox which may be shared with other actors, or null.
+     * @param parent    The parent actor to which unrecognized requests are forwarded, or null.
+     * @return The new actor.
+     */
+    public Actor newActor(String actorType, Mailbox mailbox, Actor parent)
             throws Exception;
 }
