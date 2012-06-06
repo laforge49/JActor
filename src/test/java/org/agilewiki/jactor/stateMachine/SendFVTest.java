@@ -11,7 +11,8 @@ public class SendFVTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new Send(mailboxFactory.createMailbox());
+            Send actor = new Send();
+            actor.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
@@ -22,11 +23,6 @@ public class SendFVTest extends TestCase {
     }
 
     class Doubler extends JLPCActor implements IntegerReceiver {
-
-        Doubler(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(IntegerRequest request, RP rp)
                 throws Exception {
@@ -36,19 +32,16 @@ public class SendFVTest extends TestCase {
     }
 
     class Send extends JLPCActor implements SimpleRequestReceiver {
-
-        Send(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest request, RP rp)
                 throws Exception {
             SMBuilder smb = new SMBuilder();
             smb._send(new ActorFunc() {
                 @Override
-                public Actor get(StateMachine sm) {
-                    return new Doubler(getMailbox());
+                public Actor get(StateMachine sm) throws Exception {
+                    Doubler d = new Doubler();
+                    d.initialize(getMailbox());
+                    return d;
                 }
             }, new IntegerRequest(21), "rsp");
             smb._return(new ObjectFunc() {

@@ -13,7 +13,8 @@ public class Test1 extends TestCase {
     public void test() throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         Mailbox mailbox = mailboxFactory.createMailbox();
-        Actor1 actor1 = new Actor1(mailbox);
+        Actor1 actor1 = new Actor1();
+        actor1.initialize(mailbox);
         JAFuture future = new JAFuture();
         String result = Hi1.req.send(future, actor1);
         assertEquals("Hello world!", result);

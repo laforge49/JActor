@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.basics;
 
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -9,10 +8,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Actor4 extends JLPCActor {
-    public Actor4(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     protected void processRequest(Validate1 request, final RP rp) throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override

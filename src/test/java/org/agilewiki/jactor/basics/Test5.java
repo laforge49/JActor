@@ -13,7 +13,8 @@ public class Test5 extends TestCase {
     public void test() throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         Mailbox mailbox = mailboxFactory.createMailbox();
-        Actor5a actor5a = new Actor5a(mailbox);
+        Actor5a actor5a = new Actor5a();
+        actor5a.initialize(mailbox);
         JAFuture future = new JAFuture();
         boolean response = Parallel.req.send(future, actor5a);
         assertEquals(true, response);

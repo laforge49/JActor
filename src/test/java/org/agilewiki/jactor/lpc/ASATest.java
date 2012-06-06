@@ -10,9 +10,12 @@ public class ASATest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new A(mailboxFactory.createAsyncMailbox());
-            Actor s1 = new S(mailboxFactory.createMailbox(), a);
-            Actor a2 = new S(mailboxFactory.createAsyncMailbox(), s1);
+            A a = new A();
+            a.initialize(mailboxFactory.createAsyncMailbox());
+            S s1 = new S(a);
+            s1.initialize(mailboxFactory.createMailbox());
+            S a2 = new S(s1);
+            a2.initialize(mailboxFactory.createAsyncMailbox());
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, a2));
         } catch (Exception e) {
@@ -25,8 +28,7 @@ public class ASATest extends TestCase {
     class S extends JLPCActor implements SimpleRequestReceiver {
         Actor n;
 
-        S(Mailbox mailbox, Actor n) {
-            super(mailbox);
+        S(Actor n) {
             this.n = n;
         }
 
@@ -38,11 +40,6 @@ public class ASATest extends TestCase {
     }
 
     class A extends JLPCActor implements SimpleRequestReceiver {
-
-        A(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest request, RP rp) throws Exception {
             System.err.println("A got request");

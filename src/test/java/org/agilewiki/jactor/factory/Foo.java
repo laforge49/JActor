@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -8,15 +7,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Foo extends JLPCActor {
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public Foo(final Mailbox mailbox) {
-        super(mailbox);
-    }
-
     public void hi() {
         System.out.println("Hello world!");
     }

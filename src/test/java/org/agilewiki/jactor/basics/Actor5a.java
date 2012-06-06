@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.basics;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
@@ -9,16 +8,14 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Actor5a extends JLPCActor {
-
-    public Actor5a(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     protected void processRequest(Parallel request, final RP rp) throws Exception {
         MailboxFactory mf = getMailboxFactory();
-        Actor5 a = new Actor5(mf.createAsyncMailbox());
-        Actor5 b = new Actor5(mf.createAsyncMailbox());
-        Actor5 c = new Actor5(mf.createAsyncMailbox());
+        Actor5 a = new Actor5();
+        a.initialize(mf.createAsyncMailbox());
+        Actor5 b = new Actor5();
+        b.initialize(mf.createAsyncMailbox());
+        Actor5 c = new Actor5();
+        c.initialize(mf.createAsyncMailbox());
         a.delay = 10;
         c.delay = 10;
         a.delay = 10;

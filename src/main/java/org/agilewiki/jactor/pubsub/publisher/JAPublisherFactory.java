@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
@@ -47,12 +46,11 @@ public class JAPublisherFactory extends ActorFactory {
     /**
      * Create a JLPCActor.
      *
-     * @param mailbox The mailbox of the new actor.
      * @return The new actor.
      */
     @Override
-    protected JAPublisher instantiateActor(Mailbox mailbox)
+    protected JAPublisher instantiateActor()
             throws Exception {
-        return new JAPublisher(mailbox);
+        return new JAPublisher();
     }
 }

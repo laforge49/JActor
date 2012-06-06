@@ -44,15 +44,25 @@ public class AsyncMailboxTest extends TestCase {
             int i = 0;
             while (i < p) {
                 Mailbox echoMailbox = mailboxFactory.createAsyncMailbox();
-                Actor echo = new Echo(echoMailbox);
+                Echo echo = new Echo();
+                echo.initialize(echoMailbox);
                 echo.setInitialBufferCapacity(b + 10);
                 Mailbox senderMailbox = mailboxFactory.createAsyncMailbox();
-                if (b == 1) senders[i] = new Sender1(senderMailbox, echo, c, b);
-                else senders[i] = new Sender(senderMailbox, echo, c, b);
+                if (b == 1) {
+                    Sender1 s = new Sender1(echo, c, b);
+                    s.initialize(senderMailbox);
+                    senders[i] = s;
+                } else {
+                    Sender s = new Sender(echo, c, b);
+                    s.initialize(senderMailbox);
+                    senders[i] = s;
+                }
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            JAParallel parallel = new JAParallel(mailboxFactory.createAsyncMailbox(), senders);
+            JAParallel parallel = new JAParallel();
+            parallel.initialize(mailboxFactory.createAsyncMailbox());
+            parallel.actors = senders;
             JAFuture future = new JAFuture();
             RealRequest.req.send(future, parallel);
             RealRequest.req.send(future, parallel);

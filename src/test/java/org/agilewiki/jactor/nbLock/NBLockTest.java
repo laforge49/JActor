@@ -15,7 +15,8 @@ public class NBLockTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            Actor driver = new Driver(mailboxFactory.createMailbox());
+            Driver driver = new Driver();
+            driver.initialize(mailboxFactory.createMailbox());
             (new DoIt()).send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,7 +12,8 @@ public class ExceptionTest {
     public void test() {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
-            Divider a = new Divider(mailboxFactory.createMailbox());
+            Divider a = new Divider();
+            a.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
 
             try {

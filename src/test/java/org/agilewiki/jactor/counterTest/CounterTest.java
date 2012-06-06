@@ -19,8 +19,10 @@ public class CounterTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             Mailbox sharedMailbox = mailboxFactory.createMailbox();
-            CounterActor counterActor = new CounterActor(sharedMailbox);
-            Driver driver = new Driver(sharedMailbox, counterActor, runs);
+            CounterActor counterActor = new CounterActor();
+            counterActor.initialize(sharedMailbox);
+            Driver driver = new Driver();
+            driver.initialize(sharedMailbox, counterActor, runs);
             JAFuture future = new JAFuture();
             long start = System.currentTimeMillis();
             Long count = (Long) SimpleRequest.req.send(future, driver);
@@ -46,8 +48,10 @@ public class CounterTest extends TestCase {
         //[java-unshared] Messages per second: 1.8883958077613067E7
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
-            CounterActor counterActor = new CounterActor(mailboxFactory.createMailbox());
-            Driver driver = new Driver(mailboxFactory.createMailbox(), counterActor, runs);
+            CounterActor counterActor = new CounterActor();
+            counterActor.initialize(mailboxFactory.createMailbox());
+            Driver driver = new Driver();
+            driver.initialize(mailboxFactory.createMailbox(), counterActor, runs);
             JAFuture future = new JAFuture();
             long start = System.currentTimeMillis();
             Long count = (Long) SimpleRequest.req.send(future, driver);

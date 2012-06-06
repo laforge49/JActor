@@ -11,7 +11,8 @@ public class SetVTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new SetV1(mailboxFactory.createMailbox());
+            SetV1 actor = new SetV1();
+            actor.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
@@ -23,11 +24,6 @@ public class SetVTest extends TestCase {
 }
 
 class SetV1 extends JLPCActor implements SimpleRequestReceiver {
-
-    SetV1(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     public void processRequest(SimpleRequest request, RP rp)
             throws Exception {

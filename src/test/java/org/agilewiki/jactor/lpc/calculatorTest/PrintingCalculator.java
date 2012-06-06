@@ -1,8 +1,10 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
@@ -11,9 +13,12 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 public class PrintingCalculator extends JLPCActor implements _Calculator {
     private Calculator calculator;
 
-    public PrintingCalculator(Mailbox mailbox) {
-        super(mailbox);
-        calculator = new Calculator(mailbox);
+    @Override
+    public void initialize(Mailbox mailbox, Actor parent, ActorFactory actorFactory)
+            throws Exception {
+        super.initialize(mailbox, parent, actorFactory);
+        calculator = new Calculator();
+        calculator.initialize(mailbox, parent);
     }
 
     public void clear(Clear request, final RP rp)

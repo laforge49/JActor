@@ -35,5 +35,5 @@ public interface ActorFunc {
      * @param sm The state machine.
      * @return An actor.
      */
-    public Actor get(StateMachine sm);
+    public Actor get(StateMachine sm) throws Exception;
 }

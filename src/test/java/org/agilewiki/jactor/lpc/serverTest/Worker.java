@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.lpc.serverTest;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -10,10 +9,6 @@ import java.util.Random;
  * Test code.
  */
 public class Worker extends JLPCActor {
-    public Worker(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     protected void processRequest(WorkRequest wr, RP rp) throws Exception {
         System.out.println("start request " + wr.id);
         //sleep some times,simulate db read write

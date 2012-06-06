@@ -12,8 +12,9 @@ import org.agilewiki.jactor.stateMachine._Operation;
 final public class Driver extends JLPCActor implements SimpleRequestReceiver {
     SMBuilder smb = new SMBuilder();
 
-    public Driver(Mailbox mailbox, final CounterActor counterActor, final long runs) {
-        super(mailbox);
+    public void initialize(Mailbox mailbox, final CounterActor counterActor, final long runs)
+            throws Exception {
+        super.initialize(mailbox);
         smb.add(new _Operation() {
             @Override
             public void call(final StateMachine sm, final RP rp1) throws Exception {

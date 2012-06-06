@@ -17,7 +17,8 @@ public class ServerTest extends TestCase {
             JAFuture future = new JAFuture();
             int times = new Random().nextInt(20) + 1;
             System.out.println("run " + times + " tasks");
-            Driver driver = new Driver(mailbox);
+            Driver driver = new Driver();
+            driver.initialize(mailbox);
             driver.times = times;
             SimpleRequest.req.send(future, driver);
         } catch (Exception e) {
@@ -34,10 +35,6 @@ public class ServerTest extends TestCase {
 class Driver extends JLPCActor implements SimpleRequestReceiver {
     public int times;
 
-    Driver(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     public void processRequest(SimpleRequest request, final RP rp) throws Exception {
         RP counter = new RP() {
@@ -51,7 +48,8 @@ class Driver extends JLPCActor implements SimpleRequestReceiver {
             }
         };
         for (int i = 0; i < times; i++) {
-            Worker worker = new Worker(getMailbox().getMailboxFactory().createAsyncMailbox());
+            Worker worker = new Worker();
+            worker.initialize(getMailbox().getMailboxFactory().createAsyncMailbox());
             WorkRequest wr = new WorkRequest();
             wr.id = i;
             send(worker, wr, counter);

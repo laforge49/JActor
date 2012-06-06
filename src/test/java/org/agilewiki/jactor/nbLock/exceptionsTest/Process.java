@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.nbLock.Lock;
 import org.agilewiki.jactor.nbLock.Unlock;
@@ -15,10 +14,6 @@ import org.agilewiki.jactor.pubsub.actorName.JActorName;
 public class Process
         extends JActorName
         implements Does {
-    public Process(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     protected void processRequest(Object request, final RP rp) throws Exception {
         Class reqcls = request.getClass();

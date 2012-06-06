@@ -58,7 +58,7 @@ abstract public class _Send implements _Operation {
      * @param stateMachine The state machine.
      * @return The actor which is to receive the message.
      */
-    abstract public Actor getTargetActor(StateMachine stateMachine);
+    abstract public Actor getTargetActor(StateMachine stateMachine) throws Exception;
 
     /**
      * Returns the request.

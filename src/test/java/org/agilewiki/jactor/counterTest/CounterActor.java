@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.counterTest;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -9,10 +8,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  */
 final public class CounterActor extends JLPCActor {
     private long count = 0L;
-
-    public CounterActor(Mailbox mailbox) {
-        super(mailbox);
-    }
 
     public void processRequest(AddCount request,
                                RP rp)

@@ -32,10 +32,11 @@ public class Creation2Test extends TestCase {
         }
     }
 
-    void loop(long c, Mailbox m) {
+    void loop(long c, Mailbox m)
+            throws Exception {
         int i = 0;
         while (i < c) {
-            new A(m);
+            (new A()).initialize(m);
             i += 1;
         }
     }

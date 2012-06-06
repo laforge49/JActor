@@ -116,15 +116,6 @@ public interface Actor {
     public JLPCActor getParent();
 
     /**
-     * Assign the parent actor.
-     * Once assigned, it can not be changed.
-     *
-     * @param parent The parent actor.
-     */
-    public void setParent(Actor parent)
-            throws Exception;
-
-    /**
      * Returns A matching ancestor from the parent chain.
      *
      * @param ancestorClass A class which the ancestor is an instanceof.

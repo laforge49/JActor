@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.pubsub.latency;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.pubsub.publisher.JAPublisher;
@@ -17,10 +16,6 @@ public class Driver extends JLPCActor implements Src {
     public JAPublisher pub;
     private int count;
     private Publish publish = new Publish(Ping.req);
-
-    public Driver(final Mailbox mailbox) {
-        super(mailbox);
-    }
 
     public void sender(final RP done, ExtendedResponseProcessor<Integer> erp) throws Exception {
         while (true) {
@@ -47,7 +42,8 @@ public class Driver extends JLPCActor implements Src {
             count = 0;
             int i = 0;
             while (i < s) {
-                Sub sub = new Sub(getMailbox());
+                Sub sub = new Sub();
+                sub.initialize(getMailbox());
                 sub.setActorName("" + i);
                 sub.src = this;
                 Subscribe subscribe = new Subscribe(sub);

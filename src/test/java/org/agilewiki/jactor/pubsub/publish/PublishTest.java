@@ -19,9 +19,11 @@ public class PublishTest extends TestCase {
             Req req = new Req();
             Publish publish = new Publish(req);
             int c = 0;
-            Sub s = new Sub(mailbox);
+            Sub s = new Sub();
+            s.initialize(mailbox);
             s.setActorName("foo");
-            Publisher p = new JAPublisher(mailbox);
+            JAPublisher p = new JAPublisher();
+            p.initialize(mailbox);
             c = publish.send(future, p);
             assertEquals(0, c);
             (new Subscribe(s)).send(future, p);
@@ -45,10 +47,6 @@ public class PublishTest extends TestCase {
  * Test code.
  */
 class Sub extends JASubscriber {
-    Sub(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     protected void processRequest(Object request, RP rp) throws Exception {
         if (request.getClass() == Req.class) {

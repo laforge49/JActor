@@ -12,7 +12,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor calculator = new Calculator(mailbox);
+            Calculator calculator = new Calculator();
+            calculator.initialize(mailbox);
             JAFuture future = new JAFuture();
             future.send(calculator, new Set(1));
             future.send(calculator, new Add(2));
@@ -29,7 +30,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor driver = new Driver1(mailbox);
+            Driver1 driver = new Driver1();
+            driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
@@ -44,7 +46,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor driver = new Driver2(mailbox);
+            Driver2 driver = new Driver2();
+            driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
@@ -59,7 +62,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor driver = new Driver3(mailbox);
+            Driver3 driver = new Driver3();
+            driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
         } catch (Exception e) {
@@ -74,7 +78,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor calculator = new PrintingCalculator(mailbox);
+            PrintingCalculator calculator = new PrintingCalculator();
+            calculator.initialize(mailbox);
             JAFuture future = new JAFuture();
             future.send(calculator, new Set(1));
             future.send(calculator, new Add(2));
@@ -92,7 +97,8 @@ public class CalculatorTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Actor calculator = new FactorialCalculation(mailbox);
+            FactorialCalculation calculator = new FactorialCalculation();
+            calculator.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(future.send(calculator, new Factorial(5)));
         } catch (Exception e) {

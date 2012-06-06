@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.properties;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -42,15 +41,6 @@ public class JAProperties<RESPONSE_TYPE>
      */
     private ConcurrentSkipListMap<String, RESPONSE_TYPE> properties =
             new ConcurrentSkipListMap<String, RESPONSE_TYPE>();
-
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JAProperties(Mailbox mailbox) {
-        super(mailbox);
-    }
 
     /**
      * Get the value of a property.

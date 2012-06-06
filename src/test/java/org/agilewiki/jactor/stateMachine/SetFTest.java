@@ -11,7 +11,8 @@ public class SetFTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new SetF1(mailboxFactory.createMailbox());
+            SetF1 actor = new SetF1();
+            actor.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
@@ -22,11 +23,6 @@ public class SetFTest extends TestCase {
     }
 
     class SetF1 extends JLPCActor implements SimpleRequestReceiver {
-
-        SetF1(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();

@@ -18,7 +18,8 @@ public class Creation3Test extends TestCase {
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAFactory f = new JAFactory(mailboxFactory.createMailbox());
+            JAFactory f = new JAFactory();
+            f.initialize(mailboxFactory.createMailbox());
             f.defineActorType("A", A.class);
             loop(c, f);
             loop(c, f);

@@ -14,7 +14,8 @@ public class GreeterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Greeter a = new Greeter(mailbox);
+            Greeter a = new Greeter();
+            a.initialize(mailbox);
             JAFuture future = new JAFuture();
             String greeting = (new Hi()).send(future, a);
             System.out.println(greeting);
@@ -31,8 +32,10 @@ public class GreeterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Greeter a = new Greeter(mailbox);
-            ResponsePrinter b = new ResponsePrinter(mailbox);
+            Greeter a = new Greeter();
+            a.initialize(mailbox);
+            ResponsePrinter b = new ResponsePrinter();
+            b.initialize(mailbox);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -48,9 +51,10 @@ public class GreeterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Greeter a = new Greeter(mailbox);
-            ResponsePrinter b = new ResponsePrinter(mailbox);
-            b.setParent(a);
+            Greeter a = new Greeter();
+            a.initialize(mailbox);
+            ResponsePrinter b = new ResponsePrinter();
+            b.initialize(mailbox, a);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), b)).send(future, b);
         } catch (Exception e) {

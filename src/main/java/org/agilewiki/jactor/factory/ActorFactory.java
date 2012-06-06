@@ -48,10 +48,9 @@ abstract public class ActorFactory {
     /**
      * Create a JLPCActor.
      *
-     * @param mailbox The mailbox of the new actor.
      * @return The new actor.
      */
-    abstract protected JLPCActor instantiateActor(Mailbox mailbox)
+    abstract protected JLPCActor instantiateActor()
             throws Exception;
 
     /**
@@ -63,9 +62,8 @@ abstract public class ActorFactory {
      */
     public JLPCActor newActor(Mailbox mailbox, Actor parent)
             throws Exception {
-        JLPCActor a = instantiateActor(mailbox);
-        a.setFactory(this);
-        a.setParent(parent);
+        JLPCActor a = instantiateActor();
+        a.initialize(mailbox, parent, this);
         return a;
     }
 }

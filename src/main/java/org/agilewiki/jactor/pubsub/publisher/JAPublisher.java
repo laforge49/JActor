@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.pubsub.publisher;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.parallel.JAResponseCounter3;
@@ -45,15 +44,6 @@ public class JAPublisher
     protected ArrayList<Subscriber> subscribers = new ArrayList<Subscriber>();
 
     private ArrayList<JAResponseCounter3> pool = new ArrayList<JAResponseCounter3>();
-
-    /**
-     * Create a JAPublisher.
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JAPublisher(Mailbox mailbox) {
-        super(mailbox);
-    }
 
     /**
      * Subscribe to the publisher.

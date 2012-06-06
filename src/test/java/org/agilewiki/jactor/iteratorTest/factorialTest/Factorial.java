@@ -1,16 +1,15 @@
 package org.agilewiki.jactor.iteratorTest.factorialTest;
 
-import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.JAIterator;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.SimpleRequest;
+import org.agilewiki.jactor.SimpleRequestReceiver;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Test code.
  */
 public class Factorial extends JLPCActor implements SimpleRequestReceiver {
-    public Factorial(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     public void processRequest(SimpleRequest req, final RP rp)
             throws Exception {
@@ -21,10 +20,11 @@ public class Factorial extends JLPCActor implements SimpleRequestReceiver {
                 rp.processResponse(null);
             }
         };
+        final Multiplier mp = new Multiplier();
+        mp.initialize(getMailbox());
         (new JAIterator() {
             int i;
             int r = 1;
-            Multiplier mp = new Multiplier(getMailbox());
 
             public void process(RP rp) throws Exception {
                 if (i >= max) rp.processResponse(new Integer(r));

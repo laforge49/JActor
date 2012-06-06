@@ -23,7 +23,10 @@
  */
 package org.agilewiki.jactor.lpc.timingTest;
 
-import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.SimpleRequest;
+import org.agilewiki.jactor.SimpleRequestReceiver;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.parallel.JAResponseCounter;
@@ -35,23 +38,12 @@ final public class JAParallel extends JLPCActor implements SimpleRequestReceiver
     /**
      * The actors to be run in parallel.
      */
-    private Actor[] actors;
+    public Actor[] actors;
 
     /**
      * Returns a response only when the expected number of responses are received.
      */
     private JAResponseCounter responseCounter;
-
-    /**
-     * Create a JAParallel actor.
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     * @param actors  The actors to be run in parallel.
-     */
-    public JAParallel(Mailbox mailbox, Actor[] actors) {
-        super(mailbox);
-        this.actors = actors;
-    }
 
     /**
      * Sends either the same request to all the actors or a different request to each actor.

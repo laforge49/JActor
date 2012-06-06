@@ -86,7 +86,7 @@ final public class _SendFV extends _Send {
      * @return The actor which is to receive the message.
      */
     @Override
-    public Actor getTargetActor(StateMachine stateMachine) {
+    public Actor getTargetActor(StateMachine stateMachine) throws Exception {
         return targetActor.get(stateMachine);
     }
 

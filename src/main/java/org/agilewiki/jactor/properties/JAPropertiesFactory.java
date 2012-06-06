@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.properties;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
@@ -47,12 +46,11 @@ public class JAPropertiesFactory extends ActorFactory {
     /**
      * Create a JLPCActor.
      *
-     * @param mailbox The mailbox of the new actor.
      * @return The new actor.
      */
     @Override
-    protected JAProperties instantiateActor(Mailbox mailbox)
+    protected JAProperties instantiateActor()
             throws Exception {
-        return new JAProperties(mailbox);
+        return new JAProperties();
     }
 }

@@ -12,8 +12,7 @@ public class Sender extends JLPCActor implements SimpleRequestReceiver, RealRequ
     private final int count;
     private final int burst;
 
-    public Sender(Mailbox mailbox, Actor echo, int c, int b) {
-        super(mailbox);
+    public Sender(Actor echo, int c, int b) {
         this.echo = echo;
         echo.setInitialBufferCapacity(b + 10);
         count = c;

@@ -11,9 +11,12 @@ public class ShATest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             Mailbox shared = mailboxFactory.createMailbox();
-            Actor a = new A(mailboxFactory.createAsyncMailbox());
-            Actor s1 = new S(shared, a);
-            Actor s2 = new S(shared, s1);
+            A a = new A();
+            a.initialize(mailboxFactory.createAsyncMailbox());
+            S s1 = new S(a);
+            s1.initialize(shared);
+            S s2 = new S(s1);
+            s2.initialize(shared);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, s2));
         } catch (Exception e) {
@@ -26,8 +29,7 @@ public class ShATest extends TestCase {
     class S extends JLPCActor implements SimpleRequestReceiver {
         Actor n;
 
-        S(Mailbox mailbox, Actor n) {
-            super(mailbox);
+        S(Actor n) {
             this.n = n;
         }
 
@@ -39,11 +41,6 @@ public class ShATest extends TestCase {
     }
 
     class A extends JLPCActor implements SimpleRequestReceiver {
-
-        A(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest request, RP rp) throws Exception {
             System.err.println("A got request");

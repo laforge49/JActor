@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
 import org.agilewiki.jactor.JAIterator;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -9,13 +8,10 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class FactorialCalculation extends JLPCActor {
-    public FactorialCalculation(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     protected void processRequest(final Factorial factorial, final RP rp)
             throws Exception {
-        final Calculator calculator = new Calculator(getMailbox());
+        final Calculator calculator = new Calculator();
+        calculator.initialize(getMailbox());
         send(calculator, new Set(1), new RP() {
             @Override
             public void processResponse(Object response) throws Exception {

@@ -14,8 +14,10 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             Mailbox mailbox = mailboxFactory.createMailbox();
-            Greeter a = new Greeter(mailbox);
-            ResponsePrinter b = new ResponsePrinter(mailbox);
+            Greeter a = new Greeter();
+            a.initialize(mailbox);
+            ResponsePrinter b = new ResponsePrinter();
+            b.initialize(mailbox);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -32,8 +34,10 @@ public class ResponsePrinterTest extends TestCase {
         try {
             Mailbox mailbox1 = mailboxFactory.createMailbox();
             Mailbox mailbox2 = mailboxFactory.createMailbox();
-            Greeter a = new Greeter(mailbox1);
-            ResponsePrinter b = new ResponsePrinter(mailbox2);
+            Greeter a = new Greeter();
+            a.initialize(mailbox1);
+            ResponsePrinter b = new ResponsePrinter();
+            b.initialize(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -50,8 +54,10 @@ public class ResponsePrinterTest extends TestCase {
         try {
             Mailbox mailbox1 = mailboxFactory.createMailbox();
             Mailbox mailbox2 = mailboxFactory.createAsyncMailbox();
-            Greeter a = new Greeter(mailbox1);
-            ResponsePrinter b = new ResponsePrinter(mailbox2);
+            Greeter a = new Greeter();
+            a.initialize(mailbox1);
+            ResponsePrinter b = new ResponsePrinter();
+            b.initialize(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
         } catch (Exception e) {
@@ -67,16 +73,19 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            Greeter a = new Greeter(mailboxFactory.createMailbox());
+            Greeter a = new Greeter();
+            a.initialize(mailboxFactory.createMailbox());
             int count = 5;
             ResponsePrinter[] bs = new ResponsePrinter[count];
             int i = 0;
             while (i < count) {
-                ResponsePrinter b = new ResponsePrinter(mailboxFactory.createAsyncMailbox());
+                ResponsePrinter b = new ResponsePrinter();
+                b.initialize(mailboxFactory.createAsyncMailbox());
                 bs[i] = b;
                 i += 1;
             }
-            ParallelResponsePrinter c = new ParallelResponsePrinter(mailboxFactory.createMailbox());
+            ParallelResponsePrinter c = new ParallelResponsePrinter();
+            c.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
@@ -94,16 +103,19 @@ public class ResponsePrinterTest extends TestCase {
         JAMailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
 
-            Greeter a = new Greeter(mailboxFactory.createMailbox());
+            Greeter a = new Greeter();
+            a.initialize(mailboxFactory.createMailbox());
             int count = 5;
             ResponsePrinter[] bs = new ResponsePrinter[count];
             int i = 0;
             while (i < count) {
-                ResponsePrinter b = new ResponsePrinter(mailboxFactory.createAsyncMailbox());
+                ResponsePrinter b = new ResponsePrinter();
+                b.initialize(mailboxFactory.createAsyncMailbox());
                 bs[i] = b;
                 i += 1;
             }
-            ParallelResponsePrinter c = new ParallelResponsePrinter(mailboxFactory.createMailbox());
+            ParallelResponsePrinter c = new ParallelResponsePrinter();
+            c.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);

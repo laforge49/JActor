@@ -44,14 +44,24 @@ public class SharedMailboxTest extends TestCase {
             int i = 0;
             while (i < p) {
                 Mailbox sharedMailbox = mailboxFactory.createAsyncMailbox();
-                Actor echo = new Echo(sharedMailbox);
+                Echo echo = new Echo();
+                echo.initialize(sharedMailbox);
                 echo.setInitialBufferCapacity(b + 10);
-                if (b == 1) senders[i] = new Sender1(sharedMailbox, echo, c, b);
-                else senders[i] = new Sender(sharedMailbox, echo, c, b);
+                if (b == 1) {
+                    Sender1 s = new Sender1(echo, c, b);
+                    s.initialize(sharedMailbox);
+                    senders[i] = s;
+                } else {
+                    Sender s = new Sender(echo, c, b);
+                    s.initialize(sharedMailbox);
+                    senders[i] = s;
+                }
                 senders[i].setInitialBufferCapacity(b + 10);
                 i += 1;
             }
-            JAParallel parallel = new JAParallel(mailboxFactory.createMailbox(), senders);
+            JAParallel parallel = new JAParallel();
+            parallel.initialize(mailboxFactory.createMailbox());
+            parallel.actors = senders;
             JAFuture future = new JAFuture();
             RealRequest.req.send(future, parallel);
             RealRequest.req.send(future, parallel);

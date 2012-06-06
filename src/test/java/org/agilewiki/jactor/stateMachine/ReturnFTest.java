@@ -12,9 +12,11 @@ public class ReturnFTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             JAFuture future = new JAFuture();
-            Actor actor1 = new ReturnF1(mailboxFactory.createMailbox());
+            ReturnF1 actor1 = new ReturnF1();
+            actor1.initialize(mailboxFactory.createMailbox());
             System.out.println(SimpleRequest.req.send(future, actor1));
-            Actor actor2 = new ReturnF2(mailboxFactory.createMailbox());
+            ReturnF2 actor2 = new ReturnF2();
+            actor2.initialize(mailboxFactory.createMailbox());
             System.out.println(SimpleRequest.req.send(future, actor2));
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,11 +26,6 @@ public class ReturnFTest extends TestCase {
     }
 
     class ReturnF1 extends JLPCActor implements SimpleRequestReceiver {
-
-        ReturnF1(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest unwrappedRequest, RP rp)
                 throws Exception {
@@ -46,11 +43,6 @@ public class ReturnFTest extends TestCase {
     }
 
     class ReturnF2 extends JLPCActor implements SimpleRequestReceiver {
-
-        ReturnF2(Mailbox mailbox) {
-            super(mailbox);
-        }
-
         @Override
         public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {
             SMBuilder smb = new SMBuilder();

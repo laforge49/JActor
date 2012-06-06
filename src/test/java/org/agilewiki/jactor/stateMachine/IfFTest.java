@@ -11,7 +11,8 @@ public class IfFTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new IfF(mailboxFactory.createMailbox());
+            IfF actor = new IfF();
+            actor.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
@@ -22,10 +23,6 @@ public class IfFTest extends TestCase {
     }
 
     class IfF extends JLPCActor implements SimpleRequestReceiver {
-
-        IfF(Mailbox mailbox) {
-            super(mailbox);
-        }
 
         @Override
         public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {

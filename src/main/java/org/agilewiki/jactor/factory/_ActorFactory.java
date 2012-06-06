@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.lang.reflect.Constructor;
@@ -51,11 +50,10 @@ final public class _ActorFactory extends ActorFactory {
     /**
      * Create a JLPCActor.
      *
-     * @param mailbox The mailbox of the new actor.
      * @return The new actor.
      */
-    protected JLPCActor instantiateActor(Mailbox mailbox)
+    protected JLPCActor instantiateActor()
             throws Exception {
-        return (JLPCActor) constructor.newInstance(mailbox);
+        return (JLPCActor) constructor.newInstance();
     }
 }

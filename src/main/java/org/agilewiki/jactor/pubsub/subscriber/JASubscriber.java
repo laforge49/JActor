@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.pubsub.subscriber;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.pubsub.actorName.JActorName;
 import org.agilewiki.jactor.pubsub.publisher.Publisher;
@@ -33,15 +32,6 @@ import org.agilewiki.jactor.pubsub.publisher.Publisher;
  */
 public class JASubscriber
         extends JActorName implements Subscriber {
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JASubscriber(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     /**
      * This actor has been granted a subscription.
      *

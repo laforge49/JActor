@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.nbLock;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.factory.ActorFactory;
 
 /**
@@ -47,11 +46,10 @@ public class JNBLockFactory extends ActorFactory {
     /**
      * Create a JLPCActor.
      *
-     * @param mailbox The mailbox of the new actor.
      * @return The new actor.
      */
     @Override
-    protected JANBLock instantiateActor(Mailbox mailbox) throws Exception {
-        return new JANBLock(mailbox);
+    protected JANBLock instantiateActor() throws Exception {
+        return new JANBLock();
     }
 }

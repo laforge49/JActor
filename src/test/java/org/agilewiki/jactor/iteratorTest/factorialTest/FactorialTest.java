@@ -13,7 +13,8 @@ public class FactorialTest extends TestCase {
     public void testFactorial() throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Factorial factorial = new Factorial(mailboxFactory.createMailbox());
+            Factorial factorial = new Factorial();
+            factorial.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             SimpleRequest.req.send(future, factorial);
         } finally {

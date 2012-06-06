@@ -11,7 +11,8 @@ public class GotoTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor actor = new Goto(mailboxFactory.createMailbox());
+            Goto actor = new Goto();
+            actor.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, actor));
         } catch (Exception e) {
@@ -22,10 +23,6 @@ public class GotoTest extends TestCase {
     }
 
     class Goto extends JLPCActor implements SimpleRequestReceiver {
-
-        Goto(Mailbox mailbox) {
-            super(mailbox);
-        }
 
         @Override
         public void processRequest(SimpleRequest unwrappedRequest, RP rp) throws Exception {

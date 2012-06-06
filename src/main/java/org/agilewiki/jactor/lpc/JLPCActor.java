@@ -78,6 +78,55 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     private JLPCActor parent;
 
     /**
+     * Create a LiteActor
+     *
+     * @param mailbox A mailbox which may be shared with other actors.
+     */
+    public void initialize(final Mailbox mailbox) throws Exception {
+        initialize(mailbox, null, null);
+    }
+
+    /**
+     * Create a LiteActor
+     *
+     * @param mailbox A mailbox which may be shared with other actors.
+     * @param parent  The parent actor.
+     */
+    public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
+        initialize(mailbox, parent, null);
+    }
+
+    /**
+     * Create a LiteActor
+     *
+     * @param mailbox A mailbox which may be shared with other actors.
+     * @param parent  The parent actor.
+     * @param factory The factory.
+     */
+    public void initialize(final Mailbox mailbox, Actor parent, ActorFactory factory) throws Exception {
+        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
+        if (this.mailbox != null) throw new IllegalStateException("already initialized");
+        this.mailbox = mailbox;
+        this.factory = factory;
+        Requirement[] requirements = requirements();
+        if (requirements == null || requirements.length == 0) {
+            this.parent = (JLPCActor) parent;
+            return;
+        }
+        int i = 0;
+        while (i < requirements.length) {
+            Requirement requirement = requirements[i];
+            Request request = requirement.request;
+            if (parent == null || request.getTargetActor(parent) == null) {
+                ActorFactory actorFactory = requirement.actorFactory;
+                parent = actorFactory.newActor(mailbox, parent);
+            }
+            i += 1;
+        }
+        this.parent = (JLPCActor) parent;
+    }
+
+    /**
      * Returns the actor's parent.
      *
      * @return The actor's parent, or null.
@@ -100,35 +149,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         if (ancestorClass.isInstance(parent))
             return parent;
         return parent.getAncestor(ancestorClass);
-    }
-
-    /**
-     * Process the requirements and assign the parent actor.
-     * Once assigned, it can not be changed.
-     *
-     * @param parent The parent actor.
-     */
-    @Override
-    public void setParent(Actor parent)
-            throws Exception {
-        if (this.parent != null)
-            throw new UnsupportedOperationException("The parent can not be changed.");
-        Requirement[] requirements = requirements();
-        if (requirements == null || requirements.length == 0) {
-            this.parent = (JLPCActor) parent;
-            return;
-        }
-        int i = 0;
-        while (i < requirements.length) {
-            Requirement requirement = requirements[i];
-            Request request = requirement.request;
-            if (parent == null || request.getTargetActor(parent) == null) {
-                ActorFactory actorFactory = requirement.actorFactory;
-                parent = actorFactory.newActor(mailbox, parent);
-            }
-            i += 1;
-        }
-        this.parent = (JLPCActor) parent;
     }
 
     /**
@@ -161,18 +181,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     @Override
     final public ActorFactory getFactory() {
         return factory;
-    }
-
-    /**
-     * Assigns the factory.
-     * Once assigned, it can not be changed.
-     *
-     * @param factory The factory.
-     */
-    final public void setFactory(ActorFactory factory) {
-        if (this.factory != null)
-            throw new UnsupportedOperationException("The factory can not be changed");
-        this.factory = factory;
     }
 
     /**
@@ -256,16 +264,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     final public void send(final BufferedEventsDestination<JAMessage> destination,
                            final JARequest japcRequest) {
         mailbox.send(destination, japcRequest);
-    }
-
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JLPCActor(final Mailbox mailbox) {
-        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
-        this.mailbox = mailbox;
     }
 
     /**

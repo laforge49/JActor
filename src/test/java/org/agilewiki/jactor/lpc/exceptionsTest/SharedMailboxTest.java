@@ -1,18 +1,25 @@
 package org.agilewiki.jactor.lpc.exceptionsTest;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.JAFuture;
+import org.agilewiki.jactor.JAMailboxFactory;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.MailboxFactory;
 
 /**
  * Test code.
  */
 public class SharedMailboxTest extends TestCase {
-    public void testExceptions() {
+    public void testExceptions()
+            throws Exception {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         Mailbox sharedMailbox = mailboxFactory.createMailbox();
         try {
-            Actor doer = new Doer(sharedMailbox);
-            Actor driver = new Driver(sharedMailbox, doer);
+            Doer doer = new Doer();
+            doer.initialize(sharedMailbox);
+            Driver driver = new Driver();
+            driver.initialize(sharedMailbox);
+            driver.doer = doer;
             JAFuture future = new JAFuture();
             try {
                 System.out.println("Test Go1");

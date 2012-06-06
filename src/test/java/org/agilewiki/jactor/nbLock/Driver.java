@@ -1,21 +1,11 @@
 package org.agilewiki.jactor.nbLock;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 
 /**
  * Test code.
  */
 public class Driver extends JANBLock {
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public Driver(final Mailbox mailbox) {
-        super(mailbox);
-    }
-
     /**
      * The application method for processing requests sent to the actor.
      *

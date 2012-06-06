@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.nbLock;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -34,15 +33,6 @@ import java.util.ArrayDeque;
  */
 public class JANBLock extends JLPCActor {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();
-
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JANBLock(final Mailbox mailbox) {
-        super(mailbox);
-    }
 
     /**
      * The application method for processing requests sent to the actor.

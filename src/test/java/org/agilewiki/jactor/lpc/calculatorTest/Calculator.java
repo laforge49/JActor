@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.lpc.calculatorTest;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -9,10 +8,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  */
 public class Calculator extends JLPCActor implements _Calculator {
     private int accumulator;
-
-    public Calculator(Mailbox mailbox) {
-        super(mailbox);
-    }
 
     public void clear(Clear request, RP rp) throws Exception {
         accumulator = 0;

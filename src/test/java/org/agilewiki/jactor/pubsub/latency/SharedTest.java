@@ -23,17 +23,21 @@ public class SharedTest extends TestCase {
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         Mailbox mailbox = mailboxFactory.createMailbox();
-        Driver driver = new Driver(mailbox);
+        Driver driver = new Driver();
+        driver.initialize(mailbox);
         driver.r = r;
         driver.s = s;
         JAFuture future = new JAFuture();
-        JAPublisher pub = new JAPublisher(mailbox);
+        JAPublisher pub = new JAPublisher();
+        pub.initialize(mailbox);
         driver.pub = pub;
         Go.req.send(future, driver);
-        pub = new JAPublisher(mailbox);
+        pub = new JAPublisher();
+        pub.initialize(mailbox);
         driver.pub = pub;
         Go.req.send(future, driver);
-        pub = new JAPublisher(mailbox);
+        pub = new JAPublisher();
+        pub.initialize(mailbox);
         driver.pub = pub;
         long t0 = System.currentTimeMillis();
         Go.req.send(future, driver);

@@ -2,7 +2,6 @@ package org.agilewiki.jactor.lpc.exceptionsTest;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -10,12 +9,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Driver extends JLPCActor implements GoReceiver {
-    private Actor doer;
-
-    public Driver(Mailbox mailbox, Actor doer) {
-        super(mailbox);
-        this.doer = doer;
-    }
+    public Actor doer;
 
     @Override
     public void processRequest(Go1 request, final RP rp) throws Exception {

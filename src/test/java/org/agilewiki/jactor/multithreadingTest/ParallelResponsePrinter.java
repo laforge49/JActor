@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.multithreadingTest;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.parallel.JAResponseCounter2;
@@ -10,10 +9,6 @@ import org.agilewiki.jactor.parallel.JAResponseCounter2;
  * Test code.
  */
 public class ParallelResponsePrinter extends JLPCActor {
-    public ParallelResponsePrinter(final Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     protected void processRequest(Object request, RP rp) throws Exception {
         Class reqcls = request.getClass();

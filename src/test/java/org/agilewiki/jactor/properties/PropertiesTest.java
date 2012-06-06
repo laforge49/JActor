@@ -11,9 +11,10 @@ public class PropertiesTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            JAProperties p1 = new JAProperties(mailboxFactory.createMailbox());
-            JAProperties p2 = new JAProperties(p1.getMailbox());
-            p2.setParent(p1);
+            JAProperties p1 = new JAProperties();
+            p1.initialize(mailboxFactory.createMailbox());
+            JAProperties p2 = new JAProperties();
+            p2.initialize(p1.getMailbox(), p1);
             (new SetProperty("a", "foo")).call(p1);
             (new SetProperty("b", "bar")).call(p2);
             String a = (new GetProperty<String>("a")).call(p2);

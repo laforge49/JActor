@@ -17,9 +17,10 @@ public class NBLockExceptionsTest extends TestCase {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             JAFuture future = new JAFuture();
-            JANBLock nblock = new JANBLock(mailboxFactory.createAsyncMailbox());
-            Driver driver = new Driver(mailboxFactory.createAsyncMailbox());
-            driver.setParent(nblock);
+            JANBLock nblock = new JANBLock();
+            nblock.initialize(mailboxFactory.createAsyncMailbox());
+            Driver driver = new Driver();
+            driver.initialize(mailboxFactory.createAsyncMailbox(), nblock);
             (new DoItEx()).send(future, driver);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.basics;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
@@ -9,10 +8,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Actor3 extends JLPCActor implements Greeter {
-    public Actor3(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     public void processRequest(Greet1 request, final RP rp) throws Exception {
         request.send(this, getParent(), new RP<Object>() {

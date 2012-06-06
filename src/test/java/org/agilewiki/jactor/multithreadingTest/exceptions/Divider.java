@@ -2,7 +2,6 @@ package org.agilewiki.jactor.multithreadingTest.exceptions;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -10,10 +9,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Divider extends JLPCActor {
-    public Divider(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     protected void processRequest(Object request, final RP rp) throws Exception {
         Class reqcls = request.getClass();

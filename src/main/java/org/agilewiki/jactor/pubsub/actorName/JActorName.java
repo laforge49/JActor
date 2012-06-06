@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.pubsub.actorName;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -36,15 +35,6 @@ public class JActorName extends JLPCActor implements ActorName {
      * The actor name, or null.
      */
     private String actorName;
-
-    /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JActorName(Mailbox mailbox) {
-        super(mailbox);
-    }
 
     /**
      * Returns the actor name, or null.

@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -10,10 +9,6 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 public class Driver
         extends JLPCActor
         implements Does {
-    public Driver(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     @Override
     protected void processRequest(Object request, final RP rp) throws Exception {
         Class reqcls = request.getClass();
@@ -32,16 +27,16 @@ public class Driver
                 }
             };
 
-            Process p1 = new Process(getMailbox());
-            p1.setParent(this);
+            Process p1 = new Process();
+            p1.initialize(getMailbox(), this);
             p1.setActorName("1");
 
-            Process p2 = new Process(getMailbox());
-            p2.setParent(this);
+            Process p2 = new Process();
+            p2.initialize(getMailbox(), this);
             p2.setActorName("2");
 
-            Process p3 = new Process(getMailbox());
-            p3.setParent(this);
+            Process p3 = new Process();
+            p3.initialize(getMailbox(), this);
             p3.setActorName("3");
 
             req.send(this, p1, rpc);

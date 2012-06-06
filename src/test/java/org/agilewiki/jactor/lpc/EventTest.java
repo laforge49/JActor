@@ -10,7 +10,8 @@ public class EventTest extends TestCase {
     public void test() {
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
-            Actor a = new EventAReceiver(mailboxFactory.createMailbox());
+            JLPCActor a = new EventAReceiver();
+            a.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             SimpleRequest eventA = new SimpleRequest();
             eventA.sendEvent(a);
@@ -24,11 +25,6 @@ public class EventTest extends TestCase {
 }
 
 class EventAReceiver extends JLPCActor implements SimpleRequestReceiver {
-
-    EventAReceiver(Mailbox mailbox) {
-        super(mailbox);
-    }
-
     public void processRequest(SimpleRequest request, RP rp) throws Exception {
         System.err.println("A got request");
         rp.processResponse(request);

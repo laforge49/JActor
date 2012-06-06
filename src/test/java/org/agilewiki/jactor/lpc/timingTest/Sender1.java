@@ -11,8 +11,7 @@ public class Sender1 extends JLPCActor implements SimpleRequestReceiver, RealReq
     private Actor echo;
     private final int count;
 
-    public Sender1(Mailbox mailbox, Actor echo, int c, int b) {
-        super(mailbox);
+    public Sender1(Actor echo, int c, int b) {
         this.echo = echo;
         echo.setInitialBufferCapacity(b + 10);
         count = c;

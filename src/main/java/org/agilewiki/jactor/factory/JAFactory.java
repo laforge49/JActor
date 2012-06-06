@@ -102,15 +102,6 @@ public class JAFactory extends JLPCActor implements Factory {
     private ConcurrentSkipListMap<String, ActorFactory> types = new ConcurrentSkipListMap<String, ActorFactory>();
 
     /**
-     * Create a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     */
-    public JAFactory(Mailbox mailbox) {
-        super(mailbox);
-    }
-
-    /**
      * The application method for processing requests sent to the actor.
      *
      * @param request A request.
@@ -257,7 +248,7 @@ public class JAFactory extends JLPCActor implements Factory {
         if (types.containsKey(actorType))
             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
         if (Actor.class.isAssignableFrom(clazz)) {
-            Constructor componentConstructor = clazz.getConstructor(Mailbox.class);
+            Constructor componentConstructor = clazz.getConstructor();
             types.put(actorType, new _ActorFactory(actorType, componentConstructor));
             return;
         }
