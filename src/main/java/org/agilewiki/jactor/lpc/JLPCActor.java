@@ -82,7 +82,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    public void initialize(final Mailbox mailbox) throws Exception {
+    final public void initialize(final Mailbox mailbox) throws Exception {
         initialize(mailbox, null, null);
     }
 
@@ -92,7 +92,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param mailbox A mailbox which may be shared with other actors.
      * @param parent  The parent actor.
      */
-    public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
+    final public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
         initialize(mailbox, parent, null);
     }
 
@@ -143,7 +143,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @return The matching ancestor, or null.
      */
     @Override
-    public JLPCActor getAncestor(Class ancestorClass) {
+    final public JLPCActor getAncestor(Class ancestorClass) {
         if (parent == null)
             return null;
         if (ancestorClass.isInstance(parent))
