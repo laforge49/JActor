@@ -21,22 +21,19 @@ public class MailboxTest extends TestCase {
         //burst size of 1
         //1 parallel runs of 100000000 messages each.
         //100000000 messages sent with 1 threads.
-        //msgs per sec = 39572615
-        //25 nanoseconds per message
-        //25 nanosecond latency
-        //66 clock cycle latency
+        //msgs per sec = 47,236,655
+        //21 nanoseconds per message
 
-        //int c = 10000;
+        //int c = 50000;
         //int b = 1000;
         //int p = 16;
-        //int t = 4;
+        //int t = 8;
 
         //burst size of 1000
-        //16 parallel runs of 20000000 messages each.
-        //320000000 messages sent with 4 threads.
-        //msgs per sec = 108511359
-        //9.2 nanoseconds per message
-        //46 clock cycles per message
+        //16 parallel runs of 100,000,000 messages each.
+        //320000000 messages sent with 8 threads.
+        //msgs per sec = 107,044,891
+        //9.3 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
