@@ -19,24 +19,21 @@ public class SharedMailboxTest extends TestCase {
         //int t = 1;
 
         //burst size of 1
-        //1 parallel runs of 1000000000 messages each.
+        //1 parallel runs of 1,000,000,000 messages each.
         //1000000000 messages sent with 1 threads.
-        //msgs per sec = 311138767
-        //3.2 nanoseconds per message
-        //3.2 nanosecond latency
-        //8 clock cycle latency
+        //msgs per sec = 111,582,236
+        //8.96 nanoseconds per message
 
-        //int c = 40000;//100000;
-        //int b = 1000;
+        //int c = 80000;
+        ///int b = 1000;
         //int p = 16;
-        //int t = 4;
+        //int t = 8;
 
         //burst size of 1000
-        //16 parallel runs of 200000000 messages each.
-        //3200000000 messages sent with 4 threads.
-        //msgs per sec = 1,005,340,873 (now 185,485,740)
-        //.99 nanoseconds per message
-        //5 clock cycles per message
+        //16 parallel runs of 160,000,000 messages each.
+        //2,560,000,000 messages sent with 8 threads.
+        //msgs per sec = 153,220,014
+        //6.53 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

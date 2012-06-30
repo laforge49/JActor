@@ -285,9 +285,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(final APCRequestSource apcRequestSource,
-                                    final Request request,
-                                    final RP rp)
+    final public void acceptRequest(APCRequestSource apcRequestSource,
+                                    Request request,
+                                    RP rp)
             throws Exception {
         RequestSource rs = (RequestSource) apcRequestSource;
         ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
@@ -300,6 +300,15 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             asyncSend(rs, request, rp, sourceExceptionHandler);
             return;
         }
+        acceptOtherRequest(sourceMailbox, rs, request, rp, sourceExceptionHandler);
+    }
+
+    private void acceptOtherRequest(
+            Mailbox sourceMailbox,
+            RequestSource rs,
+            Request request,
+            RP rp,
+            ExceptionHandler sourceExceptionHandler) throws Exception {
         EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
@@ -440,7 +449,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         rs.send(mailbox, jaRequest);
     }
 
-    class SyncExtendedRspProcessor extends ExtendedResponseProcessor {
+    final class SyncExtendedRspProcessor extends ExtendedResponseProcessor {
         RequestSource rs;
         Request request;
         RP rp;
@@ -473,30 +482,35 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                     throw new TransparentException(e);
                 }
             } else {
-                if (response != null && response instanceof Exception)
-                    asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
-                else try {
-                    Mailbox sourceMailbox = rs.getMailbox();
-                    EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
-                    EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
-                    EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-                    EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
-                    if (srcController == controller) {
+                processAsyncResponse(response);
+            }
+        }
+
+        private void processAsyncResponse(Object response)
+                throws Exception {
+            if (response != null && response instanceof Exception)
+                asyncException((Exception) response, rs.getExceptionHandler(), rs.getMailbox());
+            else try {
+                Mailbox sourceMailbox = rs.getMailbox();
+                EventQueue<ArrayList<JAMessage>> sourceEventQueue = sourceMailbox.getEventQueue();
+                EventQueue<ArrayList<JAMessage>> srcController = sourceEventQueue.getController();
+                EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
+                EventQueue<ArrayList<JAMessage>> controller = eventQueue.getController();
+                if (srcController == controller) {
+                    rp.processResponse(response);
+                } else if (!eventQueue.acquireControl(srcController)) {
+                    asyncResponse(rs, request, response, rp);
+                } else {
+                    try {
                         rp.processResponse(response);
-                    } else if (!eventQueue.acquireControl(srcController)) {
-                        asyncResponse(rs, request, response, rp);
-                    } else {
-                        try {
-                            rp.processResponse(response);
-                        } finally {
-                            mailbox.dispatchEvents();
-                            mailbox.sendPendingMessages();
-                            eventQueue.relinquishControl();
-                        }
+                    } finally {
+                        mailbox.dispatchEvents();
+                        mailbox.sendPendingMessages();
+                        eventQueue.relinquishControl();
                     }
-                } catch (Exception ex) {
-                    asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
                 }
+            } catch (Exception ex) {
+                asyncException(ex, rs.getExceptionHandler(), rs.getMailbox());
             }
         }
     }
@@ -521,19 +535,26 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         try {
             _processRequest(request, erp);
             if (!erp.sync) erp.async = true;
-        } catch (TransparentException t) {
-            mailbox.setCurrentRequest(old);
-            setExceptionHandler(sourceExceptionHandler);
-            throw (Exception) t.getCause();
-        } catch (Exception e) {
-            mailbox.setCurrentRequest(old);
-            setExceptionHandler(sourceExceptionHandler);
-            ExceptionHandler eh = getExceptionHandler();
-            if (eh == null) throw e;
-            eh.process(e);
+        } catch (Exception x) {
+            syncSendException(old, sourceExceptionHandler, x);
         }
         mailbox.setCurrentRequest(old);
         setExceptionHandler(sourceExceptionHandler);
+    }
+
+    final private void syncSendException(JARequest old, ExceptionHandler sourceExceptionHandler, Exception x)
+            throws Exception {
+        if (x instanceof TransparentException) {
+            TransparentException t = (TransparentException) x;
+            mailbox.setCurrentRequest(old);
+            setExceptionHandler(sourceExceptionHandler);
+            throw (Exception) t.getCause();
+        }
+        mailbox.setCurrentRequest(old);
+        setExceptionHandler(sourceExceptionHandler);
+        ExceptionHandler eh = getExceptionHandler();
+        if (eh == null) throw x;
+        eh.process(x);
     }
 
     /**
