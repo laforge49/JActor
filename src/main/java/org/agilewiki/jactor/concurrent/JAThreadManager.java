@@ -148,6 +148,14 @@ final public class JAThreadManager implements ThreadManager {
         while (c < threadCount) {
             Thread t = threads.get(c);
             if (ct != t) {
+                t.interrupt();
+            }
+            c += 1;
+        }
+        c = 0;
+        while (c < threadCount) {
+            Thread t = threads.get(c);
+            if (ct != t) {
                 try {
                     t.join();
                 } catch (InterruptedException e) {
