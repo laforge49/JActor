@@ -32,8 +32,8 @@ public class MailboxTest extends TestCase {
         //burst size of 1000
         //16 parallel runs of 100,000,000 messages each.
         //320000000 messages sent with 8 threads.
-        //msgs per sec = 107,044,891
-        //9.3 nanoseconds per message
+        //msgs per sec = 115,248,865
+        //8.7 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

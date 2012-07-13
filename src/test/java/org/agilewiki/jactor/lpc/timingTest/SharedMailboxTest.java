@@ -8,10 +8,10 @@ import org.agilewiki.jactor.*;
  */
 public class SharedMailboxTest extends TestCase {
     public void testTiming() {
-        int c = 1;
-        int b = 1;
-        int p = 1;
-        int t = 1;
+        //int c = 1;
+        //int b = 1;
+        //int p = 1;
+        //int t = 1;
 
         //int c = 500000000;
         //int b = 1;
@@ -24,16 +24,16 @@ public class SharedMailboxTest extends TestCase {
         //msgs per sec = 111,582,236
         //8.96 nanoseconds per message
 
-        //int c = 80000;
-        ///int b = 1000;
-        //int p = 16;
-        //int t = 8;
+        int c = 80000;
+        int b = 1000;
+        int p = 16;
+        int t = 8;
 
         //burst size of 1000
         //16 parallel runs of 160,000,000 messages each.
         //2,560,000,000 messages sent with 8 threads.
-        //msgs per sec = 153,220,014
-        //6.53 nanoseconds per message
+        //msgs per sec = 163,682,864
+        //6.11 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
