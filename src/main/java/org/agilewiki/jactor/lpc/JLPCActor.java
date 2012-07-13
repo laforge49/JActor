@@ -404,8 +404,10 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             oldRequest = oldMailbox.getCurrentRequest();
         }
         final JARequest old = oldRequest;
-        RP rp1 = rp;
-        rp1 = new RP() {
+        final JARequest jaRequest = new JARequest(
+                rs,
+                this,
+                request) {
             @Override
             public void processResponse(Object response) throws Exception {
                 if (oldMailbox != null)
@@ -423,11 +425,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 }
             }
         };
-        final JARequest jaRequest = new JARequest(
-                rs,
-                this,
-                request,
-                rp1);
         rs.send(mailbox, jaRequest);
     }
 
@@ -441,15 +438,23 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     final private void asyncSendEvent(final RequestSource rs,
                                       final Request request,
                                       final ExceptionHandler sourceExceptionHandler) {
-        final JARequest jaRequest = new JARequest(
+        JARequest jaRequest = new JARequest(
                 rs,
                 this,
-                request,
-                JANoResponse.nrp);
+                request) {
+            @Override
+            public void processResponse(Object response) throws Exception {
+            }
+
+            @Override
+            public boolean isEvent() {
+                return true;
+            }
+        };
         rs.send(mailbox, jaRequest);
     }
 
-    final class SyncExtendedRspProcessor extends RP {
+    final class SyncExtendedRequest extends JARequest {
         public boolean sync;
         public boolean async;
         RequestSource rs;
@@ -457,7 +462,12 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         RP rp;
         ExceptionHandler sourceExceptionHandler;
 
-        SyncExtendedRspProcessor(RequestSource rs, Request request, RP rp, ExceptionHandler sourceExceptionHandler) {
+        SyncExtendedRequest(RequestSource rs,
+                            RequestProcessor requestProcessor,
+                            Request request,
+                            RP rp,
+                            ExceptionHandler sourceExceptionHandler) {
+            super(rs, requestProcessor, request);
             this.rs = rs;
             this.request = request;
             this.rp = rp;
@@ -501,12 +511,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 if (srcController == controller) {
                     rp.processResponse(response);
                 } else if (!eventQueue.acquireControl(srcController)) {
-                    final JARequest jaRequest = new JARequest(
-                            rs,
-                            JLPCActor.this,
-                            request,
-                            rp);
-                    mailbox.setCurrentRequest(jaRequest);
+                    mailbox.setCurrentRequest(this);
                     mailbox.response(response);
                 } else {
                     try {
@@ -536,13 +541,12 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                 final RP rp,
                                 final ExceptionHandler sourceExceptionHandler)
             throws Exception {
-        final SyncExtendedRspProcessor erp = new SyncExtendedRspProcessor(rs, request, rp, sourceExceptionHandler);
-        JARequest jaRequest = new JARequest(rs, this, request, erp);
+        final SyncExtendedRequest jaRequest = new SyncExtendedRequest(rs, this, request, rp, sourceExceptionHandler);
         JARequest old = mailbox.getCurrentRequest();
         mailbox.setCurrentRequest(jaRequest);
         try {
-            _processRequest(request, erp);
-            if (!erp.sync) erp.async = true;
+            _processRequest(request, jaRequest);
+            if (!jaRequest.sync) jaRequest.async = true;
         } catch (Exception x) {
             syncSendException(old, sourceExceptionHandler, x);
         }

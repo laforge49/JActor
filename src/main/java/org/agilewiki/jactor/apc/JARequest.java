@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.Request;
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-final public class JARequest implements JAMessage {
+abstract public class JARequest extends RP implements JAMessage {
 
     /**
      * The target of the response.
@@ -51,11 +51,6 @@ final public class JARequest implements JAMessage {
     private Request unwrappedRequest;
 
     /**
-     * An object used to process an unwrapped response.
-     */
-    private RP responseProcessor;
-
-    /**
      * Initially true, active is set to false when a response is sent.
      * Used to prevent multiple responses to a request.
      */
@@ -67,16 +62,13 @@ final public class JARequest implements JAMessage {
      * @param requestSource     The target of the response.
      * @param requestProcessor  The target of the request.
      * @param unwrappedRequest  The wrapped request.
-     * @param responseProcessor Processes the response.
      */
     public JARequest(APCRequestSource requestSource,
                      RequestProcessor requestProcessor,
-                     Request unwrappedRequest,
-                     RP responseProcessor) {
+                     Request unwrappedRequest) {
         this.requestSource = requestSource;
         this.requestProcessor = requestProcessor;
         this.unwrappedRequest = unwrappedRequest;
-        this.responseProcessor = responseProcessor;
     }
 
     /**
@@ -112,16 +104,7 @@ final public class JARequest implements JAMessage {
      * @return The responseProcessor.
      */
     final public RP getResponseProcessor() {
-        return responseProcessor;
-    }
-
-    /**
-     * Returns true when no response is expected.
-     *
-     * @return True when no response is expected.
-     */
-    final public boolean isEvent() {
-        return responseProcessor.isEvent();
+        return this;
     }
 
     /**

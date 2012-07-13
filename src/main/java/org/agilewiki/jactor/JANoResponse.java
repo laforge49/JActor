@@ -53,6 +53,7 @@ final public class JANoResponse extends RP {
      *
      * @return True.
      */
+    @Override
     public boolean isEvent() {
         return true;
     }
