@@ -26,5 +26,5 @@ package org.agilewiki.jactor.apc;
 /**
  * All requests sent to a mailbox, and all returned responses, are subclasses of JAMessage.
  */
-abstract public class JAMessage {
+public interface JAMessage {
 }

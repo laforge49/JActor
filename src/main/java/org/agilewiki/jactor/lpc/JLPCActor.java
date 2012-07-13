@@ -449,7 +449,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         rs.send(mailbox, jaRequest);
     }
 
-    final class SyncExtendedRspProcessor extends ExtendedResponseProcessor {
+    final class SyncExtendedRspProcessor extends RP {
+        public boolean sync;
+        public boolean async;
         RequestSource rs;
         Request request;
         RP rp;
@@ -499,7 +501,13 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 if (srcController == controller) {
                     rp.processResponse(response);
                 } else if (!eventQueue.acquireControl(srcController)) {
-                    asyncResponse(rs, request, response, rp);
+                    final JARequest jaRequest = new JARequest(
+                            rs,
+                            JLPCActor.this,
+                            request,
+                            rp);
+                    mailbox.setCurrentRequest(jaRequest);
+                    mailbox.response(response);
                 } else {
                     try {
                         rp.processResponse(response);
@@ -574,27 +582,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         }
         setExceptionHandler(sourceExceptionHandler);
         return;
-    }
-
-    /**
-     * Respond asynchronously to a synchronous request.
-     *
-     * @param rs       The source of the request.
-     * @param request  The request.
-     * @param response The response.
-     * @param rp       Processes the response.
-     */
-    final private void asyncResponse(RequestSource rs,
-                                     Request request,
-                                     Object response,
-                                     RP rp) {
-        final JARequest jaRequest = new JARequest(
-                rs,
-                this,
-                request,
-                rp);
-        mailbox.setCurrentRequest(jaRequest);
-        mailbox.response(response);
     }
 
     /**

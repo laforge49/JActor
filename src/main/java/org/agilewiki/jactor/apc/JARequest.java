@@ -31,7 +31,7 @@ import org.agilewiki.jactor.lpc.Request;
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-final public class JARequest extends JAMessage {
+final public class JARequest implements JAMessage {
 
     /**
      * The target of the response.
