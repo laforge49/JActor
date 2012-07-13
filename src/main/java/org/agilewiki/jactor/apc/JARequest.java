@@ -99,15 +99,6 @@ abstract public class JARequest extends RP implements JAMessage {
     }
 
     /**
-     * Returns the responseProcessor.
-     *
-     * @return The responseProcessor.
-     */
-    final public RP getResponseProcessor() {
-        return this;
-    }
-
-    /**
      * Returns true if no response has been returned.
      *
      * @return Is true when no response has been returned.

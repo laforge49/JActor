@@ -74,6 +74,6 @@ final public class JAResponse implements JAMessage {
      * @return The object which will process the response.
      */
     public RP getResponseProcessor() {
-        return japcRequest.getResponseProcessor();
+        return japcRequest;
     }
 }

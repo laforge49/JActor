@@ -220,7 +220,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     @Override
     final public void processRequest(final JARequest request) throws Exception {
         if (request.isEvent())
-            _processRequest(request.getUnwrappedRequest(), request.getResponseProcessor());
+            _processRequest(request.getUnwrappedRequest(), request);
         else _processRequest(request.getUnwrappedRequest(), new RP() {
             @Override
             public void processResponse(Object unwrappedResponse) {
