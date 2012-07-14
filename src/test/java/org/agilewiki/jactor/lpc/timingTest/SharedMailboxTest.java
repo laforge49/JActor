@@ -26,14 +26,14 @@ public class SharedMailboxTest extends TestCase {
 
         //int c = 80000;
         //int b = 1000;
-        //int p = 16;
+        //int p = 64;
         //int t = 8;
 
         //burst size of 1000
-        //16 parallel runs of 160,000,000 messages each.
-        //2,560,000,000 messages sent with 8 threads.
-        //msgs per sec = 191,387,559
-        //5.23 nanoseconds per message
+        //64 parallel runs of 160,000,000 messages each.
+        //10,240,000,000 messages sent with 8 threads.
+        //msgs per sec = 251,115,797
+        //3.98 nanoseconds per message
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {
@@ -60,7 +60,6 @@ public class SharedMailboxTest extends TestCase {
             parallel.initialize(mailboxFactory.createMailbox());
             parallel.actors = senders;
             JAFuture future = new JAFuture();
-            RealRequest.req.send(future, parallel);
             RealRequest.req.send(future, parallel);
             long t0 = System.currentTimeMillis();
             RealRequest.req.send(future, parallel);
