@@ -82,19 +82,11 @@ parent actor.
 Message Passing Benchmarks
 
                          Shared Mailbox       Across Mailboxes
-msgs per sec              1,005,340,873            108,511,359
-ns per message                      .99                    9.2
-CPU cycles per message                5                     46
-latency (ns)                        3.2                     25
-latency (CPU cycles)                  8                     66
+msgs per sec                251,115,797            115,248,865
+ns per message                     3.98                    8.7
+latency (ns)                          9                     21
 
 Test Environment
-
-Tests were done on an Intel Core i5 CPU M 540 @ 2.53GHz, which has 4 hardware
-threads. The times reported were best run in 5. Only standard switch settings
-were used--there was NO compiler optimization.
-
-New Test Environment
 
 i7-3770 @ 3.40 GHz
 ASUS P8Z77-M Motherboard
