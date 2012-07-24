@@ -16,9 +16,9 @@ public class Actor5a extends JLPCActor {
         b.initialize(mf.createAsyncMailbox());
         Actor5 c = new Actor5();
         c.initialize(mf.createAsyncMailbox());
-        a.delay = 10;
-        c.delay = 10;
-        a.delay = 10;
+        a.delay = 500;
+        c.delay = 500;
+        a.delay = 500;
         final long t0 = System.currentTimeMillis();
         RP<Object> rc = new RP<Object>() {
             int c = 3;
@@ -28,7 +28,7 @@ public class Actor5a extends JLPCActor {
                 c -= 1;
                 if (c == 0) {
                     long t1 = System.currentTimeMillis();
-                    rp.processResponse((t1 - t0) < 15);
+                    rp.processResponse((t1 - t0) < 1000);
                 }
             }
         };

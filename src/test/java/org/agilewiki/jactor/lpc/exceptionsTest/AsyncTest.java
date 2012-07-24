@@ -23,13 +23,11 @@ public class AsyncTest extends TestCase {
             driver.doer = doer;
             JAFuture future = new JAFuture();
             try {
-                System.out.println("Test Go1");
                 Go1.req.send(future, driver);
             } catch (Exception e) {
                 System.out.println("Go1: " + e.getMessage());
             }
             try {
-                System.out.println("Test Go2");
                 Go2.req.send(future, driver);
             } catch (Exception e) {
                 System.out.println("Go2: " + e.getMessage());

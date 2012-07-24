@@ -17,7 +17,7 @@ public class ASATest extends TestCase {
             S a2 = new S(s1);
             a2.initialize(mailboxFactory.createAsyncMailbox());
             JAFuture future = new JAFuture();
-            System.err.println(SimpleRequest.req.send(future, a2));
+            System.out.println(SimpleRequest.req.send(future, a2));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -33,16 +33,19 @@ public class ASATest extends TestCase {
         }
 
         @Override
-        public void processRequest(SimpleRequest request, RP rp) throws Exception {
-            System.err.println("S got request");
-            request.send(this, n, rp);
+        public void processRequest(SimpleRequest request, final RP rp) throws Exception {
+            request.send(this, n, new RP<Object>() {
+                @Override
+                public void processResponse(Object response) throws Exception {
+                    rp.processResponse(null);
+                }
+            });
         }
     }
 
     class A extends JLPCActor implements SimpleRequestReceiver {
         @Override
         public void processRequest(SimpleRequest request, RP rp) throws Exception {
-            System.err.println("A got request");
             rp.processResponse(request);
         }
     }

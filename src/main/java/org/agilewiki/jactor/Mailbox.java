@@ -50,4 +50,6 @@ public interface Mailbox extends APCMailbox {
      * @return The mailbox factory.
      */
     public MailboxFactory getMailboxFactory();
+
+    public void processResponse(Object response);
 }

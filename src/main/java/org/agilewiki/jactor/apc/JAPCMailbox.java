@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
@@ -213,7 +214,8 @@ public class JAPCMailbox implements APCMailbox {
         if (currentRequest.isActive()) {
             currentRequest.inactive();
             currentRequest.response(bufferedEventQueue, unwrappedResponse);
-        }
+        } else
+            System.out.println("mailbox oops");
     }
 
     /**
@@ -223,5 +225,61 @@ public class JAPCMailbox implements APCMailbox {
      */
     public EventQueue<ArrayList<JAMessage>> getEventQueue() {
         return bufferedEventQueue.getEventQueue();
+    }
+
+    final public void processResponse(Object response) {
+        if (response instanceof Exception) {
+            ExceptionHandler eh = currentRequest.getExceptionHandler();
+            if (eh != null)
+                try {
+                    eh.process((Exception) response);
+                    return;
+                } catch(Exception ex) {
+                    response = ex;
+                }
+        }
+        if (currentRequest.isEvent()) {
+            return;
+        }
+        Mailbox sourceMailbox = currentRequest.sourceMailbox;
+        if (sourceMailbox == null) {
+            response(response);
+            return;
+        }
+        if (this == sourceMailbox) {
+            processSyncResponse(response);
+            return;
+        }
+        EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
+        EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
+        if (srcEventQueue.getController() == controller) {
+            processSyncResponse(response);
+            return;
+        }
+        if (!srcEventQueue.acquireControl(controller)) {
+            response(response);
+            return;
+        }
+        try {
+            processSyncResponse(response);
+        } finally {
+            sourceMailbox.dispatchEvents();
+            sourceMailbox.sendPendingMessages();
+            srcEventQueue.relinquishControl();
+        }
+    }
+
+    private void processSyncResponse(Object response) {
+        Mailbox sourceMailbox = currentRequest.sourceMailbox;
+        if (sourceMailbox != null) {
+            sourceMailbox.setCurrentRequest(currentRequest.sourceRequest);
+            sourceMailbox.setExceptionHandler(currentRequest.sourceExceptionHandler);
+        }
+        try {
+            currentRequest.processResponse(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
     }
 }

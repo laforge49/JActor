@@ -24,9 +24,11 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.lpc.RequestSource;
 
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
@@ -38,7 +40,7 @@ abstract public class JARequest extends RP implements JAMessage {
      * An anonymous object in the JLPCActor or JLPCFuture
      * that originated the request. Used in response processing.
      */
-    private APCRequestSource requestSource;
+    protected APCRequestSource requestSource;
 
     /**
      * An anonymous object in the JLPCActor that is the target of the JARequest.
@@ -56,19 +58,26 @@ abstract public class JARequest extends RP implements JAMessage {
      */
     private boolean active = true;
 
-    /**
-     * Create an JARequest.
-     *
-     * @param requestSource     The target of the response.
-     * @param requestProcessor  The target of the request.
-     * @param unwrappedRequest  The wrapped request.
-     */
-    public JARequest(APCRequestSource requestSource,
+    final public Mailbox sourceMailbox;
+
+    final public JARequest sourceRequest;
+
+    final public ExceptionHandler sourceExceptionHandler;
+
+    public JARequest(RequestSource requestSource,
                      RequestProcessor requestProcessor,
                      Request unwrappedRequest) {
         this.requestSource = requestSource;
         this.requestProcessor = requestProcessor;
         this.unwrappedRequest = unwrappedRequest;
+        sourceMailbox = requestSource.getMailbox();
+        if (sourceMailbox != null) {
+            sourceRequest = sourceMailbox.getCurrentRequest();
+            sourceExceptionHandler = sourceMailbox.getExceptionHandler();
+        } else {
+            sourceRequest = null;
+            sourceExceptionHandler = null;
+        }
     }
 
     /**

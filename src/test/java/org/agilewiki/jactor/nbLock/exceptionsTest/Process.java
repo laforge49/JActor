@@ -26,11 +26,14 @@ public class Process
                     setExceptionHandler(new ExceptionHandler() {
                         @Override
                         public void process(Exception exception) throws Exception {
-                            System.out.println(me + " got exception " + exception);
-                            Unlock.req.send(Process.this, Process.this, rp);
+                            Unlock.req.send(Process.this, Process.this, new RP<Object>() {
+                                @Override
+                                public void processResponse(Object response) throws Exception {
+                                    rp.processResponse(null);
+                                }
+                            });
                         }
                     });
-                    System.out.println("start " + me);
                     Thread.sleep(100);
                     throw new Exception("from " + me);
                 }
