@@ -156,7 +156,7 @@ public class JARequest extends RP implements JAMessage {
     public void restore() {
         if (sourceMailbox != null) {
             sourceMailbox.setCurrentRequest(sourceRequest);
-            ((RequestSource)requestSource).setExceptionHandler(sourceExceptionHandler);
+            sourceMailbox.setExceptionHandler(sourceExceptionHandler);
         }
     }
 }

@@ -347,16 +347,16 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         ExtendedResponseProcessor extendedResponseProcessor = new ExtendedResponseProcessor() {
             @Override
             public void processResponse(Object response) throws Exception {
+                mailbox.setCurrentRequest(syncRequest);
                 if (!async) {
                     sync = true;
                     System.out.println("extendedResponseProcessor sync");
                     Thread.sleep(100);
-                    JARequest currentRequest = mailbox.getCurrentRequest();
-                    if (!currentRequest.isActive()) {
+                    if (!syncRequest.isActive()) {
                         System.out.println("oops!");
                         return;
                     }
-                    currentRequest.inactive();
+                    syncRequest.inactive();
                     syncRequest.restore();
                     if (response instanceof Exception)
                         throw (Exception) response;
@@ -461,7 +461,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             mailbox.processResponse(ex);
         }
         oldSourceMailbox.setCurrentRequest(oldSourceRequest);
-        rs.setExceptionHandler(sourceExceptionHandler);
+        oldSourceMailbox.setExceptionHandler(sourceExceptionHandler);
     }
 
     /**
