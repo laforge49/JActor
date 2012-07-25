@@ -28,7 +28,7 @@ public class Actor5a extends JLPCActor {
                 c -= 1;
                 if (c == 0) {
                     long t1 = System.currentTimeMillis();
-                    rp.processResponse((t1 - t0) < 1000);
+                    rp.processResponse((t1 - t0) < 1500);
                 }
             }
         };

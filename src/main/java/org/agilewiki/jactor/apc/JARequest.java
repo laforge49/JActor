@@ -33,7 +33,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-abstract public class JARequest extends RP implements JAMessage {
+public class JARequest extends RP implements JAMessage {
 
     /**
      * The target of the response.
@@ -64,12 +64,16 @@ abstract public class JARequest extends RP implements JAMessage {
 
     final public ExceptionHandler sourceExceptionHandler;
 
+    final private RP rp;
+
     public JARequest(RequestSource requestSource,
                      RequestProcessor requestProcessor,
-                     Request unwrappedRequest) {
+                     Request unwrappedRequest,
+                     RP rp) {
         this.requestSource = requestSource;
         this.requestProcessor = requestProcessor;
         this.unwrappedRequest = unwrappedRequest;
+        this.rp = rp;
         sourceMailbox = requestSource.getMailbox();
         if (sourceMailbox != null) {
             sourceRequest = sourceMailbox.getCurrentRequest();
@@ -133,5 +137,26 @@ abstract public class JARequest extends RP implements JAMessage {
         JAResponse japcResponse = new JAResponse(unwrappedResponse);
         japcResponse.setJAPCRequest(this);
         requestSource.responseFrom(eventQueue, japcResponse);
+    }
+
+    @Override
+    public void processResponse(Object response) throws Exception {
+        System.out.println("JARequest processResponse");
+        Thread.sleep(100);
+        restore();
+        if (response instanceof Exception) {
+            sourceMailbox.processResponse(response);
+        } else try {
+            rp.processResponse(response);
+        } catch (Exception ex) {
+            sourceMailbox.processResponse(ex);
+        }
+    }
+
+    public void restore() {
+        if (sourceMailbox != null) {
+            sourceMailbox.setCurrentRequest(sourceRequest);
+            ((RequestSource)requestSource).setExceptionHandler(sourceExceptionHandler);
+        }
     }
 }

@@ -228,10 +228,12 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     final public void processResponse(Object response) {
+        System.out.println("\nmailbox.processResponse");
         if (response instanceof Exception) {
             ExceptionHandler eh = currentRequest.getExceptionHandler();
             if (eh != null)
                 try {
+                    System.out.println("\nmailbox.processResponse1");
                     eh.process((Exception) response);
                     return;
                 } catch(Exception ex) {
@@ -239,28 +241,34 @@ public class JAPCMailbox implements APCMailbox {
                 }
         }
         if (currentRequest.isEvent()) {
+            System.out.println("\nmailbox.processResponse2");
             return;
         }
         Mailbox sourceMailbox = currentRequest.sourceMailbox;
         if (sourceMailbox == null) {
+            System.out.println("\nmailbox.processResponse3");
             response(response);
             return;
         }
         if (this == sourceMailbox) {
+            System.out.println("\nmailbox.processResponse4");
             processSyncResponse(response);
             return;
         }
         EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
         if (srcEventQueue.getController() == controller) {
+            System.out.println("\nmailbox.processResponse5");
             processSyncResponse(response);
             return;
         }
         if (!srcEventQueue.acquireControl(controller)) {
+            System.out.println("\nmailbox.processResponse6");
             response(response);
             return;
         }
         try {
+            System.out.println("\nmailbox.processResponse7");
             processSyncResponse(response);
         } finally {
             sourceMailbox.dispatchEvents();
@@ -271,12 +279,13 @@ public class JAPCMailbox implements APCMailbox {
 
     private void processSyncResponse(Object response) {
         Mailbox sourceMailbox = currentRequest.sourceMailbox;
+        JARequest sourceRequest = currentRequest.sourceRequest;
         if (sourceMailbox != null) {
-            sourceMailbox.setCurrentRequest(currentRequest.sourceRequest);
+            sourceMailbox.setCurrentRequest(sourceRequest);
             sourceMailbox.setExceptionHandler(currentRequest.sourceExceptionHandler);
         }
         try {
-            currentRequest.processResponse(response);
+            sourceRequest.processResponse(response);
         } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(1);
