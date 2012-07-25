@@ -141,8 +141,6 @@ public class JARequest extends RP implements JAMessage {
 
     @Override
     public void processResponse(Object response) throws Exception {
-        System.out.println("JARequest processResponse");
-        Thread.sleep(100);
         restore();
         if (response instanceof Exception) {
             sourceMailbox.processResponse(response);

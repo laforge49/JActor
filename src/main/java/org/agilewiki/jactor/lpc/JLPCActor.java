@@ -327,8 +327,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                            final Request request,
                            final RP rp)
             throws Exception {
-        System.out.println("asyncSend rp="+rp);
-        Thread.sleep(100);
         final JARequest jaRequest = new JARequest(
                 rs,
                 this,
@@ -341,8 +339,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                           final Request request,
                           final RP rp)
             throws Exception {
-        System.out.println("syncSend request="+request+" rp="+rp);
-        Thread.sleep(100);
         final JARequest syncRequest = new JARequest(rs, JLPCActor.this, request, rp);
         ExtendedResponseProcessor extendedResponseProcessor = new ExtendedResponseProcessor() {
             @Override
@@ -350,10 +346,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 mailbox.setCurrentRequest(syncRequest);
                 if (!async) {
                     sync = true;
-                    System.out.println("extendedResponseProcessor sync");
-                    Thread.sleep(100);
                     if (!syncRequest.isActive()) {
-                        System.out.println("oops!");
                         return;
                     }
                     syncRequest.inactive();
@@ -366,8 +359,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                         throw new TransparentException(e);
                     }
                 } else {
-                    System.out.println("extendedResponseProcessor async");
-                    Thread.sleep(100);
                     mailbox.processResponse(response);
                 }
             }
