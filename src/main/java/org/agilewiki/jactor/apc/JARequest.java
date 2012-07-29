@@ -141,17 +141,17 @@ public class JARequest extends RP implements JAMessage {
 
     @Override
     public void processResponse(Object response) throws Exception {
-        restore();
+        restoreSourceMailbox();
         if (response instanceof Exception) {
-            sourceMailbox.processResponse(response);
+            sourceMailbox.processResponse(sourceRequest, response);
         } else try {
             rp.processResponse(response);
         } catch (Exception ex) {
-            sourceMailbox.processResponse(ex);
+            sourceMailbox.processResponse(sourceRequest, ex);
         }
     }
 
-    public void restore() {
+    public void restoreSourceMailbox() {
         if (sourceMailbox != null) {
             sourceMailbox.setCurrentRequest(sourceRequest);
             sourceMailbox.setExceptionHandler(sourceExceptionHandler);

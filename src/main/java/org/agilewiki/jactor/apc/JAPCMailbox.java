@@ -212,8 +212,16 @@ public class JAPCMailbox implements APCMailbox {
     @Override
     final public void response(Object unwrappedResponse) {
         if (currentRequest.isActive()) {
+            System.out.println("mailbox response to "+unwrappedResponse);
             currentRequest.inactive();
             currentRequest.response(bufferedEventQueue, unwrappedResponse);
+        } else {
+            System.out.println("warning: duplicate asynchronous response to "+currentRequest.getUnwrappedRequest());
+            try {
+                throw new Exception("dup");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -226,9 +234,9 @@ public class JAPCMailbox implements APCMailbox {
         return bufferedEventQueue.getEventQueue();
     }
 
-    final public void processResponse(Object response) {
+    final public void processResponse(JARequest jaRequest, Object response) {
         if (response instanceof Exception) {
-            ExceptionHandler eh = currentRequest.getExceptionHandler();
+            ExceptionHandler eh = jaRequest.getExceptionHandler();
             if (eh != null)
                 try {
                     eh.process((Exception) response);
@@ -237,22 +245,22 @@ public class JAPCMailbox implements APCMailbox {
                     response = ex;
                 }
         }
-        if (currentRequest.isEvent()) {
+        if (jaRequest.isEvent()) {
             return;
         }
-        Mailbox sourceMailbox = currentRequest.sourceMailbox;
+        Mailbox sourceMailbox = jaRequest.sourceMailbox;
         if (sourceMailbox == null) {
             response(response);
             return;
         }
         if (this == sourceMailbox) {
-            processSyncResponse(response);
+            processSyncResponse(jaRequest, response);
             return;
         }
         EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
         if (srcEventQueue.getController() == controller) {
-            processSyncResponse(response);
+            processSyncResponse(jaRequest, response);
             return;
         }
         if (!srcEventQueue.acquireControl(controller)) {
@@ -260,7 +268,7 @@ public class JAPCMailbox implements APCMailbox {
             return;
         }
         try {
-            processSyncResponse(response);
+            processSyncResponse(jaRequest, response);
         } finally {
             sourceMailbox.dispatchEvents();
             sourceMailbox.sendPendingMessages();
@@ -268,12 +276,12 @@ public class JAPCMailbox implements APCMailbox {
         }
     }
 
-    private void processSyncResponse(Object response) {
-        Mailbox sourceMailbox = currentRequest.sourceMailbox;
-        JARequest sourceRequest = currentRequest.sourceRequest;
+    private void processSyncResponse(JARequest jaRequest, Object response) {
+        Mailbox sourceMailbox = jaRequest.sourceMailbox;
+        JARequest sourceRequest = jaRequest.sourceRequest;
         if (sourceMailbox != null) {
             sourceMailbox.setCurrentRequest(sourceRequest);
-            sourceMailbox.setExceptionHandler(currentRequest.sourceExceptionHandler);
+            sourceMailbox.setExceptionHandler(jaRequest.sourceExceptionHandler);
         }
         try {
             sourceRequest.processResponse(response);

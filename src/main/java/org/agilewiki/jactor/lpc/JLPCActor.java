@@ -218,13 +218,16 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception An exception thrown while processing the request.
      */
     @Override
-    final public void processRequest(JARequest request) throws Exception {
+    final public void processRequest(final JARequest request) throws Exception {
         if (request.isEvent())
             _processRequest(request.getUnwrappedRequest(), request);
         else _processRequest(request.getUnwrappedRequest(), new RP() {
             @Override
             public void processResponse(Object response) {
+                JARequest old = mailbox.getCurrentRequest();
+                mailbox.setCurrentRequest(request);
                 mailbox.response(response);
+                mailbox.setCurrentRequest(old);
             }
         });
     }
@@ -343,14 +346,18 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         ExtendedResponseProcessor extendedResponseProcessor = new ExtendedResponseProcessor() {
             @Override
             public void processResponse(Object response) throws Exception {
-                mailbox.setCurrentRequest(syncRequest);
+                JARequest oldCurrent = mailbox.getCurrentRequest();
+                ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
                 if (!async) {
                     sync = true;
+                    System.out.println("---set sync for "+syncRequest.getUnwrappedRequest());
                     if (!syncRequest.isActive()) {
+                        System.out.println("warning: duplicate synchronous response");
                         return;
                     }
+                    System.out.println("actor syncSend response to "+syncRequest.getUnwrappedRequest());
                     syncRequest.inactive();
-                    syncRequest.restore();
+                    syncRequest.restoreSourceMailbox();
                     if (response instanceof Exception)
                         throw (Exception) response;
                     try {
@@ -359,8 +366,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                         throw new TransparentException(e);
                     }
                 } else {
-                    mailbox.processResponse(response);
+                    mailbox.processResponse(syncRequest, response);
+                    syncRequest.restoreSourceMailbox();
                 }
+                mailbox.setCurrentRequest(oldCurrent);
+                mailbox.setExceptionHandler(oldExceptionHandler);
             }
         };
 
@@ -369,13 +379,14 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             _processRequest(request, extendedResponseProcessor);
             if (!extendedResponseProcessor.sync) {
                 extendedResponseProcessor.async = true;
-                syncRequest.restore();
+                System.out.println("---set async for "+syncRequest.getUnwrappedRequest());
+                syncRequest.restoreSourceMailbox();
             }
         } catch (TransparentException tx) {
             throw (Exception) tx.getCause();
         } catch (Exception ex) {
             if (!extendedResponseProcessor.sync)
-                syncRequest.restore();
+                syncRequest.restoreSourceMailbox();
             throw ex;
         }
     }
@@ -449,7 +460,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         try {
             _processRequest(request, jaRequest);
         } catch (Exception ex) {
-            mailbox.processResponse(ex);
+            mailbox.processResponse(jaRequest, ex);
         }
         oldSourceMailbox.setCurrentRequest(oldSourceRequest);
         oldSourceMailbox.setExceptionHandler(sourceExceptionHandler);

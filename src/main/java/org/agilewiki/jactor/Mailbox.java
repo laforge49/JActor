@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCMailbox;
+import org.agilewiki.jactor.apc.JARequest;
 
 /**
  * <p>
@@ -51,5 +52,5 @@ public interface Mailbox extends APCMailbox {
      */
     public MailboxFactory getMailboxFactory();
 
-    public void processResponse(Object response);
+    public void processResponse(JARequest jaRequest, Object response);
 }
