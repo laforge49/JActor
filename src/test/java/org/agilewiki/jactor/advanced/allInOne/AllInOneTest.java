@@ -9,11 +9,6 @@ import org.agilewiki.jactor.MailboxFactory;
 public class AllInOneTest extends TestCase {
     public void test()
             throws Exception {
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
             AllInOne aio = new AllInOne();
@@ -21,11 +16,6 @@ public class AllInOneTest extends TestCase {
             Start.req.send(new JAFuture(), aio);
         } finally {
             mailboxFactory.close();
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
         }
     }
 }

@@ -358,8 +358,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                     System.out.println("actor syncSend response to "+syncRequest.getUnwrappedRequest());
                     syncRequest.inactive();
                     syncRequest.restoreSourceMailbox();
-                    if (response instanceof Exception)
+                    if (response instanceof Exception) {
+                        mailbox.setCurrentRequest(oldCurrent);
+                        mailbox.setExceptionHandler(oldExceptionHandler);
                         throw (Exception) response;
+                    }
                     try {
                         rp.processResponse(response);
                     } catch (Exception e) {
