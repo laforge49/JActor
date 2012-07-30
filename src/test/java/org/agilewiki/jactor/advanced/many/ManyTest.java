@@ -13,7 +13,7 @@ public class ManyTest extends TestCase {
         System.out.println("###########################################");
         System.out.println("###########################################");
         System.out.println("###########################################");
-        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
         try {
             Driver driver = new Driver();
             driver.initialize(mailboxFactory.createAsyncMailbox());
