@@ -11,7 +11,6 @@ public class ReleaseDriver extends JLPCActor {
     public void startRelease(final RP rp)
             throws Exception {
         System.out.println("release driver sending release");
-        Thread.sleep(10);
         Release.req.send(this, doer, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {

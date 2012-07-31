@@ -31,6 +31,7 @@ public class Driver extends JLPCActor {
                 assertEquals(
                         Start.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
+                assertEquals(null, getMailbox().getCurrentRequest().sourceMailbox);
                 count += 1;
                 if (count < 8) {
                     System.out.println("true");
@@ -41,6 +42,7 @@ public class Driver extends JLPCActor {
                 assertEquals(
                         Start.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
+                assertEquals(null, getMailbox().getCurrentRequest().sourceMailbox);
             }
         });
     }
@@ -61,7 +63,7 @@ public class Driver extends JLPCActor {
         allocateDriver.doer = doer;
 
         System.out.println("driver sending start release");
-        Thread.sleep(10);
+        Thread.sleep(100);
         StartRelease.req.send(this, releaseDriver, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
