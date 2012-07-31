@@ -31,7 +31,6 @@ public class Driver extends JLPCActor {
                 assertEquals(
                         Start.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
-                assertEquals(getMailbox(), getMailbox().getCurrentRequest().sourceMailbox);
                 count += 1;
                 if (count < 8) {
                     System.out.println("true");
@@ -42,7 +41,6 @@ public class Driver extends JLPCActor {
                 assertEquals(
                         Start.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
-                assertEquals(getMailbox(), getMailbox().getCurrentRequest().sourceMailbox);
             }
         });
     }

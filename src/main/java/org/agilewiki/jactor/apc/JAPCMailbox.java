@@ -277,6 +277,7 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     private void processSyncResponse(JARequest jaRequest, Object response) {
+        System.out.println("process sync response of "+jaRequest.getUnwrappedRequest());
         Mailbox sourceMailbox = jaRequest.sourceMailbox;
         JARequest sourceRequest = jaRequest.sourceRequest;
         if (sourceMailbox != null) {
@@ -284,7 +285,7 @@ public class JAPCMailbox implements APCMailbox {
             sourceMailbox.setExceptionHandler(jaRequest.sourceExceptionHandler);
         }
         try {
-            sourceRequest.processResponse(response);
+            jaRequest.processResponse(response);
         } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(1);
