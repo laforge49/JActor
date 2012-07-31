@@ -23,18 +23,15 @@ public class Driver extends JLPCActor {
 
     void loop()
             throws Exception {
-        System.out.println(count);
         Trial.req.send(Driver.this, Driver.this, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!");
                 assertEquals(
                         Start.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
                 assertEquals(null, getMailbox().getCurrentRequest().sourceMailbox);
                 count += 1;
-                if (count < 8) {
-                    System.out.println("true");
+                if (count < 4) {
                     loop();
                     return;
                 }
@@ -58,25 +55,19 @@ public class Driver extends JLPCActor {
             doer.initialize(mailboxFactory.createAsyncMailbox());
 
         ReleaseDriver releaseDriver = new ReleaseDriver();
-        if ((count & 2) == 0)
-            releaseDriver.initialize(mailboxFactory.createMailbox());
-        else
-            releaseDriver.initialize(mailboxFactory.createAsyncMailbox());
+        releaseDriver.initialize(mailboxFactory.createMailbox());
         releaseDriver.doer = doer;
 
         AllocateDriver allocateDriver = new AllocateDriver();
-        if ((count & 4) == 0)
+        if ((count & 2) == 0)
             allocateDriver.initialize(mailboxFactory.createMailbox());
         else
             allocateDriver.initialize(mailboxFactory.createAsyncMailbox());
         allocateDriver.doer = doer;
 
-        System.out.println("driver sending start release");
-        Thread.sleep(100);
         StartRelease.req.send(this, releaseDriver, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
-                System.out.println("start release completed");
                 assertEquals(
                         Trial.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
@@ -89,14 +80,9 @@ public class Driver extends JLPCActor {
             }
         });
 
-        getMailbox().sendPendingMessages();
-
-        System.out.println("driver sending start allocate");
-        Thread.sleep(10);
         StartAllocate.req.send(this, allocateDriver, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
-                System.out.println("start allocate completed");
                 assertEquals(
                         Trial.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());

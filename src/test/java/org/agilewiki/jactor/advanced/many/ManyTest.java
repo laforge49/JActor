@@ -8,11 +8,6 @@ import org.agilewiki.jactor.MailboxFactory;
 public class ManyTest extends TestCase {
     public void test()
             throws Exception {
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
-        System.out.println("###########################################");
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(100);
         try {
             Driver driver = new Driver();
@@ -20,11 +15,6 @@ public class ManyTest extends TestCase {
             Start.req.send(new JAFuture(), driver);
         } finally {
             mailboxFactory.close();
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
-            System.out.println("###########################################");
         }
     }
 }

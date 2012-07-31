@@ -11,22 +11,17 @@ public class Doer extends JLPCActor {
     public void release(RP rp)
             throws Exception {
         this.pending = rp;
-        System.out.println("doer got release");
         assertEquals(
                 Release.req,
                 getMailbox().getCurrentRequest().getUnwrappedRequest());
-        Thread.sleep(10);
     }
 
     public void allocate()
             throws Exception {
-        System.out.println("doer got allocate");
         assertEquals(
                 Allocate.req,
                 getMailbox().getCurrentRequest().getUnwrappedRequest());
-        Thread.sleep(10);
         pending.processResponse(null);
-        System.out.println("doer sent release response");
         assertEquals(
                 Allocate.req,
                 getMailbox().getCurrentRequest().getUnwrappedRequest());

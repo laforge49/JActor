@@ -212,16 +212,8 @@ public class JAPCMailbox implements APCMailbox {
     @Override
     final public void response(JARequest jaRequest, Object unwrappedResponse) {
         if (jaRequest.isActive()) {
-            System.out.println("mailbox response to "+jaRequest.getUnwrappedRequest());
             jaRequest.inactive();
             jaRequest.response(bufferedEventQueue, unwrappedResponse);
-        } else {
-            System.out.println("warning: duplicate asynchronous response to "+jaRequest.getUnwrappedRequest());
-            try {
-                throw new Exception("dup");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
@@ -235,7 +227,6 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     final public void processResponse(JARequest jaRequest, Object response) {
-        System.out.println("mb processResponse of "+jaRequest.getUnwrappedRequest());
         if (response instanceof Exception) {
             ExceptionHandler eh = jaRequest.getExceptionHandler();
             if (eh != null)
@@ -251,29 +242,24 @@ public class JAPCMailbox implements APCMailbox {
         }
         Mailbox sourceMailbox = jaRequest.sourceMailbox;
         if (sourceMailbox == null) {
-            System.out.println("mb smb null");
             response(jaRequest, response);
             return;
         }
         if (this == sourceMailbox) {
-            System.out.println("mb == smb");
             processSyncResponse(jaRequest, response);
             return;
         }
         EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
         if (srcEventQueue.getController() == controller) {
-            System.out.println("mbc == smbc");
             processSyncResponse(jaRequest, response);
             return;
         }
         if (!srcEventQueue.acquireControl(controller)) {
-            System.out.println("mb cant acquire smb");
             response(jaRequest, response);
             return;
         }
         try {
-            System.out.println("mb acquired smb");
             processSyncResponse(jaRequest, response);
         } finally {
             sourceMailbox.dispatchEvents();
@@ -283,7 +269,6 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     private void processSyncResponse(JARequest jaRequest, Object response) {
-        System.out.println("process sync response of "+jaRequest.getUnwrappedRequest());
         Mailbox sourceMailbox = jaRequest.sourceMailbox;
         JARequest sourceRequest = jaRequest.sourceRequest;
         if (sourceMailbox != null) {

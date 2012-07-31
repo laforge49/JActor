@@ -350,12 +350,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
                 if (!async) {
                     sync = true;
-                    System.out.println("---set sync for "+syncRequest.getUnwrappedRequest());
                     if (!syncRequest.isActive()) {
-                        System.out.println("warning: duplicate synchronous response");
                         return;
                     }
-                    System.out.println("actor syncSend response to "+syncRequest.getUnwrappedRequest());
                     syncRequest.inactive();
                     syncRequest.restoreSourceMailbox();
                     if (response instanceof Exception) {
@@ -382,7 +379,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             _processRequest(request, extendedResponseProcessor);
             if (!extendedResponseProcessor.sync) {
                 extendedResponseProcessor.async = true;
-                System.out.println("---set async for "+syncRequest.getUnwrappedRequest());
                 syncRequest.restoreSourceMailbox();
             }
         } catch (TransparentException tx) {

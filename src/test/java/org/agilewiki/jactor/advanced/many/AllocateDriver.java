@@ -10,13 +10,9 @@ public class AllocateDriver extends JLPCActor {
 
     public void startAllocate(final RP rp)
             throws Exception {
-        System.out.println("allocate driver sending allocate");
-        Thread.sleep(10);
         Allocate.req.send(this, doer, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
-                System.out.println("allocate driver sending response");
-                Thread.sleep(10);
                 assertEquals(
                         StartAllocate.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());

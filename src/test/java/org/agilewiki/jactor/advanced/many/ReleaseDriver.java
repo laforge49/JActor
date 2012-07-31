@@ -10,20 +10,18 @@ public class ReleaseDriver extends JLPCActor {
 
     public void startRelease(final RP rp)
             throws Exception {
-        System.out.println("release driver sending release");
         Release.req.send(this, doer, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
                 assertEquals(
                         StartRelease.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
-                System.out.println("release driver sending response");
-                Thread.sleep(10);
                 rp.processResponse(null);
                 assertEquals(
                         StartRelease.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
             }
         });
+        getMailbox().sendPendingMessages();
     }
 }
