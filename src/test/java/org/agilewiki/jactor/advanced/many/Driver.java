@@ -58,11 +58,17 @@ public class Driver extends JLPCActor {
             doer.initialize(mailboxFactory.createAsyncMailbox());
 
         ReleaseDriver releaseDriver = new ReleaseDriver();
-        releaseDriver.initialize(mailboxFactory.createAsyncMailbox());
+        if ((count & 2) == 0)
+            releaseDriver.initialize(mailboxFactory.createMailbox());
+        else
+            releaseDriver.initialize(mailboxFactory.createAsyncMailbox());
         releaseDriver.doer = doer;
 
         AllocateDriver allocateDriver = new AllocateDriver();
-        allocateDriver.initialize(mailboxFactory.createAsyncMailbox());
+        if ((count & 4) == 0)
+            allocateDriver.initialize(mailboxFactory.createMailbox());
+        else
+            allocateDriver.initialize(mailboxFactory.createAsyncMailbox());
         allocateDriver.doer = doer;
 
         System.out.println("driver sending start release");
