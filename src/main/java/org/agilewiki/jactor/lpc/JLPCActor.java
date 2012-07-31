@@ -226,7 +226,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             public void processResponse(Object response) {
                 JARequest old = mailbox.getCurrentRequest();
                 mailbox.setCurrentRequest(request);
-                mailbox.response(response);
+                mailbox.response(request, response);
                 mailbox.setCurrentRequest(old);
             }
         });

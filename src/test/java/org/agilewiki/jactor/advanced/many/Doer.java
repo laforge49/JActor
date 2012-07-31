@@ -26,6 +26,7 @@ public class Doer extends JLPCActor {
                 getMailbox().getCurrentRequest().getUnwrappedRequest());
         Thread.sleep(10);
         pending.processResponse(null);
+        System.out.println("doer sent release response");
         assertEquals(
                 Allocate.req,
                 getMailbox().getCurrentRequest().getUnwrappedRequest());

@@ -17,6 +17,8 @@ public class ReleaseDriver extends JLPCActor {
                 assertEquals(
                         StartRelease.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
+                System.out.println("release driver sending response");
+                Thread.sleep(10);
                 rp.processResponse(null);
                 assertEquals(
                         StartRelease.req,

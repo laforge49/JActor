@@ -82,12 +82,7 @@ public interface APCMailbox extends BufferedEventsDestination<JAMessage> {
      */
     public void send(BufferedEventsDestination<JAMessage> destination, JARequest request);
 
-    /**
-     * _ReturnF the response for processing.
-     *
-     * @param unwrappedResponse
-     */
-    public void response(Object unwrappedResponse);
+    public void response(JARequest jaRequest, Object unwrappedResponse);
 
     /**
      * The isEmpty method returns true when there are no pending messages,

@@ -78,11 +78,11 @@ public class JAPCMailbox implements APCMailbox {
                         currentRequest.getRequestProcessor().processRequest(currentRequest);
                     } catch (Exception ex) {
                         ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
-                        if (exceptionHandler == null) response(ex);
+                        if (exceptionHandler == null) response(currentRequest, ex);
                         else try {
                             exceptionHandler.process(ex);
                         } catch (Exception ex2) {
-                            response(ex2);
+                            response(currentRequest, ex2);
                         }
                     }
                 } else {
@@ -210,13 +210,13 @@ public class JAPCMailbox implements APCMailbox {
      * @param unwrappedResponse
      */
     @Override
-    final public void response(Object unwrappedResponse) {
-        if (currentRequest.isActive()) {
-            System.out.println("mailbox response to "+unwrappedResponse);
-            currentRequest.inactive();
-            currentRequest.response(bufferedEventQueue, unwrappedResponse);
+    final public void response(JARequest jaRequest, Object unwrappedResponse) {
+        if (jaRequest.isActive()) {
+            System.out.println("mailbox response to "+jaRequest.getUnwrappedRequest());
+            jaRequest.inactive();
+            jaRequest.response(bufferedEventQueue, unwrappedResponse);
         } else {
-            System.out.println("warning: duplicate asynchronous response to "+currentRequest.getUnwrappedRequest());
+            System.out.println("warning: duplicate asynchronous response to "+jaRequest.getUnwrappedRequest());
             try {
                 throw new Exception("dup");
             } catch (Exception ex) {
@@ -235,6 +235,7 @@ public class JAPCMailbox implements APCMailbox {
     }
 
     final public void processResponse(JARequest jaRequest, Object response) {
+        System.out.println("mb processResponse of "+jaRequest.getUnwrappedRequest());
         if (response instanceof Exception) {
             ExceptionHandler eh = jaRequest.getExceptionHandler();
             if (eh != null)
@@ -250,24 +251,29 @@ public class JAPCMailbox implements APCMailbox {
         }
         Mailbox sourceMailbox = jaRequest.sourceMailbox;
         if (sourceMailbox == null) {
-            response(response);
+            System.out.println("mb smb null");
+            response(jaRequest, response);
             return;
         }
         if (this == sourceMailbox) {
+            System.out.println("mb == smb");
             processSyncResponse(jaRequest, response);
             return;
         }
         EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
         EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
         if (srcEventQueue.getController() == controller) {
+            System.out.println("mbc == smbc");
             processSyncResponse(jaRequest, response);
             return;
         }
         if (!srcEventQueue.acquireControl(controller)) {
-            response(response);
+            System.out.println("mb cant acquire smb");
+            response(jaRequest, response);
             return;
         }
         try {
+            System.out.println("mb acquired smb");
             processSyncResponse(jaRequest, response);
         } finally {
             sourceMailbox.dispatchEvents();
