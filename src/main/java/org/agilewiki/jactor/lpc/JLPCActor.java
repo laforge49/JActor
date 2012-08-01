@@ -338,53 +338,69 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         rs.send(mailbox, jaRequest);
     }
 
+    private class SyncRequest extends JARequest {
+        /**
+         * Set true when a response is received synchronously.
+         */
+        public boolean sync;
+
+        /**
+         * Set true when a response is received asynchronously.
+         */
+        public boolean async;
+
+        public SyncRequest(RequestSource requestSource,
+                           RequestProcessor requestProcessor,
+                           Request unwrappedRequest,
+                           RP rp) {
+            super(requestSource, requestProcessor, unwrappedRequest, rp);
+        }
+        @Override
+        public void processResponse(Object response) throws Exception {
+            JARequest oldCurrent = mailbox.getCurrentRequest();
+            ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
+            if (!async) {
+                sync = true;
+                if (!isActive()) {
+                    return;
+                }
+                inactive();
+                restoreSourceMailbox();
+                if (response instanceof Exception) {
+                    mailbox.setCurrentRequest(oldCurrent);
+                    mailbox.setExceptionHandler(oldExceptionHandler);
+                    throw (Exception) response;
+                }
+                try {
+                    rp.processResponse(response);
+                } catch (Exception e) {
+                    throw new TransparentException(e);
+                }
+            } else {
+                mailbox.processResponse(this, response);
+                restoreSourceMailbox();
+            }
+            mailbox.setCurrentRequest(oldCurrent);
+            mailbox.setExceptionHandler(oldExceptionHandler);
+        }
+    }
+
     private void syncSend(final RequestSource rs,
                           final Request request,
                           final RP rp)
             throws Exception {
-        final JARequest syncRequest = new JARequest(rs, JLPCActor.this, request, rp);
-        ExtendedResponseProcessor extendedResponseProcessor = new ExtendedResponseProcessor() {
-            @Override
-            public void processResponse(Object response) throws Exception {
-                JARequest oldCurrent = mailbox.getCurrentRequest();
-                ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
-                if (!async) {
-                    sync = true;
-                    if (!syncRequest.isActive()) {
-                        return;
-                    }
-                    syncRequest.inactive();
-                    syncRequest.restoreSourceMailbox();
-                    if (response instanceof Exception) {
-                        mailbox.setCurrentRequest(oldCurrent);
-                        mailbox.setExceptionHandler(oldExceptionHandler);
-                        throw (Exception) response;
-                    }
-                    try {
-                        rp.processResponse(response);
-                    } catch (Exception e) {
-                        throw new TransparentException(e);
-                    }
-                } else {
-                    mailbox.processResponse(syncRequest, response);
-                    syncRequest.restoreSourceMailbox();
-                }
-                mailbox.setCurrentRequest(oldCurrent);
-                mailbox.setExceptionHandler(oldExceptionHandler);
-            }
-        };
-
+        SyncRequest syncRequest = new SyncRequest(rs, JLPCActor.this, request, rp);
         mailbox.setCurrentRequest(syncRequest);
         try {
-            _processRequest(request, extendedResponseProcessor);
-            if (!extendedResponseProcessor.sync) {
-                extendedResponseProcessor.async = true;
+            _processRequest(request, syncRequest);
+            if (!syncRequest.sync) {
+                syncRequest.async = true;
                 syncRequest.restoreSourceMailbox();
             }
         } catch (TransparentException tx) {
             throw (Exception) tx.getCause();
         } catch (Exception ex) {
-            if (!extendedResponseProcessor.sync)
+            if (!syncRequest.sync)
                 syncRequest.restoreSourceMailbox();
             throw ex;
         }
