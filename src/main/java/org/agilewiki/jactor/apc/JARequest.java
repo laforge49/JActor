@@ -33,7 +33,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-public class JARequest extends RP implements JAMessage {
+public class JARequest implements JAMessage {
 
     /**
      * The target of the response.
@@ -139,8 +139,7 @@ public class JARequest extends RP implements JAMessage {
         requestSource.responseFrom(eventQueue, japcResponse);
     }
 
-    @Override
-    public void processResponse(Object response) throws Exception {
+    public void handleResponse(Object response) throws Exception {
         restoreSourceMailbox();
         if (response instanceof Exception) {
             sourceMailbox.processResponse(sourceRequest, response);
@@ -156,5 +155,14 @@ public class JARequest extends RP implements JAMessage {
             sourceMailbox.setCurrentRequest(sourceRequest);
             sourceMailbox.setExceptionHandler(sourceExceptionHandler);
         }
+    }
+
+    /**
+     * Returns true when no response is expected.
+     *
+     * @return True when no response is expected.
+     */
+    public boolean isEvent() {
+        return false;
     }
 }

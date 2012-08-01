@@ -67,13 +67,7 @@ final public class JAResponse implements JAMessage {
     public void setJAPCRequest(JARequest japcRequest) {
         this.japcRequest = japcRequest;
     }
-
-    /**
-     * Returns the object which will process the response.
-     *
-     * @return The object which will process the response.
-     */
-    public RP getResponseProcessor() {
+    public JARequest getRequest() {
         return japcRequest;
     }
 }

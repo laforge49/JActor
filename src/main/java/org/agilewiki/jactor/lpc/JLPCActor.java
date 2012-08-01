@@ -220,7 +220,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     @Override
     final public void processRequest(final JARequest request) throws Exception {
         if (request.isEvent())
-            _processRequest(request.getUnwrappedRequest(), request);
+            _processRequest(request.getUnwrappedRequest(), JANoResponse.nrp);
         else _processRequest(request.getUnwrappedRequest(), new RP() {
             @Override
             public void processResponse(Object response) {
@@ -457,7 +457,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         JAEventRequest jaRequest = new JAEventRequest(rs, this, request, null);
         mailbox.setCurrentRequest(jaRequest);
         try {
-            _processRequest(request, jaRequest);
+            _processRequest(request, JANoResponse.nrp);
         } catch (Exception ex) {
             mailbox.processResponse(jaRequest, ex);
         }
@@ -572,6 +572,6 @@ final class JAEventRequest extends JARequest {
     }
 
     @Override
-    public void processResponse(Object response) throws Exception {
+    public void handleResponse(Object response) throws Exception {
     }
 }
