@@ -142,11 +142,11 @@ public class JARequest extends RP implements JAMessage {
     public void handleResponse(Object response) throws Exception {
         restoreSourceMailbox();
         if (response instanceof Exception) {
-            sourceMailbox.processResponse(sourceRequest, response);
+            sourceMailbox.processException(sourceRequest, (Exception) response);
         } else try {
             rp.processResponse(response);
         } catch (Exception ex) {
-            sourceMailbox.processResponse(sourceRequest, ex);
+            sourceMailbox.processException(sourceRequest, ex);
         }
     }
 

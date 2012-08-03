@@ -5,11 +5,11 @@ import junit.framework.TestCase;
 public class Creation1Test extends TestCase {
     public void test() {
 
-        //System.out.println("####################################################");
         long c = 1;
 
+        //System.out.println("####################################################");
         //long c = 1000000000;
-        //iterations per second = 865800865
+        //iterations per second = 2,816,901,408
 
         loop(c);
         loop(c);

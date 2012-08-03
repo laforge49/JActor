@@ -53,4 +53,6 @@ public interface Mailbox extends APCMailbox {
     public MailboxFactory getMailboxFactory();
 
     public void processResponse(JARequest jaRequest, Object response);
+
+    public void processException(JARequest jaRequest, Exception ex);
 }

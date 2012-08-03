@@ -11,8 +11,9 @@ public class Creation2Test extends TestCase {
 
         long c = 1;
 
+        //System.out.println("####################################################");
         //long c = 1000000000;
-        //iterations per second = 586,584,460
+        //iterations per second = 2,801,120,448
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {

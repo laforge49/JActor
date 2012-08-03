@@ -11,9 +11,9 @@ public class SyncTimingTest extends TestCase {
     public void testSync() throws Exception {
         final long c = 1L;
 
+        //System.out.println("####################################################");
         //final long c = 1000000000L;
-        //iterations per sec = 218962119
-        //each iteration takes 4.567 nanoseconds
+        //iterations per sec = 544,662,309
 
         final long t0 = System.currentTimeMillis();
         RP done = new RP() {

@@ -13,17 +13,7 @@ public class AsyncMailboxTest extends TestCase {
         int p = 1;
         int t = 1;
 
-        //int c = 5000000;
-        //int b = 1;
-        //int p = 1;
-        //int t = 1;
-
-        //burst size of 1
-        //1 parallel runs of 10000000 messages each.
-        //10000000 messages sent with 1 threads.
-        //msgs per sec = 5,141,388
-        //195 nanoseconds per message
-
+        //System.out.println("####################################################");
         //int c = 50000;
         //int b = 1000;
         //int p = 8;
@@ -32,8 +22,7 @@ public class AsyncMailboxTest extends TestCase {
         //burst size of 1000
         //8 parallel runs of 100,000,000 messages each.
         //800,000,000 messages sent with 8 threads.
-        //msgs per sec = 59,692,583
-        //17 nanoseconds per message
+        //msgs per sec = 69,432,390
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(t);
         try {

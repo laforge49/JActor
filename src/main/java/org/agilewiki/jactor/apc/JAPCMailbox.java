@@ -25,7 +25,6 @@ package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
@@ -226,20 +225,31 @@ public class JAPCMailbox implements APCMailbox {
         return bufferedEventQueue.getEventQueue();
     }
 
+    final public void processException(JARequest jaRequest, Exception ex) {
+        ExceptionHandler eh = jaRequest.getExceptionHandler();
+        if (eh != null)
+            try {
+                eh.process(ex);
+                return;
+            } catch (Exception x) {
+                ex = x;
+            }
+        if (jaRequest.isEvent()) {
+            return;
+        }
+        response(jaRequest, ex);
+    }
+
+    /*
     final public void processResponse(JARequest jaRequest, Object response) {
         if (response instanceof Exception) {
-            ExceptionHandler eh = jaRequest.getExceptionHandler();
-            if (eh != null)
-                try {
-                    eh.process((Exception) response);
-                    return;
-                } catch(Exception ex) {
-                    response = ex;
-                }
+            processException(jaRequest, (Exception) response);
+            return;
         }
         if (jaRequest.isEvent()) {
             return;
         }
+        response(jaRequest, response);
         Mailbox sourceMailbox = jaRequest.sourceMailbox;
         if (sourceMailbox == null) {
             response(jaRequest, response);
@@ -282,4 +292,5 @@ public class JAPCMailbox implements APCMailbox {
             System.exit(1);
         }
     }
+    */
 }

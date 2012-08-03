@@ -357,14 +357,14 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         }
         @Override
         public void processResponse(Object response) throws Exception {
-            JARequest oldCurrent = mailbox.getCurrentRequest();
-            ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
             if (!async) {
                 sync = true;
                 if (!isActive()) {
                     return;
                 }
                 inactive();
+                JARequest oldCurrent = mailbox.getCurrentRequest();
+                ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
                 restoreSourceMailbox();
                 if (response instanceof Exception) {
                     mailbox.setCurrentRequest(oldCurrent);
@@ -376,12 +376,16 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 } catch (Exception e) {
                     throw new TransparentException(e);
                 }
+                mailbox.setCurrentRequest(oldCurrent);
+                mailbox.setExceptionHandler(oldExceptionHandler);
             } else {
-                mailbox.processResponse(this, response);
-                restoreSourceMailbox();
+                if (response instanceof Exception) {
+                    mailbox.processException(this, (Exception) response);
+                } else {
+                    mailbox.response(this, response);
+                }
+                return;
             }
-            mailbox.setCurrentRequest(oldCurrent);
-            mailbox.setExceptionHandler(oldExceptionHandler);
         }
     }
 
@@ -475,7 +479,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         try {
             _processRequest(request, JANoResponse.nrp);
         } catch (Exception ex) {
-            mailbox.processResponse(jaRequest, ex);
+            mailbox.processException(jaRequest, ex);
         }
         oldSourceMailbox.setCurrentRequest(oldSourceRequest);
         oldSourceMailbox.setExceptionHandler(sourceExceptionHandler);

@@ -11,9 +11,9 @@ public class AsyncTimingTest extends TestCase {
     public void testSync() throws Exception {
         final long c = 1L;
 
+        //System.out.println("####################################################");
         //final long c = 1000000000L;
-        //iterations per sec = 143410296
-        //each iteration takes 6.973 nanoseconds
+        //iterations per sec = 2,142,245,507
 
         final long t0 = System.currentTimeMillis();
 

@@ -31,7 +31,7 @@ public class Driver extends JLPCActor {
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
                 assertEquals(null, getMailbox().getCurrentRequest().sourceMailbox);
                 count += 1;
-                if (count < 4) {
+                if (count < 4000) {
                     loop();
                     return;
                 }
@@ -49,20 +49,22 @@ public class Driver extends JLPCActor {
         MailboxFactory mailboxFactory = getMailboxFactory();
 
         Doer doer = new Doer();
-        if ((count & 1) == 0)
+        if ((count & 1) == 0) {
             doer.initialize(mailboxFactory.createMailbox());
-        else
+        } else {
             doer.initialize(mailboxFactory.createAsyncMailbox());
+        }
 
         ReleaseDriver releaseDriver = new ReleaseDriver();
         releaseDriver.initialize(mailboxFactory.createMailbox());
         releaseDriver.doer = doer;
 
         AllocateDriver allocateDriver = new AllocateDriver();
-        if ((count & 2) == 0)
+        if ((count & 2) == 0) {
             allocateDriver.initialize(mailboxFactory.createMailbox());
-        else
+        } else {
             allocateDriver.initialize(mailboxFactory.createAsyncMailbox());
+        }
         allocateDriver.doer = doer;
 
         StartRelease.req.send(this, releaseDriver, new RP<Object>() {

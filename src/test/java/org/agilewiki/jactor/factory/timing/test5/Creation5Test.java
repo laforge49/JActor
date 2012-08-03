@@ -11,12 +11,12 @@ import org.agilewiki.jactor.factory.timing.AFactory;
 
 public class Creation5Test extends TestCase {
     public void test() {
-        //System.out.println("####################################################");
 
         long c = 1;
 
+        //System.out.println("####################################################");
         //long c = 1000000000;
-        //iterations per second = 1187648456
+        //iterations per second = 2,777,777,777
 
         MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(1);
         try {
