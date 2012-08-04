@@ -33,7 +33,7 @@ import org.agilewiki.jactor.lpc.RequestSource;
 /**
  * Requests sent to a JAPCMailbox are wrapped by an JARequest.
  */
-public class JARequest extends RP implements JAMessage {
+public abstract class JARequest extends RP implements JAMessage {
 
     /**
      * The target of the response.
@@ -155,15 +155,5 @@ public class JARequest extends RP implements JAMessage {
             sourceMailbox.setCurrentRequest(sourceRequest);
             sourceMailbox.setExceptionHandler(sourceExceptionHandler);
         }
-    }
-
-    /**
-     * Receives and processes a response.
-     *
-     * @param response The response.
-     * @throws Exception Any uncaught exceptions raised when processing the response.
-     */
-    public void processResponse(Object response) throws Exception {
-        throw new UnsupportedOperationException();
     }
 }

@@ -35,14 +35,6 @@ public interface RequestProcessor {
     public void haveEvents();
 
     /**
-     * Process a wrapped request.
-     *
-     * @param japcRequest The wrapped request.
-     * @throws Exception An exception thrown while processing the request.
-     */
-    public void processRequest(JARequest japcRequest) throws Exception;
-
-    /**
      * Returns the exception handler.
      *
      * @return The exception handler.

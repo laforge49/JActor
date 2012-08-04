@@ -13,8 +13,8 @@ public class SharedMailboxTest extends TestCase {
         //int p = 1;
         //int t = 1;
 
-        System.out.println("####################################################");
-        int c = 10000000;
+        //System.out.println("####################################################");
+        int c = 1;
         int b = 1;
         int p = 8;
         int t = 10;

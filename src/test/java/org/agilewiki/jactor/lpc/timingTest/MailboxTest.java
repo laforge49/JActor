@@ -8,16 +8,16 @@ import org.agilewiki.jactor.*;
  */
 public class MailboxTest extends TestCase {
     public void testTiming() {
-        int c = 1;
-        int b = 1;
-        int p = 1;
-        int t = 1;
+        //int c = 1;
+        //int b = 1;
+        //int p = 1;
+        //int t = 1;
 
-        //System.out.println("####################################################");
-        //int c = 50000;
-        //int b = 1000;
-        //int p = 16;
-        //int t = 8;
+        System.out.println("####################################################");
+        int c = 50000;
+        int b = 1;
+        int p = 16;
+        int t = 8;
 
         //burst size of 1000
         //16 parallel runs of 100,000,000 messages each.

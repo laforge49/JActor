@@ -30,7 +30,6 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.Requirement;
-import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
 import org.agilewiki.jactor.stateMachine._SMBuilder;
 
 import java.util.ArrayList;
@@ -212,27 +211,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
-     * Process a wrapped request.
-     *
-     * @param request The wrapped request.
-     * @throws Exception An exception thrown while processing the request.
-     */
-    @Override
-    final public void processRequest(final JARequest request) throws Exception {
-        if (request.isEvent())
-            _processRequest(request.getUnwrappedRequest(), JANoResponse.nrp);
-        else _processRequest(request.getUnwrappedRequest(), new RP() {
-            @Override
-            public void processResponse(Object response) {
-                JARequest old = mailbox.getCurrentRequest();
-                mailbox.setCurrentRequest(request);
-                mailbox.response(request, response);
-                mailbox.setCurrentRequest(old);
-            }
-        });
-    }
-
-    /**
      * Returns the actor's mailbox.
      *
      * @return The actor's mailbox.
@@ -330,73 +308,29 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                            final Request request,
                            final RP rp)
             throws Exception {
-        final JARequest jaRequest = new JARequest(
+        AsyncRequest asyncRequest = new AsyncRequest(
                 rs,
                 this,
                 request,
-                rp);
-        rs.send(mailbox, jaRequest);
-    }
-
-    private class SyncRequest extends JARequest {
-        /**
-         * Set true when a response is received synchronously.
-         */
-        public boolean sync;
-
-        /**
-         * Set true when a response is received asynchronously.
-         */
-        public boolean async;
-
-        public SyncRequest(RequestSource requestSource,
-                           RequestProcessor requestProcessor,
-                           Request unwrappedRequest,
-                           RP rp) {
-            super(requestSource, requestProcessor, unwrappedRequest, rp);
-        }
-        @Override
-        public void processResponse(Object response) throws Exception {
-            if (!async) {
-                sync = true;
-                if (!isActive()) {
-                    return;
-                }
-                inactive();
-                JARequest oldCurrent = mailbox.getCurrentRequest();
-                ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
-                restoreSourceMailbox();
-                if (response instanceof Exception) {
-                    mailbox.setCurrentRequest(oldCurrent);
-                    mailbox.setExceptionHandler(oldExceptionHandler);
-                    throw (Exception) response;
-                }
-                try {
-                    rp.processResponse(response);
-                } catch (Exception e) {
-                    throw new TransparentException(e);
-                }
-                mailbox.setCurrentRequest(oldCurrent);
-                mailbox.setExceptionHandler(oldExceptionHandler);
-            } else {
-                if (response instanceof Exception) {
-                    mailbox.processException(this, (Exception) response);
-                } else {
-                    mailbox.response(this, response);
-                }
-                return;
-            }
-        }
+                rp,
+                mailbox);
+        rs.send(mailbox, asyncRequest);
     }
 
     private void syncSend(final RequestSource rs,
                           final Request request,
                           final RP rp)
             throws Exception {
-        SyncRequest syncRequest = new SyncRequest(rs, JLPCActor.this, request, rp);
+        SyncRequest syncRequest = new SyncRequest(
+                rs,
+                JLPCActor.this,
+                request,
+                rp,
+                mailbox);
         mailbox.setCurrentRequest(syncRequest);
         try {
-            _processRequest(request, syncRequest);
+            setExceptionHandler(null);
+            request.processRequest(this, syncRequest);
             if (!syncRequest.sync) {
                 syncRequest.async = true;
                 syncRequest.restoreSourceMailbox();
@@ -477,7 +411,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         JAEventRequest jaRequest = new JAEventRequest(rs, this, request, null);
         mailbox.setCurrentRequest(jaRequest);
         try {
-            _processRequest(request, JANoResponse.nrp);
+            setExceptionHandler(null);
+            request.processRequest(this, JANoResponse.nrp);
         } catch (Exception ex) {
             mailbox.processException(jaRequest, ex);
         }
@@ -554,19 +489,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    private void _processRequest(Request request, RP rp)
-            throws Exception {
-        setExceptionHandler(null);
-        request.processRequest(this, rp);
-    }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
     @Deprecated
     protected void processRequest(Object request, RP rp)
             throws Exception {
@@ -574,24 +496,105 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 }
 
+final class SyncRequest extends JARequest {
+    /**
+     * Set true when a response is received synchronously.
+     */
+    public boolean sync;
+
+    /**
+     * Set true when a response is received asynchronously.
+     */
+    public boolean async;
+
+    Mailbox mailbox;
+
+    public SyncRequest(RequestSource requestSource,
+                       RequestProcessor requestProcessor,
+                       Request unwrappedRequest,
+                       RP rp,
+                       Mailbox mailbox) {
+        super(requestSource, requestProcessor, unwrappedRequest, rp);
+        this.mailbox = mailbox;
+    }
+
+    @Override
+    public void processResponse(Object response) throws Exception {
+        if (!async) {
+            sync = true;
+            if (!isActive()) {
+                return;
+            }
+            inactive();
+            JARequest oldCurrent = mailbox.getCurrentRequest();
+            ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
+            restoreSourceMailbox();
+            if (response instanceof Exception) {
+                mailbox.setCurrentRequest(oldCurrent);
+                mailbox.setExceptionHandler(oldExceptionHandler);
+                throw (Exception) response;
+            }
+            try {
+                rp.processResponse(response);
+            } catch (Exception e) {
+                throw new TransparentException(e);
+            }
+            mailbox.setCurrentRequest(oldCurrent);
+            mailbox.setExceptionHandler(oldExceptionHandler);
+        } else {
+            if (response instanceof Exception) {
+                mailbox.processException(this, (Exception) response);
+            } else {
+                mailbox.response(this, response);
+            }
+            return;
+        }
+    }
+}
+
+final class AsyncRequest extends JARequest {
+
+    Mailbox mailbox;
+
+    public AsyncRequest(RequestSource requestSource,
+                          RequestProcessor requestProcessor,
+                          Request unwrappedRequest,
+                          RP rp,
+                          Mailbox mailbox) {
+        super(
+                requestSource,
+                requestProcessor,
+                unwrappedRequest,
+                rp);
+        this.mailbox = mailbox;
+    }
+
+    @Override
+    public void processResponse(Object response) throws Exception {
+        JARequest old = mailbox.getCurrentRequest();
+        mailbox.setCurrentRequest(this);
+        mailbox.response(this, response);
+        mailbox.setCurrentRequest(old);
+    }
+}
+
 final class JAEventRequest extends JARequest {
-    public JAEventRequest(APCRequestSource requestSource,
+    public JAEventRequest(RequestSource requestSource,
                           RequestProcessor requestProcessor,
                           Request unwrappedRequest,
                           RP rp) {
         super(
-                (RequestSource) requestSource,
+                requestSource,
                 requestProcessor,
                 unwrappedRequest,
                 rp);
     }
 
     @Override
-    public boolean isEvent() {
-        return true;
+    public void handleResponse(Object response) throws Exception {
     }
 
     @Override
-    public void handleResponse(Object response) throws Exception {
+    public void processResponse(Object response) throws Exception {
     }
 }
