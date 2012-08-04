@@ -27,6 +27,7 @@ import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.lpc.RequestSource;
 
@@ -45,7 +46,7 @@ public abstract class JARequest extends RP implements JAMessage {
     /**
      * An anonymous object in the JLPCActor that is the target of the JARequest.
      */
-    private RequestProcessor requestProcessor;
+    private JLPCActor destinationActor;
 
     /**
      * The unwrapped request that was sent to a JLPCActor.
@@ -67,11 +68,11 @@ public abstract class JARequest extends RP implements JAMessage {
     final public RP rp;
 
     public JARequest(RequestSource requestSource,
-                     RequestProcessor requestProcessor,
+                     JLPCActor destinationActor,
                      Request unwrappedRequest,
                      RP rp) {
         this.requestSource = requestSource;
-        this.requestProcessor = requestProcessor;
+        this.destinationActor = destinationActor;
         this.unwrappedRequest = unwrappedRequest;
         this.rp = rp;
         sourceMailbox = requestSource.getMailbox();
@@ -89,8 +90,8 @@ public abstract class JARequest extends RP implements JAMessage {
      *
      * @return The requestProcessor.
      */
-    final public RequestProcessor getRequestProcessor() {
-        return requestProcessor;
+    final public JLPCActor getDestinationActor() {
+        return (JLPCActor) destinationActor;
     }
 
     /**
@@ -99,7 +100,7 @@ public abstract class JARequest extends RP implements JAMessage {
      * @return The exceptionHandler.
      */
     final public ExceptionHandler getExceptionHandler() {
-        return requestProcessor.getExceptionHandler();
+        return destinationActor.getExceptionHandler();
     }
 
     /**

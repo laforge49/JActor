@@ -30,7 +30,6 @@ import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.EventQueue;
-import org.agilewiki.jactor.lpc.JLPCActor;
 
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class JAPCMailbox implements APCMailbox {
                     currentRequest = (JARequest) event;
                     try {
                         setExceptionHandler(null);
-                        currentRequest.getUnwrappedRequest().processRequest((JLPCActor) currentRequest.getRequestProcessor(), currentRequest);
+                        currentRequest.getUnwrappedRequest().processRequest(currentRequest.getDestinationActor(), currentRequest);
                     } catch (Exception ex) {
                         ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
                         if (exceptionHandler == null) response(currentRequest, ex);

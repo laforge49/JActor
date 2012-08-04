@@ -510,11 +510,11 @@ final class SyncRequest extends JARequest {
     Mailbox mailbox;
 
     public SyncRequest(RequestSource requestSource,
-                       RequestProcessor requestProcessor,
+                       JLPCActor destinationActor,
                        Request unwrappedRequest,
                        RP rp,
                        Mailbox mailbox) {
-        super(requestSource, requestProcessor, unwrappedRequest, rp);
+        super(requestSource, destinationActor, unwrappedRequest, rp);
         this.mailbox = mailbox;
     }
 
@@ -557,13 +557,13 @@ final class AsyncRequest extends JARequest {
     Mailbox mailbox;
 
     public AsyncRequest(RequestSource requestSource,
-                          RequestProcessor requestProcessor,
-                          Request unwrappedRequest,
-                          RP rp,
-                          Mailbox mailbox) {
+                        JLPCActor destinationActor,
+                        Request unwrappedRequest,
+                        RP rp,
+                        Mailbox mailbox) {
         super(
                 requestSource,
-                requestProcessor,
+                destinationActor,
                 unwrappedRequest,
                 rp);
         this.mailbox = mailbox;
@@ -580,12 +580,12 @@ final class AsyncRequest extends JARequest {
 
 final class JAEventRequest extends JARequest {
     public JAEventRequest(RequestSource requestSource,
-                          RequestProcessor requestProcessor,
+                          JLPCActor destinationActor,
                           Request unwrappedRequest,
                           RP rp) {
         super(
                 requestSource,
-                requestProcessor,
+                destinationActor,
                 unwrappedRequest,
                 rp);
     }
