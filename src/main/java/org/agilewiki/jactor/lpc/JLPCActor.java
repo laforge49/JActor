@@ -392,7 +392,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param request The request.
      */
     private void asyncSendEvent(RequestSource rs, Request request) {
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, null);
+        JAEventRequest jaRequest = new JAEventRequest(rs, this, request);
         rs.send(mailbox, jaRequest);
     }
 
@@ -408,13 +408,19 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                ExceptionHandler sourceExceptionHandler) {
         Mailbox oldSourceMailbox = rs.getMailbox();
         JARequest oldSourceRequest = oldSourceMailbox.getCurrentRequest();
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, null);
+        JAEventRequest jaRequest = new JAEventRequest(rs, this, request);
         mailbox.setCurrentRequest(jaRequest);
         try {
             setExceptionHandler(null);
             request.processRequest(this, JANoResponse.nrp);
         } catch (Exception ex) {
-            mailbox.processException(jaRequest, ex);
+            ExceptionHandler eh = getExceptionHandler();
+            if (eh != null)
+                try {
+                    eh.process(ex);
+                    return;
+                } catch (Exception x) {
+                }
         }
         oldSourceMailbox.setCurrentRequest(oldSourceRequest);
         oldSourceMailbox.setExceptionHandler(sourceExceptionHandler);
@@ -543,7 +549,17 @@ final class SyncRequest extends JARequest {
             mailbox.setExceptionHandler(oldExceptionHandler);
         } else {
             if (response instanceof Exception) {
-                mailbox.processException(this, (Exception) response);
+                Exception ex = (Exception) response;
+                ExceptionHandler exceptionHandler = mailbox.getExceptionHandler();
+                if (exceptionHandler != null) {
+                    try {
+                        exceptionHandler.process(ex);
+                        return;
+                    } catch (Exception x) {
+                        ex = x;
+                    }
+                    mailbox.response(this, ex);
+                }
             } else {
                 mailbox.response(this, response);
             }
@@ -581,16 +597,25 @@ final class AsyncRequest extends JARequest {
 final class JAEventRequest extends JARequest {
     public JAEventRequest(RequestSource requestSource,
                           JLPCActor destinationActor,
-                          Request unwrappedRequest,
-                          RP rp) {
+                          Request unwrappedRequest) {
         super(
                 requestSource,
                 destinationActor,
                 unwrappedRequest,
-                rp);
+                null);
     }
 
     @Override
     public void processResponse(Object response) throws Exception {
+    }
+
+    /**
+     * Returns true when no response is expected.
+     *
+     * @return True.
+     */
+    @Override
+    public boolean isEvent() {
+        return true;
     }
 }

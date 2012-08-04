@@ -77,7 +77,6 @@ public class JAPCMailbox implements APCMailbox {
                         setExceptionHandler(null);
                         currentRequest.getUnwrappedRequest().processRequest(currentRequest.getDestinationActor(), currentRequest);
                     } catch (Exception ex) {
-                        ExceptionHandler exceptionHandler = currentRequest.getExceptionHandler();
                         if (exceptionHandler == null) response(currentRequest, ex);
                         else try {
                             exceptionHandler.process(ex);
@@ -103,6 +102,17 @@ public class JAPCMailbox implements APCMailbox {
                         throw new UnsupportedOperationException(e);
                     }
                 }
+            }
+
+            private void processException(JARequest jaRequest, Exception ex) {
+                if (exceptionHandler != null)
+                    try {
+                        exceptionHandler.process(ex);
+                        return;
+                    } catch (Exception x) {
+                        ex = x;
+                    }
+                response(jaRequest, ex);
             }
         });
     }
@@ -232,21 +242,6 @@ public class JAPCMailbox implements APCMailbox {
      */
     public EventQueue<ArrayList<JAMessage>> getEventQueue() {
         return bufferedEventQueue.getEventQueue();
-    }
-
-    final public void processException(JARequest jaRequest, Exception ex) {
-        ExceptionHandler eh = jaRequest.getExceptionHandler();
-        if (eh != null)
-            try {
-                eh.process(ex);
-                return;
-            } catch (Exception x) {
-                ex = x;
-            }
-        if (jaRequest.isEvent()) {
-            return;
-        }
-        response(jaRequest, ex);
     }
 
     /*

@@ -91,16 +91,7 @@ public abstract class JARequest extends RP implements JAMessage {
      * @return The requestProcessor.
      */
     final public JLPCActor getDestinationActor() {
-        return (JLPCActor) destinationActor;
-    }
-
-    /**
-     * Returns the exceptionHandler.
-     *
-     * @return The exceptionHandler.
-     */
-    final public ExceptionHandler getExceptionHandler() {
-        return destinationActor.getExceptionHandler();
+        return destinationActor;
     }
 
     /**
