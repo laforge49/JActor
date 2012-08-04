@@ -591,10 +591,6 @@ final class JAEventRequest extends JARequest {
     }
 
     @Override
-    public void handleResponse(Object response) throws Exception {
-    }
-
-    @Override
     public void processResponse(Object response) throws Exception {
     }
 }

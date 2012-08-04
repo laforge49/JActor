@@ -64,7 +64,7 @@ public abstract class JARequest extends RP implements JAMessage {
 
     final public ExceptionHandler sourceExceptionHandler;
 
-    final protected RP rp;
+    final public RP rp;
 
     public JARequest(RequestSource requestSource,
                      RequestProcessor requestProcessor,
@@ -137,17 +137,6 @@ public abstract class JARequest extends RP implements JAMessage {
         JAResponse japcResponse = new JAResponse(unwrappedResponse);
         japcResponse.setJAPCRequest(this);
         requestSource.responseFrom(eventQueue, japcResponse);
-    }
-
-    public void handleResponse(Object response) throws Exception {
-        restoreSourceMailbox();
-        if (response instanceof Exception) {
-            sourceMailbox.processException(sourceRequest, (Exception) response);
-        } else try {
-            rp.processResponse(response);
-        } catch (Exception ex) {
-            sourceMailbox.processException(sourceRequest, ex);
-        }
     }
 
     public void restoreSourceMailbox() {
