@@ -14,10 +14,10 @@ public class SharedMailboxTest extends TestCase {
         //int t = 1;
 
         //System.out.println("####################################################");
-        int c = 1;
-        int b = 1;
-        int p = 8;
-        int t = 10;
+        int c = 50;
+        int b = 10;
+        int p = 16;
+        int t = 8;
 
         //burst size of 100
         //8 parallel runs of 2,000,000 messages each.

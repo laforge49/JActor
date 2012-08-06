@@ -85,10 +85,6 @@ public class Driver extends JLPCActor {
         StartAllocate.req.send(this, allocateDriver, new RP<Object>() {
             @Override
             public void processResponse(Object response) throws Exception {
-                assertEquals(
-                        Trial.req,
-                        getMailbox().getCurrentRequest().getUnwrappedRequest());
-                assertEquals(getMailbox(), getMailbox().getCurrentRequest().sourceMailbox);
             }
         });
     }

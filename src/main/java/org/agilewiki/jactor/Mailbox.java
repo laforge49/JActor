@@ -51,6 +51,4 @@ public interface Mailbox extends APCMailbox {
      * @return The mailbox factory.
      */
     public MailboxFactory getMailboxFactory();
-
-    public void processException(JARequest jaRequest, Exception ex);
 }

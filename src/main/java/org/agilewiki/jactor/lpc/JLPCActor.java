@@ -317,9 +317,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         rs.send(mailbox, asyncRequest);
     }
 
-    private void syncSend(final RequestSource rs,
-                          final Request request,
-                          final RP rp)
+    private void syncSend(RequestSource rs,
+                          Request request,
+                          RP rp)
             throws Exception {
         SyncRequest syncRequest = new SyncRequest(
                 rs,
@@ -513,15 +513,12 @@ final class SyncRequest extends JARequest {
      */
     public boolean async;
 
-    Mailbox mailbox;
-
     public SyncRequest(RequestSource requestSource,
                        JLPCActor destinationActor,
                        Request unwrappedRequest,
                        RP rp,
                        Mailbox mailbox) {
-        super(requestSource, destinationActor, unwrappedRequest, rp);
-        this.mailbox = mailbox;
+        super(requestSource, destinationActor, unwrappedRequest, rp, mailbox);
     }
 
     @Override
@@ -565,13 +562,12 @@ final class SyncRequest extends JARequest {
             }
             return;
         }
+        mailbox = null;
+        reset();
     }
 }
 
 final class AsyncRequest extends JARequest {
-
-    Mailbox mailbox;
-
     public AsyncRequest(RequestSource requestSource,
                         JLPCActor destinationActor,
                         Request unwrappedRequest,
@@ -581,8 +577,8 @@ final class AsyncRequest extends JARequest {
                 requestSource,
                 destinationActor,
                 unwrappedRequest,
-                rp);
-        this.mailbox = mailbox;
+                rp,
+                mailbox);
     }
 
     @Override
@@ -602,11 +598,13 @@ final class JAEventRequest extends JARequest {
                 requestSource,
                 destinationActor,
                 unwrappedRequest,
+                null,
                 null);
     }
 
     @Override
     public void processResponse(Object response) throws Exception {
+        reset();
     }
 
     /**

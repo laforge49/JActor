@@ -13,9 +13,9 @@ public class MailboxTest extends TestCase {
         //int p = 1;
         //int t = 1;
 
-        System.out.println("####################################################");
-        int c = 50000;
-        int b = 1;
+        //System.out.println("####################################################");
+        int c = 50;
+        int b = 10;
         int p = 16;
         int t = 8;
 

@@ -17,9 +17,11 @@ public class AllocateDriver extends JLPCActor {
                         StartAllocate.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
                 rp.processResponse(null);
+                /*
                 assertEquals(
                         StartAllocate.req,
                         getMailbox().getCurrentRequest().getUnwrappedRequest());
+                        */
             }
         });
     }

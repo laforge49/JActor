@@ -36,6 +36,8 @@ import org.agilewiki.jactor.lpc.RequestSource;
  */
 public abstract class JARequest extends RP implements JAMessage {
 
+    public Mailbox mailbox;
+
     /**
      * The target of the response.
      * An anonymous object in the JLPCActor or JLPCFuture
@@ -59,18 +61,30 @@ public abstract class JARequest extends RP implements JAMessage {
      */
     private boolean active = true;
 
-    final public Mailbox sourceMailbox;
+    public Mailbox sourceMailbox;
 
-    final public JARequest sourceRequest;
+    public JARequest sourceRequest;
 
-    final public ExceptionHandler sourceExceptionHandler;
+    public ExceptionHandler sourceExceptionHandler;
 
-    final public RP rp;
+    public RP rp;
+
+    protected final void reset() {
+        requestSource = null;
+        destinationActor = null;
+        unwrappedRequest = null;
+        sourceMailbox = null;
+        sourceRequest = null;
+        sourceExceptionHandler = null;
+        rp = null;
+    }
 
     public JARequest(RequestSource requestSource,
                      JLPCActor destinationActor,
                      Request unwrappedRequest,
-                     RP rp) {
+                     RP rp,
+                     Mailbox mailbox) {
+        this.mailbox = mailbox;
         this.requestSource = requestSource;
         this.destinationActor = destinationActor;
         this.unwrappedRequest = unwrappedRequest;

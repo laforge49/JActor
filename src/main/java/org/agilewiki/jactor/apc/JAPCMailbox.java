@@ -86,8 +86,8 @@ public class JAPCMailbox implements APCMailbox {
                     }
                 } else {
                     JAResponse jaResponse = (JAResponse) event;
+                    JARequest jaRequest = jaResponse.getRequest();
                     try {
-                        JARequest jaRequest = jaResponse.getRequest();
                         Object response = jaResponse.getUnwrappedResponse();
                         jaRequest.restoreSourceMailbox();
                         if (response instanceof Exception) {
@@ -100,6 +100,9 @@ public class JAPCMailbox implements APCMailbox {
                     } catch (Exception e) {
                         e.printStackTrace();
                         throw new UnsupportedOperationException(e);
+                    } finally {
+                        jaRequest.mailbox = null;
+                        jaRequest.reset();
                     }
                 }
             }
