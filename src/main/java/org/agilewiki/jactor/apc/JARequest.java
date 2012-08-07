@@ -70,6 +70,7 @@ public abstract class JARequest extends RP implements JAMessage {
     public RP rp;
 
     protected final void reset() {
+        mailbox = null;
         requestSource = null;
         destinationActor = null;
         unwrappedRequest = null;
@@ -131,6 +132,7 @@ public abstract class JARequest extends RP implements JAMessage {
      */
     final public void inactive() {
         active = false;
+        mailbox.setCurrentRequest(null);
     }
 
     /**

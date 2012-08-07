@@ -392,7 +392,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param request The request.
      */
     private void asyncSendEvent(RequestSource rs, Request request) {
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request);
+        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, mailbox);
         rs.send(mailbox, jaRequest);
     }
 
@@ -408,7 +408,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                                ExceptionHandler sourceExceptionHandler) {
         Mailbox oldSourceMailbox = rs.getMailbox();
         JARequest oldSourceRequest = oldSourceMailbox.getCurrentRequest();
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request);
+        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, mailbox);
         mailbox.setCurrentRequest(jaRequest);
         try {
             setExceptionHandler(null);
@@ -562,7 +562,6 @@ final class SyncRequest extends JARequest {
             }
             return;
         }
-        mailbox = null;
         reset();
     }
 }
@@ -593,13 +592,14 @@ final class AsyncRequest extends JARequest {
 final class JAEventRequest extends JARequest {
     public JAEventRequest(RequestSource requestSource,
                           JLPCActor destinationActor,
-                          Request unwrappedRequest) {
+                          Request unwrappedRequest,
+                          Mailbox mailbox) {
         super(
                 requestSource,
                 destinationActor,
                 unwrappedRequest,
                 null,
-                null);
+                mailbox);
     }
 
     @Override

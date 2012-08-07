@@ -22,8 +22,5 @@ public class Doer extends JLPCActor {
                 Allocate.req,
                 getMailbox().getCurrentRequest().getUnwrappedRequest());
         pending.processResponse(null);
-        assertEquals(
-                Allocate.req,
-                getMailbox().getCurrentRequest().getUnwrappedRequest());
     }
 }

@@ -62,8 +62,5 @@ public class AllInOne extends JLPCActor {
                 getMailbox().getCurrentRequest().getUnwrappedRequest());
         System.out.println("responding to allocate");
         pending.processResponse(null);
-        assertEquals(
-                Release.req,
-                getMailbox().getCurrentRequest().getUnwrappedRequest());
     }
 }

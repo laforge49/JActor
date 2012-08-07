@@ -101,7 +101,6 @@ public class JAPCMailbox implements APCMailbox {
                         e.printStackTrace();
                         throw new UnsupportedOperationException(e);
                     } finally {
-                        jaRequest.mailbox = null;
                         jaRequest.reset();
                     }
                 }
