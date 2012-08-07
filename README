@@ -81,10 +81,8 @@ parent actor.
 
 Message Passing Benchmarks
 
-                         Shared Mailbox       Across Mailboxes
-msgs per sec                251,115,797            115,248,865
-ns per message                     3.98                    8.7
-latency (ns)                          9                     21
+                         Shared Mailbox       Across Mailboxes  Asyncronous Mailboxes
+msgs per sec                222,861,399            151,987,233             81,083,272
 
 Test Environment
 
