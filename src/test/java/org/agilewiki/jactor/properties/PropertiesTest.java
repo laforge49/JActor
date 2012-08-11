@@ -15,13 +15,13 @@ public class PropertiesTest extends TestCase {
             p1.initialize(mailboxFactory.createMailbox());
             JAProperties p2 = new JAProperties();
             p2.initialize(p1.getMailbox(), p1);
-            (new SetProperty("a", "foo")).call(p1);
-            (new SetProperty("b", "bar")).call(p2);
-            String a = (new GetProperty<String>("a")).call(p2);
+            JAProperties.setProperty(p1, "a", "foo");
+            JAProperties.setProperty(p2, "b", "bar");
+            String a = (String) JAProperties.getProperty(p2, "a");
             System.out.println(a);
-            String b = (new GetProperty<String>("b")).call(p2);
+            String b = (String) JAProperties.getProperty(p2, "b");
             System.out.println(b);
-            String c = (new GetProperty<String>("c")).call(p2);
+            String c = (String) JAProperties.getProperty(p2, "c");
             System.out.println(c);
         } catch (Exception e) {
             e.printStackTrace();

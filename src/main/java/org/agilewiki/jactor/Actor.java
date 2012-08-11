@@ -118,8 +118,10 @@ public interface Actor {
     /**
      * Returns A matching ancestor from the parent chain.
      *
-     * @param ancestorClass A class which the ancestor is an instanceof.
+     * @param targetClass A class which the ancestor is an instanceof.
      * @return The matching ancestor, or null.
      */
-    public JLPCActor getAncestor(Class ancestorClass);
+    public JLPCActor getAncestor(Class targetClass);
+
+    public JLPCActor getMatch(Class targetClass);
 }

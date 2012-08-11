@@ -23,6 +23,7 @@
  */
 package org.agilewiki.jactor.properties;
 
+import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
@@ -33,31 +34,40 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * found and its parent also has a Properties component, then the request is passed up to
  * the parent.
  */
-public class JAProperties<RESPONSE_TYPE>
+public class JAProperties
         extends JLPCActor
-        implements Properties<RESPONSE_TYPE> {
+        implements Properties {
+
+    public static Object getProperty(Actor targetActor, String propertyName)
+            throws Exception {
+        if (targetActor != null)
+            targetActor = targetActor.getMatch(Properties.class);
+        if (targetActor == null)
+            throw new UnsupportedOperationException("getProperty");
+        return ((Properties) targetActor).getProperty(propertyName);
+    }
+
+    public static void setProperty(Actor targetActor, String propertyName, Object propertyValue)
+            throws Exception {
+        if (targetActor != null)
+            targetActor = targetActor.getMatch(Properties.class);
+        if (targetActor == null)
+            throw new UnsupportedOperationException("getProperty");
+        ((Properties) targetActor).setProperty(propertyName, propertyValue);
+    }
+
     /**
      * Table of registered actors.
      */
-    private ConcurrentSkipListMap<String, RESPONSE_TYPE> properties =
-            new ConcurrentSkipListMap<String, RESPONSE_TYPE>();
+    private ConcurrentSkipListMap<String, Object> properties =
+            new ConcurrentSkipListMap<String, Object>();
 
-    /**
-     * Get the value of a property.
-     *
-     * @param getProperty The request.
-     * @return The value of the property, or null.
-     */
     @Override
-    public RESPONSE_TYPE getProperty(GetProperty<RESPONSE_TYPE> getProperty)
+    public Object getProperty(String propertyName)
             throws Exception {
-        String propertyName = getProperty.getPropertyName();
         if (properties.containsKey(propertyName))
             return properties.get(propertyName);
-        Properties<RESPONSE_TYPE> p = getProperty.getTargetActor(getParent());
-        if (p == null)
-            return null;
-        return getProperty.call(p);
+        return getProperty(getParent(), propertyName);
     }
 
     /**
@@ -67,33 +77,7 @@ public class JAProperties<RESPONSE_TYPE>
      * @param propertyValue The value to be assigned.
      */
     @Override
-    public void setProperty(String propertyName, RESPONSE_TYPE propertyValue) {
+    public void setProperty(String propertyName, Object propertyValue) {
         properties.put(propertyName, propertyValue);
-    }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-        Class curReq = request.getClass();
-
-        if (curReq == GetProperty.class) {
-            rp.processResponse(getProperty((GetProperty<RESPONSE_TYPE>) request));
-            return;
-        }
-
-        if (curReq == SetProperty.class) {
-            SetProperty<RESPONSE_TYPE> req = (SetProperty<RESPONSE_TYPE>) request;
-            setProperty(req.getPropertyName(), req.getPropertyValue());
-            rp.processResponse(null);
-            return;
-        }
-
-        throw new UnsupportedOperationException(request.getClass().getName());
     }
 }

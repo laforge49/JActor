@@ -28,14 +28,8 @@ import org.agilewiki.jactor.lpc.TargetActor;
 /**
  * Manages a property set.
  */
-public interface Properties<RESPONSE_TYPE> extends TargetActor {
-    /**
-     * Get the value of a property.
-     *
-     * @param getProperty The request.
-     * @return The value of the property, or null.
-     */
-    public RESPONSE_TYPE getProperty(GetProperty<RESPONSE_TYPE> getProperty)
+public interface Properties extends TargetActor {
+    public Object getProperty(String propertyName)
             throws Exception;
 
     /**
@@ -44,6 +38,6 @@ public interface Properties<RESPONSE_TYPE> extends TargetActor {
      * @param propertyName  The name of the property.
      * @param propertyValue The value to be assigned.
      */
-    public void setProperty(String propertyName, RESPONSE_TYPE propertyValue)
+    public void setProperty(String propertyName, Object propertyValue)
             throws Exception;
 }

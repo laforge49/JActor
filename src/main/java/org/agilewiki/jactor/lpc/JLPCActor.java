@@ -135,19 +135,25 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         return parent;
     }
 
+    public JLPCActor getMatch(Class targetClass) {
+        if (targetClass.isInstance(this))
+            return this;
+        return getAncestor(targetClass);
+    }
+
     /**
      * Returns A matching ancestor from the parent chain.
      *
-     * @param ancestorClass A class which the ancestor is an instanceof.
+     * @param targetClass A class which the ancestor is an instanceof.
      * @return The matching ancestor, or null.
      */
     @Override
-    final public JLPCActor getAncestor(Class ancestorClass) {
+    final public JLPCActor getAncestor(Class targetClass) {
         if (parent == null)
             return null;
-        if (ancestorClass.isInstance(parent))
+        if (targetClass.isInstance(parent))
             return parent;
-        return parent.getAncestor(ancestorClass);
+        return parent.getAncestor(targetClass);
     }
 
     /**
