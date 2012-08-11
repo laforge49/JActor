@@ -24,13 +24,15 @@
 package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.lpc.SynchronousRequest;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
  * Get a subscriber with the given name.
  */
-public class GetSubscriber extends SynchronousRequest<Subscriber, Publisher> {
+public class GetSubscriber extends Request<Subscriber, Publisher> {
     /**
      * The name of the subscribing actor.
      */
@@ -45,17 +47,9 @@ public class GetSubscriber extends SynchronousRequest<Subscriber, Publisher> {
         this.subscriberName = subscriberName;
     }
 
-    /**
-     * Send a synchronous request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Boolean Any uncaught exceptions raised while processing the request.
-     */
     @Override
-    protected Subscriber _call(Publisher targetActor)
-            throws Exception {
-        return targetActor.getSubscriber(subscriberName);
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        rp.processResponse(((Publisher) targetActor).getSubscriber(subscriberName));
     }
 
     /**

@@ -2,6 +2,7 @@ package org.agilewiki.jactor.pubsub.publish;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.publisher.*;
 import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
@@ -47,15 +48,7 @@ public class PublishTest extends TestCase {
  * Test code.
  */
 class Sub extends JASubscriber {
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-        if (request.getClass() == Req.class) {
-            rp.processResponse(null);
-            return;
-        }
-
-        super.processRequest(request, rp);
-    }
+    void req() {}
 }
 
 /**
@@ -66,5 +59,11 @@ class Req extends Request<Object, Sub> {
     @Override
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Sub;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((Sub) targetActor).req();
+        rp.processResponse(null);
     }
 }

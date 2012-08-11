@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
@@ -53,5 +55,10 @@ public class Publish extends Request<Integer, Publisher> {
      */
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Publisher;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((Publisher) targetActor).publish(publishRequest, rp);
     }
 }

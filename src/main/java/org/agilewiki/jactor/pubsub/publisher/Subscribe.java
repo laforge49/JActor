@@ -24,14 +24,16 @@
 package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.lpc.SynchronousRequest;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
  * Subscribe to a publisher.
  * The result returned is true when a new subscriber has been added.
  */
-public class Subscribe extends SynchronousRequest<Boolean, Publisher> {
+public class Subscribe extends Request<Boolean, Publisher> {
     /**
      * The subscribing actor.
      */
@@ -46,17 +48,9 @@ public class Subscribe extends SynchronousRequest<Boolean, Publisher> {
         this.subscriber = subscriber;
     }
 
-    /**
-     * Send a synchronous request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Boolean Any uncaught exceptions raised while processing the request.
-     */
     @Override
-    protected Boolean _call(Publisher targetActor)
-            throws Exception {
-        return targetActor.subscribe(subscriber);
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        rp.processResponse(((Publisher) targetActor).subscribe(subscriber));
     }
 
     /**

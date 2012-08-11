@@ -24,14 +24,16 @@
 package org.agilewiki.jactor.pubsub.publisher;
 
 import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.lpc.SynchronousRequest;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
+import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.subscriber.Subscriber;
 
 /**
  * Unsubscribe from a publisher.
  * The result returned is true when a subscriber has been removed.
  */
-public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
+public class Unsubscribe extends Request<Boolean, Publisher> {
     /**
      * The name of the subscribing actor.
      */
@@ -46,17 +48,9 @@ public class Unsubscribe extends SynchronousRequest<Boolean, Publisher> {
         this.subscriber = subscriber;
     }
 
-    /**
-     * Send a synchronous request.
-     *
-     * @param targetActor The target actor.
-     * @return The response.
-     * @throws Boolean Any uncaught exceptions raised while processing the request.
-     */
     @Override
-    protected Boolean _call(Publisher targetActor)
-            throws Exception {
-        return targetActor.unsubscribe(subscriber);
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        rp.processResponse(((Publisher) targetActor).unsubscribe(subscriber));
     }
 
     /**

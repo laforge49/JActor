@@ -133,43 +133,4 @@ public class JAPublisher
         Unsubscribed unsubscribed = new Unsubscribed(this);
         publish(unsubscribed, rp);
     }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    protected void processRequest(Object request, RP rp)
-            throws Exception {
-        Class reqcls = request.getClass();
-
-        if (reqcls == Subscribe.class) {
-            Subscribe subscribe = (Subscribe) request;
-            rp.processResponse(subscribe(subscribe.subscriber));
-            return;
-        }
-
-        if (reqcls == Unsubscribe.class) {
-            Unsubscribe unsubscribe = (Unsubscribe) request;
-            rp.processResponse(unsubscribe(unsubscribe.subscriber));
-            return;
-        }
-
-        if (reqcls == GetSubscriber.class) {
-            GetSubscriber getSubscriber = (GetSubscriber) request;
-            rp.processResponse(getSubscriber(getSubscriber.subscriberName));
-            return;
-        }
-
-        if (reqcls == Publish.class) {
-            Publish publish = (Publish) request;
-            publish(publish.publishRequest, rp);
-            return;
-        }
-
-        super.processRequest(request, rp);
-    }
 }
