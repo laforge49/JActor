@@ -51,30 +51,10 @@ public interface Factory extends TargetActor {
     /**
      * Returns the requested actor factory.
      *
-     * @param request The request.
-     * @return The registered actor factory.
-     */
-    @Deprecated
-    public ActorFactory getActorFactory(GetActorFactory request)
-            throws Exception;
-
-    /**
-     * Returns the requested actor factory.
-     *
      * @param actorType The actor type.
      * @return The registered actor factory.
      */
     public ActorFactory getActorFactory(String actorType)
-            throws Exception;
-
-    /**
-     * Creates a new actor.
-     *
-     * @param request The request.
-     * @return The new actor.
-     */
-    @Deprecated
-    public Actor newActor(NewActor request)
             throws Exception;
 
     /**

@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.factory.JAFactory;
-import org.agilewiki.jactor.factory.NewActor;
 import org.agilewiki.jactor.factory.timing.A;
 
 public class Creation3Test extends TestCase {
@@ -37,10 +36,9 @@ public class Creation3Test extends TestCase {
     }
 
     void loop(long c, JAFactory f) throws Exception {
-        NewActor na = new NewActor("A");
         int i = 0;
         while (i < c) {
-            na.call(f);
+            JAFactory.newActor(f, "A");
             i += 1;
         }
     }
