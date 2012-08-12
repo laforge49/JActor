@@ -4,8 +4,6 @@ import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.nbLock.Lock;
 import org.agilewiki.jactor.nbLock.Unlock;
-import org.agilewiki.jactor.pubsub.actorName.ActorName;
-import org.agilewiki.jactor.pubsub.actorName.GetActorName;
 import org.agilewiki.jactor.pubsub.actorName.JActorName;
 
 /**
@@ -19,7 +17,7 @@ public class Process
         Class reqcls = request.getClass();
 
         if (reqcls == DoItEx.class) {
-            final String me = GetActorName.req.call((ActorName) this);
+            final String me = getActorName();
             Lock.req.send(this, this, new RP<Object>() {
                 @Override
                 public void processResponse(Object response) throws Exception {

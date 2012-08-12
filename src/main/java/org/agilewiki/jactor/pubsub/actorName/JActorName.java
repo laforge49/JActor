@@ -28,7 +28,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
  * Implements immutable actor object names.
- * Supported request messages: SetActorName and GetActorName.
+ * Supported request messages: SetActorName.
  */
 public class JActorName extends JLPCActor implements ActorName {
     /**
@@ -57,24 +57,5 @@ public class JActorName extends JLPCActor implements ActorName {
         if (this.actorName != null)
             throw new UnsupportedOperationException("Already named: " + this.actorName);
         this.actorName = actorName;
-    }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-        Class reqcls = request.getClass();
-
-        if (reqcls == GetActorName.class) {
-            rp.processResponse(getActorName());
-            return;
-        }
-
-        throw new UnsupportedOperationException(reqcls.getName());
     }
 }

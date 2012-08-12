@@ -14,7 +14,7 @@ public class ActorNameTest extends TestCase {
             JActorName a = new JActorName();
             a.initialize(mailboxFactory.createMailbox());
             a.setActorName("foo");
-            String nm = GetActorName.req.call(a);
+            String nm = a.getActorName();
             assertEquals("foo", nm);
         } catch (Exception e) {
             e.printStackTrace();
