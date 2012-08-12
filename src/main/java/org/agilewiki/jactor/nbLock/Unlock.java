@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.nbLock;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
@@ -40,5 +42,10 @@ final public class Unlock extends Request<Object, JANBLock> {
      */
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof JANBLock;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((JANBLock) targetActor).unlock(rp);
     }
 }

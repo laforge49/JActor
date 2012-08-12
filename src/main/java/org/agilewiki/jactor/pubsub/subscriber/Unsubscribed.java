@@ -24,6 +24,8 @@
 package org.agilewiki.jactor.pubsub.subscriber;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.pubsub.publisher.Publisher;
 
@@ -53,5 +55,10 @@ final public class Unsubscribed extends Request<Object, Subscriber> {
      */
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Subscriber;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((Subscriber) targetActor).unsubscribed(publisher, rp);
     }
 }

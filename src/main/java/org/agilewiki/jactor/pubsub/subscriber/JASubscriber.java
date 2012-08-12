@@ -53,31 +53,4 @@ public class JASubscriber
             throws Exception {
         rp.processResponse(null);
     }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-        Class reqcls = request.getClass();
-
-        if (reqcls == Subscribed.class) {
-            Publisher publisher = ((Subscribed) request).publisher;
-            subscribed(publisher);
-            rp.processResponse(null);
-            return;
-        }
-
-        if (reqcls == Unsubscribed.class) {
-            Publisher publisher = ((Unsubscribed) request).publisher;
-            unsubscribed(publisher, rp);
-            return;
-        }
-
-        super.processRequest(request, rp);
-    }
 }

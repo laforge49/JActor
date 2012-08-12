@@ -34,36 +34,21 @@ import java.util.ArrayDeque;
 public class JANBLock extends JLPCActor {
     private ArrayDeque<RP<Object>> deque = new ArrayDeque<RP<Object>>();
 
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Override
-    protected void processRequest(Object request, RP rp) throws Exception {
-
-        Class reqcls = request.getClass();
-
-        if (reqcls == Lock.class) {
-            deque.addLast(rp);
-            if (deque.size() == 1) {
-                rp.processResponse(null);
-            }
-            return;
-        }
-
-        if (reqcls == Unlock.class) {
-            deque.removeFirst();
+    public void lock(RP rp)
+            throws Exception {
+        deque.addLast(rp);
+        if (deque.size() == 1) {
             rp.processResponse(null);
-            RP<Object> rp1 = deque.peekFirst();
-            if (rp1 != null) {
-                rp1.processResponse(null);
-            }
-            return;
         }
+    }
 
-        throw new UnsupportedOperationException(request.getClass().getName());
+    public void unlock(RP rp)
+            throws Exception {
+        deque.removeFirst();
+        rp.processResponse(null);
+        RP<Object> rp1 = deque.peekFirst();
+        if (rp1 != null) {
+            rp1.processResponse(null);
+        }
     }
 }
