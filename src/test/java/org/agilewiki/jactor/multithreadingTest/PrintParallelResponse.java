@@ -1,6 +1,8 @@
 package org.agilewiki.jactor.multithreadingTest;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
@@ -35,5 +37,11 @@ public class PrintParallelResponse<RESPONSE> extends Request<Object, ParallelRes
     @Override
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof ParallelResponsePrinter;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((ParallelResponsePrinter) targetActor).
+                printParallelResponse(count, responsePrinters, printResponse, rp);
     }
 }
