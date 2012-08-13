@@ -35,34 +35,27 @@ public class Driver extends JLPCActor implements Src {
     }
 
     @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
-        Class reqcls = request.getClass();
-
-        if (reqcls == Go.class) {
-            count = 0;
-            int i = 0;
-            while (i < s) {
-                Sub sub = new Sub();
-                sub.initialize(getMailbox());
-                sub.setActorName("" + i);
-                sub.src = this;
-                Subscribe subscribe = new Subscribe(sub);
-                subscribe.sendEvent(this, pub);
-                i += 1;
-            }
-            ExtendedResponseProcessor<Integer> erp = new ExtendedResponseProcessor<Integer>() {
-                @Override
-                public void processResponse(Integer response) throws Exception {
-                    if (!async)
-                        sync = true;
-                    else
-                        sender(rp, this);
-                }
-            };
-            sender(rp, erp);
-            return;
+    public void go(final RP rp) throws Exception {
+        count = 0;
+        int i = 0;
+        while (i < s) {
+            Sub sub = new Sub();
+            sub.initialize(getMailbox());
+            sub.setActorName("" + i);
+            sub.src = this;
+            Subscribe subscribe = new Subscribe(sub);
+            subscribe.sendEvent(this, pub);
+            i += 1;
         }
-
-        throw new UnsupportedOperationException(reqcls.getName());
+        ExtendedResponseProcessor<Integer> erp = new ExtendedResponseProcessor<Integer>() {
+            @Override
+            public void processResponse(Integer response) throws Exception {
+                if (!async)
+                    sync = true;
+                else
+                    sender(rp, this);
+            }
+        };
+        sender(rp, erp);
     }
 }
