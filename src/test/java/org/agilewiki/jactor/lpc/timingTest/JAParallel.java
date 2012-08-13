@@ -45,41 +45,28 @@ final public class JAParallel extends JLPCActor implements SimpleRequestReceiver
      */
     private JAResponseCounter responseCounter;
 
-    /**
-     * Sends either the same request to all the actors or a different request to each actor.
-     *
-     * @param request The request or an array of requests, or a wrapper of same.
-     * @param rd1     Process the response sent when responses from all the actors have been received.
-     * @throws Exception Any uncaught exception thrown when the request is processed.
-     */
-    @Override
-    public void processRequest(final Object request, final RP rd1)
-            throws Exception {
+    public void run1Parallel(Request req, RP rd1) throws Exception {
         int p = actors.length;
         responseCounter = new JAResponseCounter(p, rd1);
         int i = 0;
 
-        if (request instanceof Run1Parallel) {
-            Request req = ((Run1Parallel) request).getRequest();
-            while (i < p) {
-                req.send(this, actors[i], responseCounter);
-                i += 1;
-            }
-            return;
+        while (i < p) {
+            req.send(this, actors[i], responseCounter);
+            i += 1;
         }
+    }
 
-        if (request instanceof RunParallel) {
-            Request[] requests = ((RunParallel) request).getRequests();
-            if (requests.length != p)
-                throw new IllegalArgumentException("Request and actor arrays not the same length");
-            while (i < p) {
-                requests[i].send(this, actors[i], responseCounter);
-                i += 1;
-            }
-            return;
+    public void runParallel(Request[] requests, RP rd1) throws Exception {
+        int p = actors.length;
+        responseCounter = new JAResponseCounter(p, rd1);
+        int i = 0;
+
+        if (requests.length != p)
+            throw new IllegalArgumentException("Request and actor arrays not the same length");
+        while (i < p) {
+            requests[i].send(this, actors[i], responseCounter);
+            i += 1;
         }
-
-        throw new UnsupportedOperationException(request.getClass().getName());
     }
 
     @Override

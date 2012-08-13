@@ -1,10 +1,8 @@
 package org.agilewiki.jactor.nbLock;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.JAFuture;
-import org.agilewiki.jactor.JAMailboxFactory;
-import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
@@ -39,5 +37,10 @@ class DoIt extends Request<Object, Driver> {
      */
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Driver;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((Driver) targetActor).doit(rp);
     }
 }

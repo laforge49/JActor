@@ -13,32 +13,25 @@ public class Process
         extends JActorName
         implements Does {
     @Override
-    protected void processRequest(Object request, final RP rp) throws Exception {
-        Class reqcls = request.getClass();
-
-        if (reqcls == DoItEx.class) {
-            final String me = getActorName();
-            Lock.req.send(this, this, new RP<Object>() {
-                @Override
-                public void processResponse(Object response) throws Exception {
-                    setExceptionHandler(new ExceptionHandler() {
-                        @Override
-                        public void process(Exception exception) throws Exception {
-                            Unlock.req.send(Process.this, Process.this, new RP<Object>() {
-                                @Override
-                                public void processResponse(Object response) throws Exception {
-                                    rp.processResponse(null);
-                                }
-                            });
-                        }
-                    });
-                    Thread.sleep(100);
-                    throw new Exception("from " + me);
-                }
-            });
-            return;
-        }
-
-        super.processRequest(request, rp);
+    public void does(final RP rp) throws Exception {
+        final String me = getActorName();
+        Lock.req.send(this, this, new RP<Object>() {
+            @Override
+            public void processResponse(Object response) throws Exception {
+                setExceptionHandler(new ExceptionHandler() {
+                    @Override
+                    public void process(Exception exception) throws Exception {
+                        Unlock.req.send(Process.this, Process.this, new RP<Object>() {
+                            @Override
+                            public void processResponse(Object response) throws Exception {
+                                rp.processResponse(null);
+                            }
+                        });
+                    }
+                });
+                Thread.sleep(100);
+                throw new Exception("from " + me);
+            }
+        });
     }
 }

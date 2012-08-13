@@ -1,10 +1,8 @@
 package org.agilewiki.jactor.nbLock.exceptionsTest;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.Actor;
-import org.agilewiki.jactor.JAFuture;
-import org.agilewiki.jactor.JAMailboxFactory;
-import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.lpc.TargetActor;
 import org.agilewiki.jactor.nbLock.JANBLock;
@@ -34,6 +32,7 @@ public class NBLockExceptionsTest extends TestCase {
  * Test code.
  */
 interface Does extends TargetActor {
+    public void does(RP rp) throws Exception;
 }
 
 /**
@@ -49,5 +48,10 @@ class DoItEx extends Request<Object, Does> {
      */
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof Does;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((Does) targetActor).does(rp);
     }
 }

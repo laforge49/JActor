@@ -1,6 +1,8 @@
 package org.agilewiki.jactor.lpc.timingTest;
 
 import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
 /**
@@ -33,5 +35,10 @@ public class RunParallel extends Request<Object, JAParallel> {
     @Override
     public boolean isTargetType(Actor targetActor) {
         return targetActor instanceof JAParallel;
+    }
+
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((JAParallel) targetActor).runParallel(requests, rp);
     }
 }
