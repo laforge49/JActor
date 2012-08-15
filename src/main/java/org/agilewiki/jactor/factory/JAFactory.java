@@ -25,7 +25,6 @@ package org.agilewiki.jactor.factory;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.Mailbox;
-import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import java.lang.reflect.Constructor;

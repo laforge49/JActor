@@ -2,7 +2,6 @@ package org.agilewiki.jactor.advanced.many;
 
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.advanced.allInOne.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 import static junit.framework.Assert.assertEquals;

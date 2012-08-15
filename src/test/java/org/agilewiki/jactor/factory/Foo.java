@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.factory;
 
-import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**

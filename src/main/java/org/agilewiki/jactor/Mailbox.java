@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCMailbox;
-import org.agilewiki.jactor.apc.JARequest;
 
 /**
  * <p>

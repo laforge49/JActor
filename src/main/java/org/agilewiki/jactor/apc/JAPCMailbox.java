@@ -31,7 +31,6 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.EventQueue;
 
-
 import java.util.ArrayList;
 
 /**

@@ -1,6 +1,5 @@
 package org.agilewiki.jactor.pubsub.latency;
 
-import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
 
 /**
@@ -9,5 +8,6 @@ import org.agilewiki.jactor.pubsub.subscriber.JASubscriber;
 public class Sub extends JASubscriber {
     public Src src;
 
-    public void ping() {}
+    public void ping() {
+    }
 }

@@ -502,7 +502,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Deprecated
-    protected void processRequest(Object request, RP rp)
+    final protected void processRequest(Object request, RP rp)
             throws Exception {
         throw new UnsupportedOperationException(request.getClass().getName());
     }

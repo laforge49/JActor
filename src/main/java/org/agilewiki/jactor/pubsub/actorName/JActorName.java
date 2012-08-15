@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.pubsub.actorName;
 
-import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**

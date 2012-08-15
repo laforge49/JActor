@@ -1,7 +1,6 @@
 package org.agilewiki.jactor.factory;
 
 import junit.framework.TestCase;
-import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
 

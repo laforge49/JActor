@@ -23,8 +23,6 @@
  */
 package org.agilewiki.jactor.apc;
 
-import org.agilewiki.jactor.RP;
-
 /**
  * Responses sent to a JAPCActor are wrapped by an JAResponse,
  * which is then passed to the JAPCMailbox.
@@ -67,6 +65,7 @@ final public class JAResponse implements JAMessage {
     public void setJAPCRequest(JARequest japcRequest) {
         this.japcRequest = japcRequest;
     }
+
     public JARequest getRequest() {
         return japcRequest;
     }

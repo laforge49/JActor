@@ -195,7 +195,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         ((Actor) targetActor).acceptEvent(requestSource, this);
     }
 
-    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+    public abstract void processRequest(JLPCActor targetActor, RP rp) throws Exception; /* {
         targetActor.processRequest(this, rp);
-    }
+    } */
 }

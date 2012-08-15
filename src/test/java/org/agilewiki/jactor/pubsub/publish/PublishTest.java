@@ -48,7 +48,8 @@ public class PublishTest extends TestCase {
  * Test code.
  */
 class Sub extends JASubscriber {
-    void req() {}
+    void req() {
+    }
 }
 
 /**

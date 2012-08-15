@@ -3,7 +3,6 @@ package org.agilewiki.jactor.advanced.allInOne;
 import junit.framework.TestCase;
 import org.agilewiki.jactor.JAFuture;
 import org.agilewiki.jactor.JAMailboxFactory;
-import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.MailboxFactory;
 
 public class AllInOneTest extends TestCase {

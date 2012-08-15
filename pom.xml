@@ -5,7 +5,7 @@
 
     <groupId>org.agilewiki.jactor</groupId>
     <artifactId>jactor</artifactId>
-    <version>3.3.3</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
     <name>JActor</name>
     <description>Lock-free Java Actors</description>
