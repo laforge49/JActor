@@ -493,19 +493,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             return false;
         return parent.hasDataItem(name);
     }
-
-    /**
-     * The application method for processing requests sent to the actor.
-     *
-     * @param request A request.
-     * @param rp      The response processor.
-     * @throws Exception Any uncaught exceptions raised while processing the request.
-     */
-    @Deprecated
-    final protected void processRequest(Object request, RP rp)
-            throws Exception {
-        throw new UnsupportedOperationException(request.getClass().getName());
-    }
 }
 
 final class SyncRequest extends JARequest {
