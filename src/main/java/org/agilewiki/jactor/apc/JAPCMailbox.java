@@ -76,11 +76,21 @@ public class JAPCMailbox implements APCMailbox {
                         setExceptionHandler(null);
                         currentRequest.getUnwrappedRequest().processRequest(currentRequest.getDestinationActor(), currentRequest);
                     } catch (Exception ex) {
-                        if (exceptionHandler == null) response(currentRequest, ex);
+                        if (exceptionHandler == null) {
+                            if (currentRequest.isEvent())
+                                System.out.println(currentRequest.getUnwrappedRequest().getClass().getName() +
+                                        " event exception: " + ex);
+                            else
+                                response(currentRequest, ex);
+                        }
                         else try {
                             exceptionHandler.process(ex);
                         } catch (Exception ex2) {
-                            response(currentRequest, ex2);
+                            if (currentRequest.isEvent())
+                                System.out.println(currentRequest.getUnwrappedRequest().getClass().getName() +
+                                        " event exception: " + ex2);
+                            else
+                                response(currentRequest, ex2);
                         }
                     }
                 } else {

@@ -66,7 +66,12 @@ public class JAProperties
             throws Exception {
         if (properties.containsKey(propertyName))
             return properties.get(propertyName);
-        return getProperty(getParent(), propertyName);
+        Actor targetActor = getParent();
+        if (targetActor != null)
+            targetActor = targetActor.getMatch(Properties.class);
+        if (targetActor == null)
+            return null;
+        return ((Properties) targetActor).getProperty(propertyName);
     }
 
     /**
