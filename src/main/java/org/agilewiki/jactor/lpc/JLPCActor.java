@@ -426,12 +426,14 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                     eh.process(ex);
                     return;
                 } catch (Exception x) {
-                    System.out.println(request.getClass().getName() +
-                            " event exception: " + x);
+                    System.err.println(request.getClass().getName() +
+                            " event exception: ");
+                    ex.printStackTrace();
                 }
             else {
-                System.out.println(request.getClass().getName() +
-                        " event exception: " + ex);
+                System.err.println(request.getClass().getName() +
+                        " event exception: ");
+                ex.printStackTrace();
             }
         }
         oldSourceMailbox.setCurrentRequest(oldSourceRequest);
