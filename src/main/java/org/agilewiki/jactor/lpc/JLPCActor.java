@@ -556,9 +556,8 @@ final class SyncRequest extends JARequest {
                     }
                     mailbox.response(this, ex);
                 }
-            } else {
-                mailbox.response(this, response);
             }
+            mailbox.response(this, response);
             return;
         }
         reset();

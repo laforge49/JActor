@@ -82,8 +82,7 @@ public class JAPCMailbox implements APCMailbox {
                                         " event exception: " + ex);
                             else
                                 response(currentRequest, ex);
-                        }
-                        else try {
+                        } else try {
                             exceptionHandler.process(ex);
                         } catch (Exception ex2) {
                             if (currentRequest.isEvent())
