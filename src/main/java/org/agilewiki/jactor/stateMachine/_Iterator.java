@@ -93,7 +93,7 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    final public void call(final StateMachine stateMachine, final RP rp) throws Exception {
+    final public void call(final SimpleMachine stateMachine, final RP rp) throws Exception {
         init(stateMachine);
         iterate(new RP() {
             @Override
@@ -122,6 +122,6 @@ abstract public class _Iterator extends JAIterator implements _Operation {
      *
      * @param stateMachine The state machine.
      */
-    protected void init(StateMachine stateMachine) {
+    protected void init(SimpleMachine stateMachine) {
     }
 }

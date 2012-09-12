@@ -33,5 +33,5 @@ public interface BooleanFunc {
      * @param sm The state machine.
      * @return A boolean.
      */
-    public boolean get(StateMachine sm);
+    public boolean get(SimpleMachine sm);
 }

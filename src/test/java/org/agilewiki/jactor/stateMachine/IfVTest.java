@@ -31,7 +31,7 @@ public class IfVTest extends TestCase {
             condition = false;
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     System.out.println("does not print");
                     return null;
                 }
@@ -39,7 +39,7 @@ public class IfVTest extends TestCase {
             smb._label("skip");
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine stateMachine) {
+                public Object get(SimpleMachine stateMachine) {
                     System.out.println("Hello world!");
                     return null;
                 }

@@ -33,7 +33,7 @@ class SetV1 extends JLPCActor implements SimpleRequestReceiver {
         sv = null;
         smb._set(new ObjectFunc() {
             @Override
-            public Object get(StateMachine stateMachine) {
+            public Object get(SimpleMachine stateMachine) {
                 System.out.println(stateMachine.get("r1"));
                 return null;
             }

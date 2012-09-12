@@ -3,7 +3,7 @@ package org.agilewiki.jactor.counterTest;
 import org.agilewiki.jactor.*;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.ObjectFunc;
-import org.agilewiki.jactor.stateMachine.StateMachine;
+import org.agilewiki.jactor.stateMachine.SimpleMachine;
 import org.agilewiki.jactor.stateMachine._Operation;
 
 /**
@@ -17,7 +17,7 @@ final public class Driver extends JLPCActor implements SimpleRequestReceiver {
         super.initialize(mailbox);
         smb.add(new _Operation() {
             @Override
-            public void call(final StateMachine sm, final RP rp1) throws Exception {
+            public void call(final SimpleMachine sm, final RP rp1) throws Exception {
                 JAIterator it = new JAIterator() {
                     long i = 0;
 
@@ -43,7 +43,7 @@ final public class Driver extends JLPCActor implements SimpleRequestReceiver {
         smb._send(counterActor, new GetAndReset(), "count");
         smb._return(new ObjectFunc() {
             @Override
-            public Object get(StateMachine sm) {
+            public Object get(SimpleMachine sm) {
                 return sm.get("count");
             }
         });

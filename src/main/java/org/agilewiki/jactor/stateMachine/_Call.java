@@ -95,7 +95,7 @@ final public class _Call implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    public void call(final StateMachine stateMachine, final RP rp)
+    public void call(final SimpleMachine stateMachine, final RP rp)
             throws Exception {
         Object req = null;
         if (request != null) req = request.get(stateMachine);

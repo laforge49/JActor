@@ -307,7 +307,7 @@ abstract public class _SMBuilder {
      */
     final public void call(Object request, RP rp)
             throws Exception {
-        final StateMachine stateMachine = new StateMachine(this);
+        final SimpleMachine stateMachine = new SimpleMachine(this);
         stateMachine.execute(request, rp);
     }
 

@@ -40,13 +40,13 @@ public class SendVFTest extends TestCase {
             d.initialize(getMailbox());
             smb._send(d, new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return new IntegerRequest(21);
                 }
             }, "rsp");
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("rsp");
                 }
             });

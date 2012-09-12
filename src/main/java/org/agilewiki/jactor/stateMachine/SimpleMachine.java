@@ -34,7 +34,7 @@ import java.util.HashMap;
 /**
  * A state machine.
  */
-public class StateMachine {
+public class SimpleMachine {
     /**
      * The (optional) argument passed when the state machine was invoked.
      */
@@ -60,7 +60,7 @@ public class StateMachine {
      *
      * @param smBuilder The state machine builder which defines the operations of this state machine.
      */
-    public StateMachine(_SMBuilder smBuilder) {
+    public SimpleMachine(_SMBuilder smBuilder) {
         this.smBuilder = smBuilder;
     }
 
@@ -80,7 +80,7 @@ public class StateMachine {
                 else {
                     final _Operation o = smBuilder.getOperation(programCounter);
                     programCounter += 1;
-                    o.call(StateMachine.this, rp1);
+                    o.call(SimpleMachine.this, rp1);
                 }
             }
         }).iterate(rp);

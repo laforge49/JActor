@@ -29,7 +29,7 @@ public class CallTest extends TestCase {
             SMBuilder doubler = new SMBuilder();
             doubler._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     int req = ((Integer) sm.request).intValue();
                     return req * 2;
                 }
@@ -38,13 +38,13 @@ public class CallTest extends TestCase {
             SMBuilder main = new SMBuilder();
             main._call(doubler, new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.request;
                 }
             }, "rsp");
             main._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("rsp");
                 }
             });

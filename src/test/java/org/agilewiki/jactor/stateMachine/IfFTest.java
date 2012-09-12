@@ -29,13 +29,13 @@ public class IfFTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._if(new BooleanFunc() {
                 @Override
-                public boolean get(StateMachine sm) {
+                public boolean get(SimpleMachine sm) {
                     return true;
                 }
             }, "skip");
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     System.out.println("does not print");
                     return null;
                 }
@@ -43,7 +43,7 @@ public class IfFTest extends TestCase {
             smb._label("skip");
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine stateMachine) {
+                public Object get(SimpleMachine stateMachine) {
                     System.out.println("Hello world!");
                     return null;
                 }

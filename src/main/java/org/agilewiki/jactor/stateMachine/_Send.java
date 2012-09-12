@@ -39,7 +39,7 @@ abstract public class _Send implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    final public void call(final StateMachine stateMachine, final RP rp) throws Exception {
+    final public void call(final SimpleMachine stateMachine, final RP rp) throws Exception {
         Actor a = getTargetActor(stateMachine);
         Request r = getRequest(stateMachine);
         stateMachine.send(a, r, new RP() {
@@ -58,7 +58,7 @@ abstract public class _Send implements _Operation {
      * @param stateMachine The state machine.
      * @return The actor which is to receive the message.
      */
-    abstract public Actor getTargetActor(StateMachine stateMachine) throws Exception;
+    abstract public Actor getTargetActor(SimpleMachine stateMachine) throws Exception;
 
     /**
      * Returns the request.
@@ -66,7 +66,7 @@ abstract public class _Send implements _Operation {
      * @param stateMachine The state machine.
      * @return The request.
      */
-    abstract public Request getRequest(StateMachine stateMachine);
+    abstract public Request getRequest(SimpleMachine stateMachine);
 
     /**
      * Returns the name of the result, or null.

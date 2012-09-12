@@ -28,20 +28,20 @@ public class SetFTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine stateMachine) {
+                public Object get(SimpleMachine stateMachine) {
                     System.out.println("Hello world!");
                     return null;
                 }
             });
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine stateMachine) {
+                public Object get(SimpleMachine stateMachine) {
                     return "42";
                 }
             }, "r1");
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("r1");
                 }
             });

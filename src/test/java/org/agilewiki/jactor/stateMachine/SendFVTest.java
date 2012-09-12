@@ -38,7 +38,7 @@ public class SendFVTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._send(new ActorFunc() {
                 @Override
-                public Actor get(StateMachine sm) throws Exception {
+                public Actor get(SimpleMachine sm) throws Exception {
                     Doubler d = new Doubler();
                     d.initialize(getMailbox());
                     return d;
@@ -46,7 +46,7 @@ public class SendFVTest extends TestCase {
             }, new IntegerRequest(21), "rsp");
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("rsp");
                 }
             });

@@ -41,7 +41,7 @@ public class SendVVTest extends TestCase {
             smb._send(doubler, new IntegerRequest(21), "rsp");
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("rsp");
                 }
             });

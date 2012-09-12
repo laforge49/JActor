@@ -33,5 +33,5 @@ public interface ObjectFunc {
      * @param sm The state machine.
      * @return An object.
      */
-    public Object get(StateMachine sm);
+    public Object get(SimpleMachine sm);
 }

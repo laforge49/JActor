@@ -32,7 +32,7 @@ public class IteratorTest extends TestCase {
                 int max;
 
                 @Override
-                protected void init(StateMachine sm) {
+                protected void init(SimpleMachine sm) {
                     max = ((Integer) sm.request).intValue();
                 }
 
@@ -48,7 +48,7 @@ public class IteratorTest extends TestCase {
             };
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return sm.get("rs");
                 }
             });

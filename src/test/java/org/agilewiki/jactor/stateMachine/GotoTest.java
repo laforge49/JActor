@@ -30,7 +30,7 @@ public class GotoTest extends TestCase {
             smb._goto("skip");
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     System.out.println("does not print");
                     return null;
                 }
@@ -38,7 +38,7 @@ public class GotoTest extends TestCase {
             smb._label("skip");
             smb._set(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine stateMachine) {
+                public Object get(SimpleMachine stateMachine) {
                     System.out.println("Hello world!");
                     return null;
                 }

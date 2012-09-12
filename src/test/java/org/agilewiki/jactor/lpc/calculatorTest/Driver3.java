@@ -5,7 +5,7 @@ import org.agilewiki.jactor.SimpleRequest;
 import org.agilewiki.jactor.SimpleRequestReceiver;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.stateMachine.ObjectFunc;
-import org.agilewiki.jactor.stateMachine.StateMachine;
+import org.agilewiki.jactor.stateMachine.SimpleMachine;
 
 /**
  * Test code.
@@ -22,7 +22,7 @@ public class Driver3 extends JLPCActor implements SimpleRequestReceiver {
         smb._send(calculator, new Multiply(3), "result");
         smb._return(new ObjectFunc() {
             @Override
-            public Object get(StateMachine sm) {
+            public Object get(SimpleMachine sm) {
                 return sm.get("result");
             }
         });

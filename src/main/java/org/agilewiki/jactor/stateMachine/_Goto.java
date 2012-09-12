@@ -76,7 +76,7 @@ public class _Goto implements _Operation {
      * @throws Exception Any uncaught exceptions raised while performing the operation.
      */
     @Override
-    public void call(StateMachine stateMachine, RP rp) throws Exception {
+    public void call(SimpleMachine stateMachine, RP rp) throws Exception {
         stateMachine.go(label);
         rp.processResponse(null);
     }

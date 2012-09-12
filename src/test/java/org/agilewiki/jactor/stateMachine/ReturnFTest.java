@@ -32,7 +32,7 @@ public class ReturnFTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return "Hello world!";
                 }
             });
@@ -48,7 +48,7 @@ public class ReturnFTest extends TestCase {
             SMBuilder smb = new SMBuilder();
             smb._return(new ObjectFunc() {
                 @Override
-                public Object get(StateMachine sm) {
+                public Object get(SimpleMachine sm) {
                     return null;
                 }
             });
