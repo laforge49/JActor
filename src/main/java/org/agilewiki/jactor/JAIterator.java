@@ -1,6 +1,6 @@
 package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
+import org.agilewiki.jactor.simpleMachine.ExtendedResponseProcessor;
 
 /**
  * <p>

@@ -30,7 +30,7 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.factory.Requirement;
-import org.agilewiki.jactor.stateMachine._SMBuilder;
+import org.agilewiki.jactor.simpleMachine._SMBuilder;
 
 import java.util.ArrayList;
 

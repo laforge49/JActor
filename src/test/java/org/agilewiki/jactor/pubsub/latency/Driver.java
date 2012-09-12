@@ -5,7 +5,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.pubsub.publisher.JAPublisher;
 import org.agilewiki.jactor.pubsub.publisher.Publish;
 import org.agilewiki.jactor.pubsub.publisher.Subscribe;
-import org.agilewiki.jactor.stateMachine.ExtendedResponseProcessor;
+import org.agilewiki.jactor.simpleMachine.ExtendedResponseProcessor;
 
 /**
  * Test code.

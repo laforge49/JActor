@@ -4,8 +4,8 @@ import org.agilewiki.jactor.RP;
 import org.agilewiki.jactor.SimpleRequest;
 import org.agilewiki.jactor.SimpleRequestReceiver;
 import org.agilewiki.jactor.lpc.JLPCActor;
-import org.agilewiki.jactor.stateMachine.ObjectFunc;
-import org.agilewiki.jactor.stateMachine.SimpleMachine;
+import org.agilewiki.jactor.simpleMachine.ObjectFunc;
+import org.agilewiki.jactor.simpleMachine.SimpleMachine;
 
 /**
  * Test code.
