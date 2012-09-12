@@ -46,7 +46,7 @@ public class JAFactory extends JLPCActor implements Factory {
         if (!(actor instanceof Factory))
             actor = actor.getAncestor(Factory.class);
         if (actor == null)
-            return null;
+            throw new IllegalArgumentException("Unknown actor type: " + actorType);
         Factory factory = (Factory) actor;
         return factory.getActorFactory(actorType);
     }
