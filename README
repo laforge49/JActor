@@ -19,13 +19,13 @@ free(code):    http://freecode.com/projects/jactor/
 Google groups: http://groups.google.com/group/agilewikidevelopers/
 
 Documentation
- - The Problem with Actors:        https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56?lang=en
- - Introducing JActor:             https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4?lang=en
- - JActor API Basics:              https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17?lang=en
- - Exception Handling made Easy:   https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4?lang=en
- - A Bi-Modal Iterator for JActor: https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6?lang=en
- - The Simple Machines of JActor:  https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4?lang=en
- - JActor Factories:               https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4?lang=en
+ - The Problem with Actors:        https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56
+ - Introducing JActor:             https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4
+ - JActor API Basics:              https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17
+ - Exception Handling made Easy:   https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4
+ - A Bi-Modal Iterator for JActor: https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6
+ - The Simple Machines of JActor:  https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4
+ - JActor Factories:               https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4
 
 Dependent Projects
  - Incremental Deserialization    https://github.com/laforge49/JID
