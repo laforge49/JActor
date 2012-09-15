@@ -9,11 +9,6 @@ Downloads:     https://sourceforge.net/projects/jactor/files/
 Blog:          https://sourceforge.net/p/jactor/blog/
 API:           http://jactor.sourceforge.net/
 VCS:           https://github.com/laforge49/JActor/
-Slides:        http://jactor.sourceforge.net/slides/Actors-in-the-Small-22-feb-2012.pdf
-Introduction:  https://github.com/laforge49/JActor/wiki/Introduction
-Basics:        https://github.com/laforge49/JActor/wiki/JActor-Basics
-Services
- - Factories:  https://github.com/laforge49/JActor/wiki/Factories
 Issues:        https://github.com/laforge49/JActor/issues/
 free(code):    http://freecode.com/projects/jactor/
 Google groups: http://groups.google.com/group/agilewikidevelopers/
@@ -26,6 +21,10 @@ Documentation
  - A Bi-Modal Iterator for JActor: https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6
  - The Simple Machines of JActor:  https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4
  - JActor Factories:               https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4
+
+Slides
+ - Actors in the Small: http://www.slideshare.net/laforge49/actors-in-the-small
+ - Code Samples:        http://www.slideshare.net/laforge49/code-samples-13901008
 
 Dependent Projects
  - Incremental Deserialization    https://github.com/laforge49/JID
