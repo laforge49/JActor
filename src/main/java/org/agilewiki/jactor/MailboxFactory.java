@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * Creates Mailboxes and provides access to the thread manager.
@@ -54,4 +55,6 @@ public interface MailboxFactory {
      * Stop all the threads as they complete their tasks.
      */
     public void close();
+
+    public void eventException(Request request, Exception exception);
 }

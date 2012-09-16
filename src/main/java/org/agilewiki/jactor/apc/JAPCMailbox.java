@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.apc;
 
 import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
@@ -60,7 +61,7 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @param bufferedEventQueue The lower-level mailbox which transports messages as 1-way events.
      */
-    public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue) {
+    public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue, final MailboxFactory mailboxFactory) {
         this.bufferedEventQueue = bufferedEventQueue;
         bufferedEventQueue.setActiveEventProcessor(new EventProcessor<JAMessage>() {
             @Override
@@ -78,18 +79,14 @@ public class JAPCMailbox implements APCMailbox {
                     } catch (Exception ex) {
                         if (exceptionHandler == null) {
                             if (currentRequest.isEvent()) {
-                                System.err.println(currentRequest.getUnwrappedRequest().getClass().getName() +
-                                        " event exception: ");
-                                ex.printStackTrace();
+                                mailboxFactory.eventException(currentRequest.getUnwrappedRequest(), ex);
                             } else
                                 response(currentRequest, ex);
                         } else try {
                             exceptionHandler.process(ex);
                         } catch (Exception ex2) {
                             if (currentRequest.isEvent()) {
-                                System.err.println(currentRequest.getUnwrappedRequest().getClass().getName() +
-                                        " event exception: ");
-                                ex2.printStackTrace();
+                                mailboxFactory.eventException(currentRequest.getUnwrappedRequest(), ex2);
                             } else
                                 response(currentRequest, ex2);
                         }
@@ -135,8 +132,8 @@ public class JAPCMailbox implements APCMailbox {
      * @param threadManager Provides a thread for processing dispatched events.
      * @param autonomous    Inhibits the acquireControl operation when true.
      */
-    public JAPCMailbox(ThreadManager threadManager, boolean autonomous) {
-        this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous));
+    public JAPCMailbox(ThreadManager threadManager, boolean autonomous, MailboxFactory mailboxFactory) {
+        this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous), mailboxFactory);
     }
 
     /**

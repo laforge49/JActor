@@ -26,7 +26,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      */
     public JLPCMailbox(final BufferedEventsQueue<JAMessage> eventQueue,
                        final MailboxFactory mailboxFactory) {
-        super(eventQueue);
+        super(eventQueue, mailboxFactory);
         this.mailboxFactory = mailboxFactory;
     }
 
@@ -39,7 +39,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      */
     public JLPCMailbox(final MailboxFactory mailboxFactory,
                        final boolean async) {
-        super(mailboxFactory.getThreadManager(), async);
+        super(mailboxFactory.getThreadManager(), async, mailboxFactory);
         this.mailboxFactory = mailboxFactory;
     }
 
@@ -48,7 +48,7 @@ final public class JLPCMailbox extends JAPCMailbox implements Mailbox {
      *
      * @param mailboxFactory Provides a thread for processing dispatched events.
      */
-    public JLPCMailbox(final MailboxFactory mailboxFactory) {
+    public JLPCMailbox(MailboxFactory mailboxFactory) {
         this(mailboxFactory, false);
     }
 

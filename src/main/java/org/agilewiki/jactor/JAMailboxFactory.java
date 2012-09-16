@@ -3,6 +3,7 @@ package org.agilewiki.jactor;
 import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.JLPCMailbox;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * <p>
@@ -76,5 +77,11 @@ final public class JAMailboxFactory implements MailboxFactory {
     final public Mailbox createAsyncMailbox() {
         final JLPCMailbox mailbox = new JLPCMailbox(this, true);
         return mailbox;
+    }
+
+    public void eventException(Request request, Exception exception) {
+        System.err.println(request.getClass().getName() +
+                " event exception: ");
+        exception.printStackTrace();
     }
 }
