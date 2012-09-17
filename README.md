@@ -28,9 +28,8 @@ Slides
 *   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
 
 Dependent Projects
- - Incremental Deserialization    https://github.com/laforge49/JID
- - File Persistence               https://github.com/laforge49/JFile
- - Netty Integration              https://github.com/kumarshantanu/JANetty
+*   [Incremental Deserialization](https://github.com/laforge49/JID)
+*   [File Persistence](https://github.com/laforge49/JFile)
 
 Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|org.agilewiki
 So you just need to add this to your POM file:
