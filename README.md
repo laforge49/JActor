@@ -1,9 +1,7 @@
-The JActor project implements actors in Java that can process 80 to 200 million messages
-per second, depending on the transport mechanism.
-
-JActor 2 supports method calls (without callbacks) for initialization, synchronous
-and concurrent requests, as well as static typing, all of which make for a more
-natural coding style when developing applications.
+JActor is a high-throughput Java Actor framework, one of the fastest Actor implementations in any language.
+*   Two-way messages provide implicit flow control, for better performance under load.
+*   A simple machine builder is included to help keep application code clear and simple.
+*   A billion actors a second can be created on a single thread.
 
 # Message Passing Benchmarks
 ```
@@ -50,7 +48,6 @@ So you just need to add this to your POM file:
 
 # Misc. Links
 *   [Downloads](https://sourceforge.net/projects/jactor/files/)
-*   [Blog](https://sourceforge.net/p/jactor/blog/)
 *   [API](http://jactor.sourceforge.net/)
 *   [VCS](https://github.com/laforge49/JActor/)
 *   [Issues](https://github.com/laforge49/JActor/issues/)
