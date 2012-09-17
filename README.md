@@ -13,21 +13,21 @@ Issues:        https://github.com/laforge49/JActor/issues/
 free(code):    http://freecode.com/projects/jactor/
 Google groups: http://groups.google.com/group/agilewikidevelopers/
 
-Documentation
- - The Problem with Actors:        https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56
- - Introducing JActor:             https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4
- - JActor API Basics:              https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17
- - Exception Handling made Easy:   https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4
- - A Bi-Modal Iterator for JActor: https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6
- - The Simple Machines of JActor:  https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4
- - JActor Factories:               https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4
+# Documentation
+1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
+1.  [Introducing JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4)
+1.  [JActor API Basics](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17)
+1.  [Exception Handling made Easy](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4)
+1.  [A Bi-Modal Iterator for JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6)
+1.  [The Simple Machines of JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4)
+1.  [JActor Factories](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4)
 
-Slides
+# Slides
 *   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
 *   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
 *   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
 
-Dependent Projects
+# Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
 *   [File Persistence](https://github.com/laforge49/JFile)
 
