@@ -91,19 +91,20 @@ If an actor receives a request of a type that it does not recognize and that act
 has been assigned a parent actor, then the request is immediately forwarded to the
 parent actor.
 
-Message Passing Benchmarks
+# Message Passing Benchmarks
+```
+                         Shared Mailbox       Across Mailboxes  Asynchronous Mailboxes
+msgs per sec                222,861,399            151,987,233              81,083,272
+```
 
-                         Shared Mailbox       Across Mailboxes  Asyncronous Mailboxes
-msgs per sec                222,861,399            151,987,233             81,083,272
-
-Test Environment
-
+# Test Environment
+```
 i7-3770 @ 3.40 GHz
 ASUS P8Z77-M Motherboard
 16 GB Corsair DDR3 1600 MHz RAM
 Vertex 3 SATA III SSD
+```
 
-Contact
-
-email:   laforge49@gmail.com
-twitter: @laforge49
+# Contact
+*   email:   laforge49@gmail.com
+*   twitter: @laforge49
