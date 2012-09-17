@@ -26,11 +26,6 @@ Vertex 3 SATA III SSD
 1.  [The Simple Machines of JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4)
 1.  [JActor Factories](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4)
 
-# Slides
-*   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
-*   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
-*   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
-
 # Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
 *   [File Persistence](https://github.com/laforge49/JFile)
@@ -57,3 +52,8 @@ So you just need to add this to your POM file:
 # Contact
 *   email:   laforge49@gmail.com
 *   twitter: @laforge49
+
+# Slides
+*   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
+*   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
+*   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
