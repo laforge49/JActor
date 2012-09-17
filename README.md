@@ -43,54 +43,6 @@ So you just need to add this to your POM file:
 ```
 (Be sure to update the version number appropriately, of course.)
 
-This project is a reimplementation of a portion of the AsyncFP Scala project:
-    https://github.com/laforge49/Asynchronous-Functional-Programming/wiki
-
-Message passing between actors mostly uses 2-way messages (request / response).
-There are several reasons for this:
-
-    o With 2-way messaging, sending a request is very similar to a method call with
-      a callback. Most requests are processed synchronously, which is why JActor is
-      so much faster than other actor implementations.
-    o Mailboxes are used mostly when passing messages between threads and are
-      first-class objects. As first-class objects, mailboxes can be used by more
-      than one actor. Passing messages between actors with a common mailbox is
-      always done synchronously and is very fast.
-    o Flow control is implicit to 2-way messaging. Systems with good flow control
-      are generally well-behaved when operating with a full load.
-
-Two-way messaging is so much faster than 1-way messaging that it is practical to use
-2-way messages when only 1-way messages are needed. There is however one case where
-you shouldn't use 2-way messages: when events from non-actor code need to be sent to
-an actor. The JAEvent class is used to do this.
-
-Exception Handling
-
-The extensive use of callbacks complicates control flow, which is only made worse
-with some callbacks being executed asynchronously. Exception trapping then can be
-quite error prone. So exception handling is supported. A default exception handler
-is also provided which passes any uncaught exceptions that occurred while processing
-a request back to the actor which sent the request, recursively.
-
-Bi-Modal Iterator
-
-Loops with 2-way messages can be problematic, as iterations typically must wait for
-the response from the previous iteration. A bi-modal iterator is provided to cover
-this. Each iteration takes 5 nanoseconds for synchronous responses and 8 nanoseconds
-when a response is asynchronous.
-
-State Machine
-
-State machines are often used with actors and can add considerable clarity to the
-code. JActor includes classes for composing and executing state machines that are
-compatible with 2-way messages.
-
-Dependency Injection
-
-If an actor receives a request of a type that it does not recognize and that actor
-has been assigned a parent actor, then the request is immediately forwarded to the
-parent actor.
-
 # Message Passing Benchmarks
 ```
                          Shared Mailbox       Across Mailboxes  Asynchronous Mailboxes
