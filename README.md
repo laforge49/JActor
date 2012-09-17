@@ -96,4 +96,3 @@ So you just need to add this to your POM file:
 # Slides
 *   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
 *   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
-*   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
