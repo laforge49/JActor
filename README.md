@@ -19,12 +19,48 @@ Vertex 3 SATA III SSD
 
 # Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
+
+     Actor-based programming is quite appealing and holds a lot of potential. ...
+     [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
+
 1.  [Introducing JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4)
+
+     Vertical scaling is today a major issue when writing server code. Threads and locks are the traditional approach to
+     making full utilization of fat (multi-core) computers, but result is code that is difficult to maintain and which to
+     often does not run much faster than single-threaded code. ...
+     [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/introducing_jactor4)
+
 1.  [JActor API Basics](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17)
+
+    Here we cover the basic API of JActor, which is very easy to use as you will see from the examples provided. ...
+    [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_api_basics17)
+
 1.  [Exception Handling made Easy](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4)
+
+    Message passing between threads and callbacks can both make exception handling more difficult. On the other hand,
+    the use of 2-way messages (request/response) provides us with a natural default: uncaught exceptions should be
+    passed back to the requesting actor for handling. And that is exactly what JActor does. ...
+    [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/exception_handling_made_easy4)
+
 1.  [A Bi-Modal Iterator for JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6)
+
+    Loops are usually just a while loop with a hasNext() method in the condition and a next() method in the body. But
+    when the response to these methods is asynchronous the loop fails, because the response is not received until after
+    the while loop has completed. ...
+    [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/a_bi_modal_iterator_for_jactor6)
+
 1.  [The Simple Machines of JActor](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4)
+
+    When multiple requests must be sent to other actors in the course of processing a request, the code can become quite
+    muddled by the use of anonymous classes used to implement the callbacks for processing the responses of those
+    requests. ...
+    [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_simple_machines_of_jactor4)
+
 1.  [JActor Factories](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4)
+
+    The JAFactory actor binds actor type names to actor factories, allowing type names to be used in place of class
+    names for serialization/deserialization. ...
+    [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4)
 
 # Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
