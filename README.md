@@ -3,10 +3,9 @@ JActor is a high-throughput Java Actor framework, one of the fastest Actor imple
 *   A simple machine builder is included to help keep application code clear and simple.
 *   A billion actors a second can be created on a single thread.
 
-|  |
-| --------------- |
-|License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt) |
-| Dependencies: Java 6, Maven 2 |
+License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt)
+
+Dependencies: Java 6, Maven 2
 
 Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki)
 So you just need to add this to your POM file:
@@ -31,6 +30,18 @@ ASUS P8Z77-M Motherboard
 16 GB Corsair DDR3 1600 MHz RAM
 Vertex 3 SATA III SSD
 ```
+
+
+| Links |
+| --------------- |
+| [Releases](https://freecode.com/projects/jactor/releases) |
+| [Announcements](https://freecode.com/projects/jactor/announcements) |
+| [Downloads](https://sourceforge.net/projects/jactor/files/) |
+| [API](http://jactor.sourceforge.net/) |
+| [VCS](https://github.com/laforge49/JActor/) |
+| [Issues](https://github.com/laforge49/JActor/issues/) |
+| [free(code)](http://freecode.com/projects/jactor/) |
+| Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/) |
 
 # Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
@@ -80,14 +91,6 @@ Vertex 3 SATA III SSD
 # Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
 *   [File Persistence](https://github.com/laforge49/JFile)
-
-# Misc. Links
-*   [Downloads](https://sourceforge.net/projects/jactor/files/)
-*   [API](http://jactor.sourceforge.net/)
-*   [VCS](https://github.com/laforge49/JActor/)
-*   [Issues](https://github.com/laforge49/JActor/issues/)
-*   [free(code)](http://freecode.com/projects/jactor/)
-*   Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/)
 
 # Contact
 *   email:   laforge49@gmail.com
