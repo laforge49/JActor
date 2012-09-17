@@ -5,14 +5,19 @@ JActor 2 supports method calls (without callbacks) for initialization, synchrono
 and concurrent requests, as well as static typing, all of which make for a more
 natural coding style when developing applications.
 
-# Misc. Links
-*   [Downloads](https://sourceforge.net/projects/jactor/files/)
-*   [Blog](https://sourceforge.net/p/jactor/blog/)
-*   [API](http://jactor.sourceforge.net/)
-*   [VCS](https://github.com/laforge49/JActor/)
-*   [Issues](https://github.com/laforge49/JActor/issues/)
-*   [free(code)](http://freecode.com/projects/jactor/)
-*   Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/)
+# Message Passing Benchmarks
+```
+                         Shared Mailbox       Across Mailboxes  Asynchronous Mailboxes
+msgs per sec                222,861,399            151,987,233              81,083,272
+```
+
+# Test Environment
+```
+i7-3770 @ 3.40 GHz
+ASUS P8Z77-M Motherboard
+16 GB Corsair DDR3 1600 MHz RAM
+Vertex 3 SATA III SSD
+```
 
 # Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
@@ -43,19 +48,14 @@ So you just need to add this to your POM file:
 ```
 (Be sure to update the version number appropriately, of course.)
 
-# Message Passing Benchmarks
-```
-                         Shared Mailbox       Across Mailboxes  Asynchronous Mailboxes
-msgs per sec                222,861,399            151,987,233              81,083,272
-```
-
-# Test Environment
-```
-i7-3770 @ 3.40 GHz
-ASUS P8Z77-M Motherboard
-16 GB Corsair DDR3 1600 MHz RAM
-Vertex 3 SATA III SSD
-```
+# Misc. Links
+*   [Downloads](https://sourceforge.net/projects/jactor/files/)
+*   [Blog](https://sourceforge.net/p/jactor/blog/)
+*   [API](http://jactor.sourceforge.net/)
+*   [VCS](https://github.com/laforge49/JActor/)
+*   [Issues](https://github.com/laforge49/JActor/issues/)
+*   [free(code)](http://freecode.com/projects/jactor/)
+*   Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/)
 
 # Contact
 *   email:   laforge49@gmail.com
