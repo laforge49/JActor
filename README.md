@@ -23,9 +23,9 @@ Documentation
  - JActor Factories:               https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4
 
 Slides
- - Actors in the Small:   http://www.slideshare.net/laforge49/actors-in-the-small
- - Code Samples:          http://www.slideshare.net/laforge49/code-samples-13901008
- - High-Performance Java: http://www.slideshare.net/laforge49/high-performancejava
+*   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
+*   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
+*   [High-Performance Java](http://www.slideshare.net/laforge49/high-performancejava)
 
 Dependent Projects
  - Incremental Deserialization    https://github.com/laforge49/JID
