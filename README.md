@@ -21,7 +21,7 @@ So you just need to add this to your POM file:
 # Message Passing Benchmarks
 |              | Shared Mailbox | Across Mailboxes | Asynchronous Mailboxes |
 | :----------- | -------------: | ---------------: | ---------------------: |
-| msgs per sec |    222,861,399 |      151,987,233 |             81,083,272 |
+| **msgs per sec** |    222,861,399 |      151,987,233 |             81,083,272 |
 
 Test Environment:
 ```
