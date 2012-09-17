@@ -18,6 +18,17 @@ So you just need to add this to your POM file:
 ```
 (Be sure to update the version number appropriately, of course.)
 
+| Links |
+| --------------- |
+| [Releases](https://freecode.com/projects/jactor/releases) |
+| [Announcements](https://freecode.com/projects/jactor/announcements) |
+| [Downloads](https://sourceforge.net/projects/jactor/files/) |
+| [API](http://jactor.sourceforge.net/) |
+| [VCS](https://github.com/laforge49/JActor/) |
+| [Issues](https://github.com/laforge49/JActor/issues/) |
+| [free(code)](http://freecode.com/projects/jactor/) |
+| Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/) |
+
 # Message Passing Benchmarks
 |              | Shared Mailbox | Across Mailboxes | Asynchronous Mailboxes |
 | :----------- | -------------: | ---------------: | ---------------------: |
@@ -30,18 +41,6 @@ ASUS P8Z77-M Motherboard
 16 GB Corsair DDR3 1600 MHz RAM
 Vertex 3 SATA III SSD
 ```
-
-
-| Links |
-| --------------- |
-| [Releases](https://freecode.com/projects/jactor/releases) |
-| [Announcements](https://freecode.com/projects/jactor/announcements) |
-| [Downloads](https://sourceforge.net/projects/jactor/files/) |
-| [API](http://jactor.sourceforge.net/) |
-| [VCS](https://github.com/laforge49/JActor/) |
-| [Issues](https://github.com/laforge49/JActor/issues/) |
-| [free(code)](http://freecode.com/projects/jactor/) |
-| Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/) |
 
 # Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
