@@ -5,13 +5,14 @@ JActor 2 supports method calls (without callbacks) for initialization, synchrono
 and concurrent requests, as well as static typing, all of which make for a more
 natural coding style when developing applications.
 
-Downloads:     https://sourceforge.net/projects/jactor/files/
-Blog:          https://sourceforge.net/p/jactor/blog/
-API:           http://jactor.sourceforge.net/
-VCS:           https://github.com/laforge49/JActor/
-Issues:        https://github.com/laforge49/JActor/issues/
-free(code):    http://freecode.com/projects/jactor/
-Google groups: http://groups.google.com/group/agilewikidevelopers/
+# Misc. Links
+*   [Downloads](https://sourceforge.net/projects/jactor/files/)
+*   [Blog](https://sourceforge.net/p/jactor/blog/)
+*   [API](http://jactor.sourceforge.net/)
+*   [VCS](https://github.com/laforge49/JActor/)
+*   [Issues](https://github.com/laforge49/JActor/issues/)
+*   [free(code)](http://freecode.com/projects/jactor/)
+*   Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/)
 
 # Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
