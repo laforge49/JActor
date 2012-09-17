@@ -34,7 +34,7 @@ Dependent Projects
 
 Available on The Central Repository (Maven): http://search.maven.org/#search|ga|1|org.agilewiki
 So you just need to add this to your POM file:
-```    <dependency>
+```<dependency>
       <groupId>org.agilewiki.jactor</groupId>
       <artifactId>jactor</artifactId>
       <version>4.1.0</version>
