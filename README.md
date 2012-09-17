@@ -7,6 +7,17 @@ License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt)
 
 Dependencies: Java 6, Maven 2
 
+Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki)
+So you just need to add this to your POM file:
+```
+<dependency>
+    <groupId>org.agilewiki.jactor</groupId>
+    <artifactId>jactor</artifactId>
+    <version>4.1.0</version>
+</dependency>
+```
+(Be sure to update the version number appropriately, of course.)
+
 # Message Passing Benchmarks
 ```
                          Shared Mailbox       Across Mailboxes  Asynchronous Mailboxes
@@ -69,17 +80,6 @@ Vertex 3 SATA III SSD
 # Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
 *   [File Persistence](https://github.com/laforge49/JFile)
-
-Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki)
-So you just need to add this to your POM file:
-```
-<dependency>
-    <groupId>org.agilewiki.jactor</groupId>
-    <artifactId>jactor</artifactId>
-    <version>4.1.0</version>
-</dependency>
-```
-(Be sure to update the version number appropriately, of course.)
 
 # Misc. Links
 *   [Downloads](https://sourceforge.net/projects/jactor/files/)
