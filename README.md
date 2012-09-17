@@ -3,9 +3,8 @@ JActor is a high-throughput Java Actor framework, one of the fastest Actor imple
 *   A simple machine builder is included to help keep application code clear and simple.
 *   A billion actors a second can be created on a single thread.
 
-License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt)
-
-Dependencies: Java 6, Maven 2
+| License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt) | Dependencies: Java 6, Maven 2 |
+| Releases | Announcements |
 
 Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki)
 So you just need to add this to your POM file:
