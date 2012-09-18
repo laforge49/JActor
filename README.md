@@ -96,7 +96,8 @@ Vertex 3 SATA III SSD
 
 ## Contact
 *   email:   laforge49@gmail.com
-*   twitter: @laforge49
+*   twitter: [@laforge49](https://twitter.com/laforge49)
+*   web:     [JActor Consulting, plc](http://jactorconsulting.com)
 
 ## Slides
 *   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
