@@ -91,8 +91,8 @@ Vertex 3 SATA III SSD
 
 ## Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
-*   [File Persistence](https://github.com/laforge49/JFile)
 *   [JActor Sockets](https://github.com/laforge49/JASocket)
+*   [File Persistence](https://github.com/laforge49/JFile)
 
 ## Contact
 *   email:   laforge49@gmail.com
