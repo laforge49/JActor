@@ -1,3 +1,5 @@
+# JActor
+
 JActor is a high-throughput Java Actor framework, one of the fastest Actor implementations in any language.
 *   Two-way messages provide implicit flow control, for better performance under load.
 *   A simple machine builder is included to help keep application code clear and simple.
@@ -24,17 +26,17 @@ So you just need to add this to your POM file:
 | [Announcements](https://freecode.com/projects/jactor/announcements) |
 | [Downloads](https://sourceforge.net/projects/jactor/files/) |
 | [API](http://jactor.sourceforge.net/) |
-| [VCS](https://github.com/laforge49/JActor/) |
+| VCS [Files](https://github.com/laforge49/JActor/) [Commits](https://github.com/laforge49/JActor/commits/master) |
 | [Issues](https://github.com/laforge49/JActor/issues/) |
 | [free(code)](http://freecode.com/projects/jactor/) |
 | Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/) |
 
-# Message Passing Benchmarks
+## Message Passing Benchmarks
 |              | Shared Mailbox | Across Mailboxes | Asynchronous Mailboxes |
 | :----------- | -------------: | ---------------: | ---------------------: |
 | **msgs per sec** |    222,861,399 |      151,987,233 |             81,083,272 |
 
-Test Environment:
+### Test Environment
 ```
 i7-3770 @ 3.40 GHz
 ASUS P8Z77-M Motherboard
@@ -42,7 +44,7 @@ ASUS P8Z77-M Motherboard
 Vertex 3 SATA III SSD
 ```
 
-# Documentation
+## Documentation
 1.  [The Problem with Actors](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/the_problem_with_actors56)
 
      Actor-based programming is quite appealing and holds a lot of potential. ...
@@ -87,14 +89,15 @@ Vertex 3 SATA III SSD
     names for serialization/deserialization. ...
     [more](https://www.ibm.com/developerworks/mydeveloperworks/blogs/jactor/entry/jactor_factories4)
 
-# Dependent Projects
+## Dependent Projects
 *   [Incremental Deserialization](https://github.com/laforge49/JID)
 *   [File Persistence](https://github.com/laforge49/JFile)
+*   [JActor Sockets](https://github.com/laforge49/JASocket)
 
-# Contact
+## Contact
 *   email:   laforge49@gmail.com
 *   twitter: @laforge49
 
-# Slides
+## Slides
 *   [Actors in the Small](http://www.slideshare.net/laforge49/actors-in-the-small)
 *   [Code Samples](http://www.slideshare.net/laforge49/code-samples-13901008)
