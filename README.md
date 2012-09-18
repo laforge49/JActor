@@ -9,8 +9,8 @@ License: [LGPL](http://www.gnu.org/licenses/lgpl-2.1.txt)
 
 Dependencies: Java 6, Maven 2
 
-Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki)
-So you just need to add this to your POM file:
+Available on [The (Maven) Central Repository](http://search.maven.org/#search|ga|1|org.agilewiki),
+so you just need to add this to your POM file:
 ```
 <dependency>
     <groupId>org.agilewiki.jactor</groupId>
@@ -31,7 +31,7 @@ So you just need to add this to your POM file:
 | [free(code)](http://freecode.com/projects/jactor/) |
 | Google group: [agilewikidevelopers](http://groups.google.com/group/agilewikidevelopers/) |
 
-## Message Passing Benchmarks
+## Message Passing between Actors in the same JVM
 |              | Shared Mailbox | Across Mailboxes | Asynchronous Mailboxes |
 | :----------- | -------------: | ---------------: | ---------------------: |
 | **msgs per sec** |    222,861,399 |      151,987,233 |             81,083,272 |
