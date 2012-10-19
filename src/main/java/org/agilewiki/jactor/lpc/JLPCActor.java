@@ -77,7 +77,23 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     private JLPCActor parent;
 
     /**
-     * Create a LiteActor
+     * Initialize a degraded LiteActor
+     */
+    final public void initialize() throws Exception {
+        initialize(null, null, null);
+    }
+
+    /**
+     * Initialize a degraded LiteActor
+     *
+     * @param parent The parent actor.
+     */
+    final public void initialize(Actor parent) throws Exception {
+        initialize(null, parent, null);
+    }
+
+    /**
+     * Initialize a LiteActor
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
@@ -86,7 +102,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
-     * Create a LiteActor
+     * Initialize a LiteActor
      *
      * @param mailbox A mailbox which may be shared with other actors.
      * @param parent  The parent actor.
@@ -96,15 +112,15 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     }
 
     /**
-     * Create a LiteActor
+     * Initialize a LiteActor
      *
      * @param mailbox A mailbox which may be shared with other actors.
      * @param parent  The parent actor.
      * @param factory The factory.
      */
     public void initialize(final Mailbox mailbox, Actor parent, ActorFactory factory) throws Exception {
-        if (mailbox == null) throw new IllegalArgumentException("mailbox may not be null");
-        if (this.mailbox != null) throw new IllegalStateException("already initialized");
+        if (this.mailbox != null || this.factory != null || this.parent != null)
+            throw new IllegalStateException("already initialized");
         this.mailbox = mailbox;
         this.factory = factory;
         Requirement[] requirements = requirements();
