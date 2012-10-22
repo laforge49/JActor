@@ -24,8 +24,7 @@ so you just need to add this to your POM file:
 | --------------- |
 | [Releases](https://freecode.com/projects/jactor/releases) |
 | [Announcements](https://freecode.com/projects/jactor/announcements) |
-| [Downloads](https://sourceforge.net/projects/jactor/files/) |
-| [API](http://jactor.sourceforge.net/) |
+| [Downloads](http://jactor.sourceforge.net/) |
 | VCS: [Files](https://github.com/laforge49/JActor/), [Commits](https://github.com/laforge49/JActor/commits/master) |
 | [Issues](https://github.com/laforge49/JActor/issues/) |
 | [free(code)](http://freecode.com/projects/jactor/) |
