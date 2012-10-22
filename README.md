@@ -15,7 +15,7 @@ so you just need to add this to your POM file:
 <dependency>
     <groupId>org.agilewiki.jactor</groupId>
     <artifactId>jactor</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0-RC1</version>
 </dependency>
 ```
 (Be sure to update the version number appropriately, of course.)
