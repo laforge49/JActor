@@ -101,11 +101,12 @@ final public class JAThreadManager implements ThreadManager {
                     }
                     if (closing) return;
                     Runnable task = tasks.poll();
-                    try {
-                        task.run();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    if (task != null)
+                        try {
+                            task.run();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                 }
             }
         };

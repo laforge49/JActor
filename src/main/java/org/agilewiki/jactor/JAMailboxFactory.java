@@ -80,8 +80,16 @@ final public class JAMailboxFactory implements MailboxFactory {
     }
 
     public void eventException(Request request, Exception exception) {
-        System.err.println(request.getClass().getName() +
-                " event exception: ");
+        logException(false, request.getClass().getName() +
+                " event exception: ", exception);
+    }
+
+    public void logException(boolean fatal, String msg, Exception exception) {
+        if (fatal)
+            msg = "***FATAL***" + msg;
+        else
+            msg = "***WARNING***" + msg;
+        System.err.println(msg);
         exception.printStackTrace();
     }
 }
