@@ -105,7 +105,7 @@ final public class JAThreadManager implements ThreadManager {
                         try {
                             task.run();
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            logException(false, "Exception thrown by a task's run method", e);
                         }
                 }
             }
@@ -164,5 +164,15 @@ final public class JAThreadManager implements ThreadManager {
             }
             c += 1;
         }
+    }
+
+    @Override
+    public void logException(boolean fatal, String msg, Exception exception) {
+        if (fatal)
+            msg = "***FATAL***" + msg;
+        else
+            msg = "***WARNING***" + msg;
+        System.err.println(msg);
+        exception.printStackTrace();
     }
 }

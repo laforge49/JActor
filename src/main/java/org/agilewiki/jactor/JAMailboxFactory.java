@@ -79,17 +79,14 @@ final public class JAMailboxFactory implements MailboxFactory {
         return mailbox;
     }
 
+    @Override
     public void eventException(Request request, Exception exception) {
         logException(false, request.getClass().getName() +
                 " event exception: ", exception);
     }
 
+    @Override
     public void logException(boolean fatal, String msg, Exception exception) {
-        if (fatal)
-            msg = "***FATAL***" + msg;
-        else
-            msg = "***WARNING***" + msg;
-        System.err.println(msg);
-        exception.printStackTrace();
+        threadManager.logException(fatal, msg, exception);
     }
 }

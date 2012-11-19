@@ -105,7 +105,7 @@ public class JAPCMailbox implements APCMailbox {
                             processException(jaRequest.sourceRequest, ex);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        mailboxFactory.logException(false, "Unsupported Operation", e);
                         throw new UnsupportedOperationException(e);
                     } finally {
                         jaRequest.reset();

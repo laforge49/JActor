@@ -57,4 +57,6 @@ public interface MailboxFactory {
     public void close();
 
     public void eventException(Request request, Exception exception);
+
+    public void logException(boolean fatal, String msg, Exception exception);
 }

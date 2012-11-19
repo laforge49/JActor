@@ -50,4 +50,6 @@ public interface ThreadManager {
      * Stop all the threads as they complete their tasks.
      */
     public void close();
+
+    public void logException(boolean fatal, String msg, Exception exception);
 }
