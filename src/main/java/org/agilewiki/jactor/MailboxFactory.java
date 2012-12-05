@@ -25,7 +25,8 @@ package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.Request;
-import org.agilewiki.jactor.timeout.TimeoutTimer;
+
+import java.util.Timer;
 
 /**
  * Creates Mailboxes and provides access to the thread manager.
@@ -61,5 +62,5 @@ public interface MailboxFactory {
 
     public void logException(boolean fatal, String msg, Exception exception);
 
-    public TimeoutTimer timeoutTimer() throws Exception;
+    public Timer timer() throws Exception;
 }
