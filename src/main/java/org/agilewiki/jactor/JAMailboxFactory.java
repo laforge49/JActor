@@ -4,6 +4,7 @@ import org.agilewiki.jactor.concurrent.JAThreadManager;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.JLPCMailbox;
 import org.agilewiki.jactor.lpc.Request;
+import org.agilewiki.jactor.timeout.TimeoutTimer;
 
 /**
  * <p>
@@ -20,6 +21,15 @@ import org.agilewiki.jactor.lpc.Request;
  * </pre>
  */
 final public class JAMailboxFactory implements MailboxFactory {
+    private TimeoutTimer timeoutTimer = null;
+
+    public TimeoutTimer timeoutTimer() throws Exception {
+        if (timeoutTimer == null) {
+            timeoutTimer = new TimeoutTimer();
+            timeoutTimer.initialize(createMailbox());
+        }
+        return timeoutTimer;
+    }
 
     /**
      * The thread manager.
@@ -54,6 +64,8 @@ final public class JAMailboxFactory implements MailboxFactory {
      */
     @Override
     public void close() {
+        if (timeoutTimer != null)
+            timeoutTimer.close();
         threadManager.close();
     }
 

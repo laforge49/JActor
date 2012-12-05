@@ -21,45 +21,27 @@
  * A copy of this license is also included and can be
  * found as well at http://www.opensource.org/licenses/cpl1.0.txt
  */
-package org.agilewiki.jactor;
+package org.agilewiki.jactor.timeout;
 
-import org.agilewiki.jactor.concurrent.ThreadManager;
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
-import org.agilewiki.jactor.timeout.TimeoutTimer;
 
-/**
- * Creates Mailboxes and provides access to the thread manager.
- */
-public interface MailboxFactory {
-    /**
-     * Returns the thread manager.
-     *
-     * @return The thread manager.
-     */
-    ThreadManager getThreadManager();
+public class Delay extends Request<Object, TimeoutTimer> {
+    private long ms;
 
-    /**
-     * Create a mailbox.
-     *
-     * @return A new mailbox.
-     */
-    Mailbox createMailbox();
+    public Delay(long ms) {
+        this.ms = ms;
+    }
 
-    /**
-     * Create an asynchronous mailbox.
-     *
-     * @return A new asynchronous mailbox.
-     */
-    Mailbox createAsyncMailbox();
+    @Override
+    public boolean isTargetType(Actor targetActor) {
+        return targetActor instanceof TimeoutTimer;
+    }
 
-    /**
-     * Stop all the threads as they complete their tasks.
-     */
-    public void close();
-
-    public void eventException(Request request, Exception exception);
-
-    public void logException(boolean fatal, String msg, Exception exception);
-
-    public TimeoutTimer timeoutTimer() throws Exception;
+    @Override
+    public void processRequest(JLPCActor targetActor, RP rp) throws Exception {
+        ((TimeoutTimer) targetActor).delay(ms, rp);
+    }
 }
