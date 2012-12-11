@@ -133,8 +133,10 @@ public class JAFactory extends JLPCActor implements Factory {
      */
     public Actor newActor(String actorType, Mailbox mailbox, Actor parent)
             throws Exception {
-	if (mailbox == null) mailbox = getMailbox();
-	if (parent == null) parent = this;
+        if (mailbox == null || parent == null) {
+            if (mailbox == null) mailbox = getMailbox();
+            if (parent == null) parent = this;
+        }
         ActorFactory af = types.get(actorType);
         if (af == null) {
             Factory a = (Factory) getAncestor(Factory.class);
