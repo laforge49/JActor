@@ -41,6 +41,10 @@ public class Continuation {
     public void response(Object rsp) throws Exception {
         (new ContinuationRequest(_rp, rsp)).sendEvent(targetActor);
     }
+
+    public void response(JLPCActor currentActor, Object rsp) throws Exception {
+        (new ContinuationRequest(_rp, rsp)).sendEvent(currentActor, targetActor);
+    }
 }
 
 class ContinuationRequest extends Request<Object, TargetActor> {
