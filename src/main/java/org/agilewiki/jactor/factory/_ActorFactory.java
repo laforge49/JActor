@@ -34,7 +34,7 @@ final public class _ActorFactory extends ActorFactory {
     /**
      * The constructor used to create the actor.
      */
-    private Constructor constructor;
+    private Constructor<JLPCActor> constructor;
 
     /**
      * Create an ActorFactory.
@@ -42,7 +42,7 @@ final public class _ActorFactory extends ActorFactory {
      * @param actorType   The actor type.
      * @param constructor The constructor used to create the actor.
      */
-    public _ActorFactory(String actorType, Constructor constructor) {
+    public _ActorFactory(String actorType, Constructor<JLPCActor> constructor) {
         super(actorType);
         this.constructor = constructor;
     }
@@ -54,6 +54,6 @@ final public class _ActorFactory extends ActorFactory {
      */
     protected JLPCActor instantiateActor()
             throws Exception {
-        return (JLPCActor) constructor.newInstance();
+        return constructor.newInstance();
     }
 }
