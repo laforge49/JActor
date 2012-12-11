@@ -56,7 +56,7 @@ final public class JAThreadManager implements ThreadManager {
     /**
      * The worker threads.
      */
-    final private ArrayList<Thread> threads = new ArrayList<Thread>();
+    private Thread threads[] = null;
 
     /**
      * Create a JAThreadManager
@@ -97,24 +97,23 @@ final public class JAThreadManager implements ThreadManager {
                 while (true) {
                     try {
                         taskRequest.acquire();
+			if (closing) return;
+			Runnable task = tasks.poll();
+			if (task != null)
+			    try {
+				task.run();
+			    } catch (Exception e) {
+				logException(false, "Exception thrown by a task's run method", e);
+			    }
                     } catch (InterruptedException e) {
                     }
-                    if (closing) return;
-                    Runnable task = tasks.poll();
-                    if (task != null)
-                        try {
-                            task.run();
-                        } catch (Exception e) {
-                            logException(false, "Exception thrown by a task's run method", e);
-                        }
                 }
             }
         };
-        int c = 0;
-        while (c < threadCount) {
-            c += 1;
+	threads = new Thread[this.threadCount];
+        for (int c = 0; c < threadCount; c++) {
             Thread t = threadFactory.newThread(runnable);
-            threads.add(t);
+            threads[c] = t;
             t.start();
         }
     }
@@ -139,31 +138,23 @@ final public class JAThreadManager implements ThreadManager {
     @Override
     final public void close() {
         closing = true;
-        int c = 0;
-        while (c < threadCount) {
-            c += 1;
-            taskRequest.release();
-        }
-        c = 0;
+	taskRequest.release(threadCount);
         Thread ct = Thread.currentThread();
-        while (c < threadCount) {
-            Thread t = threads.get(c);
+        for (Thread t : threads) {
             if (ct != t) {
                 t.interrupt();
             }
-            c += 1;
         }
-        c = 0;
-        while (c < threadCount) {
-            Thread t = threads.get(c);
+        for (Thread t : threads) {
             if (ct != t) {
                 try {
                     t.join();
                 } catch (InterruptedException e) {
                 }
             }
-            c += 1;
         }
+	// Release the references to the thread array...
+	threads = null;
     }
 
     @Override
