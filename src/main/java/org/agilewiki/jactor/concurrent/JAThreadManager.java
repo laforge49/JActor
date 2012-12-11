@@ -23,6 +23,9 @@
  */
 package org.agilewiki.jactor.concurrent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
@@ -32,6 +35,8 @@ import java.util.concurrent.ThreadFactory;
  * A high performance implementation of ThreadManager.
  */
 final public class JAThreadManager implements ThreadManager {
+    final Logger logger = LoggerFactory.getLogger(JAThreadManager.class);
+
     /**
      * The taskRequest semaphore is used to wake up a thread
      * when there is a task to process.
@@ -169,10 +174,8 @@ final public class JAThreadManager implements ThreadManager {
     @Override
     public void logException(boolean fatal, String msg, Exception exception) {
         if (fatal)
-            msg = "***FATAL***" + msg;
+            logger.error(msg, exception);
         else
-            msg = "***WARNING***" + msg;
-        System.err.println(msg);
-        exception.printStackTrace();
+            logger.warn(msg, exception);
     }
 }
