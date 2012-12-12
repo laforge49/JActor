@@ -44,7 +44,7 @@ import java.util.Timer;
  *         }
  * </pre>
  */
-final public class JAMailboxFactory implements MailboxFactory {
+public class JAMailboxFactory implements MailboxFactory {
     private Timer timer = null;
 
     @Override
