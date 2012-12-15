@@ -195,8 +195,9 @@ public class JAFactory extends JLPCActor implements Factory {
             throws Exception {
         String actorType = actorFactory.actorType;
         ActorFactory old = types.get(actorType);
-        if (old != null && !old.equals(actorFactory))
+        if (old == null)
+            types.put(actorType, actorFactory);
+        else if (!old.equals(actorFactory))
             throw new IllegalArgumentException("Actor type is already defined: " + actorType);
-        types.put(actorType, actorFactory);
     }
 }
