@@ -23,48 +23,6 @@
  */
 package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.lpc.Request;
-
-import java.util.Timer;
-
-/**
- * Creates Mailboxes and provides access to the thread manager.
- */
-public interface MailboxFactory {
-    /**
-     * Returns the thread manager.
-     *
-     * @return The thread manager.
-     */
-    ThreadManager getThreadManager();
-
-    /**
-     * Create a mailbox.
-     *
-     * @return A new mailbox.
-     */
-    Mailbox createMailbox();
-
-    /**
-     * Create an asynchronous mailbox.
-     *
-     * @return A new asynchronous mailbox.
-     */
-    Mailbox createAsyncMailbox();
-
-    public boolean addClosable(Closable closable);
-
-    public boolean removeClosable(Closable closable);
-
-    /**
-     * Stop all the threads as they complete their tasks.
-     */
+public interface Closable {
     public void close();
-
-    public void eventException(Request request, Exception exception);
-
-    public void logException(boolean fatal, String msg, Exception exception);
-
-    public Timer timer() throws Exception;
 }

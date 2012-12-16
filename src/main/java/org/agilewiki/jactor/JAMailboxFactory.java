@@ -28,6 +28,9 @@ import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.lpc.JLPCMailbox;
 import org.agilewiki.jactor.lpc.Request;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 
 /**
@@ -45,6 +48,7 @@ import java.util.Timer;
  * </pre>
  */
 public class JAMailboxFactory implements MailboxFactory {
+    private List<Closable> closables = new ArrayList<Closable>();
     private Timer timer = null;
 
     @Override
@@ -83,11 +87,25 @@ public class JAMailboxFactory implements MailboxFactory {
         return threadManager;
     }
 
+    @Override
+    public boolean addClosable(Closable closable) {
+        return closables.add(closable);
+    }
+
+    @Override
+    public boolean removeClosable(Closable closable) {
+        return closables.add(closable);
+    }
+
     /**
      * Stop all the threads as they complete their tasks.
      */
     @Override
     public void close() {
+        List<Closable> c = new ArrayList<Closable>(closables);
+        Iterator<Closable> it = c.iterator();
+        while (it.hasNext())
+            it.next().close();
         if (timer != null)
             timer.cancel();
         threadManager.close();
