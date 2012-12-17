@@ -35,7 +35,7 @@ class Doit extends Request<String, Driver> {
 
 class Driver extends JLPCActor {
     void doit(RP<String> rp) {
-        Continuation continuation = new Continuation(this, rp);
+        Continuation<String> continuation = new Continuation(this, rp);
         Application applicatin = new Application();
         applicatin.continuation = continuation;
         applicatin.start();
@@ -43,12 +43,12 @@ class Driver extends JLPCActor {
 }
 
 class Application extends Thread {
-    Continuation continuation;
+    Continuation<String> continuation;
 
     @Override
     public void run() {
         try {
-            continuation.response("Hello world!");
+            continuation.processResponse("Hello world!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

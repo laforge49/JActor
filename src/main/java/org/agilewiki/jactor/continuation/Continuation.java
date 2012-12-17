@@ -29,7 +29,7 @@ import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.lpc.TargetActor;
 
-public class Continuation {
+public class Continuation<RESPONSE_TYPE> extends RP<RESPONSE_TYPE> {
     private TargetActor targetActor;
     private RP _rp;
 
@@ -38,7 +38,8 @@ public class Continuation {
         this._rp = _rp;
     }
 
-    public void response(Object rsp) throws Exception {
+    @Override
+    public void processResponse(Object rsp) throws Exception {
         (new ContinuationRequest(_rp, rsp)).sendEvent(targetActor);
     }
 
