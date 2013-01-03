@@ -89,12 +89,14 @@ public class JAMailboxFactory implements MailboxFactory {
 
     @Override
     public boolean addClosable(Closable closable) {
+        if (closable == null)
+            throw new IllegalArgumentException("may not be null");
         return closables.add(closable);
     }
 
     @Override
     public boolean removeClosable(Closable closable) {
-        return closables.add(closable);
+        return closables.remove(closable);
     }
 
     /**
