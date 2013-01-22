@@ -594,6 +594,9 @@ final class AsyncRequest extends JARequest {
 
     @Override
     public void processResponse(Object response) throws Exception {
+        if (!isActive()) {
+            return;
+        }
         JARequest old = mailbox.getCurrentRequest();
         mailbox.setCurrentRequest(this);
         mailbox.response(this, response);
