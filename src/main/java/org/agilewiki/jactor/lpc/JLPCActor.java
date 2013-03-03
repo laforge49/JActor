@@ -28,8 +28,6 @@ import org.agilewiki.jactor.apc.*;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
-import org.agilewiki.jactor.factory.ActorFactory;
-import org.agilewiki.jactor.factory.Requirement;
 import org.agilewiki.jactor.simpleMachine._SMBuilder;
 
 import java.util.ArrayList;
@@ -62,11 +60,6 @@ import java.util.ArrayList;
  */
 abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
     /**
-     * The factory, or null.
-     */
-    private ActorFactory factory;
-
-    /**
      * The inbox and outbox of the actor.
      */
     private Mailbox mailbox;
@@ -79,8 +72,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     /**
      * Initialize a degraded LiteActor
      */
-    final public void initialize() throws Exception {
-        initialize(null, null, null);
+    public void initialize() throws Exception {
+        initialize(null, null);
     }
 
     /**
@@ -88,8 +81,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      *
      * @param parent The parent actor.
      */
-    final public void initialize(Actor parent) throws Exception {
-        initialize(null, parent, null);
+    public void initialize(Actor parent) throws Exception {
+        initialize(null, parent);
     }
 
     /**
@@ -97,18 +90,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      *
      * @param mailbox A mailbox which may be shared with other actors.
      */
-    final public void initialize(final Mailbox mailbox) throws Exception {
-        initialize(mailbox, null, null);
-    }
-
-    /**
-     * Initialize a LiteActor
-     *
-     * @param mailbox A mailbox which may be shared with other actors.
-     * @param parent  The parent actor.
-     */
-    final public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
-        initialize(mailbox, parent, null);
+    public void initialize(final Mailbox mailbox) throws Exception {
+        initialize(mailbox, null);
     }
 
     /**
@@ -116,28 +99,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      *
      * @param mailbox A mailbox which may be shared with other actors.
      * @param parent  The parent actor.
-     * @param factory The factory.
      */
-    public void initialize(final Mailbox mailbox, Actor parent, ActorFactory factory) throws Exception {
-        if (this.mailbox != null || this.factory != null || this.parent != null)
+    public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
+        if (this.mailbox != null || this.parent != null)
             throw new IllegalStateException("already initialized");
         this.mailbox = mailbox;
-        this.factory = factory;
-        Requirement[] requirements = requirements();
-        if (requirements == null || requirements.length == 0) {
-            this.parent = (JLPCActor) parent;
-            return;
-        }
-        int i = 0;
-        while (i < requirements.length) {
-            Requirement requirement = requirements[i];
-            Request request = requirement.request;
-            if (parent == null || request.getTargetActor(parent) == null) {
-                ActorFactory actorFactory = requirement.actorFactory;
-                parent = actorFactory.newActor(mailbox, parent);
-            }
-            i += 1;
-        }
         this.parent = (JLPCActor) parent;
     }
 
@@ -170,38 +136,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         if (targetClass.isInstance(parent))
             return parent;
         return parent.getAncestor(targetClass);
-    }
-
-    /**
-     * Returns the actor's requirements.
-     *
-     * @return The actor's requirents.
-     */
-    protected Requirement[] requirements()
-            throws Exception {
-        return null;
-    }
-
-    /**
-     * Returns the actor type.
-     *
-     * @return The actor type, or null.
-     */
-    @Override
-    final public String getActorType() {
-        if (factory == null)
-            return null;
-        return factory.actorType;
-    }
-
-    /**
-     * Returns the factory.
-     *
-     * @return The factory, or null.
-     */
-    @Override
-    final public ActorFactory getFactory() {
-        return factory;
     }
 
     /**

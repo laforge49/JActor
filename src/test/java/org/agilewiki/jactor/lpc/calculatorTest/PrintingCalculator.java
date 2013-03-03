@@ -4,7 +4,6 @@ import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.Mailbox;
 import org.agilewiki.jactor.RP;
-import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 
 /**
@@ -14,9 +13,9 @@ public class PrintingCalculator extends JLPCActor implements _Calculator {
     private Calculator calculator;
 
     @Override
-    public void initialize(Mailbox mailbox, Actor parent, ActorFactory actorFactory)
+    public void initialize(Mailbox mailbox, Actor parent)
             throws Exception {
-        super.initialize(mailbox, parent, actorFactory);
+        super.initialize(mailbox, parent);
         calculator = new Calculator();
         calculator.initialize(mailbox, parent);
     }

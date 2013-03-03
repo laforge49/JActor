@@ -24,7 +24,6 @@
 package org.agilewiki.jactor;
 
 import org.agilewiki.jactor.apc.APCRequestSource;
-import org.agilewiki.jactor.factory.ActorFactory;
 import org.agilewiki.jactor.lpc.JLPCActor;
 import org.agilewiki.jactor.lpc.Request;
 
@@ -93,20 +92,6 @@ public interface Actor {
      * @return The actor's mailbox.
      */
     public Mailbox getMailbox();
-
-    /**
-     * Returns the actor type.
-     *
-     * @return The actor type, or null.
-     */
-    public String getActorType();
-
-    /**
-     * Returns the factory.
-     *
-     * @return The factory, or null.
-     */
-    public ActorFactory getFactory();
 
     /**
      * Returns the actor's parent.

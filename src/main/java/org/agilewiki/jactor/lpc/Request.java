@@ -70,8 +70,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
             return send(future, parent);
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
-                        " target actor: " + targetActor.getClass().getName() +
-                        " target actor type: " + targetActor.getActorType());
+                        " target actor: " + targetActor.getClass().getName());
     }
 
     /**
@@ -107,8 +106,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
-                        " target actor: " + targetActor.getClass().getName() +
-                        " target actor type: " + targetActor.getActorType());
+                        " target actor: " + targetActor.getClass().getName());
     }
 
 
@@ -144,8 +142,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
-                        " target actor: " + targetActor.getClass().getName() +
-                        " target actor type: " + targetActor.getActorType());
+                        " target actor: " + targetActor.getClass().getName());
     }
 
     /**
@@ -179,8 +176,7 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
-                        " target actor: " + targetActor.getClass().getName() +
-                        " target actor type: " + targetActor.getActorType());
+                        " target actor: " + targetActor.getClass().getName());
     }
 
     /**
