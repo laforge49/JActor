@@ -35,10 +35,9 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 public final class Activator implements BundleActivator {
-    private static final String CONFIG_PID = "org.agilewiki.JActor";
+    private static final String CONFIG_PID = "org.agilewiki.jactor";
 
     final Logger logger = LoggerFactory.getLogger(ConfigUpdater.class);
-    private ConfigUpdater configUpdater;
     private BundleContext bundleContext;
     private ServiceRegistration configUpdaterRegistration;
     private ServiceRegistration mailboxFactoryRegistration;
