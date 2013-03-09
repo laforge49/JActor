@@ -434,19 +434,6 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
     final public MailboxFactory getMailboxFactory() {
         return mailbox.getMailboxFactory();
     }
-
-    /**
-     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
-     */
-    @Override
-    final public boolean hasDataItem(String name) {
-        if (parent == null)
-            return false;
-        return parent.hasDataItem(name);
-    }
 }
 
 final class SyncRequest extends JARequest {

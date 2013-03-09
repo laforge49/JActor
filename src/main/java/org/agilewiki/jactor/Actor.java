@@ -79,14 +79,6 @@ public interface Actor {
     public void setInitialBufferCapacity(int initialBufferCapacity);
 
     /**
-     * Returns true when the concurrent data of the actor, or its parent, contains the named data item.
-     *
-     * @param name The key for the data item.
-     * @return True when the concurrent data of the actor, or its parent, contains the named data item.
-     */
-    public boolean hasDataItem(String name);
-
-    /**
      * Returns the actor's mailbox.
      *
      * @return The actor's mailbox.
