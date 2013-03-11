@@ -5,6 +5,8 @@
 *.aw5db
 target
 .settings
+.classpath
+.project
 .metadata
 *.docs
 AgileWiki5/_pasted_code_/*
