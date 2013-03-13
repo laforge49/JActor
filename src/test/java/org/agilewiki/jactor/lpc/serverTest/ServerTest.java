@@ -21,7 +21,7 @@ public class ServerTest extends TestCase {
             driver.initialize(mailbox);
             driver.times = times;
             SimpleRequest.req.send(future, driver);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

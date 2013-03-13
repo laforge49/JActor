@@ -20,7 +20,7 @@ public class NBLockExceptionsTest extends TestCase {
             Driver driver = new Driver();
             driver.initialize(mailboxFactory.createAsyncMailbox(), nblock);
             (new DoItEx()).send(future, driver);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

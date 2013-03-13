@@ -16,7 +16,7 @@ public class EventTest extends TestCase {
             SimpleRequest eventA = new SimpleRequest();
             eventA.sendEvent(a);
             eventA.send(future, a);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

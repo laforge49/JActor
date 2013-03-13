@@ -36,7 +36,7 @@ public class PublishTest extends TestCase {
             (new Unsubscribe(s)).send(future, p);
             c = publish.send(future, p);
             assertEquals(0, c);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

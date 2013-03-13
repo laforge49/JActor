@@ -72,7 +72,7 @@ public final class Activator implements BundleActivator {
             String tc = (String) config.get("threadCount");
             try {
                 threadCount = Integer.valueOf(tc);
-            } catch (Exception ex) {
+            } catch (Throwable ex) {
                 throw new ConfigurationException("threadCount", "not an int: " + tc, ex);
             }
             logger.info("threadCount: " + threadCount);

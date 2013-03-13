@@ -16,7 +16,7 @@ public class NBLockTest extends TestCase {
             Driver driver = new Driver();
             driver.initialize(mailboxFactory.createMailbox());
             (new DoIt()).send(future, driver);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

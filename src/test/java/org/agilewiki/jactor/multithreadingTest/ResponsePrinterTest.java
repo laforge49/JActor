@@ -20,7 +20,7 @@ public class ResponsePrinterTest extends TestCase {
             b.initialize(mailbox);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 1");
@@ -40,7 +40,7 @@ public class ResponsePrinterTest extends TestCase {
             b.initialize(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 2");
@@ -60,7 +60,7 @@ public class ResponsePrinterTest extends TestCase {
             b.initialize(mailbox2);
             JAFuture future = new JAFuture();
             (new PrintResponse(new Hi(), a)).send(future, b);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 3");
@@ -90,7 +90,7 @@ public class ResponsePrinterTest extends TestCase {
             PrintResponse printResponse = new PrintResponse(new Hi(), a);
             PrintParallelResponse printParallelResponse = new PrintParallelResponse(count, bs, printResponse);
             printParallelResponse.send(future, c);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 4");
@@ -124,7 +124,7 @@ public class ResponsePrinterTest extends TestCase {
                 printParallelResponse.send(future, c);
                 j += 1;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.out.println("end ResponsePrinterTest 5");

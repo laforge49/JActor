@@ -36,7 +36,7 @@ final public class TransparentException extends Exception {
      *
      * @param ex The wrapped exception.
      */
-    public TransparentException(Exception ex) {
+    public TransparentException(final Throwable ex) {
         super(ex);
     }
 

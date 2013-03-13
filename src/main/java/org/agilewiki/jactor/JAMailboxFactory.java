@@ -23,15 +23,15 @@
  */
 package org.agilewiki.jactor;
 
-import org.agilewiki.jactor.concurrent.JAThreadManager;
-import org.agilewiki.jactor.concurrent.ThreadManager;
-import org.agilewiki.jactor.lpc.JLPCMailbox;
-import org.agilewiki.jactor.lpc.Request;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
+
+import org.agilewiki.jactor.concurrent.JAThreadManager;
+import org.agilewiki.jactor.concurrent.ThreadManager;
+import org.agilewiki.jactor.lpc.JLPCMailbox;
+import org.agilewiki.jactor.lpc.Request;
 
 /**
  * <p>
@@ -48,7 +48,7 @@ import java.util.Timer;
  * </pre>
  */
 public class JAMailboxFactory implements MailboxFactory {
-    private List<Closable> closables = new ArrayList<Closable>();
+    private final List<Closable> closables = new ArrayList<Closable>();
     private Timer timer = null;
 
     @Override
@@ -62,9 +62,9 @@ public class JAMailboxFactory implements MailboxFactory {
     /**
      * The thread manager.
      */
-    private ThreadManager threadManager;
+    private final ThreadManager threadManager;
 
-    public JAMailboxFactory(ThreadManager threadManager) {
+    public JAMailboxFactory(final ThreadManager threadManager) {
         this.threadManager = threadManager;
     }
 
@@ -74,8 +74,9 @@ public class JAMailboxFactory implements MailboxFactory {
      * @param threadCount The number of concurrent to be used.
      * @return A new JAMailboxFactory.
      */
-    public static JAMailboxFactory newMailboxFactory(int threadCount) {
-        return new JAMailboxFactory(JAThreadManager.newThreadManager(threadCount));
+    public static JAMailboxFactory newMailboxFactory(final int threadCount) {
+        return new JAMailboxFactory(
+                JAThreadManager.newThreadManager(threadCount));
     }
 
     /**
@@ -83,19 +84,20 @@ public class JAMailboxFactory implements MailboxFactory {
      *
      * @return The thread manager.
      */
+    @Override
     public ThreadManager getThreadManager() {
         return threadManager;
     }
 
     @Override
-    public boolean addClosable(Closable closable) {
+    public boolean addClosable(final Closable closable) {
         if (closable == null)
             throw new IllegalArgumentException("may not be null");
         return closables.add(closable);
     }
 
     @Override
-    public boolean removeClosable(Closable closable) {
+    public boolean removeClosable(final Closable closable) {
         return closables.remove(closable);
     }
 
@@ -104,8 +106,8 @@ public class JAMailboxFactory implements MailboxFactory {
      */
     @Override
     public void close() {
-        List<Closable> c = new ArrayList<Closable>(closables);
-        Iterator<Closable> it = c.iterator();
+        final List<Closable> c = new ArrayList<Closable>(closables);
+        final Iterator<Closable> it = c.iterator();
         while (it.hasNext())
             it.next().close();
         if (timer != null)
@@ -136,13 +138,14 @@ public class JAMailboxFactory implements MailboxFactory {
     }
 
     @Override
-    public void eventException(Request request, Exception exception) {
-        logException(false, request.getClass().getName() +
-                " event exception: ", exception);
+    public void eventException(final Request request, final Throwable exception) {
+        logException(false,
+                request.getClass().getName() + " event exception: ", exception);
     }
 
     @Override
-    public void logException(boolean fatal, String msg, Exception exception) {
+    public void logException(final boolean fatal, final String msg,
+            final Throwable exception) {
         threadManager.logException(fatal, msg, exception);
     }
 }

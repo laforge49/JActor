@@ -281,7 +281,7 @@
  *         private void clear(Clear request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("Clear => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -297,7 +297,7 @@
  *         private void get(Get request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("Get => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -313,7 +313,7 @@
  *         private void set(final Set request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("Set " + request.getValue() + " => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -329,7 +329,7 @@
  *         private void add(final Add request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("+ " + request.getValue() + " => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -345,7 +345,7 @@
  *         private void subtract(final Subtract request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("- " + request.getValue() + " => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -361,7 +361,7 @@
  *         private void multiply(final Multiply request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("* " + request.getValue() + " => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -377,7 +377,7 @@
  *         private void divide(final Divide request, final RP rp)
  *                 throws Exception {
  *             setExceptionHandler(new ExceptionHandler() {
- *                 public void process(Exception exception) throws Exception {
+ *                 public void process(Throwable exception) throws Exception {
  *                     System.out.println("/ " + request.getValue() + " => " + exception);
  *                     rp.processResponse(null);
  *                 }
@@ -482,3 +482,4 @@
  */
 
 package org.agilewiki.jactor.lpc;
+

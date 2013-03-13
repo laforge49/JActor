@@ -9,24 +9,26 @@ import org.agilewiki.jactor.pubsub.actorName.JActorName;
 /**
  * Test code.
  */
-public class Process
-        extends JActorName
-        implements Does {
+public class Process extends JActorName implements Does {
     @Override
     public void does(final RP rp) throws Exception {
         final String me = getActorName();
         Lock.req.send(this, this, new RP<Object>() {
             @Override
-            public void processResponse(Object response) throws Exception {
+            public void processResponse(final Object response) throws Exception {
                 setExceptionHandler(new ExceptionHandler() {
                     @Override
-                    public void process(Exception exception) throws Exception {
-                        Unlock.req.send(Process.this, Process.this, new RP<Object>() {
-                            @Override
-                            public void processResponse(Object response) throws Exception {
-                                rp.processResponse(null);
-                            }
-                        });
+                    public void process(final Throwable exception)
+                            throws Exception {
+                        Unlock.req.send(Process.this, Process.this,
+                                new RP<Object>() {
+                                    @Override
+                                    public void processResponse(
+                                            final Object response)
+                                            throws Exception {
+                                        rp.processResponse(null);
+                                    }
+                                });
                     }
                 });
                 Thread.sleep(100);

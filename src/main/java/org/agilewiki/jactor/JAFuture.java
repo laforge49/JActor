@@ -23,6 +23,9 @@
  */
 package org.agilewiki.jactor;
 
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
+
 import org.agilewiki.jactor.apc.JAMessage;
 import org.agilewiki.jactor.apc.JARequest;
 import org.agilewiki.jactor.apc.JAResponse;
@@ -30,9 +33,6 @@ import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.lpc.Request;
 import org.agilewiki.jactor.lpc.RequestSource;
-
-import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 
 /**
  * <p>
@@ -58,20 +58,19 @@ final public class JAFuture {
     /**
      * Receives the response as a bufferedEvent.
      */
-    private BufferedEventsDestination<JAMessage> bufferedEventsDestination =
-            new BufferedEventsDestination<JAMessage>() {
-                @Override
-                public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
-                    JAResponse japcResponse = (JAResponse) bufferedEvents.get(0);
-                    result = japcResponse.getUnwrappedResponse();
-                    done.release();
-                }
-            };
+    private final BufferedEventsDestination<JAMessage> bufferedEventsDestination = new BufferedEventsDestination<JAMessage>() {
+        @Override
+        public void putBufferedEvents(final ArrayList<JAMessage> bufferedEvents) {
+            final JAResponse japcResponse = (JAResponse) bufferedEvents.get(0);
+            result = japcResponse.getUnwrappedResponse();
+            done.release();
+        }
+    };
 
     /**
      * Serves as the originator of a request.
      */
-    private RequestSource requestSource = new RequestSource() {
+    private final RequestSource requestSource = new RequestSource() {
         @Override
         final public Mailbox getMailbox() {
             return null;
@@ -83,20 +82,23 @@ final public class JAFuture {
         }
 
         @Override
-        public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
-                                       final JAResponse japcResponse) {
+        final public void responseFrom(
+                final BufferedEventsQueue<JAMessage> eventQueue,
+                final JAResponse japcResponse) {
             eventQueue.send(bufferedEventsDestination, japcResponse);
         }
 
         @Override
-        final public void send(final BufferedEventsDestination<JAMessage> destination,
-                               final JARequest japcRequest) {
-            final ArrayList<JAMessage> bufferedEvents = new ArrayList<JAMessage>(1);
+        final public void send(
+                final BufferedEventsDestination<JAMessage> destination,
+                final JARequest japcRequest) {
+            final ArrayList<JAMessage> bufferedEvents = new ArrayList<JAMessage>(
+                    1);
             bufferedEvents.add(japcRequest);
             destination.putBufferedEvents(bufferedEvents);
         }
@@ -110,20 +112,22 @@ final public class JAFuture {
      * @return The unwrapped response.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    public Object send(final Actor actor,
-                       final Request request)
+    public Object send(final Actor actor, final Request request)
             throws Exception {
         done = new Semaphore(0);
         actor.acceptRequest(requestSource, request, new RP() {
             @Override
-            public void processResponse(Object response) throws Exception {
+            public void processResponse(final Object response) throws Exception {
                 result = response;
                 done.release();
             }
         });
         done.acquire();
         done = null;
-        if (result instanceof Exception) throw (Exception) result;
+        if (result instanceof Exception)
+            throw (Exception) result;
+        if (result instanceof Error)
+            throw (Error) result;
         return result;
     }
 }

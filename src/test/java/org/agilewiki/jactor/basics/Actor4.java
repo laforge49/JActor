@@ -8,16 +8,17 @@ import org.agilewiki.jactor.lpc.JLPCActor;
  * Test code.
  */
 public class Actor4 extends JLPCActor {
-    protected void processRequest(Validate1 request, final RP rp) throws Exception {
+    protected void processRequest(final Validate1 request, final RP rp)
+            throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
-            public void process(Exception exception) throws Exception {
+            public void process(final Throwable exception) throws Exception {
                 rp.processResponse(false);
             }
         });
         Greet1.req.send(this, getParent(), new RP<Object>() {
             @Override
-            public void processResponse(Object response) throws Exception {
+            public void processResponse(final Object response) throws Exception {
                 rp.processResponse(true);
             }
         });

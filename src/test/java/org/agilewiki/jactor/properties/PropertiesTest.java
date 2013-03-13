@@ -23,7 +23,7 @@ public class PropertiesTest extends TestCase {
             System.out.println(b);
             String c = (String) JAProperties.getProperty(p2, "c");
             System.out.println(c);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

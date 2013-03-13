@@ -12,10 +12,10 @@ public class Driver extends JLPCActor implements GoReceiver {
     public Actor doer;
 
     @Override
-    public void processRequest(Go1 request, final RP rp) throws Exception {
+    public void processRequest(final Go1 request, final RP rp) throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
-            public void process(Exception exception) throws Exception {
+            public void process(final Throwable exception) throws Exception {
                 System.out.println("Exception caught by Driver");
                 rp.processResponse(null);
             }
@@ -24,17 +24,18 @@ public class Driver extends JLPCActor implements GoReceiver {
     }
 
     @Override
-    public void processRequest(Go2 request, final RP rp) throws Exception {
+    public void processRequest(final Go2 request, final RP rp) throws Exception {
         setExceptionHandler(new ExceptionHandler() {
             @Override
-            public void process(Exception exception) throws Exception {
+            public void process(final Throwable exception) throws Exception {
                 System.out.println("Exception caught by Driver");
                 rp.processResponse(null);
             }
         });
         send(doer, request, new RP() {
             @Override
-            public void processResponse(Object unwrappedResponse) throws Exception {
+            public void processResponse(final Object unwrappedResponse)
+                    throws Exception {
                 throw new Exception("Exception thrown in response processing");
             }
         });

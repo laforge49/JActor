@@ -18,7 +18,7 @@ public class ReturnVTest extends TestCase {
             ReturnV2 actor2 = new ReturnV2();
             actor2.initialize(mailboxFactory.createMailbox());
             System.out.println(SimpleRequest.req.send(future, actor2));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

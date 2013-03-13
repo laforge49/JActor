@@ -18,7 +18,7 @@ public class SSATest extends TestCase {
             s2.initialize(mailboxFactory.createMailbox());
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, s2));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

@@ -19,7 +19,7 @@ public class Sync1Test extends TestCase {
             sender.echo = echo;
             sender.initialize(mailbox);
             DoSender.req.send(future, sender);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

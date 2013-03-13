@@ -49,7 +49,7 @@ class Application extends Thread {
     public void run() {
         try {
             continuation.processResponse("Hello world!");
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             ex.printStackTrace();
         }
     }

@@ -23,14 +23,23 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import org.agilewiki.jactor.*;
-import org.agilewiki.jactor.apc.*;
+import java.util.ArrayList;
+
+import org.agilewiki.jactor.Actor;
+import org.agilewiki.jactor.ExceptionHandler;
+import org.agilewiki.jactor.JANoResponse;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.MailboxFactory;
+import org.agilewiki.jactor.RP;
+import org.agilewiki.jactor.apc.APCRequestSource;
+import org.agilewiki.jactor.apc.JAMessage;
+import org.agilewiki.jactor.apc.JARequest;
+import org.agilewiki.jactor.apc.JAResponse;
+import org.agilewiki.jactor.apc.RequestProcessor;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsQueue;
 import org.agilewiki.jactor.events.EventQueue;
 import org.agilewiki.jactor.simpleMachine._SMBuilder;
-
-import java.util.ArrayList;
 
 /**
  * <p>
@@ -58,7 +67,8 @@ import java.util.ArrayList;
  * }
  * </pre>
  */
-abstract public class JLPCActor implements TargetActor, RequestProcessor, RequestSource {
+abstract public class JLPCActor implements TargetActor, RequestProcessor,
+        RequestSource {
     /**
      * The inbox and outbox of the actor.
      */
@@ -81,7 +91,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      *
      * @param parent The parent actor.
      */
-    public void initialize(Actor parent) throws Exception {
+    public void initialize(final Actor parent) throws Exception {
         initialize(null, parent);
     }
 
@@ -100,7 +110,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param mailbox A mailbox which may be shared with other actors.
      * @param parent  The parent actor.
      */
-    public void initialize(final Mailbox mailbox, Actor parent) throws Exception {
+    public void initialize(final Mailbox mailbox, final Actor parent)
+            throws Exception {
         if (this.mailbox != null || this.parent != null)
             throw new IllegalStateException("already initialized");
         this.mailbox = mailbox;
@@ -117,7 +128,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         return parent;
     }
 
-    public JLPCActor getMatch(Class targetClass) {
+    @Override
+    public JLPCActor getMatch(final Class targetClass) {
         if (targetClass.isInstance(this))
             return this;
         return getAncestor(targetClass);
@@ -130,7 +142,7 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @return The matching ancestor, or null.
      */
     @Override
-    final public JLPCActor getAncestor(Class targetClass) {
+    final public JLPCActor getAncestor(final Class targetClass) {
         if (parent == null)
             return null;
         if (targetClass.isInstance(parent))
@@ -154,7 +166,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param exceptionHandler The exception handler.
      */
     @Override
-    final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+    final public void setExceptionHandler(
+            final ExceptionHandler exceptionHandler) {
         mailbox.setExceptionHandler(exceptionHandler);
     }
 
@@ -183,8 +196,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param japcResponse The wrapped response to be enqueued.
      */
     @Override
-    final public void responseFrom(final BufferedEventsQueue<JAMessage> eventQueue,
-                                   final JAResponse japcResponse) {
+    final public void responseFrom(
+            final BufferedEventsQueue<JAMessage> eventQueue,
+            final JAResponse japcResponse) {
         eventQueue.send(mailbox, japcResponse);
     }
 
@@ -195,8 +209,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param japcRequest The wrapped request to be sent.
      */
     @Override
-    final public void send(final BufferedEventsDestination<JAMessage> destination,
-                           final JARequest japcRequest) {
+    final public void send(
+            final BufferedEventsDestination<JAMessage> destination,
+            final JARequest japcRequest) {
         mailbox.send(destination, japcRequest);
     }
 
@@ -219,12 +234,10 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptRequest(APCRequestSource apcRequestSource,
-                                    Request request,
-                                    RP rp)
-            throws Exception {
-        RequestSource rs = (RequestSource) apcRequestSource;
-        Mailbox sourceMailbox = rs.getMailbox();
+    final public void acceptRequest(final APCRequestSource apcRequestSource,
+            final Request request, final RP rp) throws Exception {
+        final RequestSource rs = (RequestSource) apcRequestSource;
+        final Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
             syncSend(rs, request, rp);
             return;
@@ -236,13 +249,13 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         acceptOtherRequest(sourceMailbox, rs, request, rp);
     }
 
-    private void acceptOtherRequest(
-            Mailbox sourceMailbox,
-            RequestSource rs,
-            Request request,
-            RP rp) throws Exception {
-        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+    private void acceptOtherRequest(final Mailbox sourceMailbox,
+            final RequestSource rs, final Request request, final RP rp)
+            throws Exception {
+        final EventQueue<ArrayList<JAMessage>> eventQueue = mailbox
+                .getEventQueue();
+        final EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox
+                .getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSend(rs, request, rp);
             return;
@@ -260,29 +273,17 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
         }
     }
 
-    private void asyncSend(final RequestSource rs,
-                           final Request request,
-                           final RP rp)
-            throws Exception {
-        AsyncRequest asyncRequest = new AsyncRequest(
-                rs,
-                this,
-                request,
-                rp,
-                mailbox);
+    private void asyncSend(final RequestSource rs, final Request request,
+            final RP rp) throws Exception {
+        final AsyncRequest asyncRequest = new AsyncRequest(rs, this, request,
+                rp, mailbox);
         rs.send(mailbox, asyncRequest);
     }
 
-    private void syncSend(RequestSource rs,
-                          Request request,
-                          RP rp)
-            throws Exception {
-        SyncRequest syncRequest = new SyncRequest(
-                rs,
-                JLPCActor.this,
-                request,
-                rp,
-                mailbox);
+    private void syncSend(final RequestSource rs, final Request request,
+            final RP rp) throws Exception {
+        final SyncRequest syncRequest = new SyncRequest(rs, JLPCActor.this,
+                request, rp, mailbox);
         mailbox.setCurrentRequest(syncRequest);
         try {
             setExceptionHandler(null);
@@ -291,12 +292,19 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
                 syncRequest.async = true;
                 syncRequest.restoreSourceMailbox();
             }
-        } catch (TransparentException tx) {
-            throw (Exception) tx.getCause();
-        } catch (Exception ex) {
+        } catch (final TransparentException tx) {
+            final Throwable cause = tx.getCause();
+            if (cause instanceof Exception) {
+                throw (Exception) cause;
+            }
+            throw (Error) cause;
+        } catch (final Throwable ex) {
             if (!syncRequest.sync)
                 syncRequest.restoreSourceMailbox();
-            throw ex;
+            if (ex instanceof Exception) {
+                throw (Exception) ex;
+            }
+            throw (Error) ex;
         }
     }
 
@@ -308,12 +316,12 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
     @Override
-    final public void acceptEvent(APCRequestSource apcRequestSource,
-                                  Request request)
-            throws Exception {
-        RequestSource rs = (RequestSource) apcRequestSource;
-        ExceptionHandler sourceExceptionHandler = rs.getExceptionHandler();
-        Mailbox sourceMailbox = rs.getMailbox();
+    final public void acceptEvent(final APCRequestSource apcRequestSource,
+            final Request request) throws Exception {
+        final RequestSource rs = (RequestSource) apcRequestSource;
+        final ExceptionHandler sourceExceptionHandler = rs
+                .getExceptionHandler();
+        final Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
             syncSendEvent(rs, request, sourceExceptionHandler);
             return;
@@ -322,8 +330,10 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
             asyncSendEvent(rs, request);
             return;
         }
-        EventQueue<ArrayList<JAMessage>> eventQueue = mailbox.getEventQueue();
-        EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox.getEventQueue().getController();
+        final EventQueue<ArrayList<JAMessage>> eventQueue = mailbox
+                .getEventQueue();
+        final EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox
+                .getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSendEvent(rs, request, sourceExceptionHandler);
             return;
@@ -347,8 +357,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rs      The source of the request.
      * @param request The request.
      */
-    private void asyncSendEvent(RequestSource rs, Request request) {
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, mailbox);
+    private void asyncSendEvent(final RequestSource rs, final Request request) {
+        final JAEventRequest jaRequest = new JAEventRequest(rs, this, request,
+                mailbox);
         rs.send(mailbox, jaRequest);
     }
 
@@ -359,23 +370,23 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param request                The request.
      * @param sourceExceptionHandler Exception handler of the source actor.
      */
-    private void syncSendEvent(RequestSource rs,
-                               Request request,
-                               ExceptionHandler sourceExceptionHandler) {
-        Mailbox oldSourceMailbox = rs.getMailbox();
-        JARequest oldSourceRequest = oldSourceMailbox.getCurrentRequest();
-        JAEventRequest jaRequest = new JAEventRequest(rs, this, request, mailbox);
+    private void syncSendEvent(final RequestSource rs, final Request request,
+            final ExceptionHandler sourceExceptionHandler) {
+        final Mailbox oldSourceMailbox = rs.getMailbox();
+        final JARequest oldSourceRequest = oldSourceMailbox.getCurrentRequest();
+        final JAEventRequest jaRequest = new JAEventRequest(rs, this, request,
+                mailbox);
         mailbox.setCurrentRequest(jaRequest);
         try {
             setExceptionHandler(null);
             request.processRequest(this, JANoResponse.nrp);
-        } catch (Exception ex) {
-            ExceptionHandler eh = getExceptionHandler();
+        } catch (final Throwable ex) {
+            final ExceptionHandler eh = getExceptionHandler();
             if (eh != null)
                 try {
                     eh.process(ex);
                     return;
-                } catch (Exception x) {
+                } catch (final Throwable x) {
                     getMailboxFactory().eventException(request, x);
                 }
             else {
@@ -394,10 +405,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param rp      The response processor.
      * @throws Exception Any uncaught exceptions raised while processing the request.
      */
-    final protected void send(final Actor actor,
-                              final Request request,
-                              final RP rp)
-            throws Exception {
+    final protected void send(final Actor actor, final Request request,
+            final RP rp) throws Exception {
         actor.acceptRequest(this, request, rp);
     }
 
@@ -407,10 +416,10 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      * @param actor   The target actor.
      * @param request The request.
      */
-    final protected void sendEvent(Actor actor, Request request) {
+    final protected void sendEvent(final Actor actor, final Request request) {
         try {
             send(actor, request, JANoResponse.nrp);
-        } catch (Exception ex) {
+        } catch (final Throwable ex) {
             throw new UnsupportedOperationException("Unexpected exception", ex);
         }
     }
@@ -420,8 +429,8 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor, Reques
      */
     final public class SMBuilder extends _SMBuilder {
         @Override
-        final public void send(Actor actor, Request request, RP rp)
-                throws Exception {
+        final public void send(final Actor actor, final Request request,
+                final RP rp) throws Exception {
             JLPCActor.this.send(actor, request, rp);
         }
     }
@@ -447,46 +456,49 @@ final class SyncRequest extends JARequest {
      */
     public boolean async;
 
-    public SyncRequest(RequestSource requestSource,
-                       JLPCActor destinationActor,
-                       Request unwrappedRequest,
-                       RP rp,
-                       Mailbox mailbox) {
+    public SyncRequest(final RequestSource requestSource,
+            final JLPCActor destinationActor, final Request unwrappedRequest,
+            final RP rp, final Mailbox mailbox) {
         super(requestSource, destinationActor, unwrappedRequest, rp, mailbox);
     }
 
     @Override
-    public void processResponse(Object response) throws Exception {
+    public void processResponse(final Object response) throws Exception {
         if (!async) {
             sync = true;
             if (!isActive()) {
                 return;
             }
             inactive();
-            JARequest oldCurrent = mailbox.getCurrentRequest();
-            ExceptionHandler oldExceptionHandler = mailbox.getExceptionHandler();
+            final JARequest oldCurrent = mailbox.getCurrentRequest();
+            final ExceptionHandler oldExceptionHandler = mailbox
+                    .getExceptionHandler();
             restoreSourceMailbox();
-            if (response instanceof Exception) {
+            if (response instanceof Throwable) {
                 mailbox.setCurrentRequest(oldCurrent);
                 mailbox.setExceptionHandler(oldExceptionHandler);
-                throw (Exception) response;
+                if (response instanceof Exception) {
+                    throw (Exception) response;
+                }
+                throw (Error) response;
             }
             try {
                 rp.processResponse(response);
-            } catch (Exception e) {
+            } catch (final Throwable e) {
                 throw new TransparentException(e);
             }
             mailbox.setCurrentRequest(oldCurrent);
             mailbox.setExceptionHandler(oldExceptionHandler);
         } else {
-            if (response instanceof Exception) {
-                Exception ex = (Exception) response;
-                ExceptionHandler exceptionHandler = mailbox.getExceptionHandler();
+            if (response instanceof Throwable) {
+                Throwable ex = (Throwable) response;
+                final ExceptionHandler exceptionHandler = mailbox
+                        .getExceptionHandler();
                 if (exceptionHandler != null) {
                     try {
                         exceptionHandler.process(ex);
                         return;
-                    } catch (Exception x) {
+                    } catch (final Throwable x) {
                         ex = x;
                     }
                     mailbox.response(this, ex);
@@ -500,25 +512,18 @@ final class SyncRequest extends JARequest {
 }
 
 final class AsyncRequest extends JARequest {
-    public AsyncRequest(RequestSource requestSource,
-                        JLPCActor destinationActor,
-                        Request unwrappedRequest,
-                        RP rp,
-                        Mailbox mailbox) {
-        super(
-                requestSource,
-                destinationActor,
-                unwrappedRequest,
-                rp,
-                mailbox);
+    public AsyncRequest(final RequestSource requestSource,
+            final JLPCActor destinationActor, final Request unwrappedRequest,
+            final RP rp, final Mailbox mailbox) {
+        super(requestSource, destinationActor, unwrappedRequest, rp, mailbox);
     }
 
     @Override
-    public void processResponse(Object response) throws Exception {
+    public void processResponse(final Object response) throws Exception {
         if (!isActive()) {
             return;
         }
-        JARequest old = mailbox.getCurrentRequest();
+        final JARequest old = mailbox.getCurrentRequest();
         mailbox.setCurrentRequest(this);
         mailbox.response(this, response);
         mailbox.setCurrentRequest(old);
@@ -526,20 +531,14 @@ final class AsyncRequest extends JARequest {
 }
 
 final class JAEventRequest extends JARequest {
-    public JAEventRequest(RequestSource requestSource,
-                          JLPCActor destinationActor,
-                          Request unwrappedRequest,
-                          Mailbox mailbox) {
-        super(
-                requestSource,
-                destinationActor,
-                unwrappedRequest,
-                null,
-                mailbox);
+    public JAEventRequest(final RequestSource requestSource,
+            final JLPCActor destinationActor, final Request unwrappedRequest,
+            final Mailbox mailbox) {
+        super(requestSource, destinationActor, unwrappedRequest, null, mailbox);
     }
 
     @Override
-    public void processResponse(Object response) throws Exception {
+    public void processResponse(final Object response) throws Exception {
         reset();
     }
 

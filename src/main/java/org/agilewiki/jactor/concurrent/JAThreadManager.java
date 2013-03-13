@@ -23,12 +23,12 @@
  */
 package org.agilewiki.jactor.concurrent;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A high performance implementation of ThreadManager.
@@ -68,8 +68,8 @@ final public class JAThreadManager implements ThreadManager {
      * @param threadCount The number of concurrent to be used.
      * @return A new JAThreadManager.
      */
-    public static ThreadManager newThreadManager(int threadCount) {
-        ThreadFactory threadFactory = new JAThreadFactory();
+    public static ThreadManager newThreadManager(final int threadCount) {
+        final ThreadFactory threadFactory = new JAThreadFactory();
         return newThreadManager(threadCount, threadFactory);
     }
 
@@ -80,8 +80,9 @@ final public class JAThreadManager implements ThreadManager {
      * @param threadFactory Used to create the concurrent.
      * @return A new JAThreadManager.
      */
-    public static ThreadManager newThreadManager(int threadCount, ThreadFactory threadFactory) {
-        ThreadManager threadManager = new JAThreadManager();
+    public static ThreadManager newThreadManager(final int threadCount,
+            final ThreadFactory threadFactory) {
+        final ThreadManager threadManager = new JAThreadManager();
         threadManager.start(threadCount, threadFactory);
         return threadManager;
     }
@@ -93,30 +94,35 @@ final public class JAThreadManager implements ThreadManager {
      * @param threadFactory Used to create the concurrent.
      */
     @Override
-    final public void start(int threadCount, ThreadFactory threadFactory) {
+    final public void start(final int threadCount,
+            final ThreadFactory threadFactory) {
         this.threadCount = threadCount;
-        Runnable runnable = new Runnable() {
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
                         taskRequest.acquire();
-                        if (closing) return;
-                        Runnable task = tasks.poll();
+                        if (closing)
+                            return;
+                        final Runnable task = tasks.poll();
                         if (task != null)
                             try {
                                 task.run();
-                            } catch (Exception e) {
-                                logException(false, "Exception thrown by a task's run method", e);
+                            } catch (final Throwable e) {
+                                logException(
+                                        false,
+                                        "Exception thrown by a task's run method",
+                                        e);
                             }
-                    } catch (InterruptedException e) {
+                    } catch (final InterruptedException e) {
                     }
                 }
             }
         };
         threads = new Thread[this.threadCount];
         for (int c = 0; c < threadCount; c++) {
-            Thread t = threadFactory.newThread(runnable);
+            final Thread t = threadFactory.newThread(runnable);
             threads[c] = t;
             t.start();
         }
@@ -128,7 +134,7 @@ final public class JAThreadManager implements ThreadManager {
      * @param task A task to be processed on another thread.
      */
     @Override
-    final public void process(Runnable task) {
+    final public void process(final Runnable task) {
         tasks.add(task);
         taskRequest.release();
     }
@@ -143,17 +149,17 @@ final public class JAThreadManager implements ThreadManager {
     final public void close() {
         closing = true;
         taskRequest.release(threadCount);
-        Thread ct = Thread.currentThread();
-        for (Thread t : threads) {
+        final Thread ct = Thread.currentThread();
+        for (final Thread t : threads) {
             if (ct != t) {
                 t.interrupt();
             }
         }
-        for (Thread t : threads) {
+        for (final Thread t : threads) {
             if (ct != t) {
                 try {
                     t.join();
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                 }
             }
         }
@@ -162,7 +168,8 @@ final public class JAThreadManager implements ThreadManager {
     }
 
     @Override
-    public void logException(boolean fatal, String msg, Exception exception) {
+    public void logException(final boolean fatal, final String msg,
+            final Throwable exception) {
         if (fatal)
             logger.error(msg, exception);
         else

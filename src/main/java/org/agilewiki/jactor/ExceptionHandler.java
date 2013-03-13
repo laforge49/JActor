@@ -47,7 +47,7 @@ package org.agilewiki.jactor;
  *     protected void processRequest(final Object request, final RP rp)
  *             throws Exception {
  *         setExceptionHandler(new ExceptionHandler() {
- *             public void process(Exception exception) throws Exception {
+ *             public void process(Throwable exception) throws Exception {
  *                 System.out.println("Exception caught by Doer");
  *                 rp.process(null);
  *             }
@@ -68,5 +68,5 @@ public interface ExceptionHandler {
      * @param exception The exception to be processed.
      * @throws Exception Any uncaught exceptions raised while processing the exception.
      */
-    void process(Exception exception) throws Exception;
+    void process(final Throwable exception) throws Exception;
 }

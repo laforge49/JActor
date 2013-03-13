@@ -24,13 +24,13 @@ public class SharedMailboxTest extends TestCase {
             try {
                 System.out.println("Test Go1");
                 Go1.req.send(future, driver);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 System.out.println("Go1: " + e.getMessage());
             }
             try {
                 System.out.println("Test Go2");
                 Go2.req.send(future, driver);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 System.out.println("Go2: " + e.getMessage());
             }
         } finally {

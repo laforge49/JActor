@@ -18,7 +18,7 @@ public class ReturnFTest extends TestCase {
             ReturnF2 actor2 = new ReturnF2();
             actor2.initialize(mailboxFactory.createMailbox());
             System.out.println(SimpleRequest.req.send(future, actor2));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

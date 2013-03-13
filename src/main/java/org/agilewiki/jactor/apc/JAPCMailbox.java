@@ -23,6 +23,8 @@
  */
 package org.agilewiki.jactor.apc;
 
+import java.util.ArrayList;
+
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.MailboxFactory;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
@@ -31,8 +33,6 @@ import org.agilewiki.jactor.bufferedEvents.JABufferedEventsQueue;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.EventProcessor;
 import org.agilewiki.jactor.events.EventQueue;
-
-import java.util.ArrayList;
 
 /**
  * An implementation of APCMailbox.
@@ -61,69 +61,88 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @param bufferedEventQueue The lower-level mailbox which transports messages as 1-way events.
      */
-    public JAPCMailbox(BufferedEventsQueue<JAMessage> bufferedEventQueue, final MailboxFactory mailboxFactory) {
+    public JAPCMailbox(final BufferedEventsQueue<JAMessage> bufferedEventQueue,
+            final MailboxFactory mailboxFactory) {
         this.bufferedEventQueue = bufferedEventQueue;
-        bufferedEventQueue.setActiveEventProcessor(new EventProcessor<JAMessage>() {
-            @Override
-            public void haveEvents() {
-                dispatchEvents();
-            }
+        bufferedEventQueue
+                .setActiveEventProcessor(new EventProcessor<JAMessage>() {
+                    @Override
+                    public void haveEvents() {
+                        dispatchEvents();
+                    }
 
-            @Override
-            public void processEvent(JAMessage event) {
-                if (event instanceof JARequest) {
-                    currentRequest = (JARequest) event;
-                    try {
-                        setExceptionHandler(null);
-                        currentRequest.getUnwrappedRequest().processRequest(currentRequest.getDestinationActor(), currentRequest);
-                    } catch (Exception ex) {
-                        if (exceptionHandler == null) {
-                            if (currentRequest.isEvent()) {
-                                mailboxFactory.eventException(currentRequest.getUnwrappedRequest(), ex);
-                            } else
-                                response(currentRequest, ex);
-                        } else try {
-                            exceptionHandler.process(ex);
-                        } catch (Exception ex2) {
-                            if (currentRequest.isEvent()) {
-                                mailboxFactory.eventException(currentRequest.getUnwrappedRequest(), ex2);
-                            } else
-                                response(currentRequest, ex2);
+                    @Override
+                    public void processEvent(final JAMessage event) {
+                        if (event instanceof JARequest) {
+                            currentRequest = (JARequest) event;
+                            try {
+                                setExceptionHandler(null);
+                                currentRequest.getUnwrappedRequest()
+                                        .processRequest(
+                                                currentRequest
+                                                        .getDestinationActor(),
+                                                currentRequest);
+                            } catch (final Throwable ex) {
+                                if (exceptionHandler == null) {
+                                    if (currentRequest.isEvent()) {
+                                        mailboxFactory.eventException(
+                                                currentRequest
+                                                        .getUnwrappedRequest(),
+                                                ex);
+                                    } else
+                                        response(currentRequest, ex);
+                                } else
+                                    try {
+                                        exceptionHandler.process(ex);
+                                    } catch (final Throwable ex2) {
+                                        if (currentRequest.isEvent()) {
+                                            mailboxFactory.eventException(
+                                                    currentRequest
+                                                            .getUnwrappedRequest(),
+                                                    ex2);
+                                        } else
+                                            response(currentRequest, ex2);
+                                    }
+                            }
+                        } else {
+                            final JAResponse jaResponse = (JAResponse) event;
+                            final JARequest jaRequest = jaResponse.getRequest();
+                            try {
+                                final Object response = jaResponse
+                                        .getUnwrappedResponse();
+                                jaRequest.restoreSourceMailbox();
+                                if (response instanceof Throwable) {
+                                    processException(jaRequest.sourceRequest,
+                                            (Throwable) response);
+                                } else
+                                    try {
+                                        jaRequest.rp.processResponse(response);
+                                    } catch (final Throwable ex) {
+                                        processException(
+                                                jaRequest.sourceRequest, ex);
+                                    }
+                            } catch (final Throwable e) {
+                                mailboxFactory.logException(false,
+                                        "Unsupported Operation", e);
+                                throw new UnsupportedOperationException(e);
+                            } finally {
+                                jaRequest.reset();
+                            }
                         }
                     }
-                } else {
-                    JAResponse jaResponse = (JAResponse) event;
-                    JARequest jaRequest = jaResponse.getRequest();
-                    try {
-                        Object response = jaResponse.getUnwrappedResponse();
-                        jaRequest.restoreSourceMailbox();
-                        if (response instanceof Exception) {
-                            processException(jaRequest.sourceRequest, (Exception) response);
-                        } else try {
-                            jaRequest.rp.processResponse(response);
-                        } catch (Exception ex) {
-                            processException(jaRequest.sourceRequest, ex);
-                        }
-                    } catch (Exception e) {
-                        mailboxFactory.logException(false, "Unsupported Operation", e);
-                        throw new UnsupportedOperationException(e);
-                    } finally {
-                        jaRequest.reset();
-                    }
-                }
-            }
 
-            private void processException(JARequest jaRequest, Exception ex) {
-                if (exceptionHandler != null)
-                    try {
-                        exceptionHandler.process(ex);
-                        return;
-                    } catch (Exception x) {
-                        ex = x;
+                    private void processException(final JARequest jaRequest,
+                            Throwable ex) {
+                        if (exceptionHandler != null)
+                            try {
+                                exceptionHandler.process(ex);
+                                return;
+                            } catch (final Throwable x) {
+                                ex = x;
+                            }
+                        response(jaRequest, ex);
                     }
-                response(jaRequest, ex);
-            }
-        });
+                });
     }
 
     /**
@@ -132,8 +151,10 @@ public class JAPCMailbox implements APCMailbox {
      * @param threadManager Provides a thread for processing dispatched events.
      * @param autonomous    Inhibits the acquireControl operation when true.
      */
-    public JAPCMailbox(ThreadManager threadManager, boolean autonomous, MailboxFactory mailboxFactory) {
-        this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous), mailboxFactory);
+    public JAPCMailbox(final ThreadManager threadManager,
+            final boolean autonomous, final MailboxFactory mailboxFactory) {
+        this(new JABufferedEventsQueue<JAMessage>(threadManager, autonomous),
+                mailboxFactory);
     }
 
     /**
@@ -152,7 +173,8 @@ public class JAPCMailbox implements APCMailbox {
      * @param exceptionHandler The exception handler.
      */
     @Override
-    final public void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+    final public void setExceptionHandler(
+            final ExceptionHandler exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
     }
 
@@ -161,6 +183,7 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @return The request message being processed.
      */
+    @Override
     final public JARequest getCurrentRequest() {
         return currentRequest;
     }
@@ -170,7 +193,8 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @param currentRequest The request message being processed.
      */
-    final public void setCurrentRequest(JARequest currentRequest) {
+    @Override
+    final public void setCurrentRequest(final JARequest currentRequest) {
         this.currentRequest = currentRequest;
     }
 
@@ -198,7 +222,8 @@ public class JAPCMailbox implements APCMailbox {
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    final public void putBufferedEvents(ArrayList<JAMessage> bufferedEvents) {
+    final public void putBufferedEvents(
+            final ArrayList<JAMessage> bufferedEvents) {
         bufferedEventQueue.putBufferedEvents(bufferedEvents);
     }
 
@@ -216,7 +241,7 @@ public class JAPCMailbox implements APCMailbox {
      * @param initialBufferCapacity The initial capacity for buffered outgoing messages.
      */
     @Override
-    final public void setInitialBufferCapacity(int initialBufferCapacity) {
+    final public void setInitialBufferCapacity(final int initialBufferCapacity) {
         bufferedEventQueue.setInitialBufferCapacity(initialBufferCapacity);
     }
 
@@ -227,7 +252,8 @@ public class JAPCMailbox implements APCMailbox {
      * @param request     The request to be sent.
      */
     @Override
-    public void send(BufferedEventsDestination<JAMessage> destination, JARequest request) {
+    public void send(final BufferedEventsDestination<JAMessage> destination,
+            final JARequest request) {
         bufferedEventQueue.send(destination, request);
     }
 
@@ -237,7 +263,8 @@ public class JAPCMailbox implements APCMailbox {
      * @param unwrappedResponse
      */
     @Override
-    final public void response(JARequest jaRequest, Object unwrappedResponse) {
+    final public void response(final JARequest jaRequest,
+            final Object unwrappedResponse) {
         if (jaRequest.isActive()) {
             jaRequest.inactive();
             jaRequest.response(bufferedEventQueue, unwrappedResponse);
@@ -249,14 +276,15 @@ public class JAPCMailbox implements APCMailbox {
      *
      * @return The event queue.
      */
+    @Override
     public EventQueue<ArrayList<JAMessage>> getEventQueue() {
         return bufferedEventQueue.getEventQueue();
     }
 
     /*
     final public void processResponse(JARequest jaRequest, Object response) {
-        if (response instanceof Exception) {
-            processException(jaRequest, (Exception) response);
+        if (response instanceof Throwable) {
+            processException(jaRequest, (Throwable) response);
             return;
         }
         if (jaRequest.isEvent()) {
@@ -300,7 +328,7 @@ public class JAPCMailbox implements APCMailbox {
         }
         try {
             jaRequest.handleResponse(response);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             ex.printStackTrace();
             System.exit(1);
         }

@@ -18,7 +18,7 @@ public class ASATest extends TestCase {
             a2.initialize(mailboxFactory.createAsyncMailbox());
             JAFuture future = new JAFuture();
             System.out.println(SimpleRequest.req.send(future, a2));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

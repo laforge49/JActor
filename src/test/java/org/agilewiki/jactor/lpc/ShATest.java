@@ -19,7 +19,7 @@ public class ShATest extends TestCase {
             s2.initialize(shared);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, s2));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

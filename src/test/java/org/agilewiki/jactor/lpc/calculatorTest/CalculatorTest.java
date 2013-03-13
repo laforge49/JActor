@@ -18,7 +18,7 @@ public class CalculatorTest extends TestCase {
             future.send(calculator, new Set(1));
             future.send(calculator, new Add(2));
             System.err.println(future.send(calculator, new Multiply(3)));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
@@ -34,7 +34,7 @@ public class CalculatorTest extends TestCase {
             driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
@@ -50,7 +50,7 @@ public class CalculatorTest extends TestCase {
             driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
@@ -66,7 +66,7 @@ public class CalculatorTest extends TestCase {
             driver.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(SimpleRequest.req.send(future, driver));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
@@ -85,7 +85,7 @@ public class CalculatorTest extends TestCase {
             future.send(calculator, new Add(2));
             future.send(calculator, new Multiply(3));
             future.send(calculator, new Divide(0));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
@@ -101,7 +101,7 @@ public class CalculatorTest extends TestCase {
             calculator.initialize(mailbox);
             JAFuture future = new JAFuture();
             System.err.println(future.send(calculator, new Factorial(5)));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();

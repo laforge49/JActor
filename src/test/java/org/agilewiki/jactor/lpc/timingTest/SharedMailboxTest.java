@@ -64,7 +64,7 @@ public class SharedMailboxTest extends TestCase {
                 System.out.println("msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0)));
                 //    System.out.println("adjusted msgs per sec = " + ((2L * c * b * p) * 1000L / (t1 - t0 - t2 + t1)));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             mailboxFactory.close();
