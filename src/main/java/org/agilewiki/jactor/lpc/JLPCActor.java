@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.lpc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.ExceptionHandler;
@@ -143,11 +144,13 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
      */
     @Override
     final public JLPCActor getAncestor(final Class targetClass) {
-        if (parent == null)
-            return null;
-        if (targetClass.isInstance(parent))
-            return parent;
-        return parent.getAncestor(targetClass);
+        JLPCActor p = parent;
+        while (p != null) {
+            if (targetClass.isInstance(p))
+                return p;
+            p =  p.parent;
+        }
+        return null;
     }
 
     /**
@@ -252,9 +255,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
     private void acceptOtherRequest(final Mailbox sourceMailbox,
             final RequestSource rs, final Request request, final RP rp)
             throws Exception {
-        final EventQueue<ArrayList<JAMessage>> eventQueue = mailbox
+        final EventQueue<List<JAMessage>> eventQueue = mailbox
                 .getEventQueue();
-        final EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox
+        final EventQueue<List<JAMessage>> srcController = sourceMailbox
                 .getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSend(rs, request, rp);
@@ -330,9 +333,9 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
             asyncSendEvent(rs, request);
             return;
         }
-        final EventQueue<ArrayList<JAMessage>> eventQueue = mailbox
+        final EventQueue<List<JAMessage>> eventQueue = mailbox
                 .getEventQueue();
-        final EventQueue<ArrayList<JAMessage>> srcController = sourceMailbox
+        final EventQueue<List<JAMessage>> srcController = sourceMailbox
                 .getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
             syncSendEvent(rs, request, sourceExceptionHandler);

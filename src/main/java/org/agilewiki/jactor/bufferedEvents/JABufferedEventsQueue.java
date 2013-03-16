@@ -31,6 +31,7 @@ import org.agilewiki.jactor.events.JAEventQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A BufferedEventsQueue receives buffered events, queues them,
@@ -43,7 +44,7 @@ final public class JABufferedEventsQueue<E>
     /**
      * The eventQueue handles the actual dispatching of buffered events.
      */
-    private EventQueue<ArrayList<E>> eventQueue;
+    private EventQueue<List<E>> eventQueue;
 
     /**
      * The eventProcessor is used to process unblocked events.
@@ -59,19 +60,19 @@ final public class JABufferedEventsQueue<E>
      * The pending HashMap holds the buffered events which
      * have not yet been sent.
      */
-    private HashMap<BufferedEventsDestination<E>, ArrayList<E>> pending =
-            new HashMap<BufferedEventsDestination<E>, ArrayList<E>>();
+    private HashMap<BufferedEventsDestination<E>, List<E>> pending =
+            new HashMap<BufferedEventsDestination<E>, List<E>>();
 
     /**
      * Create a BufferedEventsQueue.
      *
      * @param eventQueue Handles the actual dispatching of buffered events.
      */
-    public JABufferedEventsQueue(EventQueue<ArrayList<E>> eventQueue) {
+    public JABufferedEventsQueue(EventQueue<List<E>> eventQueue) {
         this.eventQueue = eventQueue;
-        eventQueue.setActiveEventProcessor(new EventProcessor<ArrayList<E>>() {
+        eventQueue.setActiveEventProcessor(new EventProcessor<List<E>>() {
             @Override
-            public void processEvent(ArrayList<E> bufferedEvents) {
+            public void processEvent(List<E> bufferedEvents) {
                 int i = 0;
                 while (i < bufferedEvents.size()) {
                     eventProcessor.processEvent(bufferedEvents.get(i));
@@ -93,7 +94,7 @@ final public class JABufferedEventsQueue<E>
      * @param autonomous    Inhibits the acquireControl operation when true.
      */
     public JABufferedEventsQueue(ThreadManager threadManager, boolean autonomous) {
-        this(new JAEventQueue<ArrayList<E>>(threadManager, autonomous));
+        this(new JAEventQueue<List<E>>(threadManager, autonomous));
     }
 
     /**
@@ -114,7 +115,7 @@ final public class JABufferedEventsQueue<E>
      */
     @Override
     public void send(BufferedEventsDestination<E> destination, E event) {
-        ArrayList<E> bufferedEvents = pending.get(destination);
+        List<E> bufferedEvents = pending.get(destination);
         if (bufferedEvents == null) {
             bufferedEvents = new ArrayList<E>(initialBufferCapacity);
             pending.put(destination, bufferedEvents);
@@ -130,7 +131,7 @@ final public class JABufferedEventsQueue<E>
             Iterator<BufferedEventsDestination<E>> it = pending.keySet().iterator();
             while (it.hasNext()) {
                 BufferedEventsDestination<E> destination = it.next();
-                ArrayList<E> bufferedEvents = pending.get(destination);
+                List<E> bufferedEvents = pending.get(destination);
                 destination.putBufferedEvents(bufferedEvents);
             }
             pending.clear();
@@ -143,7 +144,7 @@ final public class JABufferedEventsQueue<E>
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    public void putBufferedEvents(ArrayList<E> bufferedEvents) {
+    public void putBufferedEvents(List<E> bufferedEvents) {
         eventQueue.putEvent(bufferedEvents);
     }
 
@@ -184,7 +185,7 @@ final public class JABufferedEventsQueue<E>
      *
      * @return The event queue.
      */
-    public EventQueue<ArrayList<E>> getEventQueue() {
+    public EventQueue<List<E>> getEventQueue() {
         return eventQueue;
     }
 }

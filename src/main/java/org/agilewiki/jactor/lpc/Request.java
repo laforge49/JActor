@@ -66,8 +66,11 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         if (isTargetType(targetActor))
             return (RESPONSE_TYPE) future.send(targetActor, this);
         Actor parent = targetActor.getParent();
-        if (parent != null)
-            return send(future, parent);
+        while (parent != null) {
+            if (isTargetType(parent))
+                return (RESPONSE_TYPE) future.send(parent, this);
+            parent = parent.getParent();
+        }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
                         " target actor: " + targetActor.getClass().getName());
@@ -100,9 +103,12 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
             return;
         }
         Actor parent = targetActor.getParent();
-        if (parent != null) {
-            send(requestSource, parent, rp);
-            return;
+        while (parent != null) {
+            if (isTargetType(parent)) {
+                parent.acceptRequest(requestSource, this, rp);
+                return;
+            }
+            parent = parent.getParent();
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
@@ -137,8 +143,11 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         }
         Actor parent = targetActor.getParent();
         if (parent != null) {
-            sendEvent(parent);
-            return;
+            if (isTargetType(parent)) {
+                parent.acceptEvent(JAEvent.requestSource, this);
+                return;
+            }
+            parent = parent.getParent();
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +
@@ -171,8 +180,11 @@ abstract public class Request<RESPONSE_TYPE, TARGET_TYPE extends TargetActor> {
         }
         Actor parent = targetActor.getParent();
         if (parent != null) {
-            sendEvent(requestSource, parent);
-            return;
+            if (isTargetType(parent)) {
+                parent.acceptEvent(requestSource, this);
+                return;
+            }
+            parent = parent.getParent();
         }
         throw new UnsupportedOperationException(
                 "request: " + getClass().getName() +

@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.apc;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.MailboxFactory;
@@ -101,7 +101,7 @@ public class JAPCMailbox implements APCMailbox {
                                                             .getUnwrappedRequest(),
                                                     ex2);
                                         } else
-                                            response(currentRequest, ex2);
+                                            response(currentRequest, ex);
                                     }
                             }
                         } else {
@@ -223,7 +223,7 @@ public class JAPCMailbox implements APCMailbox {
      */
     @Override
     final public void putBufferedEvents(
-            final ArrayList<JAMessage> bufferedEvents) {
+            final List<JAMessage> bufferedEvents) {
         bufferedEventQueue.putBufferedEvents(bufferedEvents);
     }
 
@@ -277,7 +277,7 @@ public class JAPCMailbox implements APCMailbox {
      * @return The event queue.
      */
     @Override
-    public EventQueue<ArrayList<JAMessage>> getEventQueue() {
+    public EventQueue<List<JAMessage>> getEventQueue() {
         return bufferedEventQueue.getEventQueue();
     }
 
@@ -300,8 +300,8 @@ public class JAPCMailbox implements APCMailbox {
             processSyncResponse(jaRequest, response);
             return;
         }
-        EventQueue<ArrayList<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
-        EventQueue<ArrayList<JAMessage>> controller = getEventQueue().getController();
+        EventQueue<List<JAMessage>> srcEventQueue = sourceMailbox.getEventQueue();
+        EventQueue<List<JAMessage>> controller = getEventQueue().getController();
         if (srcEventQueue.getController() == controller) {
             processSyncResponse(jaRequest, response);
             return;

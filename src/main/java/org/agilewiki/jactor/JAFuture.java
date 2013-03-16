@@ -24,6 +24,7 @@
 package org.agilewiki.jactor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import org.agilewiki.jactor.apc.JAMessage;
@@ -60,7 +61,7 @@ final public class JAFuture {
      */
     private final BufferedEventsDestination<JAMessage> bufferedEventsDestination = new BufferedEventsDestination<JAMessage>() {
         @Override
-        public void putBufferedEvents(final ArrayList<JAMessage> bufferedEvents) {
+        public void putBufferedEvents(final List<JAMessage> bufferedEvents) {
             final JAResponse japcResponse = (JAResponse) bufferedEvents.get(0);
             result = japcResponse.getUnwrappedResponse();
             done.release();

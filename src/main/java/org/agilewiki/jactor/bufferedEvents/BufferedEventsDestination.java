@@ -23,7 +23,7 @@
  */
 package org.agilewiki.jactor.bufferedEvents;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A BufferedEventsDestination receives lists of events from objects operating
@@ -37,5 +37,5 @@ public interface BufferedEventsDestination<E> {
      *
      * @param bufferedEvents The events to be processed.
      */
-    public void putBufferedEvents(ArrayList<E> bufferedEvents);
+    public void putBufferedEvents(List<E> bufferedEvents);
 }

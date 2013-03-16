@@ -26,7 +26,7 @@ package org.agilewiki.jactor.bufferedEvents;
 import org.agilewiki.jactor.concurrent.ThreadManager;
 import org.agilewiki.jactor.events.JActor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test code: Implements BufferedEventsActor.
@@ -87,7 +87,7 @@ abstract public class JABufferedEventsActor<E> extends JActor<E>
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    final public void putBufferedEvents(ArrayList<E> bufferedEvents) {
+    final public void putBufferedEvents(List<E> bufferedEvents) {
         mailbox.putBufferedEvents(bufferedEvents);
     }
 }

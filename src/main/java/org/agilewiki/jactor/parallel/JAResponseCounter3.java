@@ -26,6 +26,7 @@ package org.agilewiki.jactor.parallel;
 import org.agilewiki.jactor.RP;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Counts the number of responses received
@@ -52,9 +53,9 @@ public class JAResponseCounter3 extends RP {
      */
     private RP xrp;
 
-    private ArrayList<JAResponseCounter3> pool;
+    private List<JAResponseCounter3> pool;
 
-    public JAResponseCounter3(ArrayList<JAResponseCounter3> pool) {
+    public JAResponseCounter3(List<JAResponseCounter3> pool) {
         this.pool = pool;
         pool.add(this);
     }

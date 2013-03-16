@@ -24,6 +24,7 @@
 package org.agilewiki.jactor.bufferedEvents;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -69,7 +70,7 @@ final public class JABufferedEventsFuture<E> implements BufferedEventsDestinatio
      * @param bufferedEvents The events to be processed.
      */
     @Override
-    public void putBufferedEvents(ArrayList<E> bufferedEvents) {
+    public void putBufferedEvents(List<E> bufferedEvents) {
         result = bufferedEvents.get(0);
         done.release();
     }

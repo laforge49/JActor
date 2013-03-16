@@ -106,10 +106,13 @@ public class JAMailboxFactory implements MailboxFactory {
      */
     @Override
     public void close() {
-        final List<Closable> c = new ArrayList<Closable>(closables);
-        final Iterator<Closable> it = c.iterator();
-        while (it.hasNext())
-            it.next().close();
+        for (final Closable c : closables.toArray(new Closable[closables.size()])) {
+            try {
+                c.close();
+            } catch (Throwable e) {
+                logException(false, "Failed to close "+c, e);
+            }
+        }
         if (timer != null)
             timer.cancel();
         threadManager.close();
