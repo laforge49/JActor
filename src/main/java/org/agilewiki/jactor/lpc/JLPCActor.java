@@ -242,7 +242,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
         final RequestSource rs = (RequestSource) apcRequestSource;
         final Mailbox sourceMailbox = rs.getMailbox();
         if (sourceMailbox == mailbox) {
-            syncSend(rs, request, rp);
+            try {
+                syncSend(rs, request, rp);
+            } catch (StackOverflowError e) {
+                asyncSend(rs, request, rp);
+            }
             return;
         }
         if (sourceMailbox == null) {
@@ -260,7 +264,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
         final EventQueue<List<JAMessage>> srcController = sourceMailbox
                 .getEventQueue().getController();
         if (eventQueue.getController() == srcController) {
-            syncSend(rs, request, rp);
+            try {
+                syncSend(rs, request, rp);
+            } catch (StackOverflowError e) {
+                asyncSend(rs, request, rp);
+            }
             return;
         }
         if (!eventQueue.acquireControl(srcController)) {
@@ -268,7 +276,11 @@ abstract public class JLPCActor implements TargetActor, RequestProcessor,
             return;
         }
         try {
-            syncSend(rs, request, rp);
+            try {
+                syncSend(rs, request, rp);
+            } catch (StackOverflowError e) {
+                asyncSend(rs, request, rp);
+            }
         } finally {
             mailbox.dispatchEvents();
             mailbox.sendPendingMessages();

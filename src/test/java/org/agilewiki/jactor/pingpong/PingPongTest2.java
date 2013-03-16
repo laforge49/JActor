@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 /**
  * Tests the number of request/reply cycles per second.
  */
-public class PingPongTest extends TestCase {
+public class PingPongTest2 extends TestCase {
     /** How many repeats? */
     private static final int REPEATS = 10;
 
@@ -19,10 +19,10 @@ public class PingPongTest extends TestCase {
         double duration = 0.0d;
         for (int i = 1; i <= REPEATS; i++) {
             System.out.println("Run #" + i + "/" + REPEATS);
-            final Pinger pinger = new Pinger(mailboxFactory.createMailbox(),
+            final Pinger2 pinger = new Pinger2(mailboxFactory.createMailbox(),
                     "Pinger");
-            final Ponger ponger = new Ponger(mailboxFactory.createMailbox());
-            final Pinger.HammerResult result = pinger.hammer(ponger);
+            final Ponger2 ponger = new Ponger2(mailboxFactory.createMailbox());
+            final Pinger2.HammerResult2 result = pinger.hammer(ponger);
             count += result.pings();
             duration += result.duration();
             System.out.println(result);
