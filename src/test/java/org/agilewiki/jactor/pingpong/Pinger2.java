@@ -101,7 +101,15 @@ public class Pinger2 extends JLPCActor {
             pinger = (Pinger2) targetActor;
             responseProcessor = (RP<HammerResult2>) _responseProcessor;
             start = System.nanoTime();
-            ping();
+            boolean again = true;
+            while (again) {
+                try {
+                    ping();
+                    again = false;
+                } catch (StackOverflowError e) {
+                    // NOP
+                }
+            }
         }
 
         @Override
