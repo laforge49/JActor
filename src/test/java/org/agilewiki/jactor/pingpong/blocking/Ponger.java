@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.pingpong;
+package org.agilewiki.jactor.pingpong.blocking;
 
 import org.agilewiki.jactor.Actor;
 import org.agilewiki.jactor.JAFuture;

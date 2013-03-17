@@ -1,4 +1,4 @@
-package org.agilewiki.jactor.pingpong;
+package org.agilewiki.jactor.pingpong.iterator;
 
 import org.agilewiki.jactor.JAMailboxFactory;
 import org.agilewiki.jactor.MailboxFactory;
@@ -21,8 +21,8 @@ public class PingPongTest extends TestCase {
             System.out.println("Run #" + i + "/" + REPEATS);
             final Pinger pinger = new Pinger(mailboxFactory.createMailbox(),
                     "Pinger");
-            final Ponger ponger = new Ponger(mailboxFactory.createMailbox());
-            final Pinger.HammerResult result = pinger.hammer(ponger);
+            final Ponger ponger = new Ponger(pinger.getMailbox());
+            final Pinger.HammerResult3 result = pinger.hammer(ponger);
             count += result.pings();
             duration += result.duration();
             System.out.println(result);
