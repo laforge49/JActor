@@ -23,7 +23,6 @@
  */
 package org.agilewiki.jactor.lpc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.agilewiki.jactor.Actor;

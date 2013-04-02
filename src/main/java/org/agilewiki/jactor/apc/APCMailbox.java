@@ -27,7 +27,6 @@ import org.agilewiki.jactor.ExceptionHandler;
 import org.agilewiki.jactor.bufferedEvents.BufferedEventsDestination;
 import org.agilewiki.jactor.events.EventQueue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

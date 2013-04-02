@@ -25,7 +25,6 @@ package org.agilewiki.jactor.parallel;
 
 import org.agilewiki.jactor.RP;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

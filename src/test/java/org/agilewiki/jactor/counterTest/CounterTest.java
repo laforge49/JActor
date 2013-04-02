@@ -2,6 +2,10 @@ package org.agilewiki.jactor.counterTest;
 
 import junit.framework.TestCase;
 import org.agilewiki.jactor.*;
+import org.agilewiki.jactor.JAFuture;
+import org.agilewiki.jactor.JAMailboxFactory;
+import org.agilewiki.jactor.Mailbox;
+import org.agilewiki.jactor.MailboxFactory;
 
 /**
  * Test code.
@@ -61,6 +65,35 @@ public class CounterTest extends TestCase {
             System.out.println("[java-unshared] Count: " + count);
             System.out.println("[java-unshared] Test time in seconds: " + elapsedTime);
             System.out.println("[java-unshared] Messages per second: " + runs / elapsedTime);
+        } finally {
+            mailboxFactory.close();
+        }
+    }
+
+    public void testAsync() throws Exception {
+
+        long runs = 100;
+
+//        [java-async] Number of runs: 10000000
+//        [java-async] Count: 1000000000
+//        [java-async] Test time in seconds: 7.598
+//        [java-async] Messages per second: 1316135.8252171625
+
+        MailboxFactory mailboxFactory = JAMailboxFactory.newMailboxFactory(10);
+        try {
+            CounterActor counterActor = new CounterActor();
+            counterActor.initialize(mailboxFactory.createAsyncMailbox());
+            Driver driver = new Driver();
+            driver.initialize(mailboxFactory.createMailbox(), counterActor, runs);
+            JAFuture future = new JAFuture();
+            long start = System.currentTimeMillis();
+            Long count = (Long) SimpleRequest.req.send(future, driver);
+            long finish = System.currentTimeMillis();
+            double elapsedTime = (finish - start) / 1000.;
+            System.out.println("[java-async] Number of runs: " + runs);
+            System.out.println("[java-async] Count: " + count);
+            System.out.println("[java-async] Test time in seconds: " + elapsedTime);
+            System.out.println("[java-async] Messages per second: " + runs / elapsedTime);
         } finally {
             mailboxFactory.close();
         }

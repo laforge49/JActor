@@ -8,12 +8,12 @@ import org.agilewiki.jactor.*;
  */
 public class AsyncMailboxTest extends TestCase {
     public void testTiming() {
-        int c = 2;
-        int b = 3;
+        int c = 1000000;
+        int b = 1;
         int p = 1;
-        int t = 1;
+        int t = 8;
 
-        //System.out.println("####################################################");
+        System.out.println("####################################################");
         //int c = 500;
         //int b = 1000;
         //int p = 1000;
